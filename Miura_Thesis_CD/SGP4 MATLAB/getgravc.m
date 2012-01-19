@@ -30,7 +30,9 @@
 
 function [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
 
-   global tumin mu radiusearthkm xke j2 j3 j4 j3oj2  
+% In FreeMat, this global shadows the return vars making them 0.0; comment it out.
+%   global tumin mu radiusearthkm xke j2 j3 j4 j3oj2  
+
       switch whichconst
           case 721
            % -- wgs-72 low precision str#3 constants --
