@@ -163,3 +163,21 @@ SourceForget (octave-3.4.0-i386.dmg) produce the same outputs. Notice
 that the downloaded one is `i386`, not 64-bit. The one I built is
 Octave-3.4.3 and is 64-bit.
 
+Extracting Machine-Readable Verification Results
+================================================
+
+Miura's "Appendix C -- Verification Results Data" is in the PDF and DOC, but
+there's no machine-readable text file.
+
+If I use OS X Preview to cut/paste the data, it puts the elements in
+the wrong order, as if the table is column-based rather than row
+based; Safari does likewise.
+
+I can use Chrome cut/paste on the PDF.  I can open the DOC with
+LibreOffice or Pages, and a cut/paste works OK there too.  It's not
+quite right, not fix-column formatted like the FORTRAN output, but
+should be usable.
+
+Any analysis software should split on blanks instead of assuming fixed
+columns.
+
