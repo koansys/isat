@@ -158,3 +158,8 @@ printed results::
 then the program ran fine. When I commented out, the code continue to
 run fine. WTF?  Exiting Octave and restarting re-surfaces this bug.
 
+Both the Octave I compiled with `brew` and the one I downloaded from
+SourceForget (octave-3.4.0-i386.dmg) produce the same outputs. Notice
+that the downloaded one is `i386`, not 64-bit. The one I built is
+Octave-3.4.3 and is 64-bit.
+
