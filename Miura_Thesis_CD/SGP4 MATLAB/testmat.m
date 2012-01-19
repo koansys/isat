@@ -17,6 +17,8 @@
 
    global opsmode
 
+
+
 % // ------------------------  implementation   --------------------------
 
 %   add operation smode for afspc (a) or improved (i)
@@ -35,6 +37,10 @@
         
     whichconst = input('input constants 721, 72, 84 ');
     rad = 180.0 / pi;
+
+% TESTING -------------------------
+%    [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
+%    printf('tumin=%f mu=%f radiusearthkm=%f xke=%f j2=%f j3=%f j4=%f j3oj2', tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2)
 
 %         // ---------------- setup files for operation ------------------
 %         // input 2-line element set file
@@ -59,14 +65,14 @@
 
 %        // ----------------- test simple propagation -------------------
     while (~feof(infile))
-        longstr1 = fgets(infile, 130)
+        longstr1 = fgets(infile, 130);
         while ( (longstr1(1) == '#') && (feof(infile) == 0) )
-            longstr1 = fgets(infile, 130)
+            longstr1 = fgets(infile, 130);
         end
 
         if (feof(infile) == 0)
             
-            longstr2 = fgets(infile, 130)
+            longstr2 = fgets(infile, 130);
 
     if idebug
         catno = strtrim(longstr1(3:7));
@@ -78,13 +84,13 @@
             [satrec, startmfe, stopmfe, deltamin] = twoline2rv( whichconst, ...
                        longstr1, longstr2, typerun, typeinput);
             
-            fprintf(outfile, '\n %d xx\n', satrec.satnum);
+            fprintf(outfile, '\n\n %d xx\n', satrec.satnum);
             fprintf(1,' %d\n', satrec.satnum);
 
  %               // call the propagator to get the initial state vector value
             [satrec, ro ,vo] = sgp4 (satrec,  0.0);
 
-            fprintf(outfile, '\n %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f\n',...
+            fprintf(outfile, '\n %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f',...
                  satrec.t,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3));
 %            fprintf(1, ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f\n',...
 %                 satrec.t,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3));
@@ -116,18 +122,19 @@
                         [year,mon,day,hr,minute,sec] = invjday ( jd );
 
                         fprintf(outfile,...
-                            '\n %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f %5i%3i%3i %2i:%2i:%9.6f %16.8f%16.8f%16.8%12.9f%12.9f%12.9f \n',...
+                            '\n %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f %5i%3i%3i %2i:%2i:%9.6f %16.8f%16.8f%16.8%12.9f%12.9f%12.9f',...
                             tsince,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3),year,mon,day,hr,minute,sec );
                     else
-                        fprintf(outfile, '\n %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f \n',...
+                        fprintf(outfile, '\n %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f',...
                             tsince,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3));
 %                        fprintf(1, ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f \n',...
 %                            tsince,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3))
                         
                         [p,a,ecc,incl,node,argp,nu,m,arglat,truelon,lonper ] = rv2coe (ro,vo,mu);
 
-                        fprintf(outfile, '\n %14.6f %8.6f %10.5f %10.5f %10.5f %10.5f %10.5f \n',...
-                            a, ecc, incl*rad, node*rad, argp*rad, nu*rad, m*rad);
+                        % Doesn't look appropriate to 'v' verify output
+                        %fprintf(outfile, '\n %14.6f %8.6f %10.5f %10.5f %10.5f %10.5f %10.5f',...
+                        %    a, ecc, incl*rad, node*rad, argp*rad, nu*rad, m*rad);
                     end
                 end %// if satrec.error == 0
 
