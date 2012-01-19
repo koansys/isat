@@ -10,7 +10,7 @@ Octave has fgets() but no fgetline().
 Miura's SGP4 MATLAB files
 =========================
 
-I don't have the $2K for MATLAB so tryin FreeMat and Octave.
+I don't have the $2K for MATLAB so trying FreeMat and Octave.
 
 NB: The SGP4-VER.TLE file uses `#` delimited comments to annotate and
 indicate satellite names, while the NORAD TLEs from Celestrak indicate
@@ -115,4 +115,46 @@ If I ignore the non-intervalic lines, a visual inspection shows that
 my results for satellite 5 and 8888 have the same results as those in
 Appendix C.
 
+
+Octave
+------
+
+I built Octave after arguing with::
+
+  brew install octave
+
+I have to use MatLab's fgets() as it doesn't have FreeMat's
+fgetstring.
+
+The results seem to match.
+
+When I first rand it, it complained::
+
+  error: for A^b, A must be square
+  error: called from:
+  error:   /Users/cshenton/Projects/smd/sot/Miura_Thesis_CD/SGP4 MATLAB/twoline2rv.m at line 165, column 13
+  error:   /Users/cshenton/Projects/smd/sot/Miura_Thesis_CD/SGP4 MATLAB/testmat.m at line 78, column 40
+
+This occurred calculating satrec.a::
+
+  %     // ---- convert to sgp4 units ----
+    satrec.a    = (satrec.no*tumin)^(-2/3);                % [er]
+    satrec.ndot = satrec.ndot  / (xpdotp*1440.0);          % [rad/min^2]
+    satrec.nddot= satrec.nddot / (xpdotp*1440.0*1440);     % [rad/min^3]
+
+and it appeared that tumin was an empty array::
+
+  octave:9> tumin
+  tumin = [](0x0)
+
+which indicated improper initialization and seemed like a repeat of
+the globals issue found above when using FreeMat.  So I put a debug
+statement in testmat-octave.m that made a call to `getgravc()` and
+printed results::
+
+  [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
+  printf('tumin=%f mu=%f radiusearthkm=%f xke=%f j2=%f j3=%f j4=%f j3oj2', tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2)
+
+then the program ran fine. When I commented out, the code continue to
+run fine. WTF?  Exiting Octave and restarting re-surfaces this bug.
 

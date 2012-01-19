@@ -56,6 +56,10 @@ function [satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst, longstr1
           longstr2, typerun,typeinput)
 
     global tumin radiusearthkm xke j2 j3 j4 j3oj2  
+    % Octave wasn't getting tumin, defauling to [] so get 'em here;
+    % tumin is needed when calculating satrec.a which is before sgp4init is called.
+    % How did FreeMat ever get past this??
+    [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
 
     deg2rad  =   pi / 180.0;         %  0.01745329251994330;  % [deg/rad]
     xpdotp   =  1440.0 / (2.0*pi);   % 229.1831180523293;  % [rev/day]/[rad/min]  
