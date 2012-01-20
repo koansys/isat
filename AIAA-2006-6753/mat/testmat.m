@@ -15,9 +15,7 @@
 
    % these are set in sgp4init
    global tumin mu radiusearthkm xke j2 j3 j4 j3oj2  
-   [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
-
-
+ 
    global opsmode
 
 % // ------------------------  implementation   --------------------------
@@ -59,6 +57,10 @@
     end
 
     global idebug dbgfile
+
+%   Need to set tumin needed by twoline2rv, at least for Octave
+    [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
+
 
 %        // ----------------- test simple propagation -------------------
     while (~feof(infile))
@@ -129,7 +131,7 @@
                         
                         [p,a,ecc,incl,node,argp,nu,m,arglat,truelon,lonper ] = rv2coe (ro,vo,mu);
 
-                        fprintf(outfile, ' %14.6f %8.6f %10.5f %10.5f %10.5f %10.5f %10.5f \n',...
+                        fprintf(outfile, ' %14.6f %8.6f %10.5f %10.5f %10.5f %10.5f %10.5f\n',...
                             a, ecc, incl*rad, node*rad, argp*rad, nu*rad, m*rad);
                     end
                 end %// if satrec.error == 0
