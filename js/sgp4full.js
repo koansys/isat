@@ -1,3 +1,4 @@
+
 // from constmath.m
 small = 0.00000001;
 
@@ -17,6 +18,7 @@ mile2ft = 5280;
 mileph2kmph = 0.44704;
 nmph2kmph   = 0.5144444;
 
+
 // from constastro.m
 // -----------------------  physical constants  ----------------
 //% WGS-84/EGM-96 constants used here
@@ -61,6 +63,7 @@ massearth = 5.9742e24;
 massmoon  = 7.3483e22;
 
 
+
 // %  this function calculates the angle between two vectors.  the output is
 // %    set to 999999.1 to indicate an undefined value.  be sure to check for
 // %    this at the output phase.
@@ -87,6 +90,7 @@ function angl(vec1, vec2) {
     }
 }
 
+
 // ------------------------------------------------------------------------------
 //
 //                           function days2mdh
@@ -166,6 +170,7 @@ function days2mdh(year, days) {
     return [mon,day,hr,minute,sec];
 }
 
+
 // From: http://c2.com/cgi/wiki?DotProductInManyProgrammingLanguages
 function dot(a,b) {
     var n = 0, lim = Math.min(a.length,b.length);
@@ -173,6 +178,9 @@ function dot(a,b) {
     return n;
 }
 assert( dot([1,2,3,4,5], [6,7,8,9,10]) == 130 )
+
+
+
 
 // % ------------------------------------------------------------------------------
 // %
