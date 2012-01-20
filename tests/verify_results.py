@@ -39,7 +39,8 @@ def parse_file(fname):
             (satnum, xx) = line.split()
             satdata[satnum] = []
         else:
-            (t, x, y, z, vx, vy, vz) = line.split()
+            # Miura's verification file only has the first 7 fields
+            (t, x, y, z, vx, vy, vz) = line.split()[:7]
             satdata[satnum].append((t, x, y, z, vx, vy, vz))
     return satdata
 
