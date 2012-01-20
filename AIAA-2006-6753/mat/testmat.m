@@ -15,6 +15,8 @@
 
    % these are set in sgp4init
    global tumin mu radiusearthkm xke j2 j3 j4 j3oj2  
+   [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
+
 
    global opsmode
 
