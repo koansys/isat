@@ -84,14 +84,16 @@
             [satrec, startmfe, stopmfe, deltamin] = twoline2rv( whichconst, ...
                        longstr1, longstr2, typerun, typeinput);
             
-            fprintf(outfile, '\n\n %d xx\n', satrec.satnum);
+            fprintf(outfile, '\n %d xx\n', satrec.satnum);
             fprintf(1,' %d\n', satrec.satnum);
 
  %               // call the propagator to get the initial state vector value
             [satrec, ro ,vo] = sgp4 (satrec,  0.0);
 
-            fprintf(outfile, '\n %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f',...
-                 satrec.t,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3));
+            fprintf(outfile, ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f\n',...
+                    satrec.t,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3));
+            % Why don't we print ymdhms or a,ecc,*rad as we do during the time intervals below?
+
 %            fprintf(1, ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f\n',...
 %                 satrec.t,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3));
 
@@ -122,19 +124,18 @@
                         [year,mon,day,hr,minute,sec] = invjday ( jd );
 
                         fprintf(outfile,...
-                            '\n %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f %5i%3i%3i %2i:%2i:%9.6f %16.8f%16.8f%16.8%12.9f%12.9f%12.9f',...
+                            ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f %5i%3i%3i %2i:%2i:%9.6f %16.8f%16.8f%16.8%12.9f%12.9f%12.9f\n',...
                             tsince,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3),year,mon,day,hr,minute,sec );
                     else
-                        fprintf(outfile, '\n %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f',...
+                        fprintf(outfile, ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f',...
                             tsince,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3));
-%                        fprintf(1, ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f \n',...
+%                        fprintf(1, ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f',...
 %                            tsince,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3))
                         
                         [p,a,ecc,incl,node,argp,nu,m,arglat,truelon,lonper ] = rv2coe (ro,vo,mu);
 
-                        % Doesn't look appropriate to 'v' verify output
-                        %fprintf(outfile, '\n %14.6f %8.6f %10.5f %10.5f %10.5f %10.5f %10.5f',...
-                        %    a, ecc, incl*rad, node*rad, argp*rad, nu*rad, m*rad);
+                        fprintf(outfile, ' %14.6f %8.6f %10.5f %10.5f %10.5f %10.5f %10.5f\n',...
+                                a, ecc, incl*rad, node*rad, argp*rad, nu*rad, m*rad);
                     end
                 end %// if satrec.error == 0
 
