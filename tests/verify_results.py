@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/env python
 
 # Compare our calculated results from Miura's SGP4-VEC.TLE with the
 # results identified in his paper's APPENDIX C - Verifiation of
