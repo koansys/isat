@@ -1,5 +1,6 @@
 /*global
   document: true,
+  window: true,
   twoline2rv: true,
   sgp4: true,
   invjday: true,
@@ -27,18 +28,25 @@ jd, year, mon, day, hr, minute, sec,
 p, a, ecc, incl, node, argp, nu, m, arglat, truelon, lonper,
 PLACEHOLDER;
 
-// Define compatibility functions
+// MATLAB fake compatibility functions
 
+function writeId(id, str) {
+    document.getElementById(id).innerHTML += str + "<br/>\n";
+}
 function debug(str) {
-    document.write(str);        // TODO: to #debug div
+    writeId('debug', str);
 }
 
 function outfile(str) {
-    document.write(str);        // TODO: to #output div
+    writeId('outfile', str);
 }
 
 function fprintf1(str) {
-    document.write(str);        // TODO: did this go to STDOUT?
+    writeId('fprintf1', str);
+}
+
+String.prototype.trim = function() {
+    return this.replace(/^\s+|\s+$/g, "");
 }
 
 // // script testmat.m
@@ -142,22 +150,22 @@ function testmat() {
     tle_lines = get_tle_lines(); // MOVE VAR UP
 
     for (i = 0; i < tle_lines.length; i += 1) {
-        if (tle_lines[0] === '#') {
-            i += 1;
-            continue; // need to skip to next line, could have multiple comments
+        debug("i=" + i + "  tle_line=" + tle_lines[i]);
+        if (tle_lines[i][0] === '#') {
+            continue;
         }
         else {                      // no comments between TLE line 1 and line 2
             longstr1 = tle_lines[i];
             i += 1;
             longstr2 = tle_lines[i];
-            i += 1;
+            i += 1;             // BUG I think this should not be here
         }
 
         if (idebug) {
             //catno = strtrim(longstr1(3:7));
-            catno = strtrim(longstr1.substring(2, 6));
+            catno = longstr1.trim().substring(2, 7);
             //dbgfile = fopen(strcat('sgp4test.dbg.',catno), 'wt');
-            debug('this is the debug output\n\n');
+            debug('longstr1=' + longstr1 + '  catno=' + catno);
         }
         // convert the char string to sgp4 elements
         // includes initialization of sgp4
@@ -270,14 +278,5 @@ function testmat() {
 
 }
 
-function testtle() {
-    document.write("testtle()");
-    var i, tle_lines = get_tle_lines(); // MOVE VAR UP
-    for (i = 0; i < tle_lines.length; i += 1) {
-        document.write("i=", i);
-        document.write(tle_lines[i]);
-    }
-}
-//document.onload = testmat();
-window.onload = testtle();
+window.onload = testmat();
 
