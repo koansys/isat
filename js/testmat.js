@@ -1,4 +1,5 @@
-/*global document: true,
+/*global
+  document: true,
   twoline2rv: true,
   sgp4: true,
   invjday: true,
@@ -39,7 +40,6 @@ function outfile(str) {
 function fprintf1(str) {
     document.write(str);        // TODO: did this go to STDOUT?
 }
-
 
 // // script testmat.m
 //
@@ -122,128 +122,162 @@ function fprintf1(str) {
 
 // TODO: use HTML5 File objects: http://www.html5rocks.com/en/tutorials/file/dndfiles/
 
-while (! feof(infile)) {
-    longstr1 = fgets(infile, 130);
-    while ((longstr1(1) === '#') && (feof(infile) === 0)) {
-        longstr1 = fgets(infile, 130);
+function get_tle_lines() {
+    // use like: for (var i = 0; i < lines.length; i++) { alert(lines[i]); }
+    var
+    lines,
+    tle_lines = document.getElementById('infile').textContent;
+    if (document.all) { // IE
+        return tle_lines.split("\r\n");
     }
-
-    if (feof(infile) === 0) {
-        longstr2 = fgets(infile, 130);
+    else { //Mozilla
+        return tle_lines.split("\n");
     }
+}
 
-    if (idebug) {
-        //catno = strtrim(longstr1(3:7));
-        catno = strtrim(longstr1.substring(2, 6));
-        //dbgfile = fopen(strcat('sgp4test.dbg.',catno), 'wt');
-        debug('this is the debug output\n\n');
-    }
-    // convert the char string to sgp4 elements
-    // includes initialization of sgp4
-    //[satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst,
-    //                                                   longstr1, longstr2, typerun, typeinput);
-    rets = twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput);
-    satrec      = rets.shift();
-    startmfe    = rets.shift();
-    stopmfe     = rets.shift();
-    deltamin    = rets.shift();
 
-    outfile('\n //d xx\n', satrec.satnum);
-    fprintf1(' //d\n', satrec.satnum);
+function testmat() {
+    var
+    i,
+    tle_lines = get_tle_lines(); // MOVE VAR UP
 
-    // call the propagator to get the initial state vector value
-    //[satrec, ro ,vo] = sgp4 (satrec,  0.0);
-    rets = sgp4(satrec, 0.0);
-    satrec      = rets.shift();
-    ro          = rets.shift();
-    vo          = rets.shift();
-
-    outfile(' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f\n',
-            satrec.t, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]); // MIG offsets shifted
-    // Why don't we print ymdhms or a,ecc,*rad as we do during the time intervals below?
-
-    //fprintf1(' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f\n',...
-    //         satrec.t,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3));
-
-    tsince = startmfe;
-
-    // check so the first value isn't written twice
-    if (Math.abs(tsince) > 1.0e-8) {
-        tsince = tsince - deltamin;
-    }
-
-    // loop to perform the propagation
-    while ((tsince < stopmfe) && (satrec.error === 0)) {
-
-        tsince = tsince + deltamin;
-
-        if (tsince > stopmfe) {
-            tsince = stopmfe;
+    for (i = 0; i < tle_lines.length; i += 1) {
+        if (tle_lines[0] === '#') {
+            i += 1;
+            continue; // need to skip to next line, could have multiple comments
+        }
+        else {                      // no comments between TLE line 1 and line 2
+            longstr1 = tle_lines[i];
+            i += 1;
+            longstr2 = tle_lines[i];
+            i += 1;
         }
 
-        //[satrec, ro, vo] = sgp4(satrec,  tsince);
-        rets = sgp4(satrec, tsince);
+        if (idebug) {
+            //catno = strtrim(longstr1(3:7));
+            catno = strtrim(longstr1.substring(2, 6));
+            //dbgfile = fopen(strcat('sgp4test.dbg.',catno), 'wt');
+            debug('this is the debug output\n\n');
+        }
+        // convert the char string to sgp4 elements
+        // includes initialization of sgp4
+        //[satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst,
+        //                                                   longstr1, longstr2, typerun, typeinput);
+        rets = twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput);
+        satrec      = rets.shift();
+        startmfe    = rets.shift();
+        stopmfe     = rets.shift();
+        deltamin    = rets.shift();
+
+        outfile('\n //d xx\n', satrec.satnum);
+        fprintf1(' //d\n', satrec.satnum);
+
+        // call the propagator to get the initial state vector value
+        //[satrec, ro ,vo] = sgp4 (satrec,  0.0);
+        rets = sgp4(satrec, 0.0);
         satrec      = rets.shift();
         ro          = rets.shift();
         vo          = rets.shift();
 
-        if (satrec.error > 0) {
-            fprintf1('# *** error: t:= //f *** code = //3i\n', tsince, satrec.error);
+        outfile(' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f\n',
+                satrec.t, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]); // MIG offsets shifted
+        // Why don't we print ymdhms or a,ecc,*rad as we do during the time intervals below?
+
+        //fprintf1(' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f\n',...
+        //         satrec.t,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3));
+
+        tsince = startmfe;
+
+        // check so the first value isn't written twice
+        if (Math.abs(tsince) > 1.0e-8) {
+            tsince = tsince - deltamin;
         }
 
-        if (satrec.error === 0) {
-            if ((typerun !== 'v') && (typerun !== 'c')) {
-                jd = satrec.jdsatepoch + tsince / 1440;
-                //[year,mon,day,hr,minute,sec] = invjday(jd);
-                rets = invjday(jd);
-                year    = rets.shift();
-                mon     = rets.shift();
-                day     = rets.shift();
-                hr      = rets.shift();
-                minute  = rets.shift();
-                sec     = rets.shift();
+        // loop to perform the propagation
+        while ((tsince < stopmfe) && (satrec.error === 0)) {
 
-                fprintf(outfile,
-                        ' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f //5i//3i//3i //2i://2i://9.6f //16.8f//16.8f//16.8//12.9f//12.9f//12.9f\n',
-                        tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2],
-                        year, mon, day, hr, minute, sec);
+            tsince = tsince + deltamin;
+
+            if (tsince > stopmfe) {
+                tsince = stopmfe;
             }
-            else {
-                outfile(' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f',
-                        tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]);
-                // fprintf1(' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f',
-                //         tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]);
 
-                //[p,a,ecc,incl,node,argp,nu,m,arglat,truelon,lonper ] = rv2coe(ro, vo, mu);
-                rets = rv2coe(ro, vo, mu);
-                p       = rets.shift();
-                a       = rets.shift();
-                ecc     = rets.shift();
-                incl    = rets.shift();
-                node    = rets.shift();
-                argp    = rets.shift();
-                nu      = rets.shift();
-                m       = rets.shift();
-                arglat  = rets.shift();
-                truelon = rets.shift();
-                lonper  = rets.shift();
+            //[satrec, ro, vo] = sgp4(satrec,  tsince);
+            rets = sgp4(satrec, tsince);
+            satrec      = rets.shift();
+            ro          = rets.shift();
+            vo          = rets.shift();
 
-                outfile(' //14.6f //8.6f //10.5f //10.5f //10.5f //10.5f //10.5f\n',
-                        a, ecc, incl * rad, node * rad, argp * rad, nu * rad, m * rad);
+            if (satrec.error > 0) {
+                fprintf1('# *** error: t:= //f *** code = //3i\n', tsince, satrec.error);
             }
-        } // if satrec.error == 0
 
-    } // while propagating the orbit
+            if (satrec.error === 0) {
+                if ((typerun !== 'v') && (typerun !== 'c')) {
+                    jd = satrec.jdsatepoch + tsince / 1440;
+                    //[year,mon,day,hr,minute,sec] = invjday(jd);
+                    rets = invjday(jd);
+                    year    = rets.shift();
+                    mon     = rets.shift();
+                    day     = rets.shift();
+                    hr      = rets.shift();
+                    minute  = rets.shift();
+                    sec     = rets.shift();
 
-    // if (idebug && (dbgfile ~= -1)) {
-    //     fclose(dbgfile);
-    // }
+                    fprintf(outfile,
+                            ' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f //5i//3i//3i //2i://2i://9.6f //16.8f//16.8f//16.8//12.9f//12.9f//12.9f\n',
+                            tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2],
+                            year, mon, day, hr, minute, sec);
+                }
+                else {
+                    outfile(' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f',
+                            tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]);
+                    // fprintf1(' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f',
+                    //         tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]);
+
+                    //[p,a,ecc,incl,node,argp,nu,m,arglat,truelon,lonper ] = rv2coe(ro, vo, mu);
+                    rets = rv2coe(ro, vo, mu);
+                    p       = rets.shift();
+                    a       = rets.shift();
+                    ecc     = rets.shift();
+                    incl    = rets.shift();
+                    node    = rets.shift();
+                    argp    = rets.shift();
+                    nu      = rets.shift();
+                    m       = rets.shift();
+                    arglat  = rets.shift();
+                    truelon = rets.shift();
+                    lonper  = rets.shift();
+
+                    outfile(' //14.6f //8.6f //10.5f //10.5f //10.5f //10.5f //10.5f\n',
+                            a, ecc, incl * rad, node * rad, argp * rad, nu * rad, m * rad);
+                }
+            } // if satrec.error == 0
+
+        } // while propagating the orbit
+
+        // if (idebug && (dbgfile ~= -1)) {
+        //     fclose(dbgfile);
+        // }
 
 
-} //// if not eof
+    } //// if not eof
 
-} //// while through the input file
+    ///TOO MANY //// while through the input file
 
-// fclose(infile);
-// fclose(outfile);
+    // fclose(infile);
+    // fclose(outfile);
+
+}
+
+function testtle() {
+    document.write("testtle()");
+    var i, tle_lines = get_tle_lines(); // MOVE VAR UP
+    for (i = 0; i < tle_lines.length; i += 1) {
+        document.write("i=", i);
+        document.write(tle_lines[i]);
+    }
+}
+//document.onload = testmat();
+window.onload = testtle();
 
