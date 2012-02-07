@@ -26,9 +26,9 @@ function fprintf1(str) {
 }
 
 
-window.onload = function () {
-    writeId('writeId', 'writeId text');
-    debug('debug text');
-    fprintf1('fprintf1 text');
-    outfile('outfile text');
-}
+// window.onload = function () {
+//     writeId('writeId', 'writeId text');
+//     debug('debug text');
+//     fprintf1('fprintf1 text');
+//     outfile('outfile text');
+// }
