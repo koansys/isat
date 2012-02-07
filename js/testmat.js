@@ -28,27 +28,6 @@ jd, year, mon, day, hr, minute, sec,
 p, a, ecc, incl, node, argp, nu, m, arglat, truelon, lonper,
 PLACEHOLDER;
 
-// MATLAB fake compatibility functions
-
-function writeId(id, str) {
-    document.getElementById(id).innerHTML += str + "<br/>\n";
-}
-function debug(str) {
-    writeId('debug', str);
-}
-
-function outfile(str) {
-    writeId('outfile', str);
-}
-
-function fprintf1(str) {
-    writeId('fprintf1', str);
-}
-
-String.prototype.trim = function() {
-    return this.replace(/^\s+|\s+$/g, "");
-}
-
 // // script testmat.m
 //
 // This script tests the SGP4 propagator.
