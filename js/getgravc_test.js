@@ -1,43 +1,47 @@
 var rets, tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2;
-// values from MATLAB code run under Octave
+
+// Values from MATLAB code run under Octave.
+// We output values using scientific notation to reduce rounding artifacts
 
 ml = {
     721: {
-        tumin:              13.446840,
-        mu:                 398600.799640,
-        radiusearthkm:      6378.135000,
-        xke:                0.074367,
-        j2:                 0.001083,
-        j3:                 -0.000003,
-        j4:                 -0.000002,
-        j3oj2:              -0.002345
+        tumin:          1.344684e+01,
+	mu:             3.986008e+05,
+	radiusearthkm:  6.378135e+03,
+	xke:            7.436692e-02,
+	j2:             1.082616e-03,
+	j3:            -2.538810e-06,
+	j4:            -1.655970e-06,
+	j3oj2:         -2.345070e-03,
     },
     72: {
-        tumin:              13.446840,
-        mu:                 398600.800000,
-        radiusearthkm:      6378.135000,
-        xke:                0.074367,
-        j2:                 0.001083,
-        j3:                 -0.000003,
-        j4:                 -0.000002,
-        j3oj2:              -0.002345
+        tumin:          1.344684e+01,
+	mu:             3.986008e+05,
+	radiusearthkm:  6.378135e+03,
+	xke:            7.436692e-02,
+	j2:             1.082616e-03,
+	j3:            -2.538810e-06,
+	j4:            -1.655970e-06,
+	j3oj2:         -2.345070e-03,
     },
     84: {
-        tumin:              13.446851,
-        mu:                 398600.500000,
-        radiusearthkm:      6378.137000,
-        xke:                0.074367,
-        j2:                 0.001083,
-        j3:                 -0.000003,
-        j4:                 -0.000002,
-        j3oj2:              -0.002339
-    }
+        tumin:          1.344685e+01,
+	mu:             3.986005e+05,
+	radiusearthkm:  6.378137e+03,
+	xke:            7.436685e-02,
+	j2:             1.082630e-03,
+	j3:            -2.532153e-06,
+	j4:            -1.610988e-06,
+	j3oj2:         -2.338891e-03,
+    },
 }
 
-function close(result, expected, tolerance) {
-    // return true if result is within tolerance of expected
+
+function close(result,  expected, tolerance) {
+    // Return true if result is within tolerance of expected.
+    // If your expected is rounded due to printing you might fail here.
     if (! tolerance) {
-        tolerance = 0.0001;      // 0.01%
+        tolerance = 0.000001;      // 0.0001% difference
     }
     return Math.abs((result / expected) - 1.0) < tolerance;
 }
@@ -49,15 +53,6 @@ test('whichconst size', function () {
     equals(Object.keys(ml).length, 3, "number of different 'whichconst' is 3");
 })
 
-// Our close-ness tests fail at 0.01% for j2, and 0.1% for j3, j4:
-//   j2  0.00108262998905 want  0.001083
-//   j3 -0.00000253215306 want -0.000003
-//   j4 -0.00000161098761 want -0.000002
-//
-// I believe this is a rounding issue: the left is our calculation,
-// the right is what we got from MATLAB/Octave. If we round our
-// results to the same precision as the target values, we get the
-// same. How to we accommodate this? 
 
 for (whichconst in ml) {
     whichconst = Number(whichconst);
@@ -79,13 +74,6 @@ for (whichconst in ml) {
         ok(close(j3,                  ml[whichconst].j3),              "j3 " + j3 + " want " + ml[whichconst].j3);
         ok(close(j4,                  ml[whichconst].j4),              "j4 " + j4 + " want " + ml[whichconst].j4);
         ok(close(j3oj2,               ml[whichconst].j3oj2),           "j3oj2");
-
-        // var diff, expected, div, div2;
-        // expected = ml[whichconst].j3;
-        // diff = expected - j3;
-        // div = diff / expected;
-        // div2 = j3 / expected - 1.0;
-        // alert("j3=" + j3 + " expected=" + expected + " diff=" + diff + " div=" + div + " div2=" + div2);
     })
 }
 
