@@ -1,4 +1,10 @@
-var rets, tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2;
+/*global
+  module: true, test: true, equals: true, ok: true,
+  getgravc: true
+ */
+
+var ml, rets, tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2,
+whichconst;
 
 // Values from MATLAB code run under Octave.
 // We output values using scientific notation to reduce rounding artifacts
@@ -33,8 +39,8 @@ ml = {
 	j3:            -2.532153e-06,
 	j4:            -1.610988e-06,
 	j3oj2:         -2.338891e-03,
-    },
-}
+    }
+};
 
 
 function close(result,  expected, tolerance) {
@@ -51,7 +57,7 @@ module('getgravc');
 
 test('whichconst size', function () {
     equals(Object.keys(ml).length, 3, "number of different 'whichconst' is 3");
-})
+});
 
 
 for (whichconst in ml) {
