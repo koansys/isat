@@ -546,5 +546,6 @@ function sgp4init(whichconst, satrec, xbstar, xecco, epoch,
     //     debug6;
     // }
 
-    return [satrec];
+    //return [satrec];            // TODO: MATLAB returns an unnecessary list, don't
+    return satrec;
 }
