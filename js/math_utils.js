@@ -25,16 +25,16 @@ function cross(v1, v2) {
 }
 
 function dot(a, b) {
-    // From: http://c2.com/cgi/wiki?DotProductInManyProgrammingLanguages
+    // Return a scalar dot product of two multidimensional vectors.
+    // http://c2.com/cgi/wiki?DotProductInManyProgrammingLanguages
     var n = 0,
-    lim = Math.min(a.length, b.length),
-    i;
-
+        lim = Math.min(a.length, b.length),
+        i;
     for (i = 0; i < lim; i += 1) {
         n += a[i] * b[i];
     }
     return n;
 }
-//assert(dot([1, 2, 3, 4, 5], [6, 7, 8, 9, 10]) == 130)
+
 
 
