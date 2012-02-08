@@ -76,34 +76,3 @@ function getgravc(whichconst) {
     }
     return [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2];
 }
-
-// function test_getgravc(whichconst) {
-//     var rets, tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2;
-//     // can't we default whichconst?
-//     debug("test_getgravc starting");
-//     if (! whichconst) {
-//         whichconst = 72;
-//     }
-//     rets = getgravc(whichconst);
-//     tumin               = rets.shift();
-//     mu                  = rets.shift();
-//     radiusearthkm       = rets.shift();
-//     xke                 = rets.shift();
-//     j2                  = rets.shift();
-//     j3                  = rets.shift();
-//     j4                  = rets.shift();
-//     j3oj2               = rets.shift();
-//     debug('tumin=' + tumin);
-//     debug('mu=' + mu);
-//     debug('radiusearthkm=' + radiusearthkm);
-//     debug('xke=' + xke);
-//     debug('j2=' + j2);
-//     debug('j3=' + j3);
-//     debug('j4=' + j4);
-//     debug('j3oj2=' + j3oj2);
-// }
-
-// window.onload = function () {
-//     alert("getgravc.js here");
-//     test_getgravc(72);
-// }
