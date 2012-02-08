@@ -20,6 +20,9 @@ Arrays
 
 sgp4init returned [satrec], we now just return satrec
 
+Exponentiation
+- MATLAB uses "^"
+- JS *silently* fails on "^", use Math.pow(base, power)
 
 Question
 ========
