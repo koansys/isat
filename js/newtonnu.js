@@ -88,14 +88,17 @@ function newtonnu(ecc, nu) {
                 }
             }
         }
-        if (ecc < 1.0) {
-            m = m % (2.0 * Math.PI);
-            if (m < 0.0) {
-                m = m + 2.0 * Math.PI;
-            }
-            e0 = e0 % (2.0 * Math.PI);
-        }
     }
+
+
+    if (ecc < 1.0) {
+        m = m % (2.0 * Math.PI);
+        if (m < 0.0) {
+            m = m + 2.0 * Math.PI;
+        }
+        e0 = e0 % (2.0 * Math.PI);
+    }
+
     return [e0, m];
 }
 
