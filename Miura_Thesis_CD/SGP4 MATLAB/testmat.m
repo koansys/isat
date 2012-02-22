@@ -90,6 +90,26 @@
  %               // call the propagator to get the initial state vector value
             [satrec, ro ,vo] = sgp4 (satrec,  0.0);
 
+%%% From Miura's paper:
+%%% For each satellite, there are 7-13 columns of data (columns 8- 13
+%%% are date and time data which is not calculated for catalog mode):
+%%% 01. Minutes from Epoch
+%%% 02. X-Position
+%%% 03. Y-Position
+%%% 04. Z-Position
+%%% 05. X-Velocity
+%%% 06. Y-Velocity
+%%% 07. Z-Velocity
+%%% 08. Year
+%%% 09. Month
+%%% 10. Day
+%%% 11. Hour
+%%% 12. Minute
+%%% 13. Second
+%%%
+%%% **Note, the position vector is based in ECI coordinate frame.**
+
+
             fprintf(outfile, ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f\n',...
                     satrec.t,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3));
             % Why don't we print ymdhms or a,ecc,*rad as we do during the time intervals below?
@@ -124,8 +144,10 @@
                         [year,mon,day,hr,minute,sec] = invjday ( jd );
 
                         fprintf(outfile,...
-                            ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f %5i%3i%3i %2i:%2i:%9.6f %16.8f%16.8f%16.8%12.9f%12.9f%12.9f\n',...
-                            tsince,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3),year,mon,day,hr,minute,sec );
+                                %%% cshenton: I believe this output format is wrong, too many format placeholders
+                                %%%' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f %5i%3i%3i %2i:%2i:%9.6f %16.8f%16.8f%16.8%12.9f%12.9f%12.9f\n ',...
+                                ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f %5i%3i%3i %2i:%2i:%9.6f\n',...
+                                tsince,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3),year,mon,day,hr,minute,sec );
                     else
                         fprintf(outfile, ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f',...
                             tsince,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3));
