@@ -1,5 +1,5 @@
 /*global mag: true, small: true, infinite: true, twopi: true, angl: true,
-  UNDEFINED: true, halfpi: true, newtonnu
+  UNDEFINED: true, halfpi: true, newtonnu: true, cross: true
 */
 // ------------------------------------------------------------------------------
 //
@@ -69,19 +69,20 @@ function rv2coe(r, v, mu) {
     var magr = mag(r),          // TODO: mag() undefined
         magv = mag(v),
         // ------------------  find h n and e vectors   ----------------
-        hbar = cross(r, v),         // hbar is a list, TODO: cross() undefine
+        hbar = cross(r, v),         // hbar is a vector
         magh = mag(hbar),
-    nbar = [],
-    magn, c1, rdotv,
-    i, ebar, ecc, sme, a, p, hk, incl,
-    typeorbit,
-    temp, omega, argp,
-    nu, arglat, m, lonper,
-    truelon, em;
+        nbar = [],
+        magn, c1, rdotv,
+        ebar = [],
+        i, ecc, sme, a, p, hk, incl,
+        typeorbit,
+        temp, omega, argp,
+        nu, arglat, m, lonper,
+        truelon, em;
 
     if (magh > small) {
         nbar[0] = - hbar[1];
-        nbar[1] =   hbar(0);
+        nbar[1] =   hbar[0];
         nbar[2] =   0.0;
         magn = mag(nbar);
         c1 = magv * magv - mu / magr;
