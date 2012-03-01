@@ -63,8 +63,8 @@ function [mon,day,hr,minute,sec] = days2mdh ( year,days);
 
         mon= i;
         day= dayofyr - inttemp;
-
         % ----------------- find hours minutes and seconds ------------
+
         temp= (days - dayofyr )*24.0;
         hr  = fix( temp );
         temp= (temp-hr) * 60.0;
@@ -72,3 +72,12 @@ function [mon,day,hr,minute,sec] = days2mdh ( year,days);
         sec = (temp-minute) * 60.0;
 
         julianday = jday(year, mon, day, hr, minute, sec);
+        %% The julianday=... above is NOT USED?
+
+        # printf("\n");
+        # printf("[mon,day,hr,minute,sec] = days2mdh(%d, %3.12f);\n", year, days);
+        # printf("assert(isequal(mon,    %d));\n", mon);
+        # printf("assert(isequal(day,    %d));\n", day);
+        # printf("assert(isequal(hr,     %d));\n",  hr);
+        # printf("assert(isequal(minute, %d));\n", minute);
+        # printf("assert(isequalRel(sec, %2.12f, TOL));\n", sec);
