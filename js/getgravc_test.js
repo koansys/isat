@@ -56,7 +56,7 @@ function close(result,  expected, tolerance) {
 module('getgravc');
 
 test('whichconst size', function () {
-    equals(Object.keys(ml).length, 3, "number of different 'whichconst' is 3");
+    equal(Object.keys(ml).length, 3, "number of different 'whichconst' is 3");
 });
 
 
