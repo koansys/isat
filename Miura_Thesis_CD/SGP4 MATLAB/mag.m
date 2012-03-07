@@ -35,3 +35,5 @@ function mag = mag ( vec );
             mag= 0.0;
           end
 
+        printf("assert(isequalRel(mag([%.12e, %.12e, %.12e]), %12.12e, TOL));\n", ...
+               vec(1), vec(2), vec(3), mag);
