@@ -44,4 +44,4 @@ function jd = jday(yr, mon, day, hr, min, sec)
         %  - 0.5 * sign(100.0 * yr + mon - 190002.5) + 0.5;
 
         # printf("assert(isequalRel(jday(%d, %d, %d, %d, %d, %2.12f), %12.12f, TOL));\n", ...
-        #        yr, mon, day, hr, min, sec, jd);
+        #        yr, mon, day, hr, min, sec, jd);b
