@@ -1,5 +1,6 @@
 /*global mag: true, small: true, infinite: true, twopi: true, angl: true,
-  UNDEFINED: true, halfpi: true, newtonnu: true, cross: true
+  halfpi: true, newtonnu: true, cross: true, dot: true, sign: true,
+  UNDEFINED: true,
 */
 // ------------------------------------------------------------------------------
 //
@@ -59,18 +60,17 @@
 // [p,a,ecc,incl,omega,argp,nu,m,arglat,truelon,lonper ] = rv2coe (r,v,mu);
 // ------------------------------------------------------------------------------
 
-function rv2coe(r, v, mu) {
-    //TODO: get contants from constmath, constastro
-    //constmath;
-    //constastro;
-    // mag in mag.js
+//TODO: get contants from constmath, constastro
+//constmath;
+//constastro;
+//mag in mag.js
 
+function rv2coe(r, v, mu) {
     // -------------------------  implementation   -----------------
-    var magr = mag(r),          // TODO: mag() undefined
-        magv = mag(v),
+    var magr, magv,
         // ------------------  find h n and e vectors   ----------------
-        hbar = cross(r, v),         // hbar is a vector
-        magh = mag(hbar),
+        hbar,                       // hbar is a vector
+        magh,
         nbar = [],
         magn, c1, rdotv,
         ebar = [],
@@ -79,6 +79,12 @@ function rv2coe(r, v, mu) {
         temp, omega, argp,
         nu, arglat, m, lonper,
         truelon, em;
+
+    magr = mag(r);
+    magv = mag(v);
+    // ------------------  find h n and e vectors   ----------------
+    hbar = cross(r, v);         // hbar is a vector
+    magh = mag(hbar);
 
     if (magh > small) {
         nbar[0] = - hbar[1];
@@ -110,6 +116,7 @@ function rv2coe(r, v, mu) {
         // ------ elliptical, parabolic, hyperbolic inclined -------
         typeorbit = 'ei';
         if (ecc < small) {
+            alert("ecc<small");
             // ----------------  circular equatorial ---------------
             if ((incl < small) || (Math.abs(incl - Math.PI) < small)) {
                 typeorbit = 'ce';
@@ -122,6 +129,7 @@ function rv2coe(r, v, mu) {
         else {
             // - elliptical, parabolic, hyperbolic equatorial --
             if ((incl < small) || (Math.abs(incl - Math.PI) < small)) {
+                alert("eliptical/para/hyper: type=ee");
                 typeorbit = 'ee';
             }
         }
@@ -138,6 +146,7 @@ function rv2coe(r, v, mu) {
             }
         }
         else {
+            alert("omega=UNDEFINED");
             omega = UNDEFINED;
         }
 
@@ -149,6 +158,7 @@ function rv2coe(r, v, mu) {
             }
         }
         else {
+            alert("argp=UNDEFINED");
             argp = UNDEFINED;
         }
 
@@ -160,6 +170,7 @@ function rv2coe(r, v, mu) {
             }
         }
         else {
+            alert("nu=UNDEFINED");
             nu = UNDEFINED;
         }
 
@@ -172,6 +183,7 @@ function rv2coe(r, v, mu) {
             m = arglat;
         }
         else {
+            //alert("arglat=UNDEFINED");
             arglat = UNDEFINED;
         }
 
@@ -190,6 +202,7 @@ function rv2coe(r, v, mu) {
             }
         }
         else {
+            //alert("lonper=UNDEFINED");
             lonper = UNDEFINED;
         }
 
@@ -209,6 +222,7 @@ function rv2coe(r, v, mu) {
             m = truelon;
         }
         else {
+            //alert("truelon=UNDEFINED");
             truelon = UNDEFINED;
         }
 
@@ -220,7 +234,8 @@ function rv2coe(r, v, mu) {
         }
 
     }
-    else {
+    else {                      // magh <= small
+        alert("magh<=small");   // TODO REMOVE ME
         p       = UNDEFINED;
         a       = UNDEFINED;
         ecc     = UNDEFINED;
