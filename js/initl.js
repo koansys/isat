@@ -63,10 +63,12 @@ function initl(ecco, epoch, inclo, no, satn) {
 
     //TODO:
     //global tumin mu radiusearthkm xke j2 j3 j4 j3oj2
-    var tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2;
+    // not used: tumin, mu, radiusearth, j3, j4, j3oj2
+    var xke, j2;                // TODO: get them from GLOBAL or getgravc.js()
+
     //TODO:
     //global opsmode
-    var opsmode;
+    var opsmode;                // TODO: global opsmode (see testmat()?)
 
     var x2o3   = 2.0 / 3.0,
         // /* ------------- calculate auxillary epoch quantities ---------- */
