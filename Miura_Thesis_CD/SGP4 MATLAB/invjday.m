@@ -59,3 +59,31 @@ function [year,mon,day,hr,min,sec] = invjday ( jd );
      [mon,day,hr,min,sec] = days2mdh( year,days );
 %     sec= sec - 0.00000086400;
 
+     %% Generate test fodder during a testmat run
+     %% Bummer, invjday() is not called in 'v' verify and 'c' catalog mode.
+     %% Have to use the manual mode: 2012 day 100-102, 75 minute increment.
+     # printf("\n");
+     # printf("[year,mon,day,hr,min,sec] = invjday(%3.12f);\n", jd);
+     # printf("assert(isequal(year, %d));\n", year);
+     # printf("assert(isequal(mon,  %d));\n", mon);
+     # printf("assert(isequal(day,  %d));\n", day);
+     # printf("assert(isequal(hr,   %d));\n", hr);
+     # printf("assert(isequal(min,  %d));\n", min);
+     # printf("assert(isequalRel(sec, %2.12f, TOL));\n", sec);
+
+     # printf("\n");
+     # printf("test('%3.12f', function () {\n", jd);
+     # printf("    var rets = invjday(%3.12f)\n", jd);
+     # printf("        year = rets.shift(),\n");
+     # printf("        mon  = rets.shift(),\n");
+     # printf("        day  = rets.shift(),\n");
+     # printf("        hr   = rets.shift(),\n");
+     # printf("        min  = rets.shift(),\n");
+     # printf("        sec  = rets.shift();\n");
+     # printf("    equal(year, %d);\n", year);
+     # printf("    equal(mon,  %d);\n", mon);
+     # printf("    equal(day,  %d);\n", day);
+     # printf("    equal(hr,   %d);\n", hr);
+     # printf("    equal(min,  %d);\n", min);
+     # printf("    ok(isequalRel(sec, %2.12f, TOL));\n", sec);
+     # printf("});\n");
