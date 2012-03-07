@@ -80,3 +80,6 @@ function [e0,m] = newtonnu ( ecc,nu );
             e0 = rem( e0,2.0 *pi );
           end
 
+        # printf("[e0, m] = newtonnu(%.12e, %.12e);\n", ecc, nu);
+        # printf("assert(isequalRel(e0, %12.12e, TOL));\n", e0);
+        # printf("assert(isequalRel(m,  %12.12e, TOL));\n", m);
