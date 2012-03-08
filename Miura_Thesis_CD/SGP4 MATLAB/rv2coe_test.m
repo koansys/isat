@@ -1,12 +1,3 @@
-%% tolerance test implementation from
-%% http://stackoverflow.com/questions/2202641/how-do-i-compare-all-elements-of-two-arrays
-
-%# absolute tolerance equality
-isequalAbs = @(x,y,tol) ( abs(x-y) <= tol );
-
-%# relative tolerance equality
-isequalRel = @(x,y,tol) ( abs(x-y) <= ( tol*max(abs(x),abs(y)) + eps) );
-
 TOL = 0.000001;
 
 [p, a, ecc, incl, omega, argp, nu, m, arglat, truelon, lonper] = rv2coe([-7.154031202016e+03, -3.783176825037e+03, -3.536194122942e+03], [4.741887408996e+00, -4.151817765374e+00, -2.093935424907e+00], 3.986004418000e+05);
