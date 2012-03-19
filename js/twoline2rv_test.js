@@ -3,9 +3,7 @@
   twoline2rv: true
  */
 
-module('rv2coe');
-
-TOL = 0.000001;
+module('twoline2rv');
 
 test("1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753", function () {
     var TOL = 0.000001,
