@@ -262,7 +262,7 @@ function [satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst, longstr1
      [satrec] = sgp4init(whichconst, satrec, satrec.bstar, satrec.ecco, sgp4epoch, ...
          satrec.argpo, satrec.inclo, satrec.mo, satrec.no, satrec.nodeo);
 
-     MAKE_ASSERTIONS = 1;
+     MAKE_ASSERTIONS = 0;
      if (MAKE_ASSERTIONS)
        %%[satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst, longstr1, longstr2, typerun,typeinput)
        printf("[satrec, startmfe, stopmfe, deltamin] = twoline2rv(%d,\n", whichconst)
