@@ -1,5 +1,5 @@
 /*jslint vars: true */
-/*globals xke: true, j3oj2, j2, radiusearthkm */
+/*globals getgravc: true, dpper: true */
 // -----------------------------------------------------------------------------
 //
 //                              procedure sgp4
@@ -107,19 +107,37 @@ function sgp4(satrec, tsince) {
         // the old check used 1.0 + Math.cos(pi-1.0e-9), but then compared it to
         // 1.5 e-12, so the threshold was changed to 1.5e-12 for consistancy
         temp4    =   1.5e-12,
+
     // sgp4fix identify constants and allow alternate values
     // TODO: global tumin mu radiusearthkm xke j2 j3 j4 j3oj2
-    vkmpersec     = radiusearthkm * xke / 60.0,
+    rets, tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2,
+    vkmpersec,
     xmdf, argpdf, nodedf, argpm, mm, t2, nodem, tempa, tempe, templ,
     delomg, delm, temp, t3, t4, temp3,
     nm, em, inclm, tc, dndt, am,
     xm, emsq, sl,
     xlm, sinim, cosim, ep, xincp, argpp, nodep, mp, sinip, cosip,
     axnl, aynl, xl, u, eo1, tem5, ktr, sineo1, coseo1,
-    ecose, esine, el2, pl, r, v,
+    ecose, esine, el2, pl,
+    r = [],
+    v = [],
     rl, rdotl, rvdotl, betal, sinu, cosu, su, sin2u, cos2u, temp1, temp2,
     cosisq, mrt, xnode, xinc, mvt, rvdot,
     sinsu, cossu, snod, cnod, sini, cosi, xmx, xmy, ux, uy, uz, vx, vy, vz;
+
+    // TODO: how do we get `whichconst` from the caller? or (shudder) globals?
+    //rets = getgravc(whichconst); // TODO: sucks to have to call this all the time
+    rets = getgravc(72); // TODO: sucks to have to call this all the time
+    tumin               = rets.shift();
+    mu                  = rets.shift();
+    radiusearthkm       = rets.shift();
+    xke                 = rets.shift();
+    j2                  = rets.shift();
+    j3                  = rets.shift();
+    j4                  = rets.shift();
+    j3oj2               = rets.shift();
+
+    vkmpersec     = radiusearthkm * xke / 60.0;
 
     // /* --------------------- clear sgp4 error flag ----------------- */
     //satrec.t     = tsince/1440;
@@ -212,6 +230,7 @@ function sgp4(satrec, tsince) {
     mp     = mm;
     sinip  = sinim;
     cosip  = cosim;
+    // TODO: why do we have TWO sections conditioned on method='d' ?
     if (satrec.method === 'd') {
         // TODO: BAD ASSignment
         // [ep,xincp,nodep,argpp,mp] = dpper(
@@ -227,6 +246,25 @@ function sgp4(satrec, tsince) {
         //     satrec.xl2,satrec.xl3,satrec.xl4,
         //     satrec.zmol,satrec.zmos,satrec.inclo,
         //     satrec.init,ep,xincp,nodep,argpp,mp);
+        // [ep,xincp,nodep,argpp,mp]
+        rets = dpper(satrec.e3, satrec.ee2, satrec.peo,
+                     satrec.pgho, satrec.pho, satrec.pinco,
+                     satrec.plo, satrec.se2, satrec.se3,
+                     satrec.sgh2, satrec.sgh3, satrec.sgh4,
+                     satrec.sh2, satrec.sh3, satrec.si2,
+                     satrec.si3, satrec.sl2, satrec.sl3,
+                     satrec.sl4, satrec.t, satrec.xgh2,
+                     satrec.xgh3, satrec.xgh4, satrec.xh2,
+                     satrec.xh3, satrec.xi2, satrec.xi3,
+                     satrec.xl2, satrec.xl3, satrec.xl4,
+                     satrec.zmol, satrec.zmos, satrec.inclo,
+                     satrec.init, ep, xincp, nodep, argpp, mp);
+        ep      = rets.shift();
+        xincp   = rets.shift();
+        nodep   = rets.shift();
+        argpp   = rets.shift();
+        mp      = rets.shift();
+
         if (xincp < 0.0) {
             xincp  = -xincp;
             nodep = nodep + Math.PI;
@@ -362,5 +400,6 @@ function sgp4(satrec, tsince) {
     //     debug7;
     // }
 
+    
     return [satrec, r, v];
 }
