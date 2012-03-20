@@ -161,7 +161,7 @@ function dpper(e3,     ee2,    peo,    pgho,   pho,    pinco,  plo,    se2,
             dbet   = -ph * sinop + pinc * cosip * cosop;
             alfdp  = alfdp + dalf;
             betdp  = betdp + dbet;
-            nodep  = rem(nodep, twopi);
+            nodep  = nodep % twopi; 
             // sgp4fix for afspc written intrinsic functions
             // nodep used without a trigonometric function ahead
             if ((nodep < 0.0) & (opsmode == 'a')) {
@@ -171,13 +171,13 @@ function dpper(e3,     ee2,    peo,    pgho,   pho,    pinco,  plo,    se2,
             dls    = pl + pgh - pinc * nodep * sinip;
             xls    = xls + dls;
             xnoh   = nodep;
-            nodep  = atan2(alfdp, betdp);
+            nodep  = Math.atan2(alfdp, betdp);
             // sgp4fix for afspc written intrinsic functions
             // nodep used without a trigonometric function ahead
             if ((nodep < 0.0) & (opsmode == 'a')) {
                 nodep = nodep + twopi;
             }
-            if (abs(xnoh - nodep) > pi) {
+            if (Math.abs(xnoh - nodep) > pi) {
                 if (nodep < xnoh) {
                     nodep = nodep + twopi;
                 }
