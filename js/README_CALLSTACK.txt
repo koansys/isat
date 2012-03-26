@@ -16,7 +16,7 @@ code around (e.g., getting user input).
 
 * days2mdh:
   - jday
-* dpper: none
+* dpper: none [global opsmode]
 * dscom: none
 * dsinit: none
 * dspace: none
@@ -44,14 +44,26 @@ code around (e.g., getting user input).
   - sgp4
 
 Files I haven't seen invoked, haven't mapped yet:
-* angl
-* compat
-* constastro
-* constmath
-* invjday
-* mag
-* math_utils
-* newtonnu
-* rv2coe
-* test_utils
+* angl: none
+* compat: none (NOT USED? My own funcs to emulate MATLAB calls, in progress)
+* constastro: none
+* constmath: none
+* invjday:
+  - days2mdh
+* mag: none
+* math_utils: none (emulate MATLAB math calls)
+* newtonnu: none
+* rv2coe:
+  - mag
+  - cross (my math_utils)
+  - dot (my math_utils)
+  - angl
+  - newtonnu
+* test_utils: none (my utils for testing)
 * testmat
+  - MATLAB: input, fopen, fprintf
+  - getgravc
+  - twoline2rv
+  - sgp4
+  - invjday
+  - rv2coe
