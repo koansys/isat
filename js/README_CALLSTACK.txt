@@ -17,7 +17,7 @@ code around (e.g., getting user input).
 * days2mdh:
   - jday
 * dpper: none [global opsmode; mutates inputs] DONE
-* dscom: none [no globals; no input mutation]
+* dscom: none [no globals; no input mutation] DONE
 * dsinit: none
 * dspace: none
 * getgravc: none
