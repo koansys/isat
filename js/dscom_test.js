@@ -92,7 +92,8 @@ test(' 1.975491070959e+04,  1.450506000000e-01,  3.623303527140e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      1.987316640953e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      9.800539401920e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,    -4.632960351199e-01, TOL), "sinomm=" + sinomm);
@@ -263,7 +264,8 @@ test(' 2.063033215444e+04,  6.877146000000e-01,  4.621022739372e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      9.000040530708e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      4.358815257110e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,    -9.958290077604e-01, TOL), "sinomm=" + sinomm);
@@ -432,7 +434,8 @@ test(' 2.063056157475e+04,  7.069051000000e-01,  4.712788660783e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      9.033113351973e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      4.289855844945e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,    -9.999999201278e-01, TOL), "sinomm=" + sinomm);
@@ -601,7 +604,8 @@ test(' 2.023779417928e+04,  2.709710000000e-02,  5.716345999363e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      1.649753069066e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      9.862976975087e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,    -5.369683678799e-01, TOL), "sinomm=" + sinomm);
@@ -770,7 +774,8 @@ test(' 1.118729629788e+04,  7.318036000000e-01,  8.285461931653e-01,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      7.288682597402e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      6.846539709542e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,     7.369494526341e-01, TOL), "sinomm=" + sinomm);
@@ -939,7 +944,8 @@ test(' 2.063002844893e+04,  1.156200000000e-03,  4.617827041512e-01,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      1.983142799855e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      9.801384832532e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,     4.455447971855e-01, TOL), "sinomm=" + sinomm);
@@ -1108,7 +1114,8 @@ test(' 2.060567415771e+04,  5.596327000000e-01,  4.278836976885e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      8.836888491856e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      4.680747993911e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,    -9.074792921580e-01, TOL), "sinomm=" + sinomm);
@@ -1277,7 +1284,8 @@ test(' 2.045279166667e+04,  7.864447000000e-01,  3.426128445555e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      2.139068072733e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      9.768540719074e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,    -2.807119383680e-01, TOL), "sinomm=" + sinomm);
@@ -1446,7 +1454,8 @@ test(' 2.063002341244e+04,  7.421690000000e-01,  4.416489349660e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      8.843765767810e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      4.667741107229e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,    -9.565401966673e-01, TOL), "sinomm=" + sinomm);
@@ -1617,7 +1626,8 @@ test(' 2.063055909107e+04,  7.541712000000e-01,  4.421379762224e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      8.949616166056e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      4.461431438481e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,    -9.579547993872e-01, TOL), "sinomm=" + sinomm);
@@ -1786,7 +1796,8 @@ test(' 2.062945752052e+04,  7.258491000000e-01,  5.167015834603e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      1.227285282698e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      9.924402794872e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,    -8.984249491476e-01, TOL), "sinomm=" + sinomm);
@@ -1955,7 +1966,8 @@ test(' 1.637649999999e+04,  9.728298000000e-01,  5.312084111370e-01,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      4.809734670776e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      8.767351504117e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,     5.065755975198e-01, TOL), "sinomm=" + sinomm);
@@ -2124,7 +2136,8 @@ test(' 2.062576535463e+04,  5.782022000000e-01,  4.789944431026e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      1.207034083544e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      9.926886154337e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,    -9.969940831688e-01, TOL), "sinomm=" + sinomm);
@@ -2293,7 +2306,8 @@ test(' 2.063104061740e+04,  2.664000000000e-03,  5.429679160382e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      6.720731102433e-02, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      9.977390326858e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,    -7.535897804281e-01, TOL), "sinomm=" + sinomm);
@@ -2462,7 +2476,8 @@ test(' 1.976268057285e+04,  1.765000000000e-04,  2.710391608592e-01,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      6.981317007921e-06, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      9.999999999756e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,     2.677328054857e-01, TOL), "sinomm=" + sinomm);
@@ -2631,7 +2646,8 @@ test(' 2.056074503247e+04,  3.319000000000e-04,  1.504114277393e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      2.862339934185e-04, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      9.999999590350e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,     9.977775758269e-01, TOL), "sinomm=" + sinomm);
@@ -2800,7 +2816,8 @@ test(' 2.062885818871e+04,  5.602877000000e-01,  2.159817024075e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      9.302345077967e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      3.669656121548e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,     8.314851264260e-01, TOL), "sinomm=" + sinomm);
@@ -2970,7 +2987,8 @@ test(' 2.062957071136e+04,  4.850600000000e-03,  4.647183479530e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      8.164380281199e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      5.774330664585e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,    -9.978748744491e-01, TOL), "sinomm=" + sinomm);
@@ -3141,7 +3159,8 @@ test(' 2.063181079184e+04,  6.249053000000e-01,  2.971510317983e+00,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      4.774654962260e-01, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      8.786504992963e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,     1.692634972133e-01, TOL), "sinomm=" + sinomm);
@@ -3310,7 +3329,8 @@ test(' 2.063046683397e+04,  3.350000000000e-05,  2.407123197766e-01,  0.00000000
          z33     = rets.shift(),
          zmol    = rets.shift(),
          zmos    = rets.shift(),
-         TOL     = 0.000001;
+         TOL     = 0.0000001;
+         expect(81);
          ok(isequalRel(sinim,      3.316125578181e-05, TOL), "sinim=" + sinim);
          ok(isequalRel(cosim,      9.999999994502e-01, TOL), "cosim=" + cosim);
          ok(isequalRel(sinomm,     2.383944693127e-01, TOL), "sinomm=" + sinomm);
