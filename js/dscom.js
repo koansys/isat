@@ -81,7 +81,7 @@ function dscom(epoch, ep, argpp, tc, inclp, nodep, np) {
         zcosis  =  0.91744867,
         zcosgs  =  0.1945905,
         zsings  = -0.98088458,
-        twopi   =  2.0 * Math.pi,
+        twopi   =  2.0 * Math.PI,
         // /* --------------------- local variables ------------------------ */
         nm     = np,
         em     = ep,
