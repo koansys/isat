@@ -312,4 +312,62 @@ function [  em,     argpm,  inclm,  mm,     nm,     nodem, irez,...
        debug3;
    end
 
+   MAKE_ASSERTS = 0;
+   if MAKE_ASSERTS
+     printf("\n");
+     printf("[em,     argpm,  inclm,  mm,     nm,     nodem, irez,...\n");
+     printf(" atime,  d2201,  d2211,  d3210,  d3222,  d4410,  d4422,...\n");
+     printf(" d5220,  d5232,  d5421,  d5433,  dedt,   didt,   dmdt,...\n");
+     printf(" dndt,   dnodt,  domdt,  del1,   del2,   del3,   xfact,...\n");
+     printf(" xlamo,  xli,    xni]...\n");
+     printf("= dsinit( ...\n");
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e,...\n",
+            cosim,  emsq,   argpo,  s1,     s2,     s3,     s4);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e,...\n",
+            s5,     sinim,  ss1,    ss2,    ss3,    ss4,    ss5);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e,...\n",
+            sz1,    sz3,    sz11,   sz13,   sz21,   sz23,   sz31);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e,...\n",
+            sz33,   t,      tc,     gsto,   mo,     mdot,   no);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e,...\n",
+            nodeo, nodedot,       xpidot, z1,     z3,     z11);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e,...\n",
+            z13,    z21,    z23,    z31,    z33,    em,     argpm);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e);\n",
+            inclm,  mm,     nm,     nodem, ecco,   eccsq);
+     printf("assert(isequalRel(em,           %19.12e, TOL));\n", em);
+     printf("assert(isequalRel(argpm,        %19.12e, TOL));\n", argpm);
+     printf("assert(isequalRel(inclm,        %19.12e, TOL));\n", inclm);
+     printf("assert(isequalRel(mm,           %19.12e, TOL));\n", mm);
+     printf("assert(isequalRel(nm,           %19.12e, TOL));\n", nm);
+     printf("assert(isequalRel(nodem,        %19.12e, TOL));\n", nodem);
+     printf("assert(isequalRel(irez,         %19.12e, TOL));\n", irez);
+     printf("assert(isequalRel(atime,        %19.12e, TOL));\n", atime);
+     printf("assert(isequalRel(d2201,        %19.12e, TOL));\n", d2201);
+     printf("assert(isequalRel(d2211,        %19.12e, TOL));\n", d2211);
+     printf("assert(isequalRel(d3210,        %19.12e, TOL));\n", d3210);
+     printf("assert(isequalRel(d3222,        %19.12e, TOL));\n", d3222);
+     printf("assert(isequalRel(d4410,        %19.12e, TOL));\n", d4410);
+     printf("assert(isequalRel(d4422,        %19.12e, TOL));\n", d4422);
+     printf("assert(isequalRel(d5220,        %19.12e, TOL));\n", d5220);
+     printf("assert(isequalRel(d5232,        %19.12e, TOL));\n", d5232);
+     printf("assert(isequalRel(d5421,        %19.12e, TOL));\n", d5421);
+     printf("assert(isequalRel(d5433,        %19.12e, TOL));\n", d5433);
+     printf("assert(isequalRel(dedt,         %19.12e, TOL));\n", dedt);
+     printf("assert(isequalRel(didt,         %19.12e, TOL));\n", didt);
+     printf("assert(isequalRel(dmdt,         %19.12e, TOL));\n", dmdt);
+     printf("assert(isequalRel(dndt,         %19.12e, TOL));\n", dndt);
+     printf("assert(isequalRel(dnodt,        %19.12e, TOL));\n", dnodt);
+     printf("assert(isequalRel(domdt,        %19.12e, TOL));\n", domdt);
+     printf("assert(isequalRel(del1,         %19.12e, TOL));\n", del1);
+     printf("assert(isequalRel(del2,         %19.12e, TOL));\n", del2);
+     printf("assert(isequalRel(del3,         %19.12e, TOL));\n", del3);
+     printf("assert(isequalRel(xfact,        %19.12e, TOL));\n", xfact);
+     printf("assert(isequalRel(xlamo,        %19.12e, TOL));\n", xlamo);
+     printf("assert(isequalRel(xli,          %19.12e, TOL));\n", xli);
+     printf("assert(isequalRel(xni,          %19.12e, TOL));\n", xni);
+
+   endif;
+
+
    return;
