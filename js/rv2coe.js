@@ -1,5 +1,6 @@
 /*global mag: true, small: true, infinite: true, twopi: true, angl: true,
-  UNDEFINED: true, halfpi: true, newtonnu
+  halfpi: true, newtonnu: true, cross: true, dot: true, sign: true,
+  UNDEFINED: true,
 */
 // ------------------------------------------------------------------------------
 //
@@ -59,67 +60,35 @@
 // [p,a,ecc,incl,omega,argp,nu,m,arglat,truelon,lonper ] = rv2coe (r,v,mu);
 // ------------------------------------------------------------------------------
 
-function sign(val) {
-    if (val < 0) {
-        return -1;
-    }
-    if (val > 0) {
-        return 1;
-    }
-    return 0;
-}
-
-function cross(v1, v2) {
-    // Return 3d cross product vector from two 3d vectors.
-    // http://knol.google.com/k/dot-product-cross-product-in-3d
-    // http://rosettacode.org/wiki/Vector_products
-    // Our vectors are represented as lists, for historical compatibility.
-    var x1 = v1[0],
-        y1 = v1[1],
-        z1 = v1[2],
-        x2 = v2[0],
-        y2 = v2[1],
-        z2 = v2[2];
-    return [y1 * z2 - y2 * z1, z1 * x2 - z2 * x1, x1 * y2 - x2 * y1];
-}
-
-function dot(a, b) {
-    // From: http://c2.com/cgi/wiki?DotProductInManyProgrammingLanguages
-    var n = 0,
-    lim = Math.min(a.length, b.length),
-    i;
-
-    for (i = 0; i < lim; i += 1) {
-        n += a[i] * b[i];
-    }
-    return n;
-}
-//assert(dot([1, 2, 3, 4, 5], [6, 7, 8, 9, 10]) == 130)
-
+//TODO: get contants from constmath, constastro
+//constmath;
+//constastro;
+//mag in mag.js
 
 function rv2coe(r, v, mu) {
-    //TODO: get contants from constmath, constastro
-    //constmath;
-    //constastro;
-    // mag in mag.js
-
     // -------------------------  implementation   -----------------
-    var magr = mag(r),          // TODO: mag() undefined
-        magv = mag(v),
+    var magr, magv,
         // ------------------  find h n and e vectors   ----------------
-        hbar = cross(r, v),         // hbar is a list, TODO: cross() undefine
-        magh = mag(hbar),
-    nbar = [],
-    magn, c1, rdotv,
-    i, ebar, ecc, sme, a, p, hk, incl,
-    typeorbit,
-    temp, omega, argp,
-    nu, arglat, m, lonper,
-    truelon, em;
+        hbar,                       // hbar is a vector
+        magh,
+        nbar = [],
+        magn, c1, rdotv,
+        ebar = [],
+        i, ecc, sme, a, p, hk, incl,
+        typeorbit,
+        temp, omega, argp,
+        nu, arglat, m, lonper,
+        truelon, em;
+
+    magr = mag(r);
+    magv = mag(v);
+    // ------------------  find h n and e vectors   ----------------
+    hbar = cross(r, v);         // hbar is a vector
+    magh = mag(hbar);
 
     if (magh > small) {
         nbar[0] = - hbar[1];
-        nbar[1] =   hbar(0);
+        nbar[1] =   hbar[0];
         nbar[2] =   0.0;
         magn = mag(nbar);
         c1 = magv * magv - mu / magr;
@@ -147,6 +116,7 @@ function rv2coe(r, v, mu) {
         // ------ elliptical, parabolic, hyperbolic inclined -------
         typeorbit = 'ei';
         if (ecc < small) {
+            alert("ecc<small");
             // ----------------  circular equatorial ---------------
             if ((incl < small) || (Math.abs(incl - Math.PI) < small)) {
                 typeorbit = 'ce';
@@ -159,6 +129,7 @@ function rv2coe(r, v, mu) {
         else {
             // - elliptical, parabolic, hyperbolic equatorial --
             if ((incl < small) || (Math.abs(incl - Math.PI) < small)) {
+                alert("eliptical/para/hyper: type=ee");
                 typeorbit = 'ee';
             }
         }
@@ -175,6 +146,7 @@ function rv2coe(r, v, mu) {
             }
         }
         else {
+            alert("omega=UNDEFINED");
             omega = UNDEFINED;
         }
 
@@ -186,6 +158,7 @@ function rv2coe(r, v, mu) {
             }
         }
         else {
+            alert("argp=UNDEFINED");
             argp = UNDEFINED;
         }
 
@@ -197,6 +170,7 @@ function rv2coe(r, v, mu) {
             }
         }
         else {
+            alert("nu=UNDEFINED");
             nu = UNDEFINED;
         }
 
@@ -209,6 +183,7 @@ function rv2coe(r, v, mu) {
             m = arglat;
         }
         else {
+            //alert("arglat=UNDEFINED");
             arglat = UNDEFINED;
         }
 
@@ -227,6 +202,7 @@ function rv2coe(r, v, mu) {
             }
         }
         else {
+            //alert("lonper=UNDEFINED");
             lonper = UNDEFINED;
         }
 
@@ -246,6 +222,7 @@ function rv2coe(r, v, mu) {
             m = truelon;
         }
         else {
+            //alert("truelon=UNDEFINED");
             truelon = UNDEFINED;
         }
 
@@ -257,7 +234,8 @@ function rv2coe(r, v, mu) {
         }
 
     }
-    else {
+    else {                      // magh <= small
+        alert("magh<=small");   // TODO REMOVE ME
         p       = UNDEFINED;
         a       = UNDEFINED;
         ecc     = UNDEFINED;

@@ -1,0 +1,63 @@
+TOL = 0.000001;
+
+assert(isequalRel(gstime(2451723.284950620029), 3.469172342379, TOL));
+# 5
+assert(isequalRel(gstime(2453036.410709590185), 1.716027084070, TOL));
+# 4632
+assert(isequalRel(gstime(2453912.324120140169), 3.673754967933, TOL));
+# 6251
+assert(isequalRel(gstime(2453911.832154440228), 0.574180126903, TOL));
+# 8195
+assert(isequalRel(gstime(2453912.061574750114), 2.019617116981, TOL));
+# 9880
+assert(isequalRel(gstime(2453519.294179279823), 3.007604046768, TOL));
+# 9998
+assert(isequalRel(gstime(2444468.796297879890), 1.265125075736, TOL));
+# 11801
+assert(isequalRel(gstime(2453911.528448930010), 4.943902851905, TOL));
+# 14128
+assert(isequalRel(gstime(2453887.174157709815), 2.298863660699, TOL));
+# 16925
+assert(isequalRel(gstime(2453734.291666669771), 0.407188563806, TOL));
+# 20413
+assert(isequalRel(gstime(2453911.523412439972), 4.912171010008, TOL));
+# 21897
+assert(isequalRel(gstime(2453829.962359120138), 6.267076519855, TOL));
+# 22312
+# *** error: t:= 494.202867 *** code =   1
+assert(isequalRel(gstime(2453912.059091070201), 2.003968969617, TOL));
+# 22674
+assert(isequalRel(gstime(2453910.957520519849), 1.346832291139, TOL));
+# 23177
+assert(isequalRel(gstime(2449657.999999990221), 3.849219568564, TOL));
+# 23333
+assert(isequalRel(gstime(2453907.265354630072), 3.217495488339, TOL));
+# 23599
+assert(isequalRel(gstime(2453912.540617399849), 5.037771726289, TOL));
+# 24208
+assert(isequalRel(gstime(2453044.180572850164), 0.403698640659, TOL));
+# 25954
+assert(isequalRel(gstime(2453842.245032470208), 1.971276525301, TOL));
+# 26900
+assert(isequalRel(gstime(2453910.358188710175), 3.853994597295, TOL));
+# 26975
+assert(isequalRel(gstime(2453913.286158329807), 3.451783621544, TOL));
+# 28057
+assert(isequalRel(gstime(2453911.070711359847), 2.059978512381, TOL));
+# 28129
+assert(isequalRel(gstime(2453902.717886659782), 5.982608943601, TOL));
+# 28350
+# *** error: t:= 1560.000000 *** code =   1
+assert(isequalRel(gstime(2453913.310791839845), 3.606984295022, TOL));
+# 28623
+assert(isequalRel(gstime(2453911.966833970044), 1.422713433736, TOL));
+# 28626
+assert(isequalRel(gstime(2453703.520126610063), 1.313288306073, TOL));
+# 28872
+assert(isequalRel(gstime(2453905.767838450149), 0.065747677456, TOL));
+# 29141
+# *** error: t:= 440.000000 *** code =   6
+assert(isequalRel(gstime(2453912.787320099771), 0.308909173693, TOL));
+# 29238
+assert(isequalRel(gstime(2444514.487084649969), 0.108290141670, TOL));
+# 88888

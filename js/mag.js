@@ -26,7 +26,7 @@
 // ----------------------------------------------------------------------------- }
 
 function mag(vec) {
-    var temp = vec[1] * vec[1] + vec[2] * vec[2] + vec[3] * vec[3],
+    var temp = vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2],
         mymag = 0.0;
 
     if (Math.abs(temp) >= 1.0e-16) {

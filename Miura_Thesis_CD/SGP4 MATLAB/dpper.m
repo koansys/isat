@@ -78,6 +78,19 @@ function [  ep,     inclp,  nodep, argpp,  mp]...
             xh3,    xi2,    xi3,    xl2,    xl3,    xl4,    zmol,...
             zmos,   inclo,  init,   ep,     inclp,  nodep, argpp,  mp)
 
+   ## BUG? inclo not used
+
+   MAKE_ASSERTS = 0;
+   if MAKE_ASSERTS
+     ## ep, inclp, nodep, argpp, mp: inputs are CHANGED and then output
+
+     ORIG_ep    = ep;
+     ORIG_inclp = inclp;
+     ORIG_nodep = nodep;
+     ORIG_argpp = argpp;
+     ORIG_mp    = mp;
+   endif
+
    global opsmode
 
    % /* --------------------- local variables ------------------------ */
@@ -190,6 +203,27 @@ function [  ep,     inclp,  nodep, argpp,  mp]...
    global idebug dbgfile
    if idebug
        debug1;
+   end
+
+
+   if MAKE_ASSERTS
+     printf("\n");
+     printf("[ep, inclp, nodep, argpp,  mp] = dpper(...\n");
+     printf("  %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n", ...
+            e3,     ee2,    peo,    pgho,   pho,    pinco,  plo,    se2);
+     printf("  %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n", ...
+            se3,    sgh2,   sgh3,   sgh4,   sh2,    sh3,    si2,    si3);
+     printf("  %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n", ...
+            sl2,    sl3,    sl4,    t,      xgh2,   xgh3,   xgh4,   xh2);
+     printf("  %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n", ...
+            xh3,    xi2,    xi3,    xl2,    xl3,    xl4,    zmol);
+     printf("  %19.12e, %19.12e, \"%s\", %19.12e, %19.12e, %19.12e, %19.12e, %19.12e);\n",  ...
+            zmos,   inclo,  init,   ORIG_ep, ORIG_inclp, ORIG_nodep, ORIG_argpp, ORIG_mp);
+     printf("assert(isequalRel(ep,    %19.12e, TOL));\n", ep);
+     printf("assert(isequalRel(inclp, %19.12e, TOL));\n", inclp);
+     printf("assert(isequalRel(nodep, %19.12e, TOL));\n", nodep);
+     printf("assert(isequalRel(argpp, %19.12e, TOL));\n", argpp);
+     printf("assert(isequalRel(mp,    %19.12e, TOL));\n", mp);
    end
 
    return;

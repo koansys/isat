@@ -73,40 +73,40 @@ function dpper(e3,     ee2,    peo,    pgho,   pho,    pinco,  plo,    se2,
                sl2,    sl3,    sl4,    t,      xgh2,   xgh3,   xgh4,   xh2,
                xh3,    xi2,    xi3,    xl2,    xl3,    xl4,    zmol,
                zmos,   inclo,  init,   ep,     inclp,  nodep, argpp,  mp) {
-    // WHAT IS THIS
+    // GLOBAL opsmode set by testmat; I always use 'i' for 'improved'.
     //   global opsmode
 
-    var twopi = 2.0 * pi,
+    var opsmode = 'i',//HACK -- force it, what other way?
+    twopi = 2.0 * Math.PI,
     // /* ---------------------- constants ----------------------------- */
     zns   = 1.19459e-5,
     zes   = 0.01675,
     znl   = 1.5835218e-4,
     zel   = 0.05490,
     zm    = zmos + zns * t,
-    init,
-    zf, sinzf, f2, f3, ses, sis, sls, sghs, shs, zm,
+    zf, sinzf, f2, f3, ses, sis, sls, sghs, shs,
     sel, sil, sll, sghl, shll, pe, pinc, pl, pgh, ph,
-    pe, pinc, pl, pgh, ph,  inclp, ep, sinip, cosip,
-    ;
+    sinip, cosip,
+    sinop, cosop, alfdp, betdb, dalf, dbet, betdp, xls, dls, xnoh ;
     // TODO: make sure we got them all...
 
 
     // /* --------------- calculate time varying periodics ----------- */
     // // be sure that the initial call has time set to zero
-    if (init == 'y') {
+    if (init === 'y') {
         zm = zmos;
     }
     zf    = zm + 2.0 * zes * Math.sin(zm);
     sinzf = Math.sin(zf);
     f2    =  0.5 * sinzf * sinzf - 0.25;
     f3    = -0.5 * sinzf * Math.cos(zf);
-    ses   = se2* f2 + se3 * f3;
+    ses   = se2 * f2 + se3 * f3;
     sis   = si2 * f2 + si3 * f3;
     sls   = sl2 * f2 + sl3 * f3 + sl4 * sinzf;
     sghs  = sgh2 * f2 + sgh3 * f3 + sgh4 * sinzf;
     shs   = sh2 * f2 + sh3 * f3;
     zm    = zmol + znl * t;
-    if (init == 'y') {
+    if (init === 'y') {
         zm = zmol;
     }
     zf    = zm + 2.0 * zel * Math.sin(zm);
@@ -124,7 +124,7 @@ function dpper(e3,     ee2,    peo,    pgho,   pho,    pinco,  plo,    se2,
     pgh   = sghs + sghl;
     ph    = shs + shll;
 
-    if (init == 'n') {
+    if (init === 'n') {
         //  0.2 rad = 11.45916 deg
         pe    = pe - peo;
         pinc  = pinc - pinco;
@@ -161,23 +161,23 @@ function dpper(e3,     ee2,    peo,    pgho,   pho,    pinco,  plo,    se2,
             dbet   = -ph * sinop + pinc * cosip * cosop;
             alfdp  = alfdp + dalf;
             betdp  = betdp + dbet;
-            nodep  = rem(nodep, twopi);
+            nodep  = nodep % twopi; 
             // sgp4fix for afspc written intrinsic functions
             // nodep used without a trigonometric function ahead
-            if ((nodep < 0.0) & (opsmode == 'a')) {
+            if ((nodep < 0.0) && (opsmode === 'a')) {
                 nodep = nodep + twopi;
             }
             xls    = mp + argpp + cosip * nodep;
             dls    = pl + pgh - pinc * nodep * sinip;
             xls    = xls + dls;
             xnoh   = nodep;
-            nodep  = atan2(alfdp, betdp);
+            nodep  = Math.atan2(alfdp, betdp);
             // sgp4fix for afspc written intrinsic functions
             // nodep used without a trigonometric function ahead
-            if ((nodep < 0.0) & (opsmode == 'a')) {
+            if ((nodep < 0.0) && (opsmode === 'a')) {
                 nodep = nodep + twopi;
             }
-            if (abs(xnoh - nodep) > pi) {
+            if (Math.abs(xnoh - nodep) > Math.PI) {
                 if (nodep < xnoh) {
                     nodep = nodep + twopi;
                 }

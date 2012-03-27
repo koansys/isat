@@ -49,3 +49,4 @@ function gst = gstime(jdut1);
 
         gst = temp;
 
+        %%printf("assert(isequalRel(gstime(%12.12f), %12.12f, TOL));\n", jdut1, gst);

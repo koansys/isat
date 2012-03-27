@@ -37,7 +37,7 @@
 // [mon,day,hr,minute,sec] = days2mdh ( year,days);
 // -----------------------------------------------------------------------------
 
-var i, lmonth, dayofyr, i, inttemp, mon, day, temp, hr, minute, sec, julianday;
+var i, lmonth = [], dayofyr, i, inttemp, mon, day, temp, hr, minute, sec, julianday;
 
 function days2mdh(year, days) {
     // --------------- set up array of days in month  --------------
@@ -62,7 +62,7 @@ function days2mdh(year, days) {
 
     i = 1;
     inttemp = 0;
-    while ((dayofyr > inttemp + lmonth(i)) && (i < 12)) {
+    while ((dayofyr > inttemp + lmonth[i]) && (i < 12)) {
         inttemp = inttemp + lmonth[i];
         i += 1;
     }

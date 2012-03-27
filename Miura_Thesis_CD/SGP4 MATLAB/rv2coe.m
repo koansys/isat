@@ -210,3 +210,16 @@ function [p,a,ecc,incl,omega,argp,nu,m,arglat,truelon,lonper ] = rv2coe (r,v,mu)
            lonper = undefined;
          end
 
+         # printf("[p, a, ecc, incl, omega, argp, nu, m, arglat, truelon, lonper] = rv2coe([%.12e, %.12e, %.12e], [%.12e, %.12e, %.12e], %.12e);\n", [r(1), r(2), r(3)], [v(1), v(2), v(3)], mu);
+         # printf("assert(isequalRel(p,       %.12e, TOL));\n", p);
+         # printf("assert(isequalRel(a,       %.12e, TOL));\n", a);
+         # printf("assert(isequalRel(ecc,     %.12e, TOL));\n", ecc);
+         # printf("assert(isequalRel(incl,    %.12e, TOL));\n", incl);
+         # printf("assert(isequalRel(omega,   %.12e, TOL));\n", omega);
+         # printf("assert(isequalRel(argp,    %.12e, TOL));\n", argp);
+         # printf("assert(isequalRel(nu,      %.12e, TOL));\n", nu);
+         # printf("assert(isequalRel(m,       %.12e, TOL));\n", m);
+         # printf("assert(isequalRel(arglat,  %.12e, TOL));\n", arglat);
+         # printf("assert(isequalRel(truelon, %.12e, TOL));\n", truelon);
+         # printf("assert(isequalRel(lonper,  %.12e, TOL));\n", lonper);
+

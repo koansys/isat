@@ -212,6 +212,8 @@ function sgp4init(whichconst, satrec, xbstar, xecco, epoch,
     // global tumin mu radiusearthkm xke j2 j3 j4 j3oj2
     // [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc( whichconst );
     rets = getgravc(whichconst);
+    alert("sgp4init getgravc whichconst=" + whichconst + " rets=" + rets);
+
     tumin               = rets.shift();
     mu                  = rets.shift();
     radiusearthkm       = rets.shift();
@@ -220,6 +222,8 @@ function sgp4init(whichconst, satrec, xbstar, xecco, epoch,
     j3                  = rets.shift();
     j4                  = rets.shift();
     j3oj2               = rets.shift();
+    alert("tumin=" + tumin);
+    alert("radiusearthkm" + radiusearthkm);
 
     ss     = 78.0 / radiusearthkm + 1.0;
     qzms2t = Math.pow((120.0 - 78.0) / radiusearthkm, 4);
@@ -236,6 +240,7 @@ function sgp4init(whichconst, satrec, xbstar, xecco, epoch,
     //        satrec.method,  omeosq, posq,   rp,     rteosq, sinio,
     //        satrec.gsto,    satrec.no]
     rets = initl(satrec.ecco, epoch, satrec.inclo, satrec.no, satrec.satnum);
+    alert("sgp4init initl rets=" + rets);
     ainv          = rets.shift();
     ao            = rets.shift();
     satrec.con41  = rets.shift();
@@ -252,6 +257,7 @@ function sgp4init(whichconst, satrec, xbstar, xecco, epoch,
     sinio         = rets.shift();
     satrec.gsto   = rets.shift();
     satrec.no     = rets.shift();
+    alert("sgp4init initl rets satrec.no=" + satrec.no); // BUG .no is NaN
 
 
 
