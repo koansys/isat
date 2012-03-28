@@ -1,4 +1,5 @@
-/*global test: true, expect: true, isEqualRel: true, getgravc: true, dsinit: true
+/*global test: true, expect: true, isequalRel: true, module: true,
+  getgravc: true, dsinit: true,
  */
 
 // Need to get globals, using same input constant 72 as with run that
@@ -13,6 +14,8 @@ var rets = getgravc(72),
     j3  = rets.shift(),
     j4 = rets.shift(),
     j3oj2 = rets.shift();
+
+module('dsinit');
 
 // 5
 
