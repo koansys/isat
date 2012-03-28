@@ -86,6 +86,19 @@ function [  atime,  em,     argpm,  inclm,  xli,    mm,     xni,...
             em,     argpm,  inclm,  xli,    mm,     xni,    nodem,...
             nm)
 
+  MAKE_ASSERTS = 0;
+  if MAKE_ASSERTS
+    ORIG_atime = atime;
+    ORIG_em    = em;
+    ORIG_argpm = argpm;
+    ORIG_inclm = inclm;
+    ORIG_xli   = xli;
+    ORIG_mm    = mm;
+    ORIG_xni   = xni;
+    ORIG_nodem = nodem;
+    ORIG_nm    = nm;
+  endif;
+
    twopi = 2.0 * pi;
 
    fasx2 = 0.13130908;
@@ -208,9 +221,72 @@ function [  atime,  em,     argpm,  inclm,  xli,    mm,     xni,...
        nm = no + dndt;
    end
 
-   global idebug dbgfile
+
+   if MAKE_ASSERTS
+     printf("\n");
+     printf("[atime, em, argpm, inclm, xli, mm, xni,...\n");
+     printf(" nodem, dndt,   nm]...\n");
+     printf("= dspace(...\n");
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n",
+            d2201,  d2211,  d3210,  d3222,  d4410,  d4422,  d5220);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n",
+            d5232,  d5421,  d5433,  dedt,   del1,   del2,   del3);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n",
+            didt,   dmdt,   dnodt,  domdt,  irez,   argpo,  argpdot);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n",
+            t,      tc,     gsto,   xfact,  xlamo,  no,     ORIG_atime);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n",
+            ORIG_em, ORIG_argpm, ORIG_inclm, ORIG_xli, ORIG_mm, ORIG_xni, ORIG_nodem);
+     printf("%19.12e);\n",...
+            ORIG_nm);
+
+     printf("assert(isequalRel(atime,        %19.12e, TOL));\n", atime);
+     printf("assert(isequalRel(em,           %19.12e, TOL));\n", em);
+     printf("assert(isequalRel(argpm,        %19.12e, TOL));\n", argpm);
+     printf("assert(isequalRel(inclm,        %19.12e, TOL));\n", inclm);
+     printf("assert(isequalRel(xli,          %19.12e, TOL));\n", xli);
+     printf("assert(isequalRel(mm,           %19.12e, TOL));\n", mm);
+     printf("assert(isequalRel(xni,          %19.12e, TOL));\n", xni);
+     printf("assert(isequalRel(nodem,        %19.12e, TOL));\n", nodem);
+     printf("assert(isequalRel(dndt,         %19.12e, TOL));\n", dndt);
+     printf("assert(isequalRel(nm,           %19.12e, TOL));\n", nm);
+
+   endif;   global idebug dbgfile
    if idebug
        debug4;
    end
+
+   MAKE_ASSERTS = 0;
+   if MAKE_ASSERTS
+     printf("\n");
+     printf("[atime,  em,     argpm,  inclm,  xli,    mm,     xni,...\n");
+     printf(" nodem, dndt,   nm]...\n");
+     printf("= dspace(...\n");
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n",
+            d2201,  d2211,  d3210,  d3222,  d4410,  d4422,  d5220);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n",
+            d5232,  d5421,  d5433,  dedt,   del1,   del2,   del3);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n",
+            didt,   dmdt,   dnodt,  domdt,  irez,   argpo,  argpdot);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n",
+            t,      tc,     gsto,   xfact,  xlamo,  no,     atime);
+     printf("%19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, %19.12e, ...\n",
+            em,     argpm,  inclm,  xli,    mm,     xni,    nodem);
+     printf("%19.12e);\n",
+            nm);
+
+     printf("assert(isequalRel(atime,        %19.12e, TOL));\n", atime);
+     printf("assert(isequalRel(em,           %19.12e, TOL));\n", em);
+     printf("assert(isequalRel(argpm,        %19.12e, TOL));\n", argpm);
+     printf("assert(isequalRel(inclm,        %19.12e, TOL));\n", inclm);
+     printf("assert(isequalRel(xli,          %19.12e, TOL));\n", xli);
+     printf("assert(isequalRel(mm,           %19.12e, TOL));\n", mm);
+     printf("assert(isequalRel(xni,          %19.12e, TOL));\n", xni);
+     printf("assert(isequalRel(nodem,        %19.12e, TOL));\n", nodem);
+     printf("assert(isequalRel(dndt,         %19.12e, TOL));\n", dndt);
+     printf("assert(isequalRel(nm,           %19.12e, TOL));\n", nm);
+
+   endif;
+
 
    return;

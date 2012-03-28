@@ -18,8 +18,8 @@ code around (e.g., getting user input).
   - jday
 * dpper: none [global opsmode; mutates inputs] DONE
 * dscom: none [no globals; no input mutation] DONE
-* dsinit: none
-* dspace: none
+* dsinit: none [globals from getgravc()] DONE
+* dspace: none [mutates inputs: atime, em, argpm, inclm, xli, mm, xni, nodem, nm:
 * getgravc: none
 * gstime: none
 * initl:
