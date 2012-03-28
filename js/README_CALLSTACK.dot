@@ -1,0 +1,73 @@
+## Manually-generated graph topology.
+## Could doxygen against MATLAB help?
+## I use Graphviz for Mac GUI app to render.
+## 2012-03-27 Chris Shenton
+
+digraph sot {
+  "days2mdh"	[shape=circle];
+  "dpper"	[shape=box]
+  "dscom"	[shape=box]
+  "dsinit"	[shape=box]
+  "dspace"	[shape=box]
+  "getgravc"	[shape=box]
+  "gstime"	[shape=box]
+  "initl"	[shape=circle]
+  "jday"	[shape=box]
+  "twoline2rv"	[shape=circle]
+  "sgp4"	[shape=circle]
+  "sgp4init"	[shape=circle]
+  "angl"	[shape=box]
+  "compat"	[shape=box]
+  "constastro"	[shape=box]
+  "constmath"	[shape=box]
+  "invjday"	[shape=circle]
+  "mag"         [shape=box]
+  "math_utils"	[shape=box]
+  "newtonnu"	[shape=box]
+  "rv2coe"	[shape=circle]
+  "test_utils"	[shape=box]
+  "testmat"	[shape=circle]
+
+  "MATLAB parseFloat, input"            [shape=diamond];
+  "MATLAB: input, fopen, fprintf"	[shape=diamond];
+  "math_utils:cross"                    [shape=diamond];
+  "math_utils:dot"                      [shape=diamond];
+
+  "days2mdh"      -> "jday";
+
+  "initl"         -> "gstime";
+
+  "twoline2rv"    -> "days2mdh";
+  "twoline2rv"    -> "getgravc";
+  "twoline2rv"    -> "jday";
+  "twoline2rv"    -> "sgp4init";
+  "twoline2rv"    -> "initl";
+  "twoline2rv"    -> "MATLAB parseFloat, input";
+
+  "sgp4"          -> "getgravc";
+  "sgp4"          -> "dspace";
+  "sgp4"          -> "dpper";
+
+  "sgp4init"      -> "getgravc";
+  "sgp4init"      -> "initl";
+  "sgp4init"      -> "dscom";
+  "sgp4init"      -> "dpper";
+  "sgp4init"      -> "dsinit";
+  "sgp4init"      -> "sgp4";
+
+  "invjday"       -> "days2mdh";
+
+  "rv2coe"        -> "mag";
+  "rv2coe"        -> "math_utils:cross";
+  "rv2coe"        -> "math_utils:dot";
+  "rv2coe"        -> "angl";
+  "rv2coe"        -> "newtonnu";
+
+  "testmat"       -> "MATLAB: input, fopen, fprintf";
+  "testmat"       -> "getgravc";
+  "testmat"       -> "twoline2rv";
+  "testmat"       -> "sgp4";
+  "testmat"       -> "invjday";
+  "testmat"       -> "rv2coe";
+
+}
