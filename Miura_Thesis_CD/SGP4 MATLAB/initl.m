@@ -60,6 +60,11 @@ function [  ainv,   ao,     con41,  con42,  cosio,  cosio2, einv,...
             gsto,   no]...
           = initl(  ecco,   epoch,  inclo,  no,     satn)
 
+   MAKE_ASSERTS = 0;
+   if MAKE_ASSERTS
+     ORIG_no = no;
+   endif;
+
    % /* -------------------- wgs-72 earth constants ----------------- */
    %     // sgp4fix identify constants and allow alternate values
    global tumin mu radiusearthkm xke j2 j3 j4 j3oj2  
@@ -122,5 +127,32 @@ function [  ainv,   ao,     con41,  con42,  cosio,  cosio2, einv,...
    elseif idebug
        debug5;
    end
+
+   if MAKE_ASSERTS
+     printf("\n");
+     printf("[ainv, ao, con41, con42, cosio, cosio2, einv,...\n");
+     printf(" eccsq,  method, omeosq, posq, rp, rteosq, sinio,...\n");
+     printf(" gsto, no]...\n");
+     printf("= initl(%19.12e, %19.12e, %19.12e, %19.12e, %d);\n",
+            ecco, epoch, inclo, ORIG_no, satn); # 'satn' is satrec.satnum, a decimal
+
+     printf("assert(isequalRel(ainv,         %19.12e, TOL));\n", ainv);
+     printf("assert(isequalRel(ao,           %19.12e, TOL));\n", ao);
+     printf("assert(isequalRel(con41,        %19.12e, TOL));\n", con41);
+     printf("assert(isequalRel(con42,        %19.12e, TOL));\n", con42);
+     printf("assert(isequalRel(cosio,        %19.12e, TOL));\n", cosio);
+     printf("assert(isequalRel(cosio2,       %19.12e, TOL));\n", cosio2);
+     printf("assert(isequalRel(einv,         %19.12e, TOL));\n", einv);
+     printf("assert(isequalRel(eccsq,        %19.12e, TOL));\n", eccsq);
+     printf("assert(isequal(method,           \"%s\"));\n",      method);
+     printf("assert(isequalRel(omeosq,       %19.12e, TOL));\n", omeosq);
+     printf("assert(isequalRel(posq,         %19.12e, TOL));\n", posq);
+     printf("assert(isequalRel(rp,           %19.12e, TOL));\n", rp);
+     printf("assert(isequalRel(rteosq,       %19.12e, TOL));\n", rteosq);
+     printf("assert(isequalRel(sinio,        %19.12e, TOL));\n", sinio);
+     printf("assert(isequalRel(gsto,         %19.12e, TOL));\n", gsto);
+     printf("assert(isequalRel(no,           %19.12e, TOL));\n", no);
+   endif;
+
 
    return;
