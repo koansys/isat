@@ -1,4 +1,4 @@
-/*global gstime: true */
+/*global gstime: true, opsmode:true, xke:true, j2:true */
 /*jslint vars: true */ //why isn't this working
 // -----------------------------------------------------------------------------
 //
@@ -61,14 +61,20 @@ function initl(ecco, epoch, inclo, no, satn) {
     // /* -------------------- wgs-72 earth constants ----------------- */
     // sgp4fix identify constants and allow alternate values
 
-    //TODO:
+    // MATLAB:
     //global tumin mu radiusearthkm xke j2 j3 j4 j3oj2
     // not used: tumin, mu, radiusearth, j3, j4, j3oj2
-    var xke, j2;                // TODO: get them from GLOBAL or getgravc.js()
-
-    //TODO:
     //global opsmode
-    var opsmode;                // TODO: global opsmode (see testmat()?)
+
+    if (typeof opsmode === 'undefined') {
+        throw new Error("opsmode undefined");
+    }
+    if (typeof xke     === 'undefined') {
+        throw new Error("xke undefined");
+    }
+    if (typeof j2      === 'undefined') {
+        throw new Error("j2 undefined");
+    }
 
     var x2o3   = 2.0 / 3.0,
         // /* ------------- calculate auxillary epoch quantities ---------- */
