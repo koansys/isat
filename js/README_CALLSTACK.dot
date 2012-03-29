@@ -1,73 +1,95 @@
-## Manually-generated graph topology.
-## Could doxygen against MATLAB help?
-## I use Graphviz for Mac GUI app to render.
-## 2012-03-27 Chris Shenton
+// Manually-generated graph topology.
+// It starts with MATLAB but includes some JS compatibility stuff:
+// compat, math_utils, test_utils.
+// FWIW, Doxygen against MATLAB generates per-file/function calls.
+// I use Graphviz for Mac GUI app to render.
+// 2012-03-27 Chris Shenton
+
+// Shape and meaning:
+// - circles (default) for MATLAB-defined functions
+// - diamonds for MATLAB internals I may need to emulate
+// - boxes for JS-specific additions
 
 digraph sot {
-  "days2mdh"	[shape=circle];
-  "dpper"	[shape=box]
-  "dscom"	[shape=box]
-  "dsinit"	[shape=box]
-  "dspace"	[shape=box]
-  "getgravc"	[shape=box]
-  "gstime"	[shape=box]
+  // MATLAB calls/files
+  "angl"	[shape=circle]
+  "constastro"	[shape=circle]
+  "constmath"	[shape=circle]
+  "days2mdh"	[shape=circle]
+  "dpper"	[shape=circle]
+  "dscom"	[shape=circle]
+  "dsinit"	[shape=circle]
+  "dspace"	[shape=circle]
+  "getgravc"	[shape=circle]
+  "gstime"	[shape=circle]
   "initl"	[shape=circle]
-  "jday"	[shape=box]
-  "twoline2rv"	[shape=circle]
+  "invjday"	[shape=circle]
+  "jday"	[shape=circle]
+  "mag"         [shape=circle]
+  "newtonnu"	[shape=circle]
+  "rv2coe"	[shape=circle]
   "sgp4"	[shape=circle]
   "sgp4init"	[shape=circle]
-  "angl"	[shape=box]
-  "compat"	[shape=box]
-  "constastro"	[shape=box]
-  "constmath"	[shape=box]
-  "invjday"	[shape=circle]
-  "mag"         [shape=box]
-  "math_utils"	[shape=box]
-  "newtonnu"	[shape=box]
-  "rv2coe"	[shape=circle]
-  "test_utils"	[shape=box]
   "testmat"	[shape=circle]
+  "twoline2rv"	[shape=circle]
 
-  "MATLAB parseFloat, input"            [shape=diamond];
-  "MATLAB: input, fopen, fprintf"	[shape=diamond];
-  "math_utils:cross"                    [shape=diamond];
-  "math_utils:dot"                      [shape=diamond];
+  // MATLAB-internal functions we'll have to emulate
+  "parseFloat"  [shape=diamond]
+  "input"       [shape=diamond]
+  "fopen"	[shape=diamond]
+  "fprintf"	[shape=diamond]
 
-  "days2mdh"      -> "jday";
+  // JS-only compatibility for missing MATLAB functions
+  "compat"	[shape=box]
+  "math_utils"	[shape=box]
+  "test_utils"	[shape=box]
 
-  "initl"         -> "gstime";
+  ////////////////////////
+  // Call Graph
 
-  "twoline2rv"    -> "days2mdh";
-  "twoline2rv"    -> "getgravc";
-  "twoline2rv"    -> "jday";
-  "twoline2rv"    -> "sgp4init";
-  "twoline2rv"    -> "initl";
-  "twoline2rv"    -> "MATLAB parseFloat, input";
+  "angl"          -> "math_utils" // dot()
 
-  "sgp4"          -> "getgravc";
-  "sgp4"          -> "dspace";
-  "sgp4"          -> "dpper";
+  "constastro"    -> "constmath"
 
-  "sgp4init"      -> "getgravc";
-  "sgp4init"      -> "initl";
-  "sgp4init"      -> "dscom";
-  "sgp4init"      -> "dpper";
-  "sgp4init"      -> "dsinit";
-  "sgp4init"      -> "sgp4";
+  "days2mdh"      -> "jday"
 
-  "invjday"       -> "days2mdh";
+  "initl"         -> "gstime"
 
-  "rv2coe"        -> "mag";
-  "rv2coe"        -> "math_utils:cross";
-  "rv2coe"        -> "math_utils:dot";
-  "rv2coe"        -> "angl";
-  "rv2coe"        -> "newtonnu";
+  "invjday"       -> "days2mdh"
 
-  "testmat"       -> "MATLAB: input, fopen, fprintf";
-  "testmat"       -> "getgravc";
-  "testmat"       -> "twoline2rv";
-  "testmat"       -> "sgp4";
-  "testmat"       -> "invjday";
-  "testmat"       -> "rv2coe";
+  "rv2coe"        -> "constastro"
+  "rv2coe"        -> "constmath"
+  "rv2coe"        -> "mag"
+  "rv2coe"        -> "math_utils" // cross(), dot()
+  "rv2coe"        -> "angl"
+  "rv2coe"        -> "newtonnu"
+
+  "sgp4"          -> "getgravc"
+  "sgp4"          -> "dspace"
+  "sgp4"          -> "dpper"
+
+  "sgp4init"      -> "getgravc"
+  "sgp4init"      -> "initl"
+  "sgp4init"      -> "dscom"
+  "sgp4init"      -> "dpper"
+  "sgp4init"      -> "dsinit"
+  "sgp4init"      -> "sgp4"
+
+  "testmat"       -> "input"
+  "testmat"       -> "fopen"
+  "testmat"       -> "fprintf"
+  "testmat"       -> "getgravc"
+  "testmat"       -> "twoline2rv"
+  "testmat"       -> "sgp4"
+  "testmat"       -> "invjday"
+  "testmat"       -> "rv2coe"
+
+  "twoline2rv"    -> "days2mdh"
+  "twoline2rv"    -> "getgravc"
+  "twoline2rv"    -> "jday"
+  "twoline2rv"    -> "sgp4init"
+  "twoline2rv"    -> "initl"
+  "twoline2rv"    -> "parseFloat"
+  "twoline2rv"    -> "input"
 
 }
