@@ -98,7 +98,7 @@
 
 function [satrec, r, v] = sgp4(satrec,tsince);
 
-  MAKE_ASSERTS = 1;
+  MAKE_ASSERTS = 0;
   if MAKE_ASSERTS
     ORIG_satrec = satrec;       # appears to work like deepcopy; if not, we're screwed
   endif;
@@ -353,8 +353,10 @@ function [satrec, r, v] = sgp4(satrec,tsince);
 
    if MAKE_ASSERTS
      printf("\n");
-     printf("# TEST satnum=%d tsince=%19.12e\n", ORIG_satrec.satnum, tsince);
-     printf("satin = struct(\n");
+     printf("##JS##test('satnum=%d init=%s tsince=%19.12e', function () {\n", ORIG_satrec.satnum, ORIG_satrec.init, tsince);
+     printf("##JS##var satin, rets, satrec, r, v, TOL = 0.000001;\n");
+     printf("##JS##satin = {\n");
+     printf("satin = struct(  ##NOTJS \n");
      printf("'error',           %19.12e,\n", ORIG_satrec.error);
      printf("'satnum',          %19.12e,\n", ORIG_satrec.satnum);
      printf("'epochyr',         %19.12e,\n", ORIG_satrec.epochyr);
@@ -456,10 +458,29 @@ function [satrec, r, v] = sgp4(satrec,tsince);
      printf("'xli',             %19.12e,\n", ORIG_satrec.xli);
      printf("'xni',             %19.12e,\n", ORIG_satrec.xni);
      printf("'init',            '%s'\n",     ORIG_satrec.init);
-     printf(");\n");
+     printf(");  ##NOTJS\n");
+     printf("##JS##};\n");
 
-     printf("[satrec, r, v] = sgp4(satin, %19.12e)\n", tsince);
+     printf("[satrec, r, v] = sgp4(satin, %19.12e);  ##NOTJS\n", tsince);
 
+     printf("##JS##rets   = sgp4(satin, %19.12e);\n", tsince);
+     printf("##JS##satrec = rets.shift();\n");
+     printf("##JS##r      = rets.shift();\n");
+     printf("##JS##v      = rets.shift();\n");
+     printf("##JS##expect(107);\n");
+     printf("##JS##assert(isequalRel(r[0],           %19.12e, TOL));\n", r(1));
+     printf("##JS##assert(isequalRel(r[1],           %19.12e, TOL));\n", r(2));
+     printf("##JS##assert(isequalRel(r[2],           %19.12e, TOL));\n", r(3));
+     printf("##JS##assert(isequalRel(v[0],           %19.12e, TOL));\n", v(1));
+     printf("##JS##assert(isequalRel(v[1],           %19.12e, TOL));\n", v(2));
+     printf("##JS##assert(isequalRel(v[2],           %19.12e, TOL));\n", v(3));
+
+     printf("assert(isequalRel(r(1),           %19.12e, TOL));  ##NOTJS\n", r(1));
+     printf("assert(isequalRel(r(2),           %19.12e, TOL));  ##NOTJS\n", r(2));
+     printf("assert(isequalRel(r(3),           %19.12e, TOL));  ##NOTJS\n", r(3));
+     printf("assert(isequalRel(v(1),           %19.12e, TOL));  ##NOTJS\n", v(1));
+     printf("assert(isequalRel(v(2),           %19.12e, TOL));  ##NOTJS\n", v(2));
+     printf("assert(isequalRel(v(3),           %19.12e, TOL));  ##NOTJS\n", v(3));
      printf("assert(isequalRel(satrec.error,           %19.12e, TOL));\n", satrec.error);
      printf("assert(isequalRel(satrec.satnum,          %19.12e, TOL));\n", satrec.satnum);
      printf("assert(isequalRel(satrec.epochyr,         %19.12e, TOL));\n", satrec.epochyr);
@@ -478,7 +499,7 @@ function [satrec, r, v] = sgp4(satrec,tsince);
      printf("assert(isequalRel(satrec.altp,            %19.12e, TOL));\n", satrec.altp);
      printf("assert(isequalRel(satrec.jdsatepoch,      %19.12e, TOL));\n", satrec.jdsatepoch);
      printf("assert(isequalRel(satrec.isimp,           %19.12e, TOL));\n", satrec.isimp);
-     printf("assert(isequal(satrec.method,             '%s'));\n",    satrec.method);
+     printf("assert(isequal(satrec.method,             '%s')); ##NOTJS\n", satrec.method);
      printf("assert(isequalRel(satrec.aycof,           %19.12e, TOL));\n", satrec.aycof);
      printf("assert(isequalRel(satrec.con41,           %19.12e, TOL));\n", satrec.con41);
      printf("assert(isequalRel(satrec.cc1,             %19.12e, TOL));\n", satrec.cc1);
@@ -560,8 +581,11 @@ function [satrec, r, v] = sgp4(satrec,tsince);
      printf("assert(isequalRel(satrec.atime,           %19.12e, TOL));\n", satrec.atime);
      printf("assert(isequalRel(satrec.xli,             %19.12e, TOL));\n", satrec.xli);
      printf("assert(isequalRel(satrec.xni,             %19.12e, TOL));\n", satrec.xni);
-     printf("assert(isequal(satrec.init,               '%s'));\n",         satrec.init);
-     #disp(satrec);
+     printf("assert(isequal(satrec.init,               '%s')); ##NOTJS\n",         satrec.init);
+
+     printf("##JS##equal(satrec.method,             '%s');\n",      satrec.method);
+     printf("##JS##equal(satrec.init,               '%s');\n",      satrec.init);
+     printf("##JS##});\n");
    endif;
 
 
