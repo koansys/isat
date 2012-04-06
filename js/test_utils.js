@@ -3,3 +3,6 @@ function isequalRel(x, y, tol) {
     return (Math.abs(x - y) <= (tol * Math.max(Math.abs(x), Math.abs(y)) + EPS));
 }
 
+function assert(state, message) {
+    return ok(state, message);
+}
