@@ -4,6 +4,9 @@
 
 # Usage:
 #  ../callgraph.py `ls *\.m |grep -v _test\.m` > ~/Desktop/matlab.dot
+#
+# then render with:
+#   dot -Tpdf -o ~/Desktop/matlabdot.pdf ~/Desktop/matlab.dot
 
 # We assume one function per file, with same name as file.
 # From each filename, derive and save function name.
@@ -63,9 +66,12 @@ for fname in files:
                     calls[filefunc].append(func)
                 continue
 print "digraph matlab {"
+print "node [shape=box];"
 for funcfile in sorted(calls):
-    print '"%s"' % funcfile
-    for func in calls[funcfile]:
-        print '"%s" -> "%s"' % (funcfile, func)
+    if not calls[funcfile]:
+        print '%s;' % funcfile
+    else:
+        for func in calls[funcfile]:
+            print '%s -> %s;' % (funcfile, func)
 print "}"
 
