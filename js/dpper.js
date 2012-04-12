@@ -1,3 +1,5 @@
+/*global opsmode: true
+*/
 //                            procedure dpper
 //
 //   this procedure provides deep space long period periodic contributions
@@ -73,11 +75,15 @@ function dpper(e3,     ee2,    peo,    pgho,   pho,    pinco,  plo,    se2,
                sl2,    sl3,    sl4,    t,      xgh2,   xgh3,   xgh4,   xh2,
                xh3,    xi2,    xi3,    xl2,    xl3,    xl4,    zmol,
                zmos,   inclo,  init,   ep,     inclp,  nodep, argpp,  mp) {
-    // GLOBAL opsmode set by testmat; I always use 'i' for 'improved'.
-    //   global opsmode
 
-    var opsmode = 'i',//HACK -- force it, what other way?
-    twopi = 2.0 * Math.PI,
+    if (typeof(opsmode) === 'undefined') {
+        throw new Error("Global opsmode is undefined, must be 'a' or 'i'");
+    }
+    if ((opsmode !== 'a') && (opsmode !== 'i')) {
+        throw new Error("Global must be 'a' or 'i' but opsmode=" + opsmode);
+    }
+
+    var twopi = 2.0 * Math.PI,
     // /* ---------------------- constants ----------------------------- */
     zns   = 1.19459e-5,
     zes   = 0.01675,
@@ -87,7 +93,7 @@ function dpper(e3,     ee2,    peo,    pgho,   pho,    pinco,  plo,    se2,
     zf, sinzf, f2, f3, ses, sis, sls, sghs, shs,
     sel, sil, sll, sghl, shll, pe, pinc, pl, pgh, ph,
     sinip, cosip,
-    sinop, cosop, alfdp, betdb, dalf, dbet, betdp, xls, dls, xnoh ;
+    sinop, cosop, alfdp, betdb, dalf, dbet, betdp, xls, dls, xnoh;
     // TODO: make sure we got them all...
 
 
