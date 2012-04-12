@@ -3,6 +3,10 @@
   dpper: true
  */
 
+// Must set global 'opsmode' for dpper, use 'i' like we use for testmat.
+var opsmode = 'i';
+
+
 module('dpper');
 
 
@@ -13,6 +17,7 @@ test('isEqualRel', function () {
     ok(isequalRel(10, 11, 0.1));
     ok(! isequalRel(10, 12, 0.1));
 });
+
 
 
 test('  -3.259811599808e-04,  9.631690304302e-05,  0.000000000000e+00,  0.000000000000e+00,  0.000000000000e+00,  0.000000000000e+00,  0.000000000000e+00, -1.598763953845e-03, ',

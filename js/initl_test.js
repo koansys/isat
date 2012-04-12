@@ -1,3 +1,6 @@
+/*global initl: true, getgravc: true,
+ module: true, test: true, expect: true, ok: true, isequalRel: true, equal: true
+*/
 // input opsmode afspc a, improved i i
 // input type of run c, v, m: v
 // input constants 721, 72, 84 72
