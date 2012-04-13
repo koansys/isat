@@ -1,4 +1,4 @@
-/*global ok: true
+/*global ok: true, document: true,
  */
 
 function isequalRel(x, y, tol) {
@@ -13,4 +13,11 @@ function isequalRel(x, y, tol) {
 
 function assert(state, message) {
     return ok(state, message);
+}
+
+function input(prompt) {
+    // emulate MATLAB's user-input: use prompt as selection into DOM
+    // by id and return the content. We could change this to a pop-up
+    // later.
+    return document.getElementById(prompt).textContent;
 }
