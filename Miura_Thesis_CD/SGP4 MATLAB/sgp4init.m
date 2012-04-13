@@ -86,7 +86,7 @@
 function [satrec] = sgp4init(whichconst, satrec, xbstar, xecco, epoch, ...
          xargpo, xinclo, xmo, xno, xnodeo);
 
-  MAKE_ASSERTS = 1;
+  MAKE_ASSERTS = 0;
   if MAKE_ASSERTS
     ## In my tests the incoming 'satrec' only has 17 fields set:
     ## error =  0.00000000000000e+00
@@ -376,7 +376,7 @@ function [satrec] = sgp4init(whichconst, satrec, xbstar, xecco, epoch, ...
      printf("'a',               %19.12e,\n", ORIG_satrec.a);
      printf("'alta',            %19.12e,\n", ORIG_satrec.alta);
      printf("'altp',            %19.12e,\n", ORIG_satrec.altp);
-     printf("'jdsatepoch',      %19.12e,\n", ORIG_satrec.jdsatepoch);
+     printf("'jdsatepoch',      %19.12e \n", ORIG_satrec.jdsatepoch); # no trailing comma here
      # printf("'isimp',           %19.12e,\n", ORIG_satrec.isimp);
      # printf("'method',          '%s',\n",    ORIG_satrec.method);
      # printf("'aycof',           %19.12e,\n", ORIG_satrec.aycof);
