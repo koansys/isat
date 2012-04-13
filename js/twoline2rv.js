@@ -4,20 +4,10 @@
   debug: true,
   days2mdh: true,
   jday: true,
-  input: true, // TODO reads from human
+  input: true, // TODO reads from HTML by id="prompt string"
   sgp4init: true,
  */
 
-var
-carnumb, classification, intldesg, nexp, ibexp, numb,
-cardnumb, startmfe, stopmfe, deltamin,
-rets, mon, day, hr, minute, sec,
-startyear, startmon, startday, starthr, startmin, startsec, jdstart,
-stopyear, stopmon, stopday, stophr, stopmin, stopsec, jdstop,
-stopfe, deltamin,
-startdayofyr, stopdayofyr,
-sgp4epoch,
-ENDVARS;
 
 //  -----------------------------------------------------------------------------
 //
@@ -74,27 +64,23 @@ ENDVARS;
 //  ----------------------------------------------------------------------------*/
 
 function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
-    var
-    rets, tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2,
+    var rets, tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2,
     deg2rad, xpdotp, revnum, elnum, year,
     satrec = {},
-    j;
+    j,
+    carnumb, classification, intldesg, nexp, ibexp, numb,
+    cardnumb, startmfe, stopmfe, deltamin,
+    mon, day, hr, minute, sec,
+    startyear, startmon, startday, starthr, startmin, startsec, jdstart,
+    stopyear, stopmon, stopday, stophr, stopmin, stopsec, jdstop,
+    startdayofyr, stopdayofyr,
+    sgp4epoch;
 
     //alert("twoline2rv: whichconst=" + whichconst + " typerun=" + typerun + " typeinput=" + typeinput);
 
     // global tumin radiusearthkm xke j2 j3 j4 j3oj2
+    // Get these via getgravc() from caller's globals.
     // [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
-    rets = getgravc(whichconst);
-    //alert("twoline2rv: rets=" + rets);
-    tumin               = rets.shift();
-    mu                  = rets.shift();
-    radiusearthkm       = rets.shift();
-    xke                 = rets.shift();
-    j2                  = rets.shift();
-    j3                  = rets.shift();
-    j4                  = rets.shift();
-    j3oj2               = rets.shift();
-
     deg2rad  =   Math.PI / 180.0;         //  0.01745329251994330;  // [deg/rad]
     xpdotp   =  1440.0 / (2.0 * Math.PI); // 229.1831180523293;  // [rev/day]/[rad/min]
 

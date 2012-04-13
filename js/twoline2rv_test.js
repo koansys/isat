@@ -1,9 +1,24 @@
-/*global
+/*global getgravc: true,
   module: true, test: true, equal: true, notEqual: true, ok: true, isequalRel: true,
   twoline2rv: true
  */
 
+// provide globals for the called functions and its dependents
+var rets = getgravc(72),
+    tumin               = rets.shift(),
+    mu                  = rets.shift(),
+    radiusearthkm       = rets.shift(),
+    xke                 = rets.shift(),
+    j2                  = rets.shift(),
+    j3                  = rets.shift(),
+    j4                  = rets.shift(),
+    j3oj2               = rets.shift(),
+    opsmode = 'i';              // from running testmat.m: i, v 72, SGP4-VER.TLE
+
 module('twoline2rv');
+
+
+// invoke: twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput)
 
 test("1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753", function () {
     var TOL = 0.000001,
@@ -22,7 +37,7 @@ test("1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753", fu
     ok(isequalRel(satrec.epochdays, 1.797849506200e+02, TOL));
     ok(isequalRel(satrec.ndot, 6.969196665950e-13, TOL));
     equal(satrec.nddot, 0);
-    ok(isequalRel(satrec.bstar, 2.809800000000e-05, TOL));
+    ok(isequalRel(satrec.bstar, 2.809800000000e-05, TOL), "got " + satrec.bstar);
     ok(isequalRel(satrec.inclo, 5.980929187319e-01, TOL));
     ok(isequalRel(satrec.nodeo, 6.086385471383e+00, TOL));
     ok(isequalRel(satrec.ecco, 1.859667000000e-01, TOL));
