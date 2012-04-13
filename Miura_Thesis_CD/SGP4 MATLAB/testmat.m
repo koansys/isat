@@ -45,6 +45,7 @@
 %         // ---------------- setup files for operation ------------------
 %         // input 2-line element set file
     infilename = input('input elset filename: ','s');
+    infilename = strtrim(infilename); # CSHENTON remove any blanks that prevent filename matching
     infile = fopen(infilename, 'r');
     if (infile == -1)
         fprintf(1,'Failed to open file: %s\n', infilename);
