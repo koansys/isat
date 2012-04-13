@@ -55,14 +55,16 @@
 function [satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst, longstr1, ...
           longstr2, typerun,typeinput)
 
-  orig_longstr1 = longstr1;   # longstr1 is mutilated later on so save it for asserts
-  %%1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753  <- BEFORE
-  %%1 00005U 58002B_  00179.78495062  .00000023 .00000-0 .28098-4 0  4753  <- AFTER
-
+  MAKE_ASSERTS = 1;
+  if MAKE_ASSERTS
+    %% longstr1 is mutilated later on so save it for asserts
+    %%1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753  <- BEFORE
+    %%1 00005U 58002B_  00179.78495062  .00000023 .00000-0 .28098-4 0  4753  <- AFTER
+    ORIG_longstr1 = longstr1;
+    ORIG_longstr2 = longstr2;
+  end
     %%%%%%global tumin radiusearthkm xke j2 j3 j4 j3oj2  
-    % Octave wasn't getting tumin, defauling to [] so get 'em here;
-    % tumin is needed when calculating satrec.a which is before sgp4init is called.
-    % How did FreeMat ever get past this??
+    % Octave wasn't getting globals like tumin, defauling to [], so get 'em here.;
     [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
 
     deg2rad  =   pi / 180.0;         %  0.01745329251994330;  % [deg/rad]
@@ -152,7 +154,7 @@ function [satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst, longstr1
         revnum = str2num(longstr2(64:68));
         startmfe = str2num(longstr2(70:81));        
         stopmfe  = str2num(longstr2(83:96)); 
-        deltamin = str2num(longstr2(97:105));
+        deltamin = str2num(longstr2(97:105)); # TODO: line is 104 but trailing \r\n makes it 105+
     else
         cardnumb = str2num(longstr2(1));
         satrec.satnum = str2num(longstr2(3:7));
@@ -262,13 +264,35 @@ function [satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst, longstr1
      [satrec] = sgp4init(whichconst, satrec, satrec.bstar, satrec.ecco, sgp4epoch, ...
          satrec.argpo, satrec.inclo, satrec.mo, satrec.no, satrec.nodeo);
 
-     MAKE_ASSERTIONS = 0;
-     if (MAKE_ASSERTIONS)
+     if (MAKE_ASSERTS)
        %%[satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst, longstr1, longstr2, typerun,typeinput)
-       printf("[satrec, startmfe, stopmfe, deltamin] = twoline2rv(%d,\n", whichconst)
-       printf("\"%s\",\n", orig_longstr1(1:69));
-       printf("\"%s \",\n", longstr2(1:104));
-       printf("\"%s\", \"%s\");\n", typerun, typeinput);
+       ## TODO: Why am I slicing the string here?
+       ##printf("\"%s\",\n", ORIG_longstr1(1:69));
+       ##printf("\"%s \",\n", ORIG_longstr2(1:104)); WHY EXTRA SPACE AT END HERE? 
+       ## slice to remove the trailing newline
+       ## Trim \n\r from lines
+       L1 = ORIG_longstr1;
+       while L1(length(L1))==10 || L1(length(L1))==13
+         L1 = L1(1:length(L1)-1);
+       end
+       L2 = ORIG_longstr2;
+       while L2(length(L2))==10 || L2(length(L2))==13
+         L2 = L2(1:length(L2)-1);
+       end
+       printf("##JS##test('%s', function () {\n", L1);
+       printf("##JS##var rets = twoline2rv(%d,\n", whichconst)
+
+       printf("[satrec, startmfe, stopmfe, deltamin] = twoline2rv(%d,  ##NOTJS \n", whichconst)
+       printf("'%s',\n", L1);   #  69 chars
+       printf("'%s ',\n", L2);   # 104 chars + space to allow 105 index above
+       printf("'%s', '%s');\n", typerun, typeinput);
+
+       printf("##JS##satrec   = rets.shift(),\n");
+       printf("##JS##startmfe = rets.shift(),\n");
+       printf("##JS##stopmfe  = rets.shift(),\n");
+       printf("##JS##deltamin = rets.shift(),\n");
+       printf("##JS##TOL      = 0.000001;\n");
+
        printf("assert(isequal(satrec.error, %d));\n", satrec.error);
        printf("assert(isequal(satrec.satnum, %d));\n", satrec.satnum);
        printf("assert(isequal(satrec.epochyr, %d));\n", satrec.epochyr);
@@ -374,4 +398,5 @@ function [satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst, longstr1
        printf("assert(isequalRel(startmfe, %.12e, TOL));\n", startmfe);
        printf("assert(isequalRel(stopmfe, %.12e, TOL));\n", stopmfe);
        printf("assert(isequalRel(deltamin, %.12e, TOL));\n", deltamin);
+       printf("##JS##});\n");
      end;
