@@ -44,7 +44,7 @@ test("1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753", fu
     ok(isequalRel(satrec.argpo, 5.790416027489e+00, TOL));
     ok(isequalRel(satrec.mo, 3.373093125574e-01, TOL));
     ok(isequalRel(satrec.no, 4.720630155918e-02, TOL));
-    ok(isequalRel(satrec.a, 1.353457482755e+00, TOL));
+    ok(isequalRel(satrec.a, 1.353457482755e+00, TOL), "got " + satrec.a);
     ok(isequalRel(satrec.alta, 6.051555044136e-01, TOL));
     ok(isequalRel(satrec.altp, 1.017594610970e-01, TOL));
     ok(isequalRel(satrec.jdsatepoch, 2.451723284951e+06, TOL));
