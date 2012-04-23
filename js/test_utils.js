@@ -15,11 +15,16 @@ function assert(state, message) {
     return ok(state, message);
 }
 
-function isequal(actual, expected) {
-    // Emulate MATLAB's (scalar) isequal() so we don't have to edit
-    // generated tests
-    return equal(actual, expected); //, "got=" + actual + "expected=" + expected);
-}
+// function isequal(actual, expected) {
+//     // Emulate MATLAB's (scalar) isequal() so we don't have to edit
+//     // generated tests
+//     //return equal(actual, expected); //, "got=" + actual + "expected=" + expected);
+//     if (actual === expected) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
 function input(prompt) {
     // emulate MATLAB's user-input: use prompt as selection into DOM
