@@ -1,23 +1,13 @@
 /*global
-  alert: true,
   getgravc: true,
   debug: true,
   days2mdh: true,
   jday: true,
-  input: true, // TODO reads from human
+  input: true, // reads from HTML by id="prompt string"
   sgp4init: true,
+  tumin: true, mu: true, radiusearthkm:true, xke: true, j2: true, j3: true, j4: true, j3oj2: true,
  */
 
-var
-carnumb, classification, intldesg, nexp, ibexp, numb,
-cardnumb, startmfe, stopmfe, deltamin,
-rets, mon, day, hr, minute, sec,
-startyear, startmon, startday, starthr, startmin, startsec, jdstart,
-stopyear, stopmon, stopday, stophr, stopmin, stopsec, jdstop,
-stopfe, deltamin,
-startdayofyr, stopdayofyr,
-sgp4epoch,
-ENDVARS;
 
 //  -----------------------------------------------------------------------------
 //
@@ -74,26 +64,43 @@ ENDVARS;
 //  ----------------------------------------------------------------------------*/
 
 function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
-    var
-    rets, tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2,
+    var rets, 
     deg2rad, xpdotp, revnum, elnum, year,
     satrec = {},
-    j;
-
-    //alert("twoline2rv: whichconst=" + whichconst + " typerun=" + typerun + " typeinput=" + typeinput);
+    j,
+    carnumb, classification, intldesg, nexp, ibexp, numb,
+    cardnumb, startmfe, stopmfe, deltamin,
+    mon, day, hr, minute, sec,
+    startyear, startmon, startday, starthr, startmin, startsec, jdstart,
+    stopyear, stopmon, stopday, stophr, stopmin, stopsec, jdstop,
+    startdayofyr, stopdayofyr,
+    sgp4epoch;
 
     // global tumin radiusearthkm xke j2 j3 j4 j3oj2
+    // Get these via getgravc() OR from caller's globals.
     // [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
-    rets = getgravc(whichconst);
-    //alert("twoline2rv: rets=" + rets);
-    tumin               = rets.shift();
-    mu                  = rets.shift();
-    radiusearthkm       = rets.shift();
-    xke                 = rets.shift();
-    j2                  = rets.shift();
-    j3                  = rets.shift();
-    j4                  = rets.shift();
-    j3oj2               = rets.shift();
+
+    if (typeof tumin === 'undefined') {
+        throw new Error("Global 'tumin' is undefined");
+    }
+    if (typeof radiusearthkm === 'undefined') {
+        throw new Error("Global 'radiusearthkm' is undefined");
+    }
+    if (typeof xke === 'undefined') {
+        throw new Error("Global 'xke' is undefined");
+    }
+    if (typeof j2 === 'undefined') {
+        throw new Error("Global 'j2' is undefined");
+    }
+    if (typeof j3 === 'undefined') {
+        throw new Error("Global 'j3' is undefined");
+    }
+    if (typeof j4 === 'undefined') {
+        throw new Error("Global 'j4' is undefined");
+    }
+    if (typeof j3oj2 === 'undefined') {
+        throw new Error("Global 'j3oj2' is undefined");
+    }
 
     deg2rad  =   Math.PI / 180.0;         //  0.01745329251994330;  // [deg/rad]
     xpdotp   =  1440.0 / (2.0 * Math.PI); // 229.1831180523293;  // [rev/day]/[rad/min]
@@ -103,69 +110,94 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
     year   = 0;
     satrec.error = 0;
 
+    function setCharAt(str, index, chr) {
+        // JavaScript strings are immutable so we can't do like MATLAB/Python:
+        //   str[42] = "X"
+        // We have to return a *new* string concatenating old and new chr.
+        if (chr.length != 1) {
+            throw new Error("setCharAt chr length must be 1 but is " + chr.length);
+        }
+        if (index > str.length - 1) {
+            return str;
+        }
+        return str.substr(0, index) + chr + str.substr(index + 1);
+    }
+    // Given JavaScript's immutable strings, this is a really bad way mangle TLEs
+    // TODO: do a split, hack the vector, then finally a join.
+    
     //00000000001111111111222222222233333333334444444444555555555566666666667777777777888888888899999999990000000000
     //01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
     //1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753
     //2 00005  34.2682 348.7242 1859667 331.7664  19.3264 10.82419157413667     0.00      4320.0        360.00
-    //alert("twoline2rv: longstr1=" + longstr1);
-    //alert("twoline2rv: longstr2=" + longstr2);
 
     // set the implied decimal points since doing a formated read
     // fixes for bad input data values (missing, ...)
-    for (j = 10; j <= 17; j += 1) {
+    for (j = 10; j <= 15; j += 1) { //"8002B " -> "8002B_"
         if (longstr1[j] === ' ') {
-            longstr1[j] = '_';
+            //longstr1[j] = '_';
+            longstr1 = setCharAt(longstr1, j, '_');
         }
     }
 
     if (longstr1[44] !== ' ') {
-        longstr1[43] = longstr1[44];
+        //longstr1[43] = longstr1[44];
+        longstr1 = setCharAt(longstr1, 43, longstr1[44]);
     }
-    longstr1[44] = '.';
+    //longstr1[44] = '.';
+    longstr1 = setCharAt(longstr1, 44, '.');
 
     if (longstr1[7] === ' ') {
-        longstr1[7] = 'U';
+        //longstr1[7] = 'U';
+        longstr1 = setCharAt(longstr1, 7, 'U');
     }
 
     if (longstr1[9] === ' ') {
-        longstr1[9] = '.';
+        //longstr1[9] = '.';
+        longstr1 = setCharAt(longstr1, 9, '.');
     }
 
     for (j = 45; j <= 49; j += 1) {
         if (longstr1[j] === ' ') {
-            longstr1[j] = '0';
+            //longstr1[j] = '0';
+            longstr1 = setCharAt(longstr1, j, '0');
         }
     }
     if (longstr1[51] === ' ') {
-        longstr1[51] = '0';
+        //longstr1[51] = '0';
+        longstr1 = setCharAt(longstr1, 51, '0');
+
     }
     if (longstr1[53] !== ' ') {
-        longstr1[52] = longstr1[53];
+        //longstr1[52] = longstr1[53];
+        longstr1 = setCharAt(longstr1, 52, longstr1[53]);
     }
-    longstr1[53] = '.';
+    //longstr1[53] = '.';
+    longstr1 = setCharAt(longstr1, 53, '.');
 
-    longstr2[25] = '.';
+    //longstr2[25] = '.';
+    longstr2 = setCharAt(longstr2, 25, '.');
 
     for (j = 26; j <= 32; j += 1) {
         if (longstr2[j] === ' ') {
-            longstr2[j] = '0';
+            //longstr2[j] = '0';
+            longstr2 = setCharAt(longstr2, j, '0');
         }
     }
 
     if (longstr1[62] === ' ') {
-        longstr1[62] = '0';
+        //longstr1[62] = '0';
+        longstr1 = setCharAt(longstr1, 62, '0');
+
     }
 
     if ((longstr1.length < 68) || (longstr1[67] === ' ')) {
-        longstr1[67] = '0';
+        //longstr1[67] = '0';
+        longstr1 = setCharAt(longstr1, 67, '0');
     }
-    //alert("twoline2rv: longstr1=" + longstr1);
-    //alert("twoline2rv: longstr2=" + longstr2);
-
     // parse first line
-    carnumb             = parseFloat(longstr1.slice(0, 1)); // 'cardnum' in second line
+    carnumb             = parseFloat(longstr1[0]); // caution: 'cardnum' in second line
     satrec.satnum       = parseFloat(longstr1.slice(2, 7));
-    classification      =            longstr1.slice(7, 8);
+    classification      =            longstr1[7]; // "U"
     intldesg            =            longstr1.slice(9, 17);
     satrec.epochyr      = parseFloat(longstr1.slice(18, 20)); // ??
     satrec.epochdays    = parseFloat(longstr1.slice(20, 32));
@@ -196,7 +228,6 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
         startmfe        = parseFloat(longstr2.slice(69, 81)); // only for 'v'
         stopmfe         = parseFloat(longstr2.slice(82, 96)); // only for 'v'
         deltamin        = parseFloat(longstr2.slice(96, 105)); // only for 'v'
-        //alert("twoline2rv:v: revnum=" + revnum + " deltamin=" + deltamin);
     } else {
         cardnumb        = parseFloat(longstr2.slice(0, 1));
         satrec.satnum   = parseFloat(longstr2.slice(2, 7));
@@ -207,23 +238,17 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
         satrec.mo       = parseFloat(longstr2.slice(42, 51));
         satrec.no       = parseFloat(longstr2.slice(51, 63));
         revnum          = parseFloat(longstr2.slice(63, 68));
-        //alert("twoline2rv:NOTv: revnum=" + revnum);
     }
-    //alert("twoline2rv: satrec .satnum=" + satrec.satnum + " .no=" + satrec.no);
 
     // ---- find no, ndot, nddot ----
     satrec.no    = satrec.no / xpdotp; ////* rad/min
     satrec.nddot = satrec.nddot * Math.pow(10.0, nexp);
     satrec.bstar = satrec.bstar * Math.pow(10.0, ibexp);
 
-    //alert("twoline2rv: satrec1 bstar=" + satrec.bstar);
-
     // ---- convert to sgp4 units ----
     satrec.a     = Math.pow(satrec.no * tumin, -2 / 3);     // [er]
     satrec.ndot  = satrec.ndot  / (xpdotp * 1440.0);        // [rad/min^2]
     satrec.nddot = satrec.nddot / (xpdotp * 1440.0 * 1440); // [rad/min^3]
-
-    //alert("twoline2rv: satrec2 a=" + satrec.a + " ndot=" + satrec.ndot + " nddot=" + satrec.nddot);
 
     // ---- find standard orbital elements ----
     satrec.inclo = satrec.inclo * deg2rad;
@@ -233,8 +258,6 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
 
     satrec.alta = satrec.a * (1.0 + satrec.ecco) - 1.0;
     satrec.altp = satrec.a * (1.0 - satrec.ecco) - 1.0;
-
-    //alert("twoline2rv: satrec3 alta=" + satrec.alta + " altp=" + satrec.altp);
 
 
     // ----------------------------------------------------------------
@@ -251,21 +274,14 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
         year = satrec.epochyr + 1900;
     }
 
-    //alert("twoline2rv: year=" + year);
-
     //[mon,day,hr,minute,sec] = days2mdh(year, satrec.epochdays);
     rets = days2mdh(year, satrec.epochdays);
-    //alert("twoline2rv: days2mdh rets=" + rets);
     mon         = rets.shift();
     day         = rets.shift();
     hr          = rets.shift();
     minute      = rets.shift();
     sec         = rets.shift();
     satrec.jdsatepoch = jday(year, mon, day, hr, minute, sec);
-
-    //alert("twoline2rv: satrec.jdsatepoch=" + satrec.jdsatepoch);
-    //alert("twoline2rv: typerun=" + typerun);
-    // TODO: Need a way to enter variables!!
 
     // input start stop times manually
     if ((typerun !== 'v') && (typerun !== 'c')) {
@@ -326,18 +342,15 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
             deltamin = input('input time step in minutes: ');
         }
     }
-    //alert("twoline2rv: typerun NOT  v  or c");
     //     // perform complete catalog evaluation
     if (typerun === 'c') {
         startmfe =  -1440.0;
         stopmfe  =  1440.0;
         deltamin = 20.0;
     }
-    //alert("twoline2rv: startmfe=" + startmfe + " stopmfe=" + stopmfe + " deltamin=" + deltamin);
 
     // ------------- initialize the orbit at sgp4epoch --------------
     sgp4epoch = satrec.jdsatepoch - 2433281.5; // days since 0 Jan 1950
-    alert("twoline2rv: sgp4epoch=" + sgp4epoch);
 
     satrec = sgp4init(whichconst, satrec, satrec.bstar, satrec.ecco, sgp4epoch,
                       satrec.argpo, satrec.inclo, satrec.mo, satrec.no, satrec.nodeo);

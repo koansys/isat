@@ -55,14 +55,16 @@
 function [satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst, longstr1, ...
           longstr2, typerun,typeinput)
 
-  orig_longstr1 = longstr1;   # longstr1 is mutilated later on so save it for asserts
-  %%1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753  <- BEFORE
-  %%1 00005U 58002B_  00179.78495062  .00000023 .00000-0 .28098-4 0  4753  <- AFTER
-
+  MAKE_ASSERTS = 0;
+  if MAKE_ASSERTS
+    %% longstr1 is mutilated later on so save it for asserts
+    %%1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753  <- BEFORE
+    %%1 00005U 58002B_  00179.78495062  .00000023 .00000-0 .28098-4 0  4753  <- AFTER
+    ORIG_longstr1 = longstr1;
+    ORIG_longstr2 = longstr2;
+  end
     %%%%%%global tumin radiusearthkm xke j2 j3 j4 j3oj2  
-    % Octave wasn't getting tumin, defauling to [] so get 'em here;
-    % tumin is needed when calculating satrec.a which is before sgp4init is called.
-    % How did FreeMat ever get past this??
+    % Octave wasn't getting globals like tumin, defauling to [], so get 'em here.;
     [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
 
     deg2rad  =   pi / 180.0;         %  0.01745329251994330;  % [deg/rad]
@@ -152,7 +154,7 @@ function [satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst, longstr1
         revnum = str2num(longstr2(64:68));
         startmfe = str2num(longstr2(70:81));        
         stopmfe  = str2num(longstr2(83:96)); 
-        deltamin = str2num(longstr2(97:105));
+        deltamin = str2num(longstr2(97:105)); # TODO: line is 104 but trailing \r\n makes it 105+
     else
         cardnumb = str2num(longstr2(1));
         satrec.satnum = str2num(longstr2(3:7));
@@ -262,116 +264,142 @@ function [satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst, longstr1
      [satrec] = sgp4init(whichconst, satrec, satrec.bstar, satrec.ecco, sgp4epoch, ...
          satrec.argpo, satrec.inclo, satrec.mo, satrec.no, satrec.nodeo);
 
-     MAKE_ASSERTIONS = 0;
-     if (MAKE_ASSERTIONS)
+     if (MAKE_ASSERTS)
        %%[satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst, longstr1, longstr2, typerun,typeinput)
-       printf("[satrec, startmfe, stopmfe, deltamin] = twoline2rv(%d,\n", whichconst)
-       printf("\"%s\",\n", orig_longstr1(1:69));
-       printf("\"%s \",\n", longstr2(1:104));
-       printf("\"%s\", \"%s\");\n", typerun, typeinput);
-       printf("assert(isequal(satrec.error, %d));\n", satrec.error);
-       printf("assert(isequal(satrec.satnum, %d));\n", satrec.satnum);
-       printf("assert(isequal(satrec.epochyr, %d));\n", satrec.epochyr);
-       printf("assert(isequalRel(satrec.epochdays, %.12e, TOL));\n", satrec.epochdays);
-       printf("assert(isequalRel(satrec.ndot, %.12e, TOL));\n", satrec.ndot);
-       printf("assert(isequal(satrec.nddot, %d));\n", satrec.nddot);
-       printf("assert(isequalRel(satrec.bstar, %.12e, TOL));\n", satrec.bstar);
-       printf("assert(isequalRel(satrec.inclo, %.12e, TOL));\n", satrec.inclo);
-       printf("assert(isequalRel(satrec.nodeo, %.12e, TOL));\n", satrec.nodeo);
-       printf("assert(isequalRel(satrec.ecco, %.12e, TOL));\n", satrec.ecco);
-       printf("assert(isequalRel(satrec.argpo, %.12e, TOL));\n", satrec.argpo);
-       printf("assert(isequalRel(satrec.mo, %.12e, TOL));\n", satrec.mo);
-       printf("assert(isequalRel(satrec.no, %.12e, TOL));\n", satrec.no);
-       printf("assert(isequalRel(satrec.a, %.12e, TOL));\n", satrec.a);
-       printf("assert(isequalRel(satrec.alta, %.12e, TOL));\n", satrec.alta);
-       printf("assert(isequalRel(satrec.altp, %.12e, TOL));\n", satrec.altp);
-       printf("assert(isequalRel(satrec.jdsatepoch, %.12e, TOL));\n", satrec.jdsatepoch);
-       printf("assert(isequal(satrec.isimp, %d));\n", satrec.isimp);
-       printf("assert(isequal(satrec.method, \"%s\"));\n", satrec.method);
-       printf("assert(isequalRel(satrec.aycof, %.12e, TOL));\n", satrec.aycof);
-       printf("assert(isequalRel(satrec.con41, %.12e, TOL));\n", satrec.con41);
-       printf("assert(isequalRel(satrec.cc1, %.12e, TOL));\n", satrec.cc1);
-       printf("assert(isequalRel(satrec.cc4, %.12e, TOL));\n", satrec.cc4);
-       printf("assert(isequalRel(satrec.cc5, %.12e, TOL));\n", satrec.cc5);
-       printf("assert(isequalRel(satrec.d2, %.12e, TOL));\n", satrec.d2);
-       printf("assert(isequalRel(satrec.d3, %.12e, TOL));\n", satrec.d3);
-       printf("assert(isequalRel(satrec.d4, %.12e, TOL));\n", satrec.d4);
-       printf("assert(isequalRel(satrec.delmo, %.12e, TOL));\n", satrec.delmo);
-       printf("assert(isequalRel(satrec.eta, %.12e, TOL));\n", satrec.eta);
-       printf("assert(isequalRel(satrec.argpdot, %.12e, TOL));\n", satrec.argpdot);
-       printf("assert(isequalRel(satrec.omgcof, %.12e, TOL));\n", satrec.omgcof);
-       printf("assert(isequalRel(satrec.sinmao, %.12e, TOL));\n", satrec.sinmao);
-       printf("assert(isequal(satrec.t, %d));\n", satrec.t);
-       printf("assert(isequalRel(satrec.t2cof, %.12e, TOL));\n", satrec.t2cof);
-       printf("assert(isequalRel(satrec.t3cof, %.12e, TOL));\n", satrec.t3cof);
-       printf("assert(isequalRel(satrec.t4cof, %.12e, TOL));\n", satrec.t4cof);
-       printf("assert(isequalRel(satrec.t5cof, %.12e, TOL));\n", satrec.t5cof);
-       printf("assert(isequalRel(satrec.x1mth2, %.12e, TOL));\n", satrec.x1mth2);
-       printf("assert(isequalRel(satrec.x7thm1, %.12e, TOL));\n", satrec.x7thm1);
-       printf("assert(isequalRel(satrec.mdot, %.12e, TOL));\n", satrec.mdot);
-       printf("assert(isequalRel(satrec.nodedot, %.12e, TOL));\n", satrec.nodedot);
-       printf("assert(isequalRel(satrec.xlcof, %.12e, TOL));\n", satrec.xlcof);
-       printf("assert(isequalRel(satrec.xmcof, %.12e, TOL));\n", satrec.xmcof);
-       printf("assert(isequalRel(satrec.nodecf, %.12e, TOL));\n", satrec.nodecf);
-       printf("assert(isequal(satrec.irez, %d));\n", satrec.irez);
-       printf("assert(isequal(satrec.d2201, %d));\n", satrec.d2201);
-       printf("assert(isequal(satrec.d2211, %d));\n", satrec.d2211);
-       printf("assert(isequal(satrec.d3210, %d));\n", satrec.d3210);
-       printf("assert(isequal(satrec.d3222, %d));\n", satrec.d3222);
-       printf("assert(isequal(satrec.d4410, %d));\n", satrec.d4410);
-       printf("assert(isequal(satrec.d4422, %d));\n", satrec.d4422);
-       printf("assert(isequal(satrec.d5220, %d));\n", satrec.d5220);
-       printf("assert(isequal(satrec.d5232, %d));\n", satrec.d5232);
-       printf("assert(isequal(satrec.d5421, %d));\n", satrec.d5421);
-       printf("assert(isequal(satrec.d5433, %d));\n", satrec.d5433);
-       printf("assert(isequal(satrec.dedt, %d));\n", satrec.dedt);
-       printf("assert(isequal(satrec.del1, %d));\n", satrec.del1);
-       printf("assert(isequal(satrec.del2, %d));\n", satrec.del2);
-       printf("assert(isequal(satrec.del3, %d));\n", satrec.del3);
-       printf("assert(isequal(satrec.didt, %d));\n", satrec.didt);
-       printf("assert(isequal(satrec.dmdt, %d));\n", satrec.dmdt);
-       printf("assert(isequal(satrec.dnodt, %d));\n", satrec.dnodt);
-       printf("assert(isequal(satrec.domdt, %d));\n", satrec.domdt);
-       printf("assert(isequal(satrec.e3, %d));\n", satrec.e3);
-       printf("assert(isequal(satrec.ee2, %d));\n", satrec.ee2);
-       printf("assert(isequal(satrec.peo, %d));\n", satrec.peo);
-       printf("assert(isequal(satrec.pgho, %d));\n", satrec.pgho);
-       printf("assert(isequal(satrec.pho, %d));\n", satrec.pho);
-       printf("assert(isequal(satrec.pinco, %d));\n", satrec.pinco);
-       printf("assert(isequal(satrec.plo, %d));\n", satrec.plo);
-       printf("assert(isequal(satrec.se2, %d));\n", satrec.se2);
-       printf("assert(isequal(satrec.se3, %d));\n", satrec.se3);
-       printf("assert(isequal(satrec.sgh2, %d));\n", satrec.sgh2);
-       printf("assert(isequal(satrec.sgh3, %d));\n", satrec.sgh3);
-       printf("assert(isequal(satrec.sgh4, %d));\n", satrec.sgh4);
-       printf("assert(isequal(satrec.sh2, %d));\n", satrec.sh2);
-       printf("assert(isequal(satrec.sh3, %d));\n", satrec.sh3);
-       printf("assert(isequal(satrec.si2, %d));\n", satrec.si2);
-       printf("assert(isequal(satrec.si3, %d));\n", satrec.si3);
-       printf("assert(isequal(satrec.sl2, %d));\n", satrec.sl2);
-       printf("assert(isequal(satrec.sl3, %d));\n", satrec.sl3);
-       printf("assert(isequal(satrec.sl4, %d));\n", satrec.sl4);
-       printf("assert(isequalRel(satrec.gsto, %.12e, TOL));\n", satrec.gsto);
-       printf("assert(isequal(satrec.xfact, %d));\n", satrec.xfact);
-       printf("assert(isequal(satrec.xgh2, %d));\n", satrec.xgh2);
-       printf("assert(isequal(satrec.xgh3, %d));\n", satrec.xgh3);
-       printf("assert(isequal(satrec.xgh4, %d));\n", satrec.xgh4);
-       printf("assert(isequal(satrec.xh2, %d));\n", satrec.xh2);
-       printf("assert(isequal(satrec.xh3, %d));\n", satrec.xh3);
-       printf("assert(isequal(satrec.xi2, %d));\n", satrec.xi2);
-       printf("assert(isequal(satrec.xi3, %d));\n", satrec.xi3);
-       printf("assert(isequal(satrec.xl2, %d));\n", satrec.xl2);
-       printf("assert(isequal(satrec.xl3, %d));\n", satrec.xl3);
-       printf("assert(isequal(satrec.xl4, %d));\n", satrec.xl4);
-       printf("assert(isequal(satrec.xlamo, %d));\n", satrec.xlamo);
-       printf("assert(isequal(satrec.zmol, %d));\n", satrec.zmol);
-       printf("assert(isequal(satrec.zmos, %d));\n", satrec.zmos);
-       printf("assert(isequal(satrec.atime, %d));\n", satrec.atime);
-       printf("assert(isequal(satrec.xli, %d));\n", satrec.xli);
-       printf("assert(isequal(satrec.xni, %d));\n", satrec.xni);
-       printf("assert(isequal(satrec.init, \"%s\"));\n", satrec.init);
+       ## TODO: Why am I slicing the string here?
+       ##printf("\"%s\",\n", ORIG_longstr1(1:69));
+       ##printf("\"%s \",\n", ORIG_longstr2(1:104)); WHY EXTRA SPACE AT END HERE? 
+       ## slice to remove the trailing newline
+       ## Trim \n\r from lines
+       L1 = ORIG_longstr1;
+       while L1(length(L1))==10 || L1(length(L1))==13
+         L1 = L1(1:length(L1)-1);
+       end
+       L2 = ORIG_longstr2;
+       while L2(length(L2))==10 || L2(length(L2))==13
+         L2 = L2(1:length(L2)-1);
+       end
+       printf("##JS##test('%s', function () {\n", L1);
+       printf("##JS##var rets = twoline2rv(%d,\n", whichconst)
+
+       printf("[satrec, startmfe, stopmfe, deltamin] = twoline2rv(%d,  ##NOTJS \n", whichconst)
+       printf("'%s',\n", L1);   #  69 chars
+       printf("'%s ',\n", L2);   # 104 chars + space to allow 105 index above
+       printf("'%s', '%s');\n", typerun, typeinput);
+
+       printf("##JS##satrec   = rets.shift(),\n");
+       printf("##JS##startmfe = rets.shift(),\n");
+       printf("##JS##stopmfe  = rets.shift(),\n");
+       printf("##JS##deltamin = rets.shift(),\n");
+       printf("##JS##TOL      = 0.000001;\n");
+
+       printf("assert(isequal(satrec.error,             %d));\n", satrec.error);
+       printf("assert(isequal(satrec.satnum,            %d));\n", satrec.satnum);
+       printf("assert(isequalRel(satrec.epochyr,        %.12e, TOL));\n", satrec.epochyr);
+       printf("assert(isequalRel(satrec.epochdays,      %.12e, TOL));\n", satrec.epochdays);
+       printf("assert(isequalRel(satrec.ndot,           %.12e, TOL));\n", satrec.ndot);
+       printf("assert(isequalRel(satrec.nddot,          %.12e, TOL));\n", satrec.nddot);
+       printf("assert(isequalRel(satrec.bstar,          %.12e, TOL));\n", satrec.bstar);
+       printf("assert(isequalRel(satrec.inclo,          %.12e, TOL));\n", satrec.inclo);
+       printf("assert(isequalRel(satrec.nodeo,          %.12e, TOL));\n", satrec.nodeo);
+       printf("assert(isequalRel(satrec.ecco,           %.12e, TOL));\n", satrec.ecco);
+       printf("assert(isequalRel(satrec.argpo,          %.12e, TOL));\n", satrec.argpo);
+       printf("assert(isequalRel(satrec.mo,             %.12e, TOL));\n", satrec.mo);
+       printf("assert(isequalRel(satrec.no,             %.12e, TOL));\n", satrec.no);
+       printf("assert(isequalRel(satrec.a,              %.12e, TOL));\n", satrec.a);
+       printf("assert(isequalRel(satrec.alta,           %.12e, TOL));\n", satrec.alta);
+       printf("assert(isequalRel(satrec.altp,           %.12e, TOL));\n", satrec.altp);
+       printf("assert(isequalRel(satrec.jdsatepoch,     %.12e, TOL));\n", satrec.jdsatepoch);
+       printf("assert(isequalRel(satrec.isimp,          %.12e, TOL));\n", satrec.isimp);
+       printf("assert(isequalRel(satrec.aycof,          %.12e, TOL));\n", satrec.aycof);
+       printf("assert(isequalRel(satrec.con41,          %.12e, TOL));\n", satrec.con41);
+       printf("assert(isequalRel(satrec.cc1,            %.12e, TOL));\n", satrec.cc1);
+       printf("assert(isequalRel(satrec.cc4,            %.12e, TOL));\n", satrec.cc4);
+       printf("assert(isequalRel(satrec.cc5,            %.12e, TOL));\n", satrec.cc5);
+       printf("assert(isequalRel(satrec.d2,             %.12e, TOL));\n", satrec.d2);
+       printf("assert(isequalRel(satrec.d3,             %.12e, TOL));\n", satrec.d3);
+       printf("assert(isequalRel(satrec.d4,             %.12e, TOL));\n", satrec.d4);
+       printf("assert(isequalRel(satrec.delmo,          %.12e, TOL));\n", satrec.delmo);
+       printf("assert(isequalRel(satrec.eta,            %.12e, TOL));\n", satrec.eta);
+       printf("assert(isequalRel(satrec.argpdot,        %.12e, TOL));\n", satrec.argpdot);
+       printf("assert(isequalRel(satrec.omgcof,         %.12e, TOL));\n", satrec.omgcof);
+       printf("assert(isequalRel(satrec.sinmao,         %.12e, TOL));\n", satrec.sinmao);
+       printf("assert(isequalRel(satrec.t,              %.12e, TOL));\n", satrec.t);
+       printf("assert(isequalRel(satrec.t2cof,          %.12e, TOL));\n", satrec.t2cof);
+       printf("assert(isequalRel(satrec.t3cof,          %.12e, TOL));\n", satrec.t3cof);
+       printf("assert(isequalRel(satrec.t4cof,          %.12e, TOL));\n", satrec.t4cof);
+       printf("assert(isequalRel(satrec.t5cof,          %.12e, TOL));\n", satrec.t5cof);
+       printf("assert(isequalRel(satrec.x1mth2,         %.12e, TOL));\n", satrec.x1mth2);
+       printf("assert(isequalRel(satrec.x7thm1,         %.12e, TOL));\n", satrec.x7thm1);
+       printf("assert(isequalRel(satrec.mdot,           %.12e, TOL));\n", satrec.mdot);
+       printf("assert(isequalRel(satrec.nodedot,        %.12e, TOL));\n", satrec.nodedot);
+       printf("assert(isequalRel(satrec.xlcof,          %.12e, TOL));\n", satrec.xlcof);
+       printf("assert(isequalRel(satrec.xmcof,          %.12e, TOL));\n", satrec.xmcof);
+       printf("assert(isequalRel(satrec.nodecf,         %.12e, TOL));\n", satrec.nodecf);
+       printf("assert(isequalRel(satrec.irez,           %.12e, TOL));\n", satrec.irez);
+       printf("assert(isequalRel(satrec.d2201,          %.12e, TOL));\n", satrec.d2201);
+       printf("assert(isequalRel(satrec.d2211,          %.12e, TOL));\n", satrec.d2211);
+       printf("assert(isequalRel(satrec.d3210,          %.12e, TOL));\n", satrec.d3210);
+       printf("assert(isequalRel(satrec.d3222,          %.12e, TOL));\n", satrec.d3222);
+       printf("assert(isequalRel(satrec.d4410,          %.12e, TOL));\n", satrec.d4410);
+       printf("assert(isequalRel(satrec.d4422,          %.12e, TOL));\n", satrec.d4422);
+       printf("assert(isequalRel(satrec.d5220,          %.12e, TOL));\n", satrec.d5220);
+       printf("assert(isequalRel(satrec.d5232,          %.12e, TOL));\n", satrec.d5232);
+       printf("assert(isequalRel(satrec.d5421,          %.12e, TOL));\n", satrec.d5421);
+       printf("assert(isequalRel(satrec.d5433,          %.12e, TOL));\n", satrec.d5433);
+       printf("assert(isequalRel(satrec.dedt,           %.12e, TOL));\n", satrec.dedt);
+       printf("assert(isequalRel(satrec.del1,           %.12e, TOL));\n", satrec.del1);
+       printf("assert(isequalRel(satrec.del2,           %.12e, TOL));\n", satrec.del2);
+       printf("assert(isequalRel(satrec.del3,           %.12e, TOL));\n", satrec.del3);
+       printf("assert(isequalRel(satrec.didt,           %.12e, TOL));\n", satrec.didt);
+       printf("assert(isequalRel(satrec.dmdt,           %.12e, TOL));\n", satrec.dmdt);
+       printf("assert(isequalRel(satrec.dnodt,          %.12e, TOL));\n", satrec.dnodt);
+       printf("assert(isequalRel(satrec.domdt,          %.12e, TOL));\n", satrec.domdt);
+       printf("assert(isequalRel(satrec.e3,             %.12e, TOL));\n", satrec.e3);
+       printf("assert(isequalRel(satrec.ee2,            %.12e, TOL));\n", satrec.ee2);
+       printf("assert(isequalRel(satrec.peo,            %.12e, TOL));\n", satrec.peo);
+       printf("assert(isequalRel(satrec.pgho,           %.12e, TOL));\n", satrec.pgho);
+       printf("assert(isequalRel(satrec.pho,            %.12e, TOL));\n", satrec.pho);
+       printf("assert(isequalRel(satrec.pinco,          %.12e, TOL));\n", satrec.pinco);
+       printf("assert(isequalRel(satrec.plo,            %.12e, TOL));\n", satrec.plo);
+       printf("assert(isequalRel(satrec.se2,            %.12e, TOL));\n", satrec.se2);
+       printf("assert(isequalRel(satrec.se3,            %.12e, TOL));\n", satrec.se3);
+       printf("assert(isequalRel(satrec.sgh2,           %.12e, TOL));\n", satrec.sgh2);
+       printf("assert(isequalRel(satrec.sgh3,           %.12e, TOL));\n", satrec.sgh3);
+       printf("assert(isequalRel(satrec.sgh4,           %.12e, TOL));\n", satrec.sgh4);
+       printf("assert(isequalRel(satrec.sh2,            %.12e, TOL));\n", satrec.sh2);
+       printf("assert(isequalRel(satrec.sh3,            %.12e, TOL));\n", satrec.sh3);
+       printf("assert(isequalRel(satrec.si2,            %.12e, TOL));\n", satrec.si2);
+       printf("assert(isequalRel(satrec.si3,            %.12e, TOL));\n", satrec.si3);
+       printf("assert(isequalRel(satrec.sl2,            %.12e, TOL));\n", satrec.sl2);
+       printf("assert(isequalRel(satrec.sl3,            %.12e, TOL));\n", satrec.sl3);
+       printf("assert(isequalRel(satrec.sl4,            %.12e, TOL));\n", satrec.sl4);
+       printf("assert(isequalRel(satrec.gsto,           %.12e, TOL));\n", satrec.gsto);
+       printf("assert(isequalRel(satrec.xfact,          %.12e, TOL));\n", satrec.xfact);
+       printf("assert(isequalRel(satrec.xgh2,           %.12e, TOL));\n", satrec.xgh2);
+       printf("assert(isequalRel(satrec.xgh3,           %.12e, TOL));\n", satrec.xgh3);
+       printf("assert(isequalRel(satrec.xgh4,           %.12e, TOL));\n", satrec.xgh4);
+       printf("assert(isequalRel(satrec.xh2,            %.12e, TOL));\n", satrec.xh2);
+       printf("assert(isequalRel(satrec.xh3,            %.12e, TOL));\n", satrec.xh3);
+       printf("assert(isequalRel(satrec.xi2,            %.12e, TOL));\n", satrec.xi2);
+       printf("assert(isequalRel(satrec.xi3,            %.12e, TOL));\n", satrec.xi3);
+       printf("assert(isequalRel(satrec.xl2,            %.12e, TOL));\n", satrec.xl2);
+       printf("assert(isequalRel(satrec.xl3,            %.12e, TOL));\n", satrec.xl3);
+       printf("assert(isequalRel(satrec.xl4,            %.12e, TOL));\n", satrec.xl4);
+       printf("assert(isequalRel(satrec.xlamo,          %.12e, TOL));\n", satrec.xlamo);
+       printf("assert(isequalRel(satrec.zmol,           %.12e, TOL));\n", satrec.zmol);
+       printf("assert(isequalRel(satrec.zmos,           %.12e, TOL));\n", satrec.zmos);
+       printf("assert(isequalRel(satrec.atime,          %.12e, TOL));\n", satrec.atime);
+       printf("assert(isequalRel(satrec.xli,            %.12e, TOL));\n", satrec.xli);
+       printf("assert(isequalRel(satrec.xni,            %.12e, TOL));\n", satrec.xni);
        ##
-       printf("assert(isequalRel(startmfe, %.12e, TOL));\n", startmfe);
-       printf("assert(isequalRel(stopmfe, %.12e, TOL));\n", stopmfe);
-       printf("assert(isequalRel(deltamin, %.12e, TOL));\n", deltamin);
+       printf("assert(isequal(satrec.method,            \"%s\")); ##NOTJS\n", satrec.method);
+       printf("assert(isequal(satrec.init,              \"%s\"));   ##NOTJS\n", satrec.init);
+       printf("##JS##equal(satrec.method,               \"%s\");\n", satrec.method);
+       printf("##JS##equal(satrec.init,                 \"%s\");\n", satrec.init);
+       ##
+       printf("assert(isequalRel(startmfe,              %.12e, TOL));\n", startmfe);
+       printf("assert(isequalRel(stopmfe,               %.12e, TOL));\n", stopmfe);
+       printf("assert(isequalRel(deltamin,              %.12e, TOL));\n", deltamin);
+       printf("##JS##});\n");
      end;
