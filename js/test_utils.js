@@ -30,5 +30,6 @@ function input(prompt) {
     // emulate MATLAB's user-input: use prompt as selection into DOM
     // by id and return the content. We could change this to a pop-up
     // later.
+    // TODO: We're ignoring the second element, which always seems to be a 's' for string.
     return document.getElementById(prompt).textContent;
 }

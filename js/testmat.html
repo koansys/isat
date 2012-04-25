@@ -1,34 +1,72 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <title>QUnit Test Suite</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="qunit-git.css"/>
+    <script type="text/javascript" src="qunit.js"> </script>
+
+    <!-- Your project file goes here -->
+    <script type="text/javascript" src="sgp4.js">  </script>
+    <script type="text/javascript" src="gstime.js">  </script>
+    <script type="text/javascript" src="initl.js">  </script>
+    <script type="text/javascript" src="sgp4init.js">  </script>
+    <script type="text/javascript" src="jday.js">  </script>
+    <script type="text/javascript" src="days2mdh.js">  </script>
+    <script type="text/javascript" src="getgravc.js">  </script>
+    <script type="text/javascript" src="dscom.js">  </script>
+    <script type="text/javascript" src="dpper.js">  </script>
+    <script type="text/javascript" src="dsinit.js">  </script>
+    <script type="text/javascript" src="dspace.js">  </script>
+    <script type="text/javascript" src="test_utils.js">  </script> <!-- for isequalRel, assert, isequal -->
+    <script type="text/javascript" src="testmat.js"> </script>
+    <!-- Your tests file goes here -->
+    <script type="text/javascript" src="testmat_test.js"> </script>
+
   </head>
-
   <body>
-    <h1>Input</h1>
-    <h2>TLE data</h2>
+    <div id=""/>
 
-    <pre id="infile">
+    <h1>Inputs</h1>
+
+    <label>opsmode (a=afspc, i=improved) <input id="input opsmode afspc a, improved i " size="1" value="i"></input></label>
+    <br/>
+    <label>typerun (c, v, m) <input id="input type of run c, v, m: " size="1" value="v"></input></label>
+    <br/>
+    <label>typeinput (for typerun=m; m=mfe, e=epoch (YMDHMS), d=dayofyr approach) <input id="input mfe, epoch (YMDHMS), or dayofyr approach, m,e,d: " size="1" value="e"></input></label>
+    <br/>
+    <label>whichconst (721, 72, 84) <input id="input constants 721, 72, 84 " size="3" value="72"></input></label>
+    <br/>
+    <label>infilename for TLE data <input id="infilename" type="file" name="files[]" size="64" value="SGP-VER.TLE"></input></label> <!-- TODO: does my input() work here? -->
+    <br/>
+    <label>TLE Lines (from infilename, above)
+      <!-- TODO: this won't get picked up by our input() function since it's not an <input> element -->
+      <textarea id="tle-lines" rows="10" cols="105">
 #                       # TEME example
 1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753
 2 00005  34.2682 348.7242 1859667 331.7664  19.3264 10.82419157413667     0.00      4320.0        360.00
-</pre>
+      </textarea>
+    </label>
 
-    <h1>Output</h1>
+    <script> <!-- must be after element is defined and loaded above -->
+// Users selects TLE file from disk
+// Based on http://www.html5rocks.com/en/tutorials/file/dndfiles/
 
-    <h2>Debug</h2>
-    <div id="debug"></div> <!-- can't do self-closing div with innerHTML -->
+function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
 
-    <h2>fprintf1</h2>
-    <div id="fprintf1"></div>
-
-    <h2>outfile</h2>
-    <div id="outfile"></div>
-
-    <h1>Other noise</h1>
-    <p>Any other noise spewed by app goes here</p>
-
-    <!-- put after HTML until I get window.onload working right -->
-    <script src="compat.js" type="text/javascript"></script>
-    <script src="testmat.js" type="text/javascript"></script>
+    for (var i = 0, f; f = files[i]; i++) {
+        var reader = new FileReader();
+        // Closure to capture the file info
+        reader.onload = (function (theFile) { // theFile is unused(?)
+            return function (e) {
+                document.getElementById('tle-lines').value = e.target.result;
+            };
+        })(f);
+        reader.readAsText(f);   // Read in the file as text
+    }                           // for file...
+}                               // function
+document.getElementById('infilename').addEventListener('change', handleFileSelect, false);
+</script>
 
   </body>
 </html>
