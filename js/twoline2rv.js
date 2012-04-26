@@ -94,7 +94,6 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
     // Get these via getgravc() OR from caller's globals.
     // [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
 
-
     if (typeof tumin === 'undefined') {
         throw new Error("Global 'tumin' is undefined");
     }

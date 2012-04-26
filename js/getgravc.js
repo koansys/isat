@@ -71,8 +71,8 @@ function getgravc(whichconst) {
         j3oj2  =  j3 / j2;
         break;
     default:
-        alert('unknown gravity option: ' + whichconst); // TODO: alert() not defined??
-        break;
+        alert('getgravc: unknown gravity option: ' + whichconst);
+        throw new Error('getgravc: unknown gravity option: ' + whichconst);
     }
     return [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2];
 }

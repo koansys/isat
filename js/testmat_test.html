@@ -6,75 +6,47 @@
     <script type="text/javascript" src="qunit.js"> </script>
 
     <!-- Your project file goes here -->
-    <!-- <script type="text/javascript" src="sgp4.js">  </script> -->
-    <!-- <script type="text/javascript" src="gstime.js">  </script> -->
-    <!-- <script type="text/javascript" src="initl.js">  </script> -->
-    <!-- <script type="text/javascript" src="sgp4init.js">  </script> -->
-    <!-- <script type="text/javascript" src="jday.js">  </script> -->
-    <!-- <script type="text/javascript" src="days2mdh.js">  </script> -->
-    <!-- <script type="text/javascript" src="getgravc.js">  </script> -->
     <!-- <script type="text/javascript" src="dscom.js">  </script> -->
     <!-- <script type="text/javascript" src="dpper.js">  </script> -->
     <!-- <script type="text/javascript" src="dsinit.js">  </script> -->
     <!-- <script type="text/javascript" src="dspace.js">  </script> -->
-    <script type="text/javascript" src="test_utils.js">  </script> <!-- for isequalRel, assert, isequal -->
+    <script type="text/javascript" src="sgp4.js">  </script>
+    <script type="text/javascript" src="gstime.js">  </script>
+    <script type="text/javascript" src="initl.js">  </script>
+    <script type="text/javascript" src="sgp4init.js">  </script>
+    <script type="text/javascript" src="jday.js">  </script>
+    <script type="text/javascript" src="days2mdh.js">  </script>
+    <script type="text/javascript" src="getgravc.js">  </script>
+    <script type="text/javascript" src="twoline2rv.js">  </script>
+    <script type="text/javascript" src="test_utils.js">  </script> <!-- for isequalRel, assert, isequal, input -->
     <script type="text/javascript" src="testmat.js">      </script>
-    <!-- Your tests file goes here -->
-    <script type="text/javascript" src="testmat_test.js"> </script>
+    <!-- Your tests file goes here MOVE BELOW HTML VARS -->
+    <!-- <script type="text/javascript" src="testmat_test.js"> </script> -->
 
   </head>
   <body>
-    <input type="file" id="files" name="files[]" />
-    <output id="list"></output>
+    <h1>Inputs</h1>
 
-    <script type="text/javascript" src="filetest.js"></script>
-    <div id=""/>
+    <label>opsmode (a=afspc, i=improved) <input id="opsmode" size="1" value="i"></input></label>
+    <br/>
+    <label>typerun (c, v, m) <input id="typerun" size="1" value="v"></input></label>
+    <br/>
+    <label>typeinput (for typerun=m; m=mfe, e=epoch (YMDHMS), d=dayofyr approach) <input id="typeinput" size="1" value="e"></input></label>
+    <br/>
+    <label>whichconst (721, 72, 84) <input id="whichconst" size="3" value="72"></input></label>
+    <br/>
+    <label>infilename for TLE data <input id="infilename" type="file" name="files[]" size="64" value="SGP-VER.TLE"></input></label> <!-- TODO: does my input() work here? -->
+    <br/>
+    <label>TLE Lines (from infilename, above)
+      <!-- TODO: this won't get picked up by our input() function since it's not an <input> element -->
+      <textarea id="tle-lines" rows="10" cols="105">
+#                       # TEME example
+1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753
+2 00005  34.2682 348.7242 1859667 331.7664  19.3264 10.82419157413667     0.00      4320.0        360.00
+      </textarea>
+    </label>
 
-    <h2>Typerun !== v && typerun !== c</h2>
-    <h3>typeinput === e</h3>
-
-    <p>Start
-    <label>year<input size="4" id='input start year'    name='input start year' value="2012"></input></label>
-    <label>mon<input size="2" id='input start mon'     name='input start mon' value="1"></input></label>
-    <label>day<input size="2" id='input start day'     name='input start day' value="1"></input></label>
-    <label>hr<input size="2" id='input start hr'      name='input start hr' value="1"></input></label>
-    <label>min<input size="2" id='input start min'     name='input start min' value="0"></input></label>
-    <label>sec<input size="2" id='input start sec'     name='input start sec' value="0"></input></label>
-    </p>
-
-    <p>Stop
-    <label>year<input size="4" id='input stop year'     name='input stop year' value="2012"></input></label>
-    <label>mon<input size="2" id='input stop mon'      name='input stop mon' value="1"></input></label>
-    <label>day<input size="2" id='input stop day'      name='input stop day' value="2"></input></label>
-    <label>hr<input size="2" id='input stop hr'       name='input stop hr' value="1"></input></label>
-    <label>min<input size="2" id='input stop min'      name='input stop min' value="0"></input></label>
-    <label>sec<input size="2" id='input stop sec'      name='input stop sec' value="0"></input></label>
-    </p>
-
-    <label>input time step in minutes <input size="2" id='input time step in minutes ' name='input time step in minutes ' value="60"></input></label><br/>
-
-    <h3>Typeinput === 'd'</h3>
-
-    <p>
-    <!-- <label>input start year><input size="4" id='input start year'        name='input start year' value=""></input></label><br/> -->
-    <label>input start dayofyr<input size="3" id='input start dayofyr'     name='input start dayofyr' value="1"></input></label><br/>
-    <!-- <label>input stop year><input size="4" id='input stop year'         name='input stop year' value=""></input></label><br/> -->
-    <label>input stop dayofyr<input size="3" id='input stop dayofyr'      name='input stop dayofyr' value="2"></input></label><br/>
-    </p>
-
-    <h3>typeinput === m (MFE is minutes from epoch)</h3>
-    <!-- Note the inconsistent use of colons and spaces in the prompt, duplicate so code works -->
-    <p>
-    <label>input start mfe: <input size="8" id='input start mfe: '               name='input start mfe: ' value="10000"></input></label> <span>MADE UP</span><br/>
-    <label>input stop mfe: <input size="8" id='input stop mfe: '                name='input stop mfe: ' value="11440"></input></label>  <span>MADE UP + 24 hours</span><br/>
-    <label>input time step in minutes: <input size="3" id='input time step in minutes: '    name='input time step in minutes: ' value="60"></input></label><br/>
-    </p>
-
-
-    <h1 id="qunit-header">QUnit Test Suite</h1>
-    <h2 id="qunit-banner"></h2>
-    <div id="qunit-testrunner-toolbar"></div>
-    <h2 id="qunit-userAgent"></h2>
-    <ol id="qunit-tests"></ol>
+    <!-- Your tests file goes here MOVE BELOW HTML VARS -->
+    <script type="text/javascript" src="testmat_test.js"> </script>
   </body>
 </html>
