@@ -3,6 +3,7 @@
   j2: true, j3: true, j4: true, j3oj2: true, opsmode: true,
   input: true,
   document: true,
+  getgravc: true,
 */
 
 // script testmat.m
@@ -55,12 +56,12 @@ function testmat() {
     typeinput = 'e',                // only if typerun is NOT 'm'
     whichconst = '72',              // from verify procedure: ???
     infilename = "OMFG WE DON'T HAVE AN infilename",
+    rets, tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2,
     rad = 180.0 / Math.PI,
     infile,
     idebug = true,                       // enable debug output
     longstr1, longstr2, fgets,           // TODO matlab TLE file reader
     catno,
-    rets,                           // destructured returns
     satrec, startmfe, stopmfe, deltamin,
     ro, vo,
     tsince,
@@ -97,6 +98,20 @@ function testmat() {
     // TESTING -------------------------
     //    [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
     //    printf('tumin=//f mu=//f radiusearthkm=//f xke=//f j2=//f j3=//f j4=//f j3oj2', tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2)
+
+    // CSHENTON: I don't see how this function can operate without instantiating from getgravc(whichconst)
+    // we need mu and others below
+    rets = getgravc(whichconst);
+    tumin               = rets.shift();
+    mu                  = rets.shift();
+    radiusearthkm       = rets.shift();
+    xke          = rets.shift();
+    j2           = rets.shift();
+    j3                  = rets.shift();
+    j4                  = rets.shift();
+    j3oj2               = rets.shift();
+
+
 
     //         // ---------------- setup files for operation ------------------
     //         // input 2-line element set file
@@ -157,8 +172,8 @@ function testmat() {
         stopmfe     = rets.shift();
         deltamin    = rets.shift();
 
-        outfile('\n //d xx\n', satrec.satnum);
-        fprintf1(' //d\n', satrec.satnum);
+        outfile('\n %d xx\n', satrec.satnum);
+        fprintf1(' %d\n', satrec.satnum);
 
         // call the propagator to get the initial state vector value
         //[satrec, ro ,vo] = sgp4 (satrec,  0.0);
@@ -167,11 +182,11 @@ function testmat() {
         ro          = rets.shift();
         vo          = rets.shift();
 
-        outfile(' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f\n',
+        outfile(' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f\n',
                 satrec.t, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]); // MIG offsets shifted
         // Why don't we print ymdhms or a,ecc,*rad as we do during the time intervals below?
 
-        //fprintf1(' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f\n',...
+        //fprintf1(' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f\n',...
         //         satrec.t,ro(1),ro(2),ro(3),vo(1),vo(2),vo(3));
 
         tsince = startmfe;
@@ -197,7 +212,7 @@ function testmat() {
             vo          = rets.shift();
 
             if (satrec.error > 0) {
-                fprintf1('# *** error: t:= //f *** code = //3i\n', tsince, satrec.error);
+                fprintf1('# *** error: t:= %f *** code = %3i\n', tsince, satrec.error);
             }
 
             if (satrec.error === 0) {
@@ -213,14 +228,14 @@ function testmat() {
                     sec     = rets.shift();
 
                     fprintf(outfile,
-                            ' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f //5i//3i//3i //2i://2i://9.6f //16.8f//16.8f//16.8//12.9f//12.9f//12.9f\n',
+                            ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f %5i%3i%3i %2i:%2i:%9.6f %16.8f%16.8f%16.8%12.9f%12.9f%12.9f\n',
                             tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2],
                             year, mon, day, hr, minute, sec);
                 }
                 else {
-                    outfile(' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f',
+                    outfile(' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f',
                             tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]);
-                    // fprintf1(' //16.8f //16.8f //16.8f //16.8f //12.9f //12.9f //12.9f',
+                    // fprintf1(' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f',
                     //         tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]);
 
                     //[p,a,ecc,incl,node,argp,nu,m,arglat,truelon,lonper ] = rv2coe(ro, vo, mu);
@@ -237,7 +252,7 @@ function testmat() {
                     truelon = rets.shift();
                     lonper  = rets.shift();
 
-                    outfile(' //14.6f //8.6f //10.5f //10.5f //10.5f //10.5f //10.5f\n',
+                    outfile(' %14.6f %8.6f %10.5f %10.5f %10.5f %10.5f %10.5f\n',
                             a, ecc, incl * rad, node * rad, argp * rad, nu * rad, m * rad);
                 }
             } // if satrec.error == 0
