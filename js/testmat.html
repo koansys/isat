@@ -18,7 +18,6 @@
     <script type="text/javascript" src="dsinit.js">  </script>
     <script type="text/javascript" src="dspace.js">  </script>
     <script type="text/javascript" src="test_utils.js">  </script> <!-- for isequalRel, assert, isequal -->
-    <script type="text/javascript" src="testmat.js"> </script>
     <!-- Your tests file goes here -->
     <script type="text/javascript" src="testmat_test.js"> </script>
 
@@ -26,30 +25,20 @@
   <body>
     <div id=""/>
 
-    <h1>Inputs</h1>
 
-    <label>opsmode (a=afspc, i=improved) <input id="input opsmode afspc a, improved i " size="1" value="i"></input></label>
-    <br/>
-    <label>typerun (c, v, m) <input id="input type of run c, v, m: " size="1" value="v"></input></label>
-    <br/>
-    <label>typeinput (for typerun=m; m=mfe, e=epoch (YMDHMS), d=dayofyr approach) <input id="input mfe, epoch (YMDHMS), or dayofyr approach, m,e,d: " size="1" value="e"></input></label>
-    <br/>
-    <label>whichconst (721, 72, 84) <input id="input constants 721, 72, 84 " size="3" value="72"></input></label>
-    <br/>
-    <label>infilename for TLE data <input id="infilename" type="file" name="files[]" size="64" value="SGP-VER.TLE"></input></label> <!-- TODO: does my input() work here? -->
-    <br/>
-    <label>TLE Lines (from infilename, above)
-      <!-- TODO: this won't get picked up by our input() function since it's not an <input> element -->
-      <textarea id="tle-lines" rows="10" cols="105">
-#                       # TEME example
-1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753
-2 00005  34.2682 348.7242 1859667 331.7664  19.3264 10.82419157413667     0.00      4320.0        360.00
-      </textarea>
-    </label>
+    <h1 id="qunit-header">QUnit Test Suite</h1>
+    <h2 id="qunit-banner"></h2>
+    <div id="qunit-testrunner-toolbar"></div>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>
+
+
+
 
     <script> <!-- must be after element is defined and loaded above -->
 // Users selects TLE file from disk
 // Based on http://www.html5rocks.com/en/tutorials/file/dndfiles/
+// TODO: get only one file, not a list, don't loop.
 
 function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
@@ -67,6 +56,7 @@ function handleFileSelect(evt) {
 }                               // function
 document.getElementById('infilename').addEventListener('change', handleFileSelect, false);
 </script>
+    <script type="text/javascript" src="testmat.js"> </script>
 
   </body>
 </html>
