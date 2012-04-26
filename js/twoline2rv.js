@@ -63,22 +63,37 @@
 //          longstr2, typerun,typeinput)
 //  ----------------------------------------------------------------------------*/
 
+var xke, j2;                 // HACK: GLOBALS to pass to initl()
+
 function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
-    var rets, 
-    deg2rad, xpdotp, revnum, elnum, year,
-    satrec = {},
-    j,
-    carnumb, classification, intldesg, nexp, ibexp, numb,
-    cardnumb, startmfe, stopmfe, deltamin,
-    mon, day, hr, minute, sec,
-    startyear, startmon, startday, starthr, startmin, startsec, jdstart,
-    stopyear, stopmon, stopday, stophr, stopmin, stopsec, jdstop,
-    startdayofyr, stopdayofyr,
-    sgp4epoch;
+    var rets = getgravc(whichconst),
+        tumin               = rets.shift(),
+        mu                  = rets.shift(),
+        radiusearthkm       = rets.shift(),
+        LOCAL_xke          = rets.shift(),
+        LOCAL_j2           = rets.shift(),
+        j3                  = rets.shift(),
+        j4                  = rets.shift(),
+        j3oj2               = rets.shift(),
+        deg2rad, xpdotp, revnum, elnum, year,
+        satrec = {},
+        j,
+        carnumb, classification, intldesg, nexp, ibexp, numb,
+        cardnumb, startmfe, stopmfe, deltamin,
+        mon, day, hr, minute, sec,
+        startyear, startmon, startday, starthr, startmin, startsec, jdstart,
+        stopyear, stopmon, stopday, stophr, stopmin, stopsec, jdstop,
+        startdayofyr, stopdayofyr,
+        sgp4epoch;
+
+    // Set globals to pass to initl() [vomit]
+    xke = LOCAL_xke;
+    j2 = LOCAL_j2;
 
     // global tumin radiusearthkm xke j2 j3 j4 j3oj2
     // Get these via getgravc() OR from caller's globals.
     // [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
+
 
     if (typeof tumin === 'undefined') {
         throw new Error("Global 'tumin' is undefined");
