@@ -1,16 +1,15 @@
-String.prototype.trim = function() {
+/*global document: true
+ */
+
+// TODO: aren't we already doing this with an intrinsic somewhere?
+String.prototype.trim = function () {
     return this.replace(/^\s+|\s+$/g, "");
-}
-
-// TODO: need to learn how to namespace these, like
-// var compat =  {
-//     writeId: function (...) {...}
-//     debug: function (...) {...}
-
+};
 
 // MATLAB fake compatibility functions
 
-function writeId(id, str) {
+function writeId(id, str) {   // TODO: need varargs and sprintf() here
+    // TODO: isnt' there an append() method?
     document.getElementById(id).innerHTML += str + "<br/>\n";
 }
 function debug(str) {
