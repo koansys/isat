@@ -4,6 +4,10 @@
   input: true,
   document: true,
   getgravc: true,
+  alert: true,
+  outfile: true,
+  fprintf1: true,
+  sprintf: true,
 */
 
 // script testmat.m
@@ -28,7 +32,33 @@
 // Our calling HTML will need <input> fields for:
 // opsmode, typerun, typeinput, whichconst, infilename (or better, the data iself?).
 
+// DANGER:
+// dpper needs global 'opsmode' so define it here; should we move it closer to dpper?
+var opsmode = "GLOBAL UNDEFINED";
+
 // // ------------------------  implementation   --------------------------
+
+
+
+// Users selects TLE file from disk
+// Based on http://www.html5rocks.com/en/tutorials/file/dndfiles/
+// TODO: get only one file, not a list, don't loop.
+
+function handleFileSelect(evt) {
+    var files = evt.target.files, // FileList object
+    i, reader;
+
+    for (var i = 0, f; f = files[i]; i++) {
+        var reader = new FileReader();
+        // Closure to capture the file info
+        reader.onload = (function (theFile) { // theFile is unused(?)
+            return function (e) {
+                document.getElementById('tle-lines').value = e.target.result;
+            };
+        })(f);
+        reader.readAsText(f);   // Read in the file as text
+    }                           // for file...
+}                               // function
 
 // TODO: this can't find tle-lines -- invoked before doc ready?
 
@@ -51,10 +81,10 @@ function get_tle_lines(html_id) {
 
 function testmat() {
     var 
-    opsmode = 'i',                  // from verify procedure: improved mode
-    typerun = 'v',                  // from verify procedure: verify
-    typeinput = 'e',                // only if typerun is NOT 'm'
-    whichconst = '72',              // from verify procedure: ???
+    USE_GLOBAL_opsmode = 'NO opsmode',                  // from verify procedure: improved mode
+    typerun = 'NO typerun',                  // from verify procedure: verify
+    typeinput = 'NO typeinput',                // only if typerun is NOT 'm'
+    whichconst = 'NO whichconst',              // from verify procedure: ???
     infilename = "OMFG WE DON'T HAVE AN infilename",
     rets, tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2,
     rad = 180.0 / Math.PI,
@@ -93,7 +123,7 @@ function testmat() {
 
     whichconst = parseInt(input('whichconst'), 10); //'input constants 721, 72, 84 ');
 
-    alert("opsmode=" + opsmode + " typerun=" + typerun + " typeinput=" + typeinput + " whichconst=" + whichconst);
+    alert("testmat.js opsmode=" + opsmode + " typerun=" + typerun + " typeinput=" + typeinput + " whichconst=" + whichconst + "infile=" + infile);
 
     // TESTING -------------------------
     //    [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
@@ -172,8 +202,8 @@ function testmat() {
         stopmfe     = rets.shift();
         deltamin    = rets.shift();
 
-        outfile('\n %d xx\n', satrec.satnum);
-        fprintf1(' %d\n', satrec.satnum);
+        outfile(sprintf('\n %d xx\n', satrec.satnum));
+        fprintf1(sprintf(" %d\n", satrec.satnum));
 
         // call the propagator to get the initial state vector value
         //[satrec, ro ,vo] = sgp4 (satrec,  0.0);
@@ -182,8 +212,8 @@ function testmat() {
         ro          = rets.shift();
         vo          = rets.shift();
 
-        outfile(' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f\n',
-                satrec.t, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]); // MIG offsets shifted
+        outfile(sprintf(' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f\n',
+                        satrec.t, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2])); // MIG offsets shifted
         // Why don't we print ymdhms or a,ecc,*rad as we do during the time intervals below?
 
         //fprintf1(' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f\n',...
@@ -212,7 +242,7 @@ function testmat() {
             vo          = rets.shift();
 
             if (satrec.error > 0) {
-                fprintf1('# *** error: t:= %f *** code = %3i\n', tsince, satrec.error);
+                fprintf1(sprintf("# *** error: tsince=%f *** code=%d   (satnum=%d)\n", tsince, satrec.error, satrec.satnum));
             }
 
             if (satrec.error === 0) {
@@ -227,14 +257,13 @@ function testmat() {
                     minute  = rets.shift();
                     sec     = rets.shift();
 
-                    fprintf(outfile,
-                            ' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f %5i%3i%3i %2i:%2i:%9.6f %16.8f%16.8f%16.8%12.9f%12.9f%12.9f\n',
-                            tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2],
-                            year, mon, day, hr, minute, sec);
+                    outfile(sprintf(' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f %5i%3i%3i %2i:%2i:%9.6f %16.8f%16.8f%16.8%12.9f%12.9f%12.9f\n',
+                                    tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2],
+                                    year, mon, day, hr, minute, sec));
                 }
                 else {
-                    outfile(' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f',
-                            tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]);
+                    outfile(sprintf(' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f',
+                                    tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]));
                     // fprintf1(' %16.8f %16.8f %16.8f %16.8f %12.9f %12.9f %12.9f',
                     //         tsince, ro[0], ro[1], ro[2], vo[0], vo[1], vo[2]);
 
@@ -252,8 +281,8 @@ function testmat() {
                     truelon = rets.shift();
                     lonper  = rets.shift();
 
-                    outfile(' %14.6f %8.6f %10.5f %10.5f %10.5f %10.5f %10.5f\n',
-                            a, ecc, incl * rad, node * rad, argp * rad, nu * rad, m * rad);
+                    outfile(sprintf(' %14.6f %8.6f %10.5f %10.5f %10.5f %10.5f %10.5f\n',
+                                    a, ecc, incl * rad, node * rad, argp * rad, nu * rad, m * rad));
                 }
             } // if satrec.error == 0
 
@@ -271,7 +300,7 @@ function testmat() {
     // fclose(infile);
     // fclose(outfile);
 
-    window.onload = testmat();
+    // window.onload = testmat();
     // TODO: return results of test? 
 
 }
