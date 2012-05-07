@@ -54,18 +54,24 @@ if __name__ == '__main__':
     for sat in sorted(truth.keys(), cmp=lambda x,y: cmp(int(x), int(y))):
         print "Satellite", sat
         tlines = truth[sat]
-        clines = calcd[sat]
+        try: 
+            clines = calcd[sat]
+        except KeyError, e:
+            print "ERROR: sat=%s not found in calculated results (it's in truth data)" % sat
+            continue
         if len(tlines) != len(clines):
             print "ERROR: sat=%d mismatched number of lines: tlines=%d clines=%d:" % (
                 sat, len(tlines), len(clines))
             continue
         for t, c in zip(tlines, clines):
             if t != c:
-                print "ERROR: sat=%s mismatch line\n truth=%s \n calcd=%s" % (sat, t, c)
                 val_pairs = zip(t, c)
                 diffs = [ float(tt) - float(cc) for (tt, cc) in val_pairs ]
-                print " diffs=%s" % diffs
                 oks = [ "ok" if abs(d) < TOOMUCH else "TOO MUCH" for d in diffs]
-                print " oks=%s" % oks
-
+                if "TOO MUCH" in oks:
+                    print "ERROR: sat=%s mismatch line\n truth=%s \n calcd=%s" % (sat, t, c)
+                    print " diffs=%s" % diffs
+                    print " oks=%s" % oks
+                else:
+                    print "WARNING: sat=%s not quite exact but close enough\n truth=%s \n calcd=%s" % (sat, t, c)
 
