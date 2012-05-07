@@ -17,11 +17,15 @@ function debug(str) {
 }
 
 function outfile(str) {
-    writeId('outfile', str);
+    // I'm using sprintf() so don't want "\n" from writeId()'s <br/>
+    //writeId('outfile', str);
+    document.getElementById('outfile').innerHTML += str;
 }
 
 function fprintf1(str) {
-    writeId('fprintf1', str);
+    // I'm using sprintf() so don't want "\n" from writeId()'s <br/>
+    //writeId('fprintf1', str);
+    document.getElementById('fprintf1').innerHTML += str;
 }
 
 
