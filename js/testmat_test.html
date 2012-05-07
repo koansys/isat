@@ -101,8 +101,8 @@
 1 22312U 93002D   06094.46235912  .99999999  81888-5  49949-3 0  3953
 2 22312  62.1486  77.4698 0308723 267.9229  88.7392 15.95744531 98783  54.2028672   1440.0         20.00
 #   SL-6 R/B(2)         # 12h resonant ecc in the &gt; 0.715 range
-##1 22674U 93035D   06176.55909107  .00002121  00000-0  29868-3 0  6569
-##2 22674  63.5035 354.4452 7541712 253.3264  18.7754  1.96679808 93877      0.0      2880.0        120.00
+1 22674U 93035D   06176.55909107  .00002121  00000-0  29868-3 0  6569
+2 22674  63.5035 354.4452 7541712 253.3264  18.7754  1.96679808 93877      0.0      2880.0        120.00
 #   ARIANE 44L+ R/B     # Lyddane bug at &lt;= 70 min for atan2(),
 #                       # no quadrant fix
 1 23177U 94040C   06175.45752052  .00000386  00000-0  76590-3 0    95
@@ -168,13 +168,15 @@
 
 
     <h1>Outputs</h1> <!-- sections for JS to fill with output -->
+
     <h2>debug</h2>
     <pre id="debug"></pre> 
-    <h2>outfile</h2>
-    <pre id="outfile"></pre> 
+
     <h2>fprintf1</h2>
     <pre id="fprintf1"></pre> 
 
+    <h2>outfile</h2>
+    <pre id="outfile"></pre> 
 
     <!-- Your tests file goes here:  MOVE BELOW HTML VARS to get access to fields above. -->
     <!-- DANGER: this "runs" under chrome but Firefox says initl has undef opsmode -->
