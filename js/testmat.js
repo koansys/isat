@@ -170,7 +170,8 @@ function testmat() {
     for (i = 0; i < tle_lines.length; i += 1) {
         sat_time = new Date();  // time for each satelite (depends of course on period requested)
 
-        if (tle_lines[i][0] === '#') {
+        tle_lines[i] = tle_lines[i].trim();
+        if (tle_lines[i] === '' || tle_lines[i][0] === '#') {
             continue;
         }
         else {                      // DANGER doesn't tolerate comments between TLE line 1 and 2
