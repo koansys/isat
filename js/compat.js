@@ -6,14 +6,17 @@ String.prototype.trim = function () {
     return this.replace(/^\s+|\s+$/g, "");
 };
 
-// MATLAB fake compatibility functions
+// MATLAB fake compatibility output functions
+// These rather assume the output elements are <pre/>
+// so the \n gives linebreaks (adding <br/> would make double breaks)
 
 function writeId(id, str) {   // TODO: need varargs and sprintf() here
     // TODO: isnt' there an append() method?
     document.getElementById(id).innerHTML += str + "<br/>\n";
 }
 function debug(str) {
-    writeId('debug', str);
+    //writeId('debug', str);
+    document.getElementById('debug').innerHTML += str + "\n";
 }
 
 function outfile(str) {
@@ -27,11 +30,3 @@ function fprintf1(str) {
     //writeId('fprintf1', str);
     document.getElementById('fprintf1').innerHTML += str;
 }
-
-
-// window.onload = function () {
-//     writeId('writeId', 'writeId text');
-//     debug('debug text');
-//     fprintf1('fprintf1 text');
-//     outfile('outfile text');
-// }
