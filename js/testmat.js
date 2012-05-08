@@ -8,6 +8,7 @@
   outfile: true,
   fprintf1: true,
   sprintf: true,
+  debug: true,
 */
 
 // script testmat.m
@@ -98,11 +99,10 @@ function testmat() {
     jd, year, mon, day, hr, minute, sec,
     p, a, ecc, incl, node, argp, nu, m, arglat, truelon, lonper,
     i,
-    tle_lines;
+    tle_lines,
+    start_time, sat_time, total_time;
 
     tle_lines = get_tle_lines('tle-lines');
-
-
 
     //   add operation smode for afspc (a) or improved (i)
     // TODO read opsmode, typerun, whichconst, infile from HTML form fields
@@ -123,28 +123,22 @@ function testmat() {
 
     whichconst = parseInt(input('whichconst'), 10); //'input constants 721, 72, 84 ');
 
-    alert("testmat.js opsmode=" + opsmode + " typerun=" + typerun + " typeinput=" + typeinput + " whichconst=" + whichconst + "infile=" + infile);
+    //alert("testmat.js opsmode=" + opsmode + " typerun=" + typerun + " typeinput=" + typeinput + " whichconst=" + whichconst + "infile=" + infile);
 
-    // TESTING -------------------------
-    //    [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
-    //    printf('tumin=//f mu=//f radiusearthkm=//f xke=//f j2=//f j3=//f j4=//f j3oj2', tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2)
-
-    // CSHENTON: I don't see how this function can operate without instantiating from getgravc(whichconst)
-    // we need mu and others below
+    // CSHENTON: I don't see how this function can operate without
+    // instantiating from getgravc(whichconst) we need mu and others below
     rets = getgravc(whichconst);
     tumin               = rets.shift();
     mu                  = rets.shift();
     radiusearthkm       = rets.shift();
-    xke          = rets.shift();
-    j2           = rets.shift();
+    xke                 = rets.shift();
+    j2                  = rets.shift();
     j3                  = rets.shift();
     j4                  = rets.shift();
     j3oj2               = rets.shift();
 
-
-
-    //         // ---------------- setup files for operation ------------------
-    //         // input 2-line element set file
+    // ---------------- setup files for operation ------------------
+    // input 2-line element set file
     // infilename = input('input elset filename: ', 's');
     // infile = fopen(infilename, 'r');
     // if (infile === -1) {
@@ -164,8 +158,6 @@ function testmat() {
     //     }
     // }
 
-    // TODO:    global idebug dbgfile
-
     // TLE file format repeats 3-line sets like:
     //#                       # TEME example
     //1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753
@@ -173,25 +165,21 @@ function testmat() {
 
     // ----------------- test simple propagation -------------------
 
+    start_time = new Date();    // overall run time
 
     for (i = 0; i < tle_lines.length; i += 1) {
-        //debug("i=" + i + "  tle_line=" + tle_lines[i]);
+        sat_time = new Date();  // time for each satelite (depends of course on period requested)
+
         if (tle_lines[i][0] === '#') {
             continue;
         }
-        else {                      // no comments between TLE line 1 and line 2
+        else {                      // DANGER doesn't tolerate comments between TLE line 1 and 2
             longstr1 = tle_lines[i];
             i += 1;
             longstr2 = tle_lines[i];
             i += 1;             // BUG I think this should not be here
         }
 
-        if (idebug) {
-            //catno = strtrim(longstr1(3:7));
-            catno = longstr1.trim().substring(2, 7);
-            //dbgfile = fopen(strcat('sgp4test.dbg.',catno), 'wt');
-            //debug('longstr1=' + longstr1 + '  catno=' + catno);
-        }
         // convert the char string to sgp4 elements
         // includes initialization of sgp4
         //[satrec, startmfe, stopmfe, deltamin] = twoline2rv(whichconst,
@@ -242,7 +230,8 @@ function testmat() {
             vo          = rets.shift();
 
             if (satrec.error > 0) {
-                fprintf1(sprintf("# *** error: tsince=%f *** code=%d   (satnum=%d)\n", tsince, satrec.error, satrec.satnum));
+                fprintf1(sprintf("# *** error: tsince=%f *** code=%d   (satnum=%d)\n",
+                                 tsince, satrec.error, satrec.satnum));
             }
 
             if (satrec.error === 0) {
@@ -285,22 +274,11 @@ function testmat() {
                                     a, ecc, incl * rad, node * rad, argp * rad, nu * rad, m * rad));
                 }
             } // if satrec.error == 0
-
         } // while propagating the orbit
-
-        // if (idebug && (dbgfile ~= -1)) {
-        //     fclose(dbgfile);
-        // }
-
-
-    } //// if not eof
-
-    ///TOO MANY //// while through the input file
-
-    // fclose(infile);
-    // fclose(outfile);
-
+        debug("satnum=" + satrec.satnum +
+              " time=" + (new Date() - sat_time) + "ms" +
+              "  ellapsed time=" + (new Date() - start_time) + "ms");
+    } // if not eof
     // window.onload = testmat();
     // TODO: return results of test? 
-
 }
