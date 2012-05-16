@@ -144,6 +144,9 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
     //1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753
     //2 00005  34.2682 348.7242 1859667 331.7664  19.3264 10.82419157413667     0.00      4320.0        360.00
 
+    var longstr1save = longstr1;   // DEBUGGERY
+    //longstr1 = longstr1.split(''); // mutable array
+
     // set the implied decimal points since doing a formated read
     // fixes for bad input data values (missing, ...)
     for (j = 10; j <= 15; j += 1) { //"8002B " -> "8002B_"
@@ -208,6 +211,12 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
         //longstr1[67] = '0';
         longstr1 = setCharAt(longstr1, 67, '0');
     }
+
+    //longstr1 = longstr1.join('');
+    //longstr1save="1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753"
+    //longstr1    ="1 00005U 58002B_  00179.78495062  .00000023 .00000-0 .28098-4 0  4753" JOINED
+    //longstr1:    "1 00005U 58002B_  00179.78495062  .00000023 .00000-0 .28098-4 0  4753" processed, WTF? TODO
+
     // parse first line
     carnumb             = parseFloat(longstr1[0]); // caution: 'cardnum' in second line
     satrec.satnum       = parseFloat(longstr1.slice(2, 7));
