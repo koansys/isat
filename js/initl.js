@@ -67,13 +67,13 @@ function initl(ecco, epoch, inclo, no, satn) {
     //global opsmode
 
     if (typeof opsmode === 'undefined') {
-        throw new Error("opsmode undefined");
+        throw Error("opsmode undefined");
     }
     if (typeof xke     === 'undefined') {
-        throw new Error("xke undefined");
+        throw Error("xke undefined");
     }
     if (typeof j2      === 'undefined') {
-        throw new Error("j2 undefined");
+        throw Error("j2 undefined");
     }
 
     var x2o3   = 2.0 / 3.0,
