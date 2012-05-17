@@ -130,15 +130,6 @@ function initl(ecco, epoch, inclo, no, satn) {
         gsto = gsto + twopi;
     }
 
-    //TODO:
-    // global idebug dbgfile
-    // if isempty(idebug) {
-    //     idebug = 0;
-    // }
-    // elseif (idebug) {
-    //     debug5;
-    // }
-
     return [ainv, ao, con41, con42, cosio, cosio2, einv,
             eccsq, method, omeosq, posq, rp, rteosq, sinio,
             gsto, no];

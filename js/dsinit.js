@@ -157,7 +157,7 @@ function dsinit(
     if ((inclm < 5.2359877e-2) || (inclm > Math.PI - 5.2359877e-2)) {
         shs = 0.0;
     }
-    if (sinim !== 0.0) {         // TODO unreliable floating point comparison
+    if (sinim !== 0.0) {         // WARN unreliable floating point comparison
         shs = shs / sinim;
     }
     sgs  = sghs - cosim * shs;
@@ -174,7 +174,7 @@ function dsinit(
     }
     domdt = sgs + sghl;
     dnodt = shs;
-    if (sinim !== 0.0) {        // TODO: unrealiable
+    if (sinim !== 0.0) {        // WARN unrealiable
         domdt = domdt - cosim / sinim * shll;
         dnodt = dnodt + shll / sinim;
     }
@@ -313,12 +313,6 @@ function dsinit(
         atime = 0.0;
         nm    = no + dndt;
     }
-
-    // TODO
-    // global idebug dbgfile
-    // if idebug
-    //     debug3;
-    // end
 
     return [em,     argpm,  inclm,  mm,     nm,     nodem, irez,
             atime,  d2201,  d2211,  d3210,  d3222,  d4410,  d4422,

@@ -37,6 +37,9 @@
 // ------------------------------------------------------------------------------
 
 // Math.* doesn't have sinh, asinh so define them
+// We could add sinh and asinh like:
+//  Math.constructor.prototype.sinh = function ....
+//  Math.constructor.prototype.asinh = function ...
 
 function sinh(val) {
     return (Math.pow(Math.E, val) - Math.pow(Math.E, -val)) / 2;
@@ -45,10 +48,6 @@ function sinh(val) {
 function asinh(val) {
     return Math.log(val + Math.sqrt(val * val + 1));
 }
-
-// We can add sinh and asinh like:
-//  Math.constructor.prototype.sinh = sinh
-//  Math.constructor.prototype.asinh = asinh
 
 
 function newtonnu(ecc, nu) {
@@ -76,8 +75,8 @@ function newtonnu(ecc, nu) {
                 if ((ecc > 1.0) &&
                     (Math.abs(nu) + 0.00001 < Math.PI - Math.acos(1.0 / ecc))) {
                     sine = (Math.sqrt(ecc * ecc - 1.0) * Math.sin(nu)) / (1.0 + ecc * Math.cos(nu));
-                    e0   = asinh(sine); // TODO: define arcsinh
-                    m    = ecc * sinh(e0) - e0; // TODO: define sinh
+                    e0   = asinh(sine);
+                    m    = ecc * sinh(e0) - e0;
                 }
                 else {
                     // ----------------- parabolic ---------------------

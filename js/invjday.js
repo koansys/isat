@@ -48,7 +48,7 @@ function invjday(jd) {
         //     days   = temp - ((year-1900)*365.0 + leapyrs ) + 0.00000000001; // nudge by 8.64x10-7 sec to get even outputs
         days    = temp - ((year - 1900) * 365.0 + leapyrs),
         mon, day, hr, min, sec,
-        mdhms;
+        rets;
 
     // ------------ check for case of beginning of a year -------------
     if (days < 1.0) {
@@ -57,15 +57,12 @@ function invjday(jd) {
         days    = temp - ((year - 1900) * 365.0 + leapyrs);
     }
     // ------------------- find remaining data  -----------------------
-    // This sucks, JS<1.7 doesn't have destructured assignment like Python/Perl,
-    // do it manually.
-    //[mon, day, hr, min, sec] = days2mdh(year, days); // TODO: JSLINT: Bad Assignment
-    mdhms = days2mdh(year, days);
-    mon = mdhms[0];
-    day = mdhms[1];
-    hr  = mdhms[2];
-    min = mdhms[3];
-    sec = mdhms[4];
+    rets = days2mdh(year, days);
+    mon = rets.shift();
+    day = rets.shift();
+    hr  = rets.shift();
+    min = rets.shift();
+    sec = rets.shift();
     //     sec= sec - 0.00000086400;
     return [year, mon, day, hr, min, sec];
 }

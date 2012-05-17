@@ -140,7 +140,7 @@ function dscom(epoch, ep, argpp, tc, inclp, nodep, np) {
     cc    = c1ss;
     xnoi  = 1.0 / nm;
 
-    for (lsflg = 1; lsflg <= 2; lsflg += 1) { // =1:2 TODO: foreach somehow?
+    for (lsflg = 1; lsflg <= 2; lsflg += 1) { // =1:2
         a1  =   zcosg * zcosh + zsing * zcosi * zsinh;
         a3  =  -zsing * zcosh + zcosg * zcosi * zsinh;
         a7  =  -zcosg * zsinh + zsing * zcosi * zcosh;
@@ -245,12 +245,6 @@ function dscom(epoch, ep, argpp, tc, inclp, nodep, np) {
     xgh4 = -18.0 * s4 * zel;
     xh2  =  -2.0 * s2 * z22;
     xh3  =  -2.0 * s2 * (z23 - z21);
-
-    // TODO:
-    // global idebug dbgfile
-    // if idebug {
-    //     debug2;
-    // }
 
     return [sinim, cosim, sinomm, cosomm, snodm, cnodm, day, e3, ee2, em, emsq, gam,
             peo, pgho, pho, pinco, plo, rtemsq, se2, se3, sgh2, sgh3, sgh4, sh2, sh3, si2,

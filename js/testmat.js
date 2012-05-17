@@ -61,8 +61,6 @@ function handleFileSelect(evt) {
     }                           // for file...
 }                               // function
 
-// TODO: this can't find tle-lines -- invoked before doc ready?
-
 function get_tle_lines(html_id) {
     // use like: for (var i = 0; i < lines.length; i++) { alert(lines[i]); }
     var
@@ -105,7 +103,6 @@ function testmat() {
     tle_lines = get_tle_lines('tle-lines');
 
     //   add operation smode for afspc (a) or improved (i)
-    // TODO read opsmode, typerun, whichconst, infile from HTML form fields
     opsmode = input('opsmode'); //'input opsmode afspc a, improved i ', 's');
 
     //typerun = 'c' compare 1 year of full satcat data

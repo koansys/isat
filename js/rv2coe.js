@@ -138,7 +138,7 @@ function rv2coe(r, v, mu) {
         if (magn > small) {
             temp = nbar[0] / magn;
             if (Math.abs(temp) > 1.0) {
-                temp = sign(temp);  // TODO: sign()?
+                temp = sign(temp);
             }
             omega = Math.acos(temp);
             if (nbar[1] < 0.0) {
@@ -235,7 +235,6 @@ function rv2coe(r, v, mu) {
 
     }
     else {                      // magh <= small
-        alert("magh<=small");   // TODO REMOVE ME
         p       = UNDEFINED;
         a       = UNDEFINED;
         ecc     = UNDEFINED;

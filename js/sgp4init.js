@@ -105,7 +105,6 @@ function sgp4init(whichconst, satrec, xbstar, xecco, epoch,
     cc1sq, temp,
     r, v;
 
-    // TODO: satrec is an argument, can we treat it as an obj? or init it with satrec={}?
     // /* ------------------------ initialization --------------------- */
     // /* ----------- set all near earth variables to zero ------------ */
     satrec.isimp   = 0;
@@ -208,11 +207,8 @@ function sgp4init(whichconst, satrec, xbstar, xecco, epoch,
     //     /* -------------------- wgs-72 earth constants ----------------- */
     //     // sgp4fix identify constants and allow alternate values
 
-    // TODO:
-    // global tumin mu radiusearthkm xke j2 j3 j4 j3oj2
     // [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc( whichconst );
     rets = getgravc(whichconst);
-
     tumin               = rets.shift();
     mu                  = rets.shift();
     radiusearthkm       = rets.shift();
@@ -539,12 +535,5 @@ function sgp4init(whichconst, satrec, xbstar, xecco, epoch,
     }
 
     satrec.init = 'n';
-    // TODO
-    // global idebug dbgfile
-    // if idebug{
-    //     debug6;
-    // }
-
-    //return [satrec];            // TODO: MATLAB returns an unnecessary list, don't
-    return satrec;
+    return satrec; // MATLAB returns an unnecessary list "[satrec]", don't do it here
 }
