@@ -1,3 +1,6 @@
+/*global nm2m: true, ft2m: true, // from constmath
+*/
+
 // ------------------------------------------------------------------------------
 //
 //                           function constastro
@@ -27,10 +30,6 @@
 //
 // constastro;
 // ------------------------------------------------------------------------------
-// TODO: fix import:        constmath;
-
-/*global nm2m: true, ft2m, // from constmath
-*/
 
 // -----------------------  physical constants  ----------------
 // WGS-84/EGM-96 constants used here

@@ -14,7 +14,7 @@
 module('gstime');
 
 test('sample date near now', function () {
-    var TOLERANCE = 1e-11,        // TODO: is this enough? fails on 1e-12
+    var TOLERANCE = 1e-11,        // is this enough? fails on 1e-12
         epoch_recent = 22669,     // approx days since January 0, 1950
         epoch_jd     = 2433281.5, // in initl.js, JD of Jan 0, 1950
         a_date       = epoch_recent + epoch_jd;

@@ -215,12 +215,6 @@ function dspace(d2201,  d2211,  d3210,  d3222,  d4410,  d4422,  d5220,
         nm = no + dndt;
     }
 
-    // TODO:
-    // global idebug dbgfile
-    // if idebug {
-    //     debug4;
-    // }
-
     return [atime, em, argpm, inclm, xli, mm, xni, nodem, dndt, nm];
 }
 

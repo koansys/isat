@@ -316,7 +316,7 @@ function sgp4(satrec, tsince) {
     if (pl < 0.0) {
         //fprintf(1,'# error pl //f\n', pl);
         satrec.error = 4;
-        // TODO: WTF is this in MATLAB? ';' makes it columnar array
+        // WTF is this in MATLAB? ';' makes it columnar array
         // r = [0;0;0];
         // v = [0;0;0];
         r = [0, 0, 0];
@@ -384,12 +384,5 @@ function sgp4(satrec, tsince) {
         satrec.error = 6;
     }
 
-    //TODO:
-    // global idebug dbgfile
-    // if (idebug) {
-    //     debug7;
-    // }
-
-    
     return [satrec, r, v];
 }

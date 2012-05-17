@@ -94,8 +94,6 @@ function dpper(e3,     ee2,    peo,    pgho,   pho,    pinco,  plo,    se2,
     sel, sil, sll, sghl, shll, pe, pinc, pl, pgh, ph,
     sinip, cosip,
     sinop, cosop, alfdp, betdb, dalf, dbet, betdp, xls, dls, xnoh;
-    // TODO: make sure we got them all...
-
 
     // /* --------------- calculate time varying periodics ----------- */
     // // be sure that the initial call has time set to zero
@@ -195,12 +193,6 @@ function dpper(e3,     ee2,    peo,    pgho,   pho,    pinco,  plo,    se2,
             argpp = xls - mp - cosip * nodep;
         }
     } // if init == 'n'
-
-    //TODO:
-    // global idebug dbgfile
-    // if (idebug) {
-    //     debug1;
-    // }
 
     return [  ep,     inclp,  nodep, argpp,  mp];
 }
