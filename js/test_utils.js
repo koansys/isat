@@ -26,9 +26,15 @@ function assert(state, message) {
 //     }
 // }
 
-function input(prompt) {
-    // emulate MATLAB's user-input: use prompt as selection into DOM
-    // by id and return the content. We could change this to a pop-up
-    // later.
-    return document.getElementById(prompt).textContent;
+function input(html_id) {
+    // emulate MATLAB's user-input: use the original (or hacked)
+    // prompt as selection into DOM by id and return the content. We
+    // could change this to a pop-up later.
+    // TODO: We're ignoring the second element, which always seems to be a 's' for string.
+    var elem = document.getElementById(html_id);
+    if (elem.tagName === "INPUT") {
+        return document.getElementById(html_id).value;
+    } else {  // e.g., "TEXTAREA" 
+        return elem.textContent;
+    }
 }

@@ -63,18 +63,32 @@
 //          longstr2, typerun,typeinput)
 //  ----------------------------------------------------------------------------*/
 
+var xke, j2;                 // HACK: GLOBALS to pass to initl()
+
 function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
-    var rets, 
-    deg2rad, xpdotp, revnum, elnum, year,
-    satrec = {},
-    j,
-    carnumb, classification, intldesg, nexp, ibexp, numb,
-    cardnumb, startmfe, stopmfe, deltamin,
-    mon, day, hr, minute, sec,
-    startyear, startmon, startday, starthr, startmin, startsec, jdstart,
-    stopyear, stopmon, stopday, stophr, stopmin, stopsec, jdstop,
-    startdayofyr, stopdayofyr,
-    sgp4epoch;
+    var rets = getgravc(whichconst),
+        tumin               = rets.shift(),
+        mu                  = rets.shift(),
+        radiusearthkm       = rets.shift(),
+        LOCAL_xke          = rets.shift(),
+        LOCAL_j2           = rets.shift(),
+        j3                  = rets.shift(),
+        j4                  = rets.shift(),
+        j3oj2               = rets.shift(),
+        deg2rad, xpdotp, revnum, elnum, year,
+        satrec = {},
+        j,
+        carnumb, classification, intldesg, nexp, ibexp, numb,
+        cardnumb, startmfe, stopmfe, deltamin,
+        mon, day, hr, minute, sec,
+        startyear, startmon, startday, starthr, startmin, startsec, jdstart,
+        stopyear, stopmon, stopday, stophr, stopmin, stopsec, jdstop,
+        startdayofyr, stopdayofyr,
+        sgp4epoch;
+
+    // Set globals to pass to initl() [vomit]
+    xke = LOCAL_xke;
+    j2 = LOCAL_j2;
 
     // global tumin radiusearthkm xke j2 j3 j4 j3oj2
     // Get these via getgravc() OR from caller's globals.
@@ -129,6 +143,9 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
     //01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
     //1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753
     //2 00005  34.2682 348.7242 1859667 331.7664  19.3264 10.82419157413667     0.00      4320.0        360.00
+
+    var longstr1save = longstr1;   // DEBUGGERY
+    //longstr1 = longstr1.split(''); // mutable array
 
     // set the implied decimal points since doing a formated read
     // fixes for bad input data values (missing, ...)
@@ -194,6 +211,12 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
         //longstr1[67] = '0';
         longstr1 = setCharAt(longstr1, 67, '0');
     }
+
+    //longstr1 = longstr1.join('');
+    //longstr1save="1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753"
+    //longstr1    ="1 00005U 58002B_  00179.78495062  .00000023 .00000-0 .28098-4 0  4753" JOINED
+    //longstr1:    "1 00005U 58002B_  00179.78495062  .00000023 .00000-0 .28098-4 0  4753" processed, WTF? TODO
+
     // parse first line
     carnumb             = parseFloat(longstr1[0]); // caution: 'cardnum' in second line
     satrec.satnum       = parseFloat(longstr1.slice(2, 7));

@@ -4,16 +4,18 @@
 */
 
 // provide globals for the called functions and its dependents
-var rets = getgravc(72),
-    tumin               = rets.shift(),
-    mu                  = rets.shift(),
-    radiusearthkm       = rets.shift(),
-    xke                 = rets.shift(),
-    j2                  = rets.shift(),
-    j3                  = rets.shift(),
-    j4                  = rets.shift(),
-    j3oj2               = rets.shift(),
-    opsmode = 'i';              // from running testmat.m: i, v 72, SGP4-VER.TLE
+// TODO: getgravc() should be called in twoline2rv as they are (now) in MATLAB code
+// var rets = getgravc(72),
+//     tumin               = rets.shift(),
+//     mu                  = rets.shift(),
+//     radiusearthkm       = rets.shift(),
+//     xke                 = rets.shift(),
+//     j2                  = rets.shift(),
+//     j3                  = rets.shift(),
+//     j4                  = rets.shift(),
+//     j3oj2               = rets.shift(),
+
+var opsmode = 'i';              // from running testmat.m: i, v 72, SGP4-VER.TLE
 
 module('twoline2rv');
 
