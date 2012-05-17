@@ -38,6 +38,10 @@
   <body>
     <h1>Inputs</h1>
 
+    <p>I'd suggest not changing these now: they are the values used in
+    the original MATLAB testmat.m program to verify the program, and
+    the output should be compared to the values in Miura's thesis.</p>
+
     <label>opsmode (a=afspc, i=improved):
       <input id="opsmode" size="1" value="i"></input>
     </label>
@@ -54,11 +58,11 @@
       <input id="whichconst" size="3" value="72"></input>
     </label>
     <br/>
-    <label>infilename for TLE data:
-      <input id="infilename" type="file" name="files[]" size="64" value="SGP-VER.TLE"></input>
-    </label> <!-- TODO: does my input() work here? -->
-    <br/>
-    <label>TLE Lines (from infilename, above):
+    <!-- <label>infilename for TLE data: -->
+    <!--   <input id="infilename" type="file" name="files[]" size="64" value="SGP-VER.TLE"></input> -->
+    <!-- </label> <\!-- TODO: does my input() work here? -\-> -->
+    <!-- <br/> -->
+    <label>TLE Lines<!-- (from infilename, above) -->:
       <br/>
       <!-- TODO: this won't get picked up by our input() function since it's not an <input> element -->
       <textarea id="tle-lines" rows="97" cols="105">
