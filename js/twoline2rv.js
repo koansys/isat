@@ -67,16 +67,20 @@ var xke, j2;                 // HACK: GLOBALS to pass to initl()
 
 function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
     var rets = getgravc(whichconst),
-        tumin               = rets.shift(),
-        mu                  = rets.shift(),
-        radiusearthkm       = rets.shift(),
-        LOCAL_xke          = rets.shift(),
-        LOCAL_j2           = rets.shift(),
-        j3                  = rets.shift(),
-        j4                  = rets.shift(),
-        j3oj2               = rets.shift(),
-        deg2rad, xpdotp, revnum, elnum, year,
-        satrec = {},
+        tumin           = rets.shift(),
+        mu              = rets.shift(),
+        radiusearthkm   = rets.shift(),
+        LOCAL_xke       = rets.shift(),
+        LOCAL_j2        = rets.shift(),
+        j3              = rets.shift(),
+        j4              = rets.shift(),
+        j3oj2           = rets.shift(),
+        deg2rad         = Math.PI / 180.0, // 0.01745329251994330  [deg/rad]
+        xpdotp          = 1440.0 / (2.0 * Math.PI), // 229.1831180523293  [rev/day]/[rad/min]
+        satrec          = {},
+        revnum          = 0,
+        elnum           = 0,
+        year            = 0,
         j,
         carnumb, classification, intldesg, nexp, ibexp, numb,
         cardnumb, startmfe, stopmfe, deltamin,
@@ -116,106 +120,66 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
         throw new Error("Global 'j3oj2' is undefined");
     }
 
-    deg2rad  =   Math.PI / 180.0;         //  0.01745329251994330;  // [deg/rad]
-    xpdotp   =  1440.0 / (2.0 * Math.PI); // 229.1831180523293;  // [rev/day]/[rad/min]
-
-    revnum = 0;
-    elnum  = 0;
-    year   = 0;
     satrec.error = 0;
 
-    function setCharAt(str, index, chr) {
-        // JavaScript strings are immutable so we can't do like MATLAB/Python:
-        //   str[42] = "X"
-        // We have to return a *new* string concatenating old and new chr.
-        if (chr.length != 1) {
-            throw new Error("setCharAt chr length must be 1 but is " + chr.length);
-        }
-        if (index > str.length - 1) {
-            return str;
-        }
-        return str.substr(0, index) + chr + str.substr(index + 1);
-    }
-    // Given JavaScript's immutable strings, this is a really bad way mangle TLEs
-    // TODO: do a split, hack the vector, then finally a join.
+    // JavaScript's strings are immutable strings, so convert to
+    // mutable array, munge, then convert back to strings.
     
+    longstr1 = longstr1.split('');
+    longstr2 = longstr2.split('');
+    
+    // set the implied decimal points since doing a formated read
+    // fixes for bad input data values (missing, ...)
+    for (j = 10; j <= 15; j += 1) { //"8002B " -> "8002B_"
+        if (longstr1[j] === ' ') {
+            longstr1[j] = '_';
+        }
+    }
+    if (longstr1[44] !== ' ') {
+        longstr1[43] = longstr1[44];
+    }
+    longstr1[44] = '.';
+    if (longstr1[7] === ' ') {
+        longstr1[7] = 'U';
+    }
+    if (longstr1[9] === ' ') {
+        longstr1[9] = '.';
+    }
+    for (j = 45; j <= 49; j += 1) {
+        if (longstr1[j] === ' ') {
+            longstr1[j] = '0';
+        }
+    }
+    if (longstr1[51] === ' ') {
+        longstr1[51] = '0';
+    }
+    if (longstr1[53] !== ' ') {
+        longstr1[52] = longstr1[53];
+    }
+    longstr1[53] = '.';
+    if (longstr1[62] === ' ') {
+        longstr1[62] = '0';
+
+    }
+    if ((longstr1.length < 68) || (longstr1[67] === ' ')) {
+        longstr1[67] = '0';
+    }
+
+    longstr2[25] = '.';
+    for (j = 26; j <= 32; j += 1) {
+        if (longstr2[j] === ' ') {
+            longstr2[j] = '0';
+        }
+    }
+
+    longstr1 = longstr1.join('');
+    longstr2 = longstr2.join('');
+
     //00000000001111111111222222222233333333334444444444555555555566666666667777777777888888888899999999990000000000
     //01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
     //1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753
     //2 00005  34.2682 348.7242 1859667 331.7664  19.3264 10.82419157413667     0.00      4320.0        360.00
 
-    var longstr1save = longstr1;   // DEBUGGERY
-    //longstr1 = longstr1.split(''); // mutable array
-
-    // set the implied decimal points since doing a formated read
-    // fixes for bad input data values (missing, ...)
-    for (j = 10; j <= 15; j += 1) { //"8002B " -> "8002B_"
-        if (longstr1[j] === ' ') {
-            //longstr1[j] = '_';
-            longstr1 = setCharAt(longstr1, j, '_');
-        }
-    }
-
-    if (longstr1[44] !== ' ') {
-        //longstr1[43] = longstr1[44];
-        longstr1 = setCharAt(longstr1, 43, longstr1[44]);
-    }
-    //longstr1[44] = '.';
-    longstr1 = setCharAt(longstr1, 44, '.');
-
-    if (longstr1[7] === ' ') {
-        //longstr1[7] = 'U';
-        longstr1 = setCharAt(longstr1, 7, 'U');
-    }
-
-    if (longstr1[9] === ' ') {
-        //longstr1[9] = '.';
-        longstr1 = setCharAt(longstr1, 9, '.');
-    }
-
-    for (j = 45; j <= 49; j += 1) {
-        if (longstr1[j] === ' ') {
-            //longstr1[j] = '0';
-            longstr1 = setCharAt(longstr1, j, '0');
-        }
-    }
-    if (longstr1[51] === ' ') {
-        //longstr1[51] = '0';
-        longstr1 = setCharAt(longstr1, 51, '0');
-
-    }
-    if (longstr1[53] !== ' ') {
-        //longstr1[52] = longstr1[53];
-        longstr1 = setCharAt(longstr1, 52, longstr1[53]);
-    }
-    //longstr1[53] = '.';
-    longstr1 = setCharAt(longstr1, 53, '.');
-
-    //longstr2[25] = '.';
-    longstr2 = setCharAt(longstr2, 25, '.');
-
-    for (j = 26; j <= 32; j += 1) {
-        if (longstr2[j] === ' ') {
-            //longstr2[j] = '0';
-            longstr2 = setCharAt(longstr2, j, '0');
-        }
-    }
-
-    if (longstr1[62] === ' ') {
-        //longstr1[62] = '0';
-        longstr1 = setCharAt(longstr1, 62, '0');
-
-    }
-
-    if ((longstr1.length < 68) || (longstr1[67] === ' ')) {
-        //longstr1[67] = '0';
-        longstr1 = setCharAt(longstr1, 67, '0');
-    }
-
-    //longstr1 = longstr1.join('');
-    //longstr1save="1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753"
-    //longstr1    ="1 00005U 58002B_  00179.78495062  .00000023 .00000-0 .28098-4 0  4753" JOINED
-    //longstr1:    "1 00005U 58002B_  00179.78495062  .00000023 .00000-0 .28098-4 0  4753" processed, WTF? TODO
 
     // parse first line
     carnumb             = parseFloat(longstr1[0]); // caution: 'cardnum' in second line
@@ -231,11 +195,6 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
     ibexp               = parseFloat(longstr1.slice(59, 61));
     numb                = parseFloat(longstr1.slice(62, 63));
     elnum               = parseFloat(longstr1.slice(64, 68));
-
-    //00000000001111111111222222222233333333334444444444555555555566666666667777777777888888888899999999990000000000
-    //01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
-    //1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753
-    //2 00005  34.2682 348.7242 1859667 331.7664  19.3264 10.82419157413667     0.00      4320.0        360.00
 
     // parse second line
     if (typerun === 'v') {
@@ -367,8 +326,8 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
     }
     //     // perform complete catalog evaluation
     if (typerun === 'c') {
-        startmfe =  -1440.0;
-        stopmfe  =  1440.0;
+        startmfe = -1440.0;
+        stopmfe  = 1440.0;
         deltamin = 20.0;
     }
 
