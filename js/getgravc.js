@@ -72,7 +72,7 @@ function getgravc(whichconst) {
         break;
     default:
         alert('getgravc: unknown gravity option: ' + whichconst);
-        throw new Error('getgravc: unknown gravity option: ' + whichconst);
+        throw Error('getgravc: unknown gravity option: ' + whichconst);
     }
     return [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2];
 }

@@ -77,10 +77,10 @@ function dpper(e3,     ee2,    peo,    pgho,   pho,    pinco,  plo,    se2,
                zmos,   inclo,  init,   ep,     inclp,  nodep, argpp,  mp) {
 
     if (typeof(opsmode) === 'undefined') {
-        throw new Error("Global opsmode is undefined, must be 'a' or 'i'");
+        throw Error("Global opsmode is undefined, must be 'a' or 'i'");
     }
     if ((opsmode !== 'a') && (opsmode !== 'i')) {
-        throw new Error("Global must be 'a' or 'i' but opsmode=" + opsmode);
+        throw Error("Global must be 'a' or 'i' but opsmode=" + opsmode);
     }
 
     var twopi = 2.0 * Math.PI,

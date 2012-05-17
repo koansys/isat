@@ -99,25 +99,25 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
     // [tumin, mu, radiusearthkm, xke, j2, j3, j4, j3oj2] = getgravc(whichconst);
 
     if (typeof tumin === 'undefined') {
-        throw new Error("Global 'tumin' is undefined");
+        throw Error("Global 'tumin' is undefined");
     }
     if (typeof radiusearthkm === 'undefined') {
-        throw new Error("Global 'radiusearthkm' is undefined");
+        throw Error("Global 'radiusearthkm' is undefined");
     }
     if (typeof xke === 'undefined') {
-        throw new Error("Global 'xke' is undefined");
+        throw Error("Global 'xke' is undefined");
     }
     if (typeof j2 === 'undefined') {
-        throw new Error("Global 'j2' is undefined");
+        throw Error("Global 'j2' is undefined");
     }
     if (typeof j3 === 'undefined') {
-        throw new Error("Global 'j3' is undefined");
+        throw Error("Global 'j3' is undefined");
     }
     if (typeof j4 === 'undefined') {
-        throw new Error("Global 'j4' is undefined");
+        throw Error("Global 'j4' is undefined");
     }
     if (typeof j3oj2 === 'undefined') {
-        throw new Error("Global 'j3oj2' is undefined");
+        throw Error("Global 'j3oj2' is undefined");
     }
 
     satrec.error = 0;

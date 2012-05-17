@@ -7,7 +7,7 @@ function isequalRel(x, y, tol) {
         return true;
     }
     // Too bad this stops QUnit test, but is handy for finding want/got values
-    //throw new Error("isEqualRel x=" + x + " y=" + y + "  tol=" + tol);
+    //throw Error("isEqualRel x=" + x + " y=" + y + "  tol=" + tol);
     return false;
 }
 
