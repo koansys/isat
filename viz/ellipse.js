@@ -91,6 +91,23 @@
             ctx.stroke();       // paint it (we want blue)
         };
 
+        var drawCoords = function () {
+            // Show our X,Y (er, X,Z) coord sizes
+            ctx.font = "12px sans-serif";
+            ctx.fillText("+",          scaleX(     0), scaleY(0));
+
+            ctx.fillText("X=-10000km", scaleX(-10000), scaleY(0));
+            ctx.fillText("X=-5000km",  scaleX( -5000), scaleY(0));
+            ctx.fillText("X=-5000km",  scaleX( +5000), scaleY(0));
+            ctx.fillText("X=+10000km", scaleX(+10000), scaleY(0));
+
+            ctx.fillText("Z=-10000km", scaleX(0), scaleY(-10000));
+            ctx.fillText("Z=-5000km",  scaleX(0), scaleY( -5000));
+            ctx.fillText("Z=+5000km",  scaleX(0), scaleY( +5000));
+            ctx.fillText("Z=+10000km", scaleY(0), scaleY(+10000));
+        }
+
+        drawCoords();
         drawEarth();
         drawResults();              // do it; get results from ellipseMgr
     };
