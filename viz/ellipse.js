@@ -26,7 +26,7 @@
     var ellipseMgr = function (ctx, cWidth, cHeight, minX, maxX, minY, maxY, results) {
         // TODO closure to make Initizialized funcs to do the scaling
         console.log("ellipseMgr ctx:", ctx, " results:", results);
-        
+
         var scaleX = function (x) {
             return x * (cWidth - 0) / (maxX - minX) + (cWidth - 0) / 2;
         };
@@ -35,11 +35,29 @@
             return y * (cHeight - 0) / (maxY - minY) + (cHeight - 0) / 2;
         };
 
+        var normalize = function (n) {
+            // return 0...1 for an X, Y, Z scaled by min/max
+            // can be used to do depth shading.
+            // TODO: we need to unify maxX, maxY
+            return (n + maxX) / (maxX - minX);
+        };
+
+        var colorScale = function (n) {
+            // return "#000" ... "#fff" based on n scaled to min/max
+            var nScaled, color, colorString,
+            colors = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
+            nScaled = normalize(n);
+            color = colors[Math.floor(nScaled * 16)];
+            colorString = "#" + color + color + color;
+            return colorString;
+        }
+
         var drawResults = function () {
+            // Plot x,z (looking at side of Earth) instead of x,y (looking down north pole)
             var resLines = results.split('\n'),
             len = resLines.length,
-            vals, mfe, x, y, z, sx, sy, sz, i;
-            ctx.strokeStyle = 'black';
+            vals, mfe, x, y, z, sx, sy, sz, i, color;
+            ctx.strokeStyle = 'black'; // should never be used, see colorScale use below
             ctx.beginPath();
             for (i = 0; i < len; i += 1) {
                 vals = resLines[i].trim().split(/\s+/);
@@ -54,8 +72,11 @@
                 sx = scaleX(x);
                 sy = scaleY(y);
                 sz = scaleX(z); // NOTE: BOGUS SCALING HERE, we really only need one scale.
+
+                color = colorScale(y); // map 'sy' to 0...F then set strokestyle to be #000 ... #FFF
+                //ctx.strokeStyle = color; // TODO: this isn't working, entire stroke is same color.
+                console.log("colorScale y=" + y + " color=" + color);
                 //console.log("drawResults lineTo", x, y, sx, sy);
-                // Plot x,z (looking at side of Earth) instead of x,y (looking down north pole)
                 if (i === 0) {      // move to first (0th) point instead of drawing
                     //ctx.moveTo(sx, sy);
                     ctx.moveTo(sx, sz);
@@ -106,6 +127,9 @@
             ctx.fillText("Z=+5000km",  scaleX(0), scaleY( +5000));
             ctx.fillText("Z=+10000km", scaleY(0), scaleY(+10000));
         }
+
+        console.log("test normalize(5000)=" + normalize(5000));
+        console.log("test colorScale(5000)=" + colorScale(5000));
 
         drawCoords();
         drawEarth();
