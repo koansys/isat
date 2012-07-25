@@ -39,6 +39,7 @@
             var resLines = results.split('\n'),
             len = resLines.length,
             vals, mfe, x, y, sx, sy, i;
+            ctx.strokeStyle = 'black';
             ctx.beginPath();
             for (i = 0; i < len; i += 1) {
                 vals = resLines[i].trim().split(/\s+/);
@@ -51,7 +52,7 @@
                 y = parseFloat(vals.shift());
                 sx = scaleX(x);
                 sy = scaleY(y);
-                console.log("drawResults lineTo", x, y, sx, sy);
+                //console.log("drawResults lineTo", x, y, sx, sy);
                 if (i === 0) {      // move to first (0th) point instead of drawing
                     ctx.moveTo(sx, sy);
                 } else {
@@ -61,6 +62,31 @@
             ctx.stroke();           // paint it black
         };
 
+        var drawEarth = function () {
+            // Instead of drawing a circle, I'm sure there's a call.
+            // But we're not guaranteed to have identical scaleX and scaleY
+            // if the canvas isn't square.
+            // TODO: have a single scale for canvas.
+            var deg, rad, rx, ry,
+                pi2 = Math.PI * 2.0,
+                r = 6371.0;          // Earth mean radius in Km
+            ctx.strokeStyle = 'blue';
+            ctx.beginPath();
+            for (deg = 0; deg <= 360; deg += 2) {
+                rad = pi2 * (deg / 360.0);
+                rx = scaleX(r * Math.cos(rad));
+                ry = scaleY(r * Math.sin(rad));
+                //console.log("drawEarth deg=" + deg + " rad=" + rad + " rx=" + rx + " ry=" + ry);
+                if (deg === 0) {
+                    ctx.moveTo(rx, ry);
+                } else {
+                    ctx.lineTo(rx, ry);
+                }
+            }
+            ctx.stroke();       // paint it (we want blue)
+        };
+
+        drawEarth();
         drawResults();              // do it; get results from ellipseMgr
     };
 
@@ -69,6 +95,6 @@
         ctx = canvas.getContext('2d'),
         satcalcs = document.getElementById('satcalcs').value;
         console.log("doc ready satcals value=", satcalcs);
-        ellipseMgr(ctx, 640, 480, -10000, 10000, -10000, 10000, satcalcs);
+        ellipseMgr(ctx, 400, 400, -10000, 10000, -10000, 10000, satcalcs);
     });
 }());
