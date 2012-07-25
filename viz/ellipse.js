@@ -38,7 +38,7 @@
         var drawResults = function () {
             var resLines = results.split('\n'),
             len = resLines.length,
-            vals, mfe, x, y, sx, sy, i;
+            vals, mfe, x, y, z, sx, sy, sz, i;
             ctx.strokeStyle = 'black';
             ctx.beginPath();
             for (i = 0; i < len; i += 1) {
@@ -50,13 +50,18 @@
                 mfe = parseFloat(vals.shift()); // minutes from epoch
                 x = parseFloat(vals.shift());
                 y = parseFloat(vals.shift());
+                z = parseFloat(vals.shift());
                 sx = scaleX(x);
                 sy = scaleY(y);
+                sz = scaleX(z); // NOTE: BOGUS SCALING HERE, we really only need one scale.
                 //console.log("drawResults lineTo", x, y, sx, sy);
+                // Plot x,z (looking at side of Earth) instead of x,y (looking down north pole)
                 if (i === 0) {      // move to first (0th) point instead of drawing
-                    ctx.moveTo(sx, sy);
+                    //ctx.moveTo(sx, sy);
+                    ctx.moveTo(sx, sz);
                 } else {
-                    ctx.lineTo(sx, sy);
+                    //ctx.lineTo(sx, sy);
+                    ctx.lineTo(sx, sz);
                 }
             }
             ctx.stroke();           // paint it black
