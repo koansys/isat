@@ -234,7 +234,7 @@ function testmat() {
 
             if (satrec.error === 0) {
                 if ((typerun !== 'v') && (typerun !== 'c')) {
-                    jd = satrec.jdsatepoch + tsince / 1440;
+                    jd = satrec.jdsatepoch + tsince / 1440; // 24 hours/day * 60 minutes/hour = 1440 minutes/day
                     //[year,mon,day,hr,minute,sec] = invjday(jd);
                     rets = invjday(jd);
                     year    = rets.shift();
