@@ -16,7 +16,7 @@
     var drawEarth = function () {
         var radius = 0.75 * canvas.width / 2; // TODO: earth radius Km
 
-        //ctx.globalCompositeOperation = 'destinatin-over';
+        //ctx.globalCompositeOperation = 'destination-over';
         ctx.fillStyle = "#888888";
         ctx.fillRect(0,0, canvas.width, canvas.height);
         ctx.beginPath();
@@ -25,36 +25,45 @@
         ctx.fillStyle = "#000066";
         ctx.strokeStyle = "#0000ff";
         ctx.lineWidth = 10;
-        console.log("about to stroke");
+        //console.log("about to stroke");
         ctx.stroke();
         ctx.fill();
     }
 
     var drawOrbit = function () {
-        var deg,
-        rad,
+        var 
         x,
         y,
-        radius = 0.9 * canvas.width / 2;
+        radius = 0.9 * canvas.width / 2,
+        datetime = new Date(), 
+        sec = datetime.getSeconds(),
+        ms  = datetime.getMilliseconds(),
+        rad = pi2 * (sec / 60 + ms / 60000);
 
-        for (deg = 0; deg <= 180; deg += 10) {
-            rad = pi2 * deg / 360;
-            console.log("deg=", deg, "rad=", rad);
-            x = x0 + radius * Math.cos(deg);
-            y = y0 + radius * Math.sin(deg);
-            ctx.save();
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = "yellow";
-            ctx.beginPath();
-            // ctx.moveTo(x, y);
-            // ctx.arc(x, y, 10, 0, pi2, false);
-            ctx.translate(x, y);
-            ctx.arc(0, 0, 5, 0, pi2, false);
-            ctx.stroke();
-            ctx.restore();
-        }
+        //console.log("sec=", sec, "rad=", rad);
+        x = x0 + radius * Math.cos(rad);
+        y = y0 + radius * Math.sin(rad);
+        ctx.save();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "yellow";
+        ctx.beginPath();
+        ctx.translate(x, y);
+        ctx.arc(0, 0, 2, 0, pi2, false);
+        ctx.stroke();
+        ctx.restore();
     }
-    drawEarth();
-    drawOrbit();
+
+    var drawAll = function () {
+        drawEarth();
+        drawOrbit();
+    }
+
+    var init = function () {
+        setInterval(drawAll, 200);
+    }
+
+    // drawEarth();
+    // drawOrbit();
+    init();
 }())
 
