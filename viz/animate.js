@@ -17,7 +17,7 @@
         var radius = 0.75 * canvas.width / 2; // TODO: earth radius Km
 
         //ctx.globalCompositeOperation = 'destination-over';
-        ctx.fillStyle = "#888888";
+        ctx.fillStyle = "#333333";
         ctx.fillRect(0,0, canvas.width, canvas.height);
         ctx.beginPath();
         // x,y, radius, startAng, endAng, antiClockwise
@@ -31,18 +31,15 @@
     }
 
     var drawOrbit = function () {
-        var 
-        x,
-        y,
+        var
         radius = 0.9 * canvas.width / 2,
-        datetime = new Date(), 
+        datetime = new Date(),
         sec = datetime.getSeconds(),
         ms  = datetime.getMilliseconds(),
-        rad = pi2 * (sec / 60 + ms / 60000);
-
-        //console.log("sec=", sec, "rad=", rad);
-        x = x0 + radius * Math.cos(rad);
+        rad = pi2 * (sec / 60 + ms / 60000),
+        x = x0 + radius * Math.cos(rad),
         y = y0 + radius * Math.sin(rad);
+
         ctx.save();
         ctx.lineWidth = 1;
         ctx.strokeStyle = "yellow";
@@ -62,8 +59,6 @@
         setInterval(drawAll, 200);
     }
 
-    // drawEarth();
-    // drawOrbit();
     init();
 }())
 
