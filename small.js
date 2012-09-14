@@ -35,5 +35,8 @@
         up : new Cesium.Cartesian3(-0.1642824655609347, 0.5596076102188919, 0.8123118822806428)
     });
 
-    scene.render();
+    (function tick() {
+        scene.render();
+        Cesium.requestAnimationFrame(tick);
+    }());
 }());
