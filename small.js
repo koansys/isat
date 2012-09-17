@@ -17,9 +17,9 @@
 
     var cb = new Cesium.CentralBody(ellipsoid);
     cb.dayTileProvider = bing;
-    cb.nightImageSource = 'Images/land_ocean_ice_lights_2048.jpg';
+//    cb.nightImageSource = 'Images/land_ocean_ice_lights_2048.jpg';
     cb.specularMapSource = 'Images/earthspec1k.jpg';
-    cb.cloudsMapSource = 'Images/earthcloudmaptrans.jpg';
+//    cb.cloudsMapSource = 'Images/earthcloudmaptrans.jpg';
     cb.bumpMapSource = 'Images/earthbump1k.jpg';
     cb.showSkyAtmosphere = true;
     cb.showGroundAtmosphere = true;
@@ -48,7 +48,9 @@
             // We presumably will want center of the earth for satellites,
             // not centered about some earth surface location.
             // DC: 38.8900 N, 77.0300 W
-            var center = ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(-75.59777, 40.03883));
+            // ORIG: -75.59777, 40.03883));
+            var center = ellipsoid.cartographicToCartesian(
+                Cesium.Cartographic.fromDegrees(-77.141209,38.885580)); // WBG Lon,Lat
             billboards.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center);
             billboards.add({ imageIndex : 0, position : new Cesium.Cartesian3(0.0, 0.0, 0.0) }); // center
             billboards.add({ imageIndex : 0, position : new Cesium.Cartesian3(1000000.0, 0.0, 0.0) }); // east
@@ -62,12 +64,13 @@
 
     function addLabelsInReferenceFrame(scene, ellipsoid) {
         //Sandcastle.declare(addLabelsInReferenceFrame);  // For highlighting in Sandcastle.
-        var center = ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(-75.59777, 40.03883));
+        var center = ellipsoid.cartographicToCartesian(
+            Cesium.Cartographic.fromDegrees(-77.141209,38.885580)); // WBG Lon,Lat
         var labels = new Cesium.LabelCollection(undefined);
         labels.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center);
         labels.add({
             position : new Cesium.Cartesian3(0.0, 0.0, 0.0),
-            text     : 'Center'
+            text     : 'WBG'
         });
         labels.add({
             position : new Cesium.Cartesian3(1000000.0, 0.0, 0.0),
@@ -79,7 +82,7 @@
         });
         labels.add({
             position : new Cesium.Cartesian3(0.0, 0.0, 1000000.0),
-            text     : 'Up'
+            text     : 'Above'
         });
         scene.getPrimitives().add(labels);
     }
