@@ -1,6 +1,5 @@
 /*global document, Cesium, Image*/
 (function () {
-    //from Sandbox.js
     "use strict";
     var canvas = document.getElementById('glCanvas');
     var scene = new Cesium.Scene(canvas);
@@ -16,20 +15,22 @@
     });
 
     var cb = new Cesium.CentralBody(ellipsoid);
+    // How do we tell if we can't get Bing, and substitute flat map?
     cb.dayTileProvider      = bing;
+    // is this map right? seamless with the night view? 
+    //cb.dayTileProvider      = new Cesium.SingleTileProvider('Images/NE2_50M_SR_W_4096.jpg');
+
     cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
     cb.specularMapSource    = 'Images/earthspec1k.jpg';
-    cb.cloudsMapSource      = 'Images/earthcloudmaptrans.jpg';
+//    cb.cloudsMapSource      = 'Images/earthcloudmaptrans.jpg';
     cb.bumpMapSource        = 'Images/earthbump1k.jpg';
     cb.showSkyAtmosphere    = true;
-    cb.showGroundAtmosphere = true;
+//    cb.showGroundAtmosphere = true;
 
     primitives.setCentralBody(cb);
 
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
-
-//    scene.getCamera().frustum.near = 100.0;
 
     scene.getCamera().lookAt({
         eye : new Cesium.Cartesian3(2203128.2853925996, -7504680.128731707, 5615591.201449535),
@@ -43,16 +44,10 @@
             var billboards = new Cesium.BillboardCollection();
             var textureAtlas = scene.getContext().createTextureAtlas({image: image});
             billboards.setTextureAtlas(textureAtlas);
-            // Must be defining center where labels will be referenced to,
-            // I assume on earth surface.
-            // We presumably will want center of the earth for satellites,
-            // not centered about some earth surface location.
-            // DC: 38.8900 N, 77.0300 W
-            // ORIG: -75.59777, 40.03883));
             var center = ellipsoid.cartographicToCartesian(
                 Cesium.Cartographic.fromDegrees(-77.141209,38.885580)); // WBG Lon,Lat
             billboards.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center);
-            billboards.add({ imageIndex : 0, position : new Cesium.Cartesian3(0.0, 0.0, 0.0) }); // center
+            //billboards.add({ imageIndex : 0, position : new Cesium.Cartesian3(0.0, 0.0, 0.0) }); // center
             billboards.add({ imageIndex : 0, position : new Cesium.Cartesian3(1000000.0, 0.0, 0.0) }); // east
             billboards.add({ imageIndex : 0, position : new Cesium.Cartesian3(0.0, 1000000.0, 0.0) }); // north
             billboards.add({ imageIndex : 0, position : new Cesium.Cartesian3(0.0, 0.0, 1000000.0) }); // up
@@ -62,8 +57,41 @@
     }
     addBillboardsInReferenceframe(scene, ellipsoid);
 
+    function addWBGBillboardsInReferenceframe(scene, ellipsoid) {
+        var image = new Image();
+        image.onload = function () {
+            var billboards = new Cesium.BillboardCollection();
+            var textureAtlas = scene.getContext().createTextureAtlas({image: image});
+            billboards.setTextureAtlas(textureAtlas);
+            var center = ellipsoid.cartographicToCartesian(
+                Cesium.Cartographic.fromDegrees(-77.141209,38.885580)); // WBG Lon,Lat
+            billboards.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center);
+            billboards.add({ imageIndex : 0, position : new Cesium.Cartesian3(0.0, 0.0, 0.0) }); // center
+            scene.getPrimitives().add(billboards);
+        };
+        image.src = 'Images/icon_beer.gif';
+    }
+    addWBGBillboardsInReferenceframe(scene, ellipsoid);
+
+    // SAC in South Africa
+    function addSACInReferenceframe(scene, ellipsoid) {
+        var image = new Image();
+        image.onload = function () {
+            var billboards = new Cesium.BillboardCollection();
+            var textureAtlas = scene.getContext().createTextureAtlas({image: image});
+            billboards.setTextureAtlas(textureAtlas);
+            var center = ellipsoid.cartographicToCartesian(
+                Cesium.Cartographic.fromDegrees(27,-25)); // SAC Lon,Lat
+            billboards.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center);
+            billboards.add({ imageIndex : 0, position : new Cesium.Cartesian3(0.0, 0.0, 0.0) }); // center
+            scene.getPrimitives().add(billboards);
+        };
+        image.src = 'Images/facility.gif';
+    }
+    addSACInReferenceframe(scene, ellipsoid);
+
+
     function addLabelsInReferenceFrame(scene, ellipsoid) {
-        //Sandcastle.declare(addLabelsInReferenceFrame);  // For highlighting in Sandcastle.
         var center = ellipsoid.cartographicToCartesian(
             Cesium.Cartographic.fromDegrees(-77.141209,38.885580)); // WBG Lon,Lat
         var labels = new Cesium.LabelCollection(undefined);
