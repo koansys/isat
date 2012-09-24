@@ -55,12 +55,12 @@
     }
     addIssPointsInReferenceframe(scene, ellipsoid);
 
-    function viewByGeolocation() {
+    function viewByGeolocation(scene) {
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(show_geo);
         }
         else {
-            console.log('I can not haz geo :-(');
+            //console.log('I can not haz geo :-(');
         }
         function show_geo(position) {
             var target = ellipsoid.cartographicToCartesian(
@@ -69,6 +69,19 @@
                 Cesium.Cartographic.fromDegrees(position.coords.longitude, position.coords.latitude, 1e7));
             // console.log('lat=' + position.coords.latitude + ' lon=' + position.coords.longitude);
             // console.log('cartesian=' + target);
+            // Put a cross where we are
+            var image = new Image();
+            image.src = 'Images/cross_yellow_16.png';
+            image.onload = function () {
+                var billboards = new Cesium.BillboardCollection(); // how to make single?
+                var textureAtlas = scene.getContext().createTextureAtlas({image: image});
+                billboards.setTextureAtlas(textureAtlas);
+                billboards.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(target);
+                billboards.add({imageIndex: 0,
+                                position: new Cesium.Cartesian3(0.0, 0.0, 0.0)}); 
+                scene.getPrimitives().add(billboards);
+            };
+            // Point the camera at us and position it directly above us
             scene.getCamera().lookAt({
                 up : new Cesium.Cartesian3(0,0,1),
                 eye : eye,
@@ -77,7 +90,7 @@
 
         }
     }
-    viewByGeolocation();
+    viewByGeolocation(scene);
 
 
     (function tick() {
