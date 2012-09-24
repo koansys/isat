@@ -46,7 +46,7 @@
                                 position: new Cesium.Cartesian3(theIssPoints[ip].x, theIssPoints[ip].y, theIssPoints[ip].z)});
             }
             scene.getPrimitives().add(billboards);
-        }
+        };
     }
     addIssPointsInReferenceframe(scene, ellipsoid);
 
