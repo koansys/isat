@@ -40,6 +40,11 @@
             var billboards = new Cesium.BillboardCollection();
             var textureAtlas = scene.getContext().createTextureAtlas({image: image});
             var ip;
+            // We can't really use the same JulianDate for all time ticks of a single statellite --
+            // time varies with position. But we can with single-tick locations of all satellites.
+            var now = new Cesium.JulianDate(); 
+            billboards.modelMatrix = Cesium.Matrix4.fromRotationTranslation(Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
+                                                                            Cesium.Cartesian3.ZERO);
             billboards.setTextureAtlas(textureAtlas);
             for (ip = 0; ip < theIssPoints.length; ip++) {
                 billboards.add({imageIndex: 0,
