@@ -323,6 +323,22 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
             stopmfe  = input('input stop mfe: ');
             deltamin = input('input time step in minutes: ');
         }
+        if (typeinput === 'n') { // HACK: 'now', from cesiumtry
+            var now = new Date();
+            jdstart = jday(now.getFullYear(), now.getMonth() /* 0-11 !! */, now.getHours() /* 0-11 */,
+                           now.getHours(), now.getMinutes(), now.getSeconds());
+            jdstop =  jday(now.getFullYear(), now.getMonth() /* 0-11 !! */, now.getHours() /* 0-11 */,
+                           now.getHours(), now.getMinutes(), (now.getSeconds() + 1) % 60); // more than jdstart
+            startmfe = (jdstart - satrec.jdsatepoch) * 1440.0;
+            stopmfe  = (jdstop  - satrec.jdsatepoch) * 1440.0;
+            deltamin = 60; // minutes, we shouldn't need this
+            // Why is startmfe negative??
+            // satrec.jdsatepoch=2456195.79713419
+            // jdstart          =2456156.1898611113
+            // Perhaps based on typerun==c use delta of ... 1?
+            startmfe = 0.0;
+            stopmfe  = 1.0;
+        }
     }
     //     // perform complete catalog evaluation
     if (typerun === 'c') {
