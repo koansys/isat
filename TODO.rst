@@ -1,6 +1,22 @@
-=======
- NOTES
-=======
+======
+ TODO
+======
+
+Calcluate multiple satellites at one time
+
+Animate single (or multiple) satellites over time. This will requiring
+marching through calculations per Cesium tick, and rotating into
+time-specific ECF coords.
+
+======
+ Done
+======
+
+Rotate satellites from ECI TEME to ECF
+======================================
+
+Satellites are calculated in ECI TEME and we need to rotate them onto
+ECF (Earth Centered Fixed) based on current time.
 
 I can get the current time::
 
