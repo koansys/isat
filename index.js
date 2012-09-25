@@ -6,29 +6,6 @@
     var primitives = scene.getPrimitives();
     var ellipsoid = Cesium.Ellipsoid.WGS84;
 
-    var bing = new Cesium.BingMapsTileProvider({
-        server : 'dev.virtualearth.net',
-        mapStyle : Cesium.BingMapsStyle.AERIAL,
-        // Some versions of Safari support WebGL, but don't correctly implement
-        // cross-origin image loading, so we need to load Bing imagery using a proxy.
-        proxy : Cesium.FeatureDetection.supportsCrossOriginImagery() ? undefined : new Cesium.DefaultProxy('/Proxy.ashx')
-    });
-
-    var cb = new Cesium.CentralBody(ellipsoid);
-    // How do we tell if we can't get Bing, and substitute flat map?
-    //cb.dayTileProvider      = new Cesium.SingleTileProvider('Images/NE2_50M_SR_W_4096.jpg');
-    cb.dayTileProvider      = bing;
-    cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
-    cb.bumpMapSource        = 'Images/earthbump1k.jpg';
-    cb.showSkyAtmosphere    = true;
-
-    primitives.setCentralBody(cb);
-
-    // Fix the shading by setting the sun position.
-    scene.setAnimation(function () {
-        scene.setSunPosition(Cesium.SunPosition.compute().position);
-    });
-
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
     scene.getCamera().lookAt({
@@ -36,6 +13,48 @@
         up : new Cesium.Cartesian3(-0.1642824655609347, 0.5596076102188919, 0.8123118822806428),
         target : Cesium.Cartesian3.ZERO
     });
+
+    // Fix the shading by setting the sun position.
+    scene.setAnimation(function () {
+        scene.setSunPosition(Cesium.SunPosition.compute().position);
+    });
+
+    // Tile Providers
+
+    var bing = new Cesium.BingMapsTileProvider({
+        server : 'dev.virtualearth.net',
+        mapStyle : Cesium.BingMapsStyle.AERIAL//,
+        // Some versions of Safari support WebGL, but don't correctly implement
+        // cross-origin image loading, so we need to load Bing imagery using a proxy.
+        // This Proxyy.ashx doesn't exist, nor does Cesium.DefaultProxy('/proxy/') from docs
+        //proxy : Cesium.FeatureDetection.supportsCrossOriginImagery() ? undefined : new Cesium.DefaultProxy('/Proxy.ashx')
+    });
+    var osm = new Cesium.OpenStreetMapTileProvider({
+        url : 'http://tile.openstreetmap.org/'
+    });
+    // We get tiles but they're not rendering, why?
+    // Chrome: Cross-origin image load denied by Cross-Origin Resource Sharing policy.
+    // Chrome: Resource interpreted as Image but transferred with MIME type image/jpg:
+    //         "http://server.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/0/0/0".
+    // var esri = new Cesium.ArcGISTileProvider({
+    //     host : 'server.arcgisonline.com',
+    //     service : 'World_Street_Map'
+    // });
+    // CompositeTileProvider can use different tiles based on camera altitude
+    // Can't make this work yet. :-(
+    var single = new Cesium.SingleTileProvider('Images/NE2_50M_SR_W_4096.jpg');
+    var composite = new Cesium.CompositeTileProvider([
+        { provider : single, height : 1e6 },
+        { provider : bing,   height : 0 }
+    ], scene.getCamera(), ellipsoid); // presumably the camera must be placed first
+
+    var cb = new Cesium.CentralBody(ellipsoid);
+    // How do we tell if we can't get Bing, and substitute flat map with 'single'?
+    cb.dayTileProvider      = bing; // composite;// bing; // osm; // esri;
+    cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
+    cb.bumpMapSource        = 'Images/earthbump1k.jpg';
+    cb.showSkyAtmosphere    = true;
+    primitives.setCentralBody(cb);
 
     function addIssPointsInReferenceframe(scene, ellipsoid) {
         var theIssPoints = issPoints();
