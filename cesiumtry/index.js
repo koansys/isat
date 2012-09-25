@@ -1,4 +1,4 @@
-/*global document, Cesium, Image, issPoints, console, navigator, twoline2rv*/
+/*global document, Cesium, Image, issPoints, console, navigator, twoline2rv, sgp4*/
 (function () {
     "use strict";
     var canvas = document.getElementById('glCanvas');
@@ -19,6 +19,11 @@
     var startmfe = rets.shift();
     var stopmfe = rets.shift();
     var deltamin = rets.shift();
+    rets = sgp4(satrec, 0.0);   // call propagator to get initial state vector value
+    satrec = rets.shift();
+    var ro = rets.shift();      // [1802,    3835,    5287] Km, not meters?
+    var vo = rets.shift();
+    // IssPoints like:           3639156, 2164367, 5288125  meters
 
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
