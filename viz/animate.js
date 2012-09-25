@@ -56,7 +56,7 @@
     }
 
     var init = function () {
-        setInterval(drawAll, 200);
+        setInterval(drawAll, 50);
     }
 
     init();
