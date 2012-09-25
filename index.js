@@ -24,6 +24,11 @@
 
     primitives.setCentralBody(cb);
 
+    // Fix the shading by setting the sun position.
+    scene.setAnimation(function () {
+        scene.setSunPosition(Cesium.SunPosition.compute().position);
+    });
+
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
     scene.getCamera().lookAt({
