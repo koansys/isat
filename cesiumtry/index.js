@@ -116,6 +116,18 @@
     }
     viewByGeolocation(scene);
 
+    // Transition between views
+    var transitioner = new Cesium.SceneTransitioner(scene);
+    var view_3d = document.getElementById('view_3d');
+    var view_2d = document.getElementById('view_2d');
+    view_2d.onclick = function () {
+        transitioner.morphTo2D();
+        console.log('2d');
+    }
+    view_3d.onclick = function () {
+        transitioner.morphTo3D();
+        console.log('3d');
+    };
 
     (function tick() {
         scene.render();
