@@ -50,7 +50,11 @@
 
     var cb = new Cesium.CentralBody(ellipsoid);
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
+<<<<<<< HEAD
     cb.dayTileProvider      = bing; // composite;// bing; // osm; // esri;
+=======
+    cb.dayTileProvider      = osm;//bing; // composite;// bing; // osm; // esri; // single;
+>>>>>>> 3cd561ce248c9591f5ec3697fb97c8fdd855ec54
     cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
     cb.bumpMapSource        = 'Images/earthbump1k.jpg';
     cb.showSkyAtmosphere    = true;
@@ -116,6 +120,24 @@
     }
     viewByGeolocation(scene);
 
+<<<<<<< HEAD
+=======
+    // Switch map/tile providers
+    var tileProvider = bing;
+    var tile_bing = document.getElementById('tile_bing');
+    var tile_osm = document.getElementById('tile_osm');
+    var tile_single = document.getElementById('tile_single');
+    tile_bing.onclick = function () {
+        cb.dayTileProvider      = bing;//bing; // composite;// bing; // osm; // esri; // single;
+    };
+    tile_osm.onclick = function () {
+        cb.dayTileProvider      = osm;//bing; // composite;// bing; // osm; // esri; // single;
+    };
+    tile_single.onclick = function () {
+        cb.dayTileProvider      = single;//bing; // composite;// bing; // osm; // esri; // single;
+    };
+
+>>>>>>> 3cd561ce248c9591f5ec3697fb97c8fdd855ec54
     // Transition between views
     var transitioner = new Cesium.SceneTransitioner(scene);
     var view_3d = document.getElementById('view_3d');
