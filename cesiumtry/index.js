@@ -13,19 +13,6 @@
     var NOW = Date();
 
 
-    // Call the SGP4 calculation
-    // It expects to loop, but we only want location 'now'
-    var rets = twoline2rv(WHICHCONST, ISS_TLE1, ISS_TLE2, TYPERUN, TYPEINPUT);
-    var satrec = rets.shift();
-    var startmfe = rets.shift();
-    var stopmfe = rets.shift();
-    var deltamin = rets.shift();
-    rets = sgp4(satrec, 0.0);   // call propagator to get initial state vector value
-    satrec = rets.shift();
-    var ro = rets.shift();      // [1802,    3835,    5287] Km, not meters?
-    var vo = rets.shift();
-    // IssPoints like:           3639156, 2164367, 5288125  meters
-
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
     scene.getCamera().lookAt({
@@ -41,8 +28,6 @@
 
     // Tile Providers
 
-    var single = new Cesium.SingleTileProvider('Images/NE2_50M_SR_W_4096.jpg');
-
     var bing = new Cesium.BingMapsTileProvider({// fails to detect 404 due to no net :-(
         onerror : function () { console.log("ZOMG, a Bing error"); },
         server : 'dev.virtualearth.net',
@@ -52,10 +37,10 @@
         // This Proxyy.ashx doesn't exist, nor does Cesium.DefaultProxy('/proxy/') from docs
         //proxy : Cesium.FeatureDetection.supportsCrossOriginImagery() ? undefined : new Cesium.DefaultProxy('/Proxy.ashx')
     });
-
     var osm = new Cesium.OpenStreetMapTileProvider({
         url : 'http://tile.openstreetmap.org/'
     });
+    var single = new Cesium.SingleTileProvider('Images/NE2_50M_SR_W_4096.jpg');
 
     // We get tiles but they're not rendering, why?
     // Chrome: Cross-origin image load denied by Cross-Origin Resource Sharing policy.
@@ -67,10 +52,10 @@
     // });
     // CompositeTileProvider can use different tiles based on camera altitude
     // Can't make this work yet. :-(
-    var composite = new Cesium.CompositeTileProvider([
-        { provider : single, height : 1e6 },
-        { provider : bing,   height : 0 }
-    ], scene.getCamera(), ellipsoid); // presumably the camera must be placed first
+    // var composite = new Cesium.CompositeTileProvider([
+    //     { provider : single, height : 1e6 },
+    //     { provider : bing,   height : 0 }
+    // ], scene.getCamera(), ellipsoid); // presumably the camera must be placed first
 
     var cb = new Cesium.CentralBody(ellipsoid);
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
@@ -79,6 +64,37 @@
     cb.bumpMapSource        = 'Images/earthbump1k.jpg';
     cb.showSkyAtmosphere    = true;
     primitives.setCentralBody(cb);
+
+    function addIssFromTLE(scene, ellipsoid) {
+        // Call the SGP4 calculation
+        // It expects to loop, but we only want location 'now'
+        var rets = twoline2rv(WHICHCONST, ISS_TLE1, ISS_TLE2, TYPERUN, TYPEINPUT);
+        var satrec = rets.shift();
+        var startmfe = rets.shift();
+        var stopmfe = rets.shift();
+        var deltamin = rets.shift();
+        rets = sgp4(satrec, 0.0);   // call propagator to get initial state vector value
+        satrec = rets.shift();
+        var ro = rets.shift();      // [1802,    3835,    5287] Km, not meters?
+        console.log('ro=', ro);
+        var vo = rets.shift();
+        // IssPoints like:           3639156, 2164367, 5288125  meters
+        var image = new Image();
+        image.src = 'Images/ISS-16x16.gif';
+        image.onload = function () {
+            var billboards = new Cesium.BillboardCollection();
+            var textureAtlas = scene.getContext().createTextureAtlas({image: image});
+            var now = new Cesium.JulianDate(); 
+            billboards.modelMatrix = Cesium.Matrix4.fromRotationTranslation(Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
+                                                                            Cesium.Cartesian3.ZERO);
+            billboards.setTextureAtlas(textureAtlas);
+            billboards.add({imageIndex: 0,
+                            position:  new Cesium.Cartesian3(ro[0] * 1000, ro[1] * 1000, ro[2] * 1000)}); // Km to meter
+            scene.getPrimitives().add(billboards);
+        };
+    }
+    addIssFromTLE(scene, ellipsoid);
+
 
     function addIssPointsInReferenceframe(scene, ellipsoid) {
         var theIssPoints = issPoints();
