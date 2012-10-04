@@ -1,29 +1,10 @@
-/*global document, Cesium, Image, issPoints, console, navigator, twoline2rv, sgp4*/
+/*global document, Cesium, Image, issPoints, console, navigator*/
 (function () {
     "use strict";
     var canvas = document.getElementById('glCanvas');
     var scene = new Cesium.Scene(canvas);
     var primitives = scene.getPrimitives();
     var ellipsoid = Cesium.Ellipsoid.WGS84;
-    var ISS_TLE1 = '1 25544U 98067A   12269.29713419  .00016664  00000-0  29605-3 0  3617';
-    var ISS_TLE2 = '2 25544  51.6491 343.7959 0018385  98.9248 345.5460 15.50147629793571';
-    var WHICHCONST = 84;
-    var TYPERUN = 'm';          // 'm'anual, 'c'atalog, 'v'erification)
-    var TYPEINPUT = 'n';        // HACK: 'now'
-    var NOW = Date();
-
-    // Call the SGP4 calculation
-    // It expects to loop, but we only want location 'now'
-    var rets = twoline2rv(WHICHCONST, ISS_TLE1, ISS_TLE2, TYPERUN, TYPEINPUT);
-    var satrec = rets.shift();
-    var startmfe = rets.shift();
-    var stopmfe = rets.shift();
-    var deltamin = rets.shift();
-    rets = sgp4(satrec, 0.0);   // call propagator to get initial state vector value
-    satrec = rets.shift();
-    var ro = rets.shift();      // [1802,    3835,    5287] Km, not meters?
-    var vo = rets.shift();
-    // IssPoints like:           3639156, 2164367, 5288125  meters
 
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
@@ -135,33 +116,6 @@
     }
     viewByGeolocation(scene);
 
-    // Switch map/tile providers
-    var tileProvider = bing;
-    var tile_bing = document.getElementById('tile_bing');
-    var tile_osm = document.getElementById('tile_osm');
-    var tile_single = document.getElementById('tile_single');
-    tile_bing.onclick = function () {
-        cb.dayTileProvider      = bing;//bing; // composite;// bing; // osm; // esri; // single;
-    };
-    tile_osm.onclick = function () {
-        cb.dayTileProvider      = osm;//bing; // composite;// bing; // osm; // esri; // single;
-    };
-    tile_single.onclick = function () {
-        cb.dayTileProvider      = single;//bing; // composite;// bing; // osm; // esri; // single;
-    };
-
-    // Transition between views
-    var transitioner = new Cesium.SceneTransitioner(scene);
-    var view_3d = document.getElementById('view_3d');
-    var view_2d = document.getElementById('view_2d');
-    view_2d.onclick = function () {
-        transitioner.morphTo2D();
-        console.log('2d');
-    }
-    view_3d.onclick = function () {
-        transitioner.morphTo3D();
-        console.log('3d');
-    };
 
     (function tick() {
         scene.render();
