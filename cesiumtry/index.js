@@ -12,6 +12,7 @@
     var TYPEINPUT = 'n';        // HACK: 'now'
     var NOW = Date();
 
+
     // Call the SGP4 calculation
     // It expects to loop, but we only want location 'now'
     var rets = twoline2rv(WHICHCONST, ISS_TLE1, ISS_TLE2, TYPERUN, TYPEINPUT);
@@ -40,17 +41,22 @@
 
     // Tile Providers
 
-    var bing = new Cesium.BingMapsTileProvider({
+    var single = new Cesium.SingleTileProvider('Images/NE2_50M_SR_W_4096.jpg');
+
+    var bing = new Cesium.BingMapsTileProvider({// fails to detect 404 due to no net :-(
+        onerror : function () { console.log("ZOMG, a Bing error"); },
         server : 'dev.virtualearth.net',
-        mapStyle : Cesium.BingMapsStyle.AERIAL//,
+        mapStyle : Cesium.BingMapsStyle.AERIAL // AERIAL, AERIAL_WITH_LABELS, COLLINS_BART, ORDNANACE_SURVEY, ROAD
         // Some versions of Safari support WebGL, but don't correctly implement
         // cross-origin image loading, so we need to load Bing imagery using a proxy.
         // This Proxyy.ashx doesn't exist, nor does Cesium.DefaultProxy('/proxy/') from docs
         //proxy : Cesium.FeatureDetection.supportsCrossOriginImagery() ? undefined : new Cesium.DefaultProxy('/Proxy.ashx')
     });
+
     var osm = new Cesium.OpenStreetMapTileProvider({
         url : 'http://tile.openstreetmap.org/'
     });
+
     // We get tiles but they're not rendering, why?
     // Chrome: Cross-origin image load denied by Cross-Origin Resource Sharing policy.
     // Chrome: Resource interpreted as Image but transferred with MIME type image/jpg:
@@ -61,7 +67,6 @@
     // });
     // CompositeTileProvider can use different tiles based on camera altitude
     // Can't make this work yet. :-(
-    var single = new Cesium.SingleTileProvider('Images/NE2_50M_SR_W_4096.jpg');
     var composite = new Cesium.CompositeTileProvider([
         { provider : single, height : 1e6 },
         { provider : bing,   height : 0 }
@@ -69,7 +74,7 @@
 
     var cb = new Cesium.CentralBody(ellipsoid);
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
-    cb.dayTileProvider      = bing; // composite;// bing; // osm; // esri;
+    cb.dayTileProvider      = osm; // single; // composite;// bing; // osm; // esri;
     cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
     cb.bumpMapSource        = 'Images/earthbump1k.jpg';
     cb.showSkyAtmosphere    = true;
@@ -156,11 +161,9 @@
     var view_2d = document.getElementById('view_2d');
     view_2d.onclick = function () {
         transitioner.morphTo2D();
-        console.log('2d');
-    }
+    };
     view_3d.onclick = function () {
         transitioner.morphTo3D();
-        console.log('3d');
     };
 
     (function tick() {
