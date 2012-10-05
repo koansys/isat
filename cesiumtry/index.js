@@ -1,4 +1,4 @@
-/*global document, Cesium, Image, issPoints, console, navigator, twoline2rv, sgp4*/
+/*global document, Cesium, Image, issPoints, console, navigator, twoline2rv, sgp4, tle*/
 (function () {
     "use strict";
     var canvas = document.getElementById('glCanvas');
@@ -12,6 +12,12 @@
     var TYPEINPUT = 'n';        // HACK: 'now'
     var NOW = Date();
 
+    var science_tle = tle.readFile('science.txt');
+    console.log("science_tle[0]=" + science_tle[0]);
+    var science_lines = tle.readFileLines('science.txt');
+    console.log("science_lines[0]=" + science_lines[0]);
+    var science_tles = tle.parseFile('science.txt');
+    console.log("science_tles[0]=" + science_tles[0]);
 
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
