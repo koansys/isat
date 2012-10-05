@@ -5,19 +5,10 @@
     var scene = new Cesium.Scene(canvas);
     var primitives = scene.getPrimitives();
     var ellipsoid = Cesium.Ellipsoid.WGS84;
-    var ISS_TLE1 = '1 25544U 98067A   12269.29713419  .00016664  00000-0  29605-3 0  3617';
-    var ISS_TLE2 = '2 25544  51.6491 343.7959 0018385  98.9248 345.5460 15.50147629793571';
     var WHICHCONST = 84;
     var TYPERUN = 'm';          // 'm'anual, 'c'atalog, 'v'erification)
     var TYPEINPUT = 'n';        // HACK: 'now'
     var NOW = Date();
-
-    var science_tle = tle.readFile('science.txt');
-    console.log("science_tle[0]=" + science_tle[0]);
-    var science_lines = tle.readFileLines('science.txt');
-    console.log("science_lines[0]=" + science_lines[0]);
-    var science_tles = tle.parseFile('science.txt');
-    console.log("science_tles[0]=" + science_tles[0]);
 
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
@@ -71,35 +62,39 @@
     cb.showSkyAtmosphere    = true;
     primitives.setCentralBody(cb);
 
-    function addIssFromTLE(scene, ellipsoid) {
+    function addSatsFromTLEFile(scene, ellipsoid, fileName) {
         // Call the SGP4 calculation
         // It expects to loop, but we only want location 'now'
-        var rets = twoline2rv(WHICHCONST, ISS_TLE1, ISS_TLE2, TYPERUN, TYPEINPUT);
-        var satrec = rets.shift();
-        var startmfe = rets.shift();
-        var stopmfe = rets.shift();
-        var deltamin = rets.shift();
-        rets = sgp4(satrec, 0.0);   // call propagator to get initial state vector value
-        satrec = rets.shift();
-        var ro = rets.shift();      // [1802,    3835,    5287] Km, not meters?
-        console.log('ro=', ro);
-        var vo = rets.shift();
-        // IssPoints like:           3639156, 2164367, 5288125  meters
+        var tles = tle.parseFile(fileName);
         var image = new Image();
-        image.src = 'Images/ISS-16x16.gif';
+        var satnum = 0;
+        image.src = 'Images/Satellite.png';
         image.onload = function () {
             var billboards = new Cesium.BillboardCollection();
             var textureAtlas = scene.getContext().createTextureAtlas({image: image});
-            var now = new Cesium.JulianDate(); 
+            var now = new Cesium.JulianDate();
+            var rets, satrec, startmfe, stopmfe, deltamin, ro, vo;
             billboards.modelMatrix = Cesium.Matrix4.fromRotationTranslation(Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
                                                                             Cesium.Cartesian3.ZERO);
             billboards.setTextureAtlas(textureAtlas);
-            billboards.add({imageIndex: 0,
-                            position:  new Cesium.Cartesian3(ro[0] * 1000, ro[1] * 1000, ro[2] * 1000)}); // Km to meter
-            scene.getPrimitives().add(billboards);
+            for (satnum = 0; satnum < tles.length; satnum++) {
+                rets = twoline2rv(WHICHCONST, tles[satnum][1], tles[satnum][2], TYPERUN, TYPEINPUT);
+                satrec = rets.shift();
+                startmfe = rets.shift();
+                stopmfe = rets.shift();
+                deltamin = rets.shift();
+                rets = sgp4(satrec, 0.0);   // call propagator to get initial state vector value
+                satrec = rets.shift();
+                ro = rets.shift();      // [1802,    3835,    5287] Km, not meters
+                vo = rets.shift();
+                billboards.add({imageIndex: 0,
+                                position:  new Cesium.Cartesian3(ro[0] * 1000, ro[1] * 1000, ro[2] * 1000)}); // Km to meter
+                scene.getPrimitives().add(billboards);
+            }
         };
     }
-    addIssFromTLE(scene, ellipsoid);
+    addSatsFromTLEFile(scene, ellipsoid, 'science.txt');
+    addSatsFromTLEFile(scene, ellipsoid, 'geo.txt');
 
 
     function addIssPointsInReferenceframe(scene, ellipsoid) {
@@ -123,7 +118,7 @@
             scene.getPrimitives().add(billboards);
         };
     }
-    addIssPointsInReferenceframe(scene, ellipsoid);
+    //addIssPointsInReferenceframe(scene, ellipsoid);
 
     function viewByGeolocation(scene) {
         if ('geolocation' in navigator) {
