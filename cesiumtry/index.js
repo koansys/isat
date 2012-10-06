@@ -93,8 +93,8 @@
             }
         };
     }
-    addSatsFromTLEFile(scene, ellipsoid, 'science.txt');
-    addSatsFromTLEFile(scene, ellipsoid, 'geo.txt');
+    //addSatsFromTLEFile(scene, ellipsoid, 'science.txt');
+    //aaddSatsFromTLEFile(scene, ellipsoid, 'geo.txt');
 
 
     function addIssPointsInReferenceframe(scene, ellipsoid) {
@@ -183,6 +183,15 @@
         transitioner.morphTo3D();
     };
 
+    // Switch which satellites are displayed.
+    // TODO: How do we turn them off -- toggle them? 
+    document.getElementById('satellites_science').onclick = function () {
+        addSatsFromTLEFile(scene, ellipsoid, 'science.txt');
+    };
+    document.getElementById('satellites_geosynchronous').onclick = function () {
+        addSatsFromTLEFile(scene, ellipsoid, 'geo.txt');
+    };
+    
     (function tick() {
         scene.render();
         Cesium.requestAnimationFrame(tick);
