@@ -1,0 +1,27 @@
+[
+  {
+    "id":"Headquarters",
+    "position":{
+      "cartesian":[
+        1216469.9357990976,-4736121.71856379,4081386.8856866374
+      ]
+    },
+    "billboard":{
+      "color":{
+        "rgba":[
+          0,255,255,255
+        ]
+      },
+      "horizontalOrigin":"CENTER",
+      "image":"http://www.someImage.com/someImage.png",
+      "scale":1.0,
+      "show":[
+        {
+          "interval":"2012-06-20T16:00:00Z/2012-06-20T16:02:00Z",
+          "boolean":true
+        }
+      ],
+      "verticalOrigin":"CENTER"
+    }
+  }
+]
