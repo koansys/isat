@@ -93,9 +93,6 @@
             }
         };
     }
-    //addSatsFromTLEFile(scene, ellipsoid, 'science.txt');
-    //aaddSatsFromTLEFile(scene, ellipsoid, 'geo.txt');
-
 
     function addIssPointsInReferenceframe(scene, ellipsoid) {
         var theIssPoints = issPoints();
@@ -107,7 +104,7 @@
             var ip;
             // We can't really use the same JulianDate for all time ticks of a single statellite --
             // time varies with position. But we can with single-tick locations of all satellites.
-            var now = new Cesium.JulianDate(); 
+            var now = new Cesium.JulianDate();
             billboards.modelMatrix = Cesium.Matrix4.fromRotationTranslation(Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
                                                                             Cesium.Cartesian3.ZERO);
             billboards.setTextureAtlas(textureAtlas);
@@ -143,7 +140,7 @@
                 billboards.setTextureAtlas(textureAtlas);
                 billboards.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(target);
                 billboards.add({imageIndex: 0,
-                                position: new Cesium.Cartesian3(0.0, 0.0, 0.0)}); 
+                                position: new Cesium.Cartesian3(0.0, 0.0, 0.0)});
                 scene.getPrimitives().add(billboards);
             };
             // Point the camera at us and position it directly above us
@@ -184,14 +181,17 @@
     };
 
     // Switch which satellites are displayed.
-    // TODO: How do we turn them off -- toggle them? 
+    // TODO: How do we turn them off -- toggle them?
+    document.getElementById('satellites_stations').onclick = function () {
+        addSatsFromTLEFile(scene, ellipsoid, 'tle/space-stations.txt');
+    };
     document.getElementById('satellites_science').onclick = function () {
-        addSatsFromTLEFile(scene, ellipsoid, 'science.txt');
+        addSatsFromTLEFile(scene, ellipsoid, 'tle/science.txt');
     };
     document.getElementById('satellites_geosynchronous').onclick = function () {
-        addSatsFromTLEFile(scene, ellipsoid, 'geo.txt');
+        addSatsFromTLEFile(scene, ellipsoid, 'tle/geo.txt');
     };
-    
+
     (function tick() {
         scene.render();
         Cesium.requestAnimationFrame(tick);
