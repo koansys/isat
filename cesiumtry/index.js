@@ -38,7 +38,7 @@
             displaySats(sats.positions);
             // For debugging, show the position of the first satellite
             // BUG: Velocity doesn't agree with isstracker.com's KMH; problem with Units?
-            document.getElementById('cartesian').textContent = "XYZ (Km): " + carte.x.toFixed(3) + ", " + carte.y.toFixed(3) + ", " + carte.z.toFixed(3) + " Velocity(BUG)=" + vel0Carte.magnitude();
+            document.getElementById('cartesian').textContent = "XYZ (Km): " + carte.x.toFixed(3) + ", " + carte.y.toFixed(3) + ", " + carte.z.toFixed(3) + " Velocity(BUG)=" + vel0Carte.magnitude().toFixed(3);
             // BUG: Latitude is OK, Longitude doesn't agree with ISS Tracker, Height is sometimes NaN
             document.getElementById('cartographic').textContent = "Lat,Lon(BUG),Height(BUG): " + Cesium.Math.toDegrees(carto.latitude).toFixed(3) + ", " + Cesium.Math.toDegrees(carto.longitude).toFixed(3) + ", " + carto.height.toFixed(3);
 
