@@ -89,6 +89,7 @@
                 vo = rets.shift();
                 billboards.add({imageIndex: 0,
                                 position:  new Cesium.Cartesian3(ro[0] * 1000, ro[1] * 1000, ro[2] * 1000)}); // Km to meter
+                //scene.getPrimitives().removeAll();
                 scene.getPrimitives().add(billboards);
             }
         };
@@ -182,6 +183,9 @@
 
     // Switch which satellites are displayed.
     // TODO: How do we turn them off -- toggle them?
+    document.getElementById('satellites_iss').onclick = function () {
+        addSatsFromTLEFile(scene, ellipsoid, 'tle/iss.txt');
+    };
     document.getElementById('satellites_stations').onclick = function () {
         addSatsFromTLEFile(scene, ellipsoid, 'tle/space-stations.txt');
     };
@@ -192,7 +196,15 @@
         addSatsFromTLEFile(scene, ellipsoid, 'tle/geo.txt');
     };
 
+    //Create a Clock object to drive time.
+    var clock = new Cesium.Clock();//availability.start, availability.stop);
+
     (function tick() {
+        var currentTime = clock.tick();
+        document.getElementById('date').textContent = currentTime.toDate();
+        //console.log("currentTime=", currentTime);
+        //visualizers.update(currentTime);
+        //
         scene.render();
         Cesium.requestAnimationFrame(tick);
     }());
