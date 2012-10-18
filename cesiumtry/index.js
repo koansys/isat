@@ -5,6 +5,7 @@
     var scene = new Cesium.Scene(canvas);
     var primitives = scene.getPrimitives();
     var ellipsoid = Cesium.Ellipsoid.WGS84;
+    var satrecs = [];           // populated from onclick file load
     var WHICHCONST = 84;
     var TYPERUN = 'm';          // 'm'anual, 'c'atalog, 'v'erification)
     var TYPEINPUT = 'n';        // HACK: 'now'
@@ -18,11 +19,22 @@
         target : Cesium.Cartesian3.ZERO
     });
 
-    // Fix the shading by setting the sun position.
     scene.setAnimation(function () {
+        // Insert code to update primitives based on time, camera position, etc
         scene.setSunPosition(Cesium.SunPosition.compute().position);
+        var currentTime = clock.tick();
+        document.getElementById('date').textContent = currentTime.toDate();
+
+        var sats = updateSatrecsPosVel(satrecs, 0.0); // TODO: minutesSinceEpoch from timeclock
+        satrecs = sats.satrecs;                       // propagate [GLOBAL]
+        // For debugging, show the position of the first satellite
+        if (satrecs.length > 0) {
+            document.getElementById('position').textContent = sats.positions[0][0] + ", " + sats.positions[0][1] + ", " + sats.positions[0][2];
+        }
+        displaySats(sats.positions);
     });
 
+    ///////////////////////////////////////////////////////////////////////////
     // Tile Providers
 
     var bing = new Cesium.BingMapsTileProvider({// fails to detect 404 due to no net :-(
@@ -54,69 +66,80 @@
     //     { provider : bing,   height : 0 }
     // ], scene.getCamera(), ellipsoid); // presumably the camera must be placed first
 
+
     var cb = new Cesium.CentralBody(ellipsoid);
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
-    cb.dayTileProvider      = osm; // single; // composite;// bing; // osm; // esri;
+    cb.dayTileProvider      = bing; // single; // composite;// bing; // osm; // esri;
     cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
     cb.bumpMapSource        = 'Images/earthbump1k.jpg';
     cb.showSkyAtmosphere    = true;
     primitives.setCentralBody(cb);
 
-    function addSatsFromTLEFile(scene, ellipsoid, fileName) {
-        // Call the SGP4 calculation
-        // It expects to loop, but we only want location 'now'
+    function getSatrecsFromTLEFile(fileName) {
+        // Read TLEs from file and return list of initialized satrecs.
+        // We can then run the SGP4 propagator over it and render as billboards.
+        // TODO: also return list of satellite names (from TLE[0]) for display; satrec.satnum has numeric ID
         var tles = tle.parseFile(fileName);
-        var image = new Image();
-        var satnum = 0;
-        image.src = 'Images/Satellite.png';
-        image.onload = function () {
-            var billboards = new Cesium.BillboardCollection();
-            var textureAtlas = scene.getContext().createTextureAtlas({image: image});
-            var now = new Cesium.JulianDate();
-            var rets, satrec, startmfe, stopmfe, deltamin, ro, vo;
-            billboards.modelMatrix = Cesium.Matrix4.fromRotationTranslation(Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
-                                                                            Cesium.Cartesian3.ZERO);
-            billboards.setTextureAtlas(textureAtlas);
-            for (satnum = 0; satnum < tles.length; satnum++) {
-                rets = twoline2rv(WHICHCONST, tles[satnum][1], tles[satnum][2], TYPERUN, TYPEINPUT);
-                satrec = rets.shift();
-                startmfe = rets.shift();
-                stopmfe = rets.shift();
-                deltamin = rets.shift();
-                rets = sgp4(satrec, 0.0);   // call propagator to get initial state vector value
-                satrec = rets.shift();
-                ro = rets.shift();      // [1802,    3835,    5287] Km, not meters
-                vo = rets.shift();
-                billboards.add({imageIndex: 0,
-                                position:  new Cesium.Cartesian3(ro[0] * 1000, ro[1] * 1000, ro[2] * 1000)}); // Km to meter
-                //scene.getPrimitives().removeAll();
-                scene.getPrimitives().add(billboards);
-            }
-        };
+        var satrecs = [];
+        var satnum, rets, satrec, startmfe, stopmfe, deltamin, ro, vo;
+        for (satnum = 0; satnum < tles.length; satnum++) {
+            rets = twoline2rv(WHICHCONST, tles[satnum][1], tles[satnum][2], TYPERUN, TYPEINPUT);
+            satrec   = rets.shift();
+            startmfe = rets.shift();
+            stopmfe  = rets.shift();
+            deltamin = rets.shift();
+            // Do we need to do an sgp4(satrec, 0.0) to initialize state vector?
+            satrecs.push(satrec);
+        }
+        return satrecs;
     }
 
-    function addIssPointsInReferenceframe(scene, ellipsoid) {
-        var theIssPoints = issPoints();
+    function updateSatrecsPosVel(satrecs, minutesSinceEpoch) {
+        // Calculate new Satrecs based on minutesSinceEpoch.
+        // Return object containing updated list of Satrecs, Rposition, Velocity.
+        // We don't have r (position) or v (velocity) in the satrec,
+        // so we have to return a those as a list as well; ugly.
+        // XXX Should I just add position and velocity to the satrec objects?
+        var satrecsOut = [];
+        var positions = [];
+        var velocities = [];
+        var satnum, rets, satrec, r, v;
+        for (satnum = 0; satnum < satrecs.length; satnum++) {
+            rets = sgp4(satrecs[satnum], minutesSinceEpoch);
+            satrec = rets.shift();
+            r = rets.shift();      // [1802,    3835,    5287] Km, not meters
+            v = rets.shift();
+            satrecsOut.push(satrec);
+            positions.push(r);
+            velocities.push(v);
+        }
+        return {'satrecs': satrecsOut,
+                'positions': positions,
+                'velocities': positions};
+    }
+
+    function displaySats(satPositions) {
+        // Render an icon for each satPosition in the list
+        // The calculated position is in Km but Cesium wants meters.
         var image = new Image();
         image.src = 'Images/Satellite.png';
         image.onload = function () {
             var billboards = new Cesium.BillboardCollection();
             var textureAtlas = scene.getContext().createTextureAtlas({image: image});
-            var ip;
-            // We can't really use the same JulianDate for all time ticks of a single statellite --
-            // time varies with position. But we can with single-tick locations of all satellites.
             var now = new Cesium.JulianDate();
+            var posnum, pos, rets, satrec, startmfe, stopmfe, deltamin, ro, vo;
             billboards.modelMatrix = Cesium.Matrix4.fromRotationTranslation(Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
                                                                             Cesium.Cartesian3.ZERO);
             billboards.setTextureAtlas(textureAtlas);
-            for (ip = 0; ip < theIssPoints.length; ip++) {
+            for (posnum = 0; posnum < satPositions.length; posnum++) {
+                pos = satPositions[posnum];
                 billboards.add({imageIndex: 0,
-                                position: new Cesium.Cartesian3(theIssPoints[ip].x, theIssPoints[ip].y, theIssPoints[ip].z)});
+                                position:  new Cesium.Cartesian3(pos[0] * 1000, pos[1] * 1000, pos[2] * 1000)}); // Km to meter
             }
+            //scene.getPrimitives().removeAll(); // TODO: removes our geo location :-(
             scene.getPrimitives().add(billboards);
         };
     }
-    //addIssPointsInReferenceframe(scene, ellipsoid);
 
     function viewByGeolocation(scene) {
         if ('geolocation' in navigator) {
@@ -182,27 +205,25 @@
     };
 
     // Switch which satellites are displayed.
-    // TODO: How do we turn them off -- toggle them?
     document.getElementById('satellites_iss').onclick = function () {
-        addSatsFromTLEFile(scene, ellipsoid, 'tle/iss.txt');
+        satrecs = getSatrecsFromTLEFile('tle/iss.txt');
     };
     document.getElementById('satellites_stations').onclick = function () {
-        addSatsFromTLEFile(scene, ellipsoid, 'tle/space-stations.txt');
+        satrecs = getSatrecsFromTLEFile('tle/space-stations.txt');
     };
     document.getElementById('satellites_science').onclick = function () {
-        addSatsFromTLEFile(scene, ellipsoid, 'tle/science.txt');
+        satrecs = getSatrecsFromTLEFile('tle/science.txt');
     };
     document.getElementById('satellites_geosynchronous').onclick = function () {
-        addSatsFromTLEFile(scene, ellipsoid, 'tle/geo.txt');
+        satrecs = getSatrecsFromTLEFile('tle/geo.txt');
     };
 
     //Create a Clock object to drive time.
     var clock = new Cesium.Clock();//availability.start, availability.stop);
 
     (function tick() {
-        var currentTime = clock.tick();
-        document.getElementById('date').textContent = currentTime.toDate();
-        //console.log("currentTime=", currentTime);
+        // var currentTime = clock.tick();
+        // document.getElementById('date').textContent = currentTime.toDate();
         //visualizers.update(currentTime);
         //
         scene.render();
