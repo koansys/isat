@@ -41,7 +41,7 @@ var tle = {
                 tle[0] = lines[linenum]; // TODO: trim whitespace
             }
         }
-        console.log('File=' + fileName + ' TLEs=' + lines.length);
+        console.log('tle.js: File=' + fileName + ' TLEs=' + tles.length);
         this.tles = tles;
         return tles;
     }
