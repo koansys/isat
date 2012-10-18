@@ -21,17 +21,28 @@
 
     scene.setAnimation(function () {
         // Insert code to update primitives based on time, camera position, etc
-        scene.setSunPosition(Cesium.SunPosition.compute().position);
         var currentTime = clock.tick();
         document.getElementById('date').textContent = currentTime.toDate();
+        scene.setSunPosition(Cesium.SunPosition.compute().position);
 
-        var sats = updateSatrecsPosVel(satrecs, 0.0); // TODO: minutesSinceEpoch from timeclock
-        satrecs = sats.satrecs;                       // propagate [GLOBAL]
-        // For debugging, show the position of the first satellite
         if (satrecs.length > 0) {
-            document.getElementById('position').textContent = sats.positions[0][0] + ", " + sats.positions[0][1] + ", " + sats.positions[0][2];
+            var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
+            var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
+            var pos0 = sats.positions[0];                 // position of first satellite
+            var vel0 = sats.velocities[0];
+            var vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
+            var carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
+            // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
+            var carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
+            satrecs = sats.satrecs;                       // propagate [GLOBAL]
+            displaySats(sats.positions);
+            // For debugging, show the position of the first satellite
+            // BUG: Velocity doesn't agree with isstracker.com's KMH; problem with Units?
+            document.getElementById('cartesian').textContent = "XYZ (Km): " + carte.x.toFixed(3) + ", " + carte.y.toFixed(3) + ", " + carte.z.toFixed(3) + " Velocity(BUG)=" + vel0Carte.magnitude();
+            // BUG: Latitude is OK, Longitude doesn't agree with ISS Tracker, Height is sometimes NaN
+            document.getElementById('cartographic').textContent = "Lat,Lon(BUG),Height(BUG): " + Cesium.Math.toDegrees(carto.latitude).toFixed(3) + ", " + Cesium.Math.toDegrees(carto.longitude).toFixed(3) + ", " + carto.height.toFixed(3);
+
         }
-        displaySats(sats.positions);
     });
 
     ///////////////////////////////////////////////////////////////////////////
@@ -94,8 +105,9 @@
         return satrecs;
     }
 
-    function updateSatrecsPosVel(satrecs, minutesSinceEpoch) {
-        // Calculate new Satrecs based on minutesSinceEpoch.
+    function updateSatrecsPosVel(satrecs, julianDate) {
+        // Calculate new Satrecs based on time given as fractional Julian Date
+        // (since that's what satrec stores).
         // Return object containing updated list of Satrecs, Rposition, Velocity.
         // We don't have r (position) or v (velocity) in the satrec,
         // so we have to return a those as a list as well; ugly.
@@ -103,8 +115,10 @@
         var satrecsOut = [];
         var positions = [];
         var velocities = [];
-        var satnum, rets, satrec, r, v;
+        var satnum, jdSat, minutesSinceEpoch, rets, satrec, r, v;
         for (satnum = 0; satnum < satrecs.length; satnum++) {
+            jdSat = new Cesium.JulianDate.fromTotalDays(satrecs[satnum].jdsatepoch);
+            minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
             rets = sgp4(satrecs[satnum], minutesSinceEpoch);
             satrec = rets.shift();
             r = rets.shift();      // [1802,    3835,    5287] Km, not meters
@@ -136,7 +150,7 @@
                 billboards.add({imageIndex: 0,
                                 position:  new Cesium.Cartesian3(pos[0] * 1000, pos[1] * 1000, pos[2] * 1000)}); // Km to meter
             }
-            //scene.getPrimitives().removeAll(); // TODO: removes our geo location :-(
+            scene.getPrimitives().removeAll(); // TODO: removes our geo location :-(
             scene.getPrimitives().add(billboards);
         };
     }
