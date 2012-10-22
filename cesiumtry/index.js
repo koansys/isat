@@ -5,6 +5,7 @@
     var scene = new Cesium.Scene(canvas);
     var primitives = scene.getPrimitives();
     var ellipsoid = Cesium.Ellipsoid.WGS84;
+    var clock = new Cesium.Clock();
     var satrecs = [];           // populated from onclick file load
     var satnames = [];          // populated from onclick file load
     var satids = [];            // populated from onclick file load
@@ -119,6 +120,39 @@
         };
     }
 
+    function displayPositions(sats) {
+        // Display positions, velocities of current satellites
+        // BUG: Velocity doesn't agree with isstracker.com's KMH; problem with Units?
+        // BUG: Latitude is OK, Longitude doesn't agree with ISS Tracker, Height is sometimes NaN
+        var position_table = document.getElementById('positions');
+        var tbody = position_table.getElementsByTagName('tbody')[0];
+        var satnum, pos0, vel0, vel0Carte, carte, carto, newRow;
+        
+        if (typeof tbody !== 'undefined' && tbody !== null) {
+            position_table.removeChild(tbody);
+        }
+        tbody = document.createElement('tbody');
+        position_table.appendChild(tbody);
+        for (satnum = 0; satnum < satrecs.length; satnum++) {
+            pos0 = sats.positions[satnum];                 // position of first satellite
+            vel0 = sats.velocities[satnum];
+            vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
+            carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
+            // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
+            carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
+            newRow = tbody.insertRow(-1);
+            newRow.insertCell(-1).appendChild(document.createTextNode(satnames[satnum]));
+            newRow.insertCell(-1).appendChild(document.createTextNode(satids[satnum]));
+            newRow.insertCell(-1).appendChild(document.createTextNode(carte.x.toFixed(3)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(carte.y.toFixed(3)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(carte.z.toFixed(3)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(vel0Carte.magnitude().toFixed(3)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.latitude ).toFixed(3)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.longitude).toFixed(3)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(carto.height.toFixed(3)));
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Geo
 
@@ -208,12 +242,10 @@
     /////////////////////////////////////////////////////////////////////////////
     // Run the timeclock, drive the animations
 
-    //Create a Clock object to drive time.
-    var clock = new Cesium.Clock();
-
     scene.setAnimation(function () {
         // Insert code to update primitives based on time, camera position, etc
         var currentTime = clock.tick();
+
         document.getElementById('date').textContent = currentTime.toDate();
         scene.setSunPosition(Cesium.SunPosition.compute().position);
 
@@ -223,38 +255,7 @@
             var satnum;
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
             displaySats(sats.positions);
-
-            // For debugging, show the position of the first satellite
-            // BUG: Velocity doesn't agree with isstracker.com's KMH; problem with Units?
-            // BUG: Latitude is OK, Longitude doesn't agree with ISS Tracker, Height is sometimes NaN
-            // TODO: make this a separate function
-            var position_table = document.getElementById('positions');
-            var tbody = position_table.getElementsByTagName('tbody')[0];
-            if (typeof tbody !== 'undefined' && tbody !== null) {
-                position_table.removeChild(tbody);
-            }
-            tbody = document.createElement('tbody');
-            position_table.appendChild(tbody);
-            for (satnum = 0; satnum < satrecs.length; satnum++) {
-                var pos0 = sats.positions[satnum];                 // position of first satellite
-                var vel0 = sats.velocities[satnum];
-                var vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
-                var carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
-                // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
-                var carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
-                
-                var newRow = tbody.insertRow(-1);
-                newRow.insertCell(-1).appendChild(document.createTextNode(satnames[satnum]));
-                newRow.insertCell(-1).appendChild(document.createTextNode(satids[satnum]));
-                newRow.insertCell(-1).appendChild(document.createTextNode(carte.x.toFixed(3)));
-                newRow.insertCell(-1).appendChild(document.createTextNode(carte.y.toFixed(3)));
-                newRow.insertCell(-1).appendChild(document.createTextNode(carte.z.toFixed(3)));
-                newRow.insertCell(-1).appendChild(document.createTextNode(vel0Carte.magnitude().toFixed(3)));
-                newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.latitude ).toFixed(3)));
-                newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.longitude).toFixed(3)));
-                newRow.insertCell(-1).appendChild(document.createTextNode(carto.height.toFixed(3)));
-            }
-
+            displayPositions(sats);
         }
     });
 
