@@ -219,6 +219,9 @@
     };
 
     // Switch which satellites are displayed.
+    document.getElementById('satellites_smd').onclick = function () {
+        satrecs = getSatrecsFromTLEFile('tle/smd.txt');
+    };
     document.getElementById('satellites_iss').onclick = function () {
         satrecs = getSatrecsFromTLEFile('tle/iss.txt');
     };
