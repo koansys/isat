@@ -42,14 +42,28 @@
       <button id="satellites_science">Science</button>
       <button id="satellites_geosynchronous">Geosynchronous</button>
     </div>
-    <!--From: https://github.com/AnalyticalGraphicsInc/cesium/wiki/CZML-in-Cesium -->
-    <div id="date">Date</div>
-    <div id="position_wrap">Position of first satellite:
-      <div id="cartesian">cartesian X,Y,Z...</div>
-      <div id="cartographic">cartographic lon,lat,height...</div>
-    </div>
 
     <canvas id="glCanvas" width="1000px" height="1000px" tabindex="1"></canvas>
+
+    <div id="statistics">
+      <div id="date">Date</div>
+      <table id="positions">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>X Km</th>
+            <th>Y Km</th>
+            <th>Z Km</th>
+            <th>Velocity (BUG)</th>
+            <th>Latitude</th>
+            <th>Longitude (BUG)</th>
+            <th>Height Km/? (BUG)</th>
+          </tr>
+        </thead>
+        <!-- tbody destroyed and recreated by javascript -->
+      </table>
+    </div>
 
     <script src="index.js" type="text/javascript"></script>
   </body>

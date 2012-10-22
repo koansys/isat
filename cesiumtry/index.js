@@ -6,6 +6,8 @@
     var primitives = scene.getPrimitives();
     var ellipsoid = Cesium.Ellipsoid.WGS84;
     var satrecs = [];           // populated from onclick file load
+    var satnames = [];          // populated from onclick file load
+    var satids = [];            // populated from onclick file load
     var WHICHCONST = 84;
     var TYPERUN = 'm';          // 'm'anual, 'c'atalog, 'v'erification)
     var TYPEINPUT = 'n';        // HACK: 'now'
@@ -19,37 +21,10 @@
         target : Cesium.Cartesian3.ZERO
     });
 
-    scene.setAnimation(function () {
-        // Insert code to update primitives based on time, camera position, etc
-        var currentTime = clock.tick();
-        document.getElementById('date').textContent = currentTime.toDate();
-        scene.setSunPosition(Cesium.SunPosition.compute().position);
-
-        if (satrecs.length > 0) {
-            var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
-            var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
-            var pos0 = sats.positions[0];                 // position of first satellite
-            var vel0 = sats.velocities[0];
-            var vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
-            var carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
-            // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
-            var carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
-            satrecs = sats.satrecs;                       // propagate [GLOBAL]
-            displaySats(sats.positions);
-            // For debugging, show the position of the first satellite
-            // BUG: Velocity doesn't agree with isstracker.com's KMH; problem with Units?
-            document.getElementById('cartesian').textContent = "XYZ (Km): " + carte.x.toFixed(3) + ", " + carte.y.toFixed(3) + ", " + carte.z.toFixed(3) + " Velocity(BUG)=" + vel0Carte.magnitude().toFixed(3);
-            // BUG: Latitude is OK, Longitude doesn't agree with ISS Tracker, Height is sometimes NaN
-            document.getElementById('cartographic').textContent = "Lat,Lon(BUG),Height(BUG): " + Cesium.Math.toDegrees(carto.latitude).toFixed(3) + ", " + Cesium.Math.toDegrees(carto.longitude).toFixed(3) + ", " + carto.height.toFixed(3);
-
-        }
-    });
-
     ///////////////////////////////////////////////////////////////////////////
     // Tile Providers
 
     var bing = new Cesium.BingMapsTileProvider({// fails to detect 404 due to no net :-(
-        onerror : function () { console.log("ZOMG, a Bing error"); },
         server : 'dev.virtualearth.net',
         mapStyle : Cesium.BingMapsStyle.AERIAL // AERIAL, AERIAL_WITH_LABELS, COLLINS_BART, ORDNANACE_SURVEY, ROAD
         // Some versions of Safari support WebGL, but don't correctly implement
@@ -62,22 +37,6 @@
     });
     var single = new Cesium.SingleTileProvider('Images/NE2_50M_SR_W_4096.jpg');
 
-    // We get tiles but they're not rendering, why?
-    // Chrome: Cross-origin image load denied by Cross-Origin Resource Sharing policy.
-    // Chrome: Resource interpreted as Image but transferred with MIME type image/jpg:
-    //         "http://server.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/0/0/0".
-    // var esri = new Cesium.ArcGISTileProvider({
-    //     host : 'server.arcgisonline.com',
-    //     service : 'World_Street_Map'
-    // });
-    // CompositeTileProvider can use different tiles based on camera altitude
-    // Can't make this work yet. :-(
-    // var composite = new Cesium.CompositeTileProvider([
-    //     { provider : single, height : 1e6 },
-    //     { provider : bing,   height : 0 }
-    // ], scene.getCamera(), ellipsoid); // presumably the camera must be placed first
-
-
     var cb = new Cesium.CentralBody(ellipsoid);
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
     cb.dayTileProvider      = bing; // single; // composite;// bing; // osm; // esri;
@@ -86,23 +45,28 @@
     cb.showSkyAtmosphere    = true;
     primitives.setCentralBody(cb);
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Satellite records and calculation
+
     function getSatrecsFromTLEFile(fileName) {
-        // Read TLEs from file and return list of initialized satrecs.
+        // Read TLEs from file and set GLOBAL satrecs, satnames, satids.
         // We can then run the SGP4 propagator over it and render as billboards.
-        // TODO: also return list of satellite names (from TLE[0]) for display; satrec.satnum has numeric ID
         var tles = tle.parseFile(fileName);
-        var satrecs = [];
         var satnum, rets, satrec, startmfe, stopmfe, deltamin, ro, vo;
+        satrecs = [];
+        satnames = [];
+        satids = [];
         for (satnum = 0; satnum < tles.length; satnum++) {
+            satnames[satnum] = tles[satnum][0].trim();
+            satids[satnum]   = tles[satnum][2].split(' ')[1];
             rets = twoline2rv(WHICHCONST, tles[satnum][1], tles[satnum][2], TYPERUN, TYPEINPUT);
             satrec   = rets.shift();
             startmfe = rets.shift();
             stopmfe  = rets.shift();
             deltamin = rets.shift();
-            // Do we need to do an sgp4(satrec, 0.0) to initialize state vector?
-            satrecs.push(satrec);
+            satrecs.push(satrec); // Don't need to sgp4(satrec, 0.0) to initialize state vector
         }
-        return satrecs;
+        // Returns nothing, sets globals: satrecs, satnames, satids
     }
 
     function updateSatrecsPosVel(satrecs, julianDate) {
@@ -155,6 +119,9 @@
         };
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Geo
+
     function viewByGeolocation(scene) {
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(show_geo);
@@ -192,6 +159,9 @@
     }
     viewByGeolocation(scene);
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Handle UI events
+
     // Switch map/tile providers
     var tileProvider = bing;
     var tile_bing = document.getElementById('tile_bing');
@@ -220,29 +190,75 @@
 
     // Switch which satellites are displayed.
     document.getElementById('satellites_smd').onclick = function () {
-        satrecs = getSatrecsFromTLEFile('tle/smd.txt');
+        getSatrecsFromTLEFile('tle/smd.txt');
     };
     document.getElementById('satellites_iss').onclick = function () {
-        satrecs = getSatrecsFromTLEFile('tle/iss.txt');
+        getSatrecsFromTLEFile('tle/iss.txt');
     };
     document.getElementById('satellites_stations').onclick = function () {
-        satrecs = getSatrecsFromTLEFile('tle/space-stations.txt');
+        getSatrecsFromTLEFile('tle/space-stations.txt');
     };
     document.getElementById('satellites_science').onclick = function () {
-        satrecs = getSatrecsFromTLEFile('tle/science.txt');
+        getSatrecsFromTLEFile('tle/science.txt');
     };
     document.getElementById('satellites_geosynchronous').onclick = function () {
-        satrecs = getSatrecsFromTLEFile('tle/geo.txt');
+        getSatrecsFromTLEFile('tle/geo.txt');
     };
 
+    /////////////////////////////////////////////////////////////////////////////
+    // Run the timeclock, drive the animations
+
     //Create a Clock object to drive time.
-    var clock = new Cesium.Clock();//availability.start, availability.stop);
+    var clock = new Cesium.Clock();
+
+    scene.setAnimation(function () {
+        // Insert code to update primitives based on time, camera position, etc
+        var currentTime = clock.tick();
+        document.getElementById('date').textContent = currentTime.toDate();
+        scene.setSunPosition(Cesium.SunPosition.compute().position);
+
+        if (satrecs.length > 0) {
+            var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
+            var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
+            var satnum;
+            satrecs = sats.satrecs;                       // propagate [GLOBAL]
+            displaySats(sats.positions);
+
+            // For debugging, show the position of the first satellite
+            // BUG: Velocity doesn't agree with isstracker.com's KMH; problem with Units?
+            // BUG: Latitude is OK, Longitude doesn't agree with ISS Tracker, Height is sometimes NaN
+            // TODO: make this a separate function
+            var position_table = document.getElementById('positions');
+            var tbody = position_table.getElementsByTagName('tbody')[0];
+            if (typeof tbody !== 'undefined' && tbody !== null) {
+                position_table.removeChild(tbody);
+            }
+            tbody = document.createElement('tbody');
+            position_table.appendChild(tbody);
+            for (satnum = 0; satnum < satrecs.length; satnum++) {
+                var pos0 = sats.positions[satnum];                 // position of first satellite
+                var vel0 = sats.velocities[satnum];
+                var vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
+                var carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
+                // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
+                var carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
+                
+                var newRow = tbody.insertRow(-1);
+                newRow.insertCell(-1).appendChild(document.createTextNode(satnames[satnum]));
+                newRow.insertCell(-1).appendChild(document.createTextNode(satids[satnum]));
+                newRow.insertCell(-1).appendChild(document.createTextNode(carte.x.toFixed(3)));
+                newRow.insertCell(-1).appendChild(document.createTextNode(carte.y.toFixed(3)));
+                newRow.insertCell(-1).appendChild(document.createTextNode(carte.z.toFixed(3)));
+                newRow.insertCell(-1).appendChild(document.createTextNode(vel0Carte.magnitude().toFixed(3)));
+                newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.latitude ).toFixed(3)));
+                newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.longitude).toFixed(3)));
+                newRow.insertCell(-1).appendChild(document.createTextNode(carto.height.toFixed(3)));
+            }
+
+        }
+    });
 
     (function tick() {
-        // var currentTime = clock.tick();
-        // document.getElementById('date').textContent = currentTime.toDate();
-        //visualizers.update(currentTime);
-        //
         scene.render();
         Cesium.requestAnimationFrame(tick);
     }());
