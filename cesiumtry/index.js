@@ -123,11 +123,12 @@
     function displayPositions(sats) {
         // Display positions, velocities of current satellites
         // BUG: Velocity doesn't agree with isstracker.com's KMH; problem with Units?
-        // BUG: Latitude is OK, Longitude doesn't agree with ISS Tracker, Height is sometimes NaN
+        // BUG: Longitude doesn't agree with ISS Tracker (Latitude is OK)
+        // BUG: Height is sometimes NaN
         var position_table = document.getElementById('positions');
         var tbody = position_table.getElementsByTagName('tbody')[0];
         var satnum, pos0, vel0, vel0Carte, carte, carto, newRow;
-        
+
         if (typeof tbody !== 'undefined' && tbody !== null) {
             position_table.removeChild(tbody);
         }
@@ -143,13 +144,13 @@
             newRow = tbody.insertRow(-1);
             newRow.insertCell(-1).appendChild(document.createTextNode(satnames[satnum]));
             newRow.insertCell(-1).appendChild(document.createTextNode(satids[satnum]));
-            newRow.insertCell(-1).appendChild(document.createTextNode(carte.x.toFixed(3)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(carte.y.toFixed(3)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(carte.z.toFixed(3)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(vel0Carte.magnitude().toFixed(3)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(carte.x.toFixed(0)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(carte.y.toFixed(0)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(carte.z.toFixed(0)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(vel0Carte.magnitude().toFixed(0)));
             newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.latitude ).toFixed(3)));
             newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.longitude).toFixed(3)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(carto.height.toFixed(3)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(carto.height.toFixed(0)));
         }
     }
 
