@@ -207,36 +207,32 @@
             ')';
     }
     
-    // TRY picking billboards (from Cesium SandCastle Picking)
-    
-    function pickBillboard(scene, ellipsoid) {
+
+    function satelliteHoverDisplay(scene, ellipsoid) {
+        // When you hover over a satellite, show its name in a popup
         var handler = new Cesium.EventHandler(scene.getCanvas());
-        handler.setMouseAction(
+        handler.setMouseAction( // actionFunction, mouseEventType, eventModifierKey
             function (movement) {
                 var pickedObject = scene.pick(movement.endPosition);
+                var sat_div = document.getElementById('satellite_popup');
+                var name;
                 var cart;
-                var name = satnames[pickedObject._index];
-                if (pickedObject) {
-                    cart = pickedObject._actualPosition;
-                    console.log('pickedObject _index=' + pickedObject._index + ' name=' + name + ' Cart.xyz=' + cart.toString());
-                    document.getElementById('satellite_mouseover').textContent = satnames[pickedObject._index] +
-                        ' XYZ=' + xyzKmFixed(cart, 3);// +
-                        //' Find in <a href="http://science.nasa.gov/missions/' + name.toLowerCase() + '/">' + name + '</a>';
+                if (pickedObject) { // is the entire Billboard, not just a single satellite in it
+                    // TODO: accessing _index directly feels wrong, as does _actualPosition
+                    name = satnames[pickedObject._index];
+                    sat_div.textContent = name;
+                    sat_div.style.left = movement.endPosition.x + 'px'; // seems a bit high from mouse
+                    sat_div.style.top  = movement.endPosition.y + 'px';
+                    sat_div.style.display = ''; // remove any 'none'
                 }
-                var billboard = null; // TODO: Sandcastle addBillboard() sets global 'billboard';
-                if (billboard && pickedObject === billboard) {
-                    billboard.setScale(2.0);
-                    billboard.setColor({red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0});
-                }
-                else if (billboard) {
-                    billboard.setScale(1.0);
-                    billboard.setColor({red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0});
+                else {
+                    sat_div.style.display = 'none';
                 }
             },
-            Cesium.MouseEventType.MOVE
+            Cesium.MouseEventType.MOVE // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
         );
     }
-    pickBillboard(scene, ellipsoid);
+    satelliteHoverDisplay(scene, ellipsoid);
 
     // Switch map/tile providers
     var tileProvider = bing;

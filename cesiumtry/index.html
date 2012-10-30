@@ -1,5 +1,13 @@
 <html>
   <head>
+    <style>                     <!-- TODO: move this to CSS file -->
+      .popup {
+        position: absolute;
+        border: solid 1px black;
+        background-color: white;
+        padding: 4px;
+        }
+    </style>
     <script>
       opsmode = 'i'; //GLOBAL for intl, 'i'mproved
     </script>
@@ -22,6 +30,7 @@
     <script type="text/javascript" src="cesium.js"></script>
     <script type="text/javascript" src="issPoints.js"></script>
   </head>
+
   <body>
     <div id="view_buttons">
       View:
@@ -42,10 +51,9 @@
       <button id="satellites_science">Science</button>
       <button id="satellites_geosynchronous">Geosynchronous</button>
     </div>
-    <div id="satellite_mouseover_wrap">
-      Mouse last over satellite: 
-      <span id="satellite_mouseover">[hover over a satellite]</span>
-    </div>
+    <div class="popup" id="satellite_popup" style="display:none;">
+    </div>                      <!--really, I can't use a self-closing tag?-->
+
 
     <canvas id="glCanvas" width="1000px" height="1000px" tabindex="1"></canvas>
 
