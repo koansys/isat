@@ -13,6 +13,7 @@
     var TYPERUN = 'm';          // 'm'anual, 'c'atalog, 'v'erification)
     var TYPEINPUT = 'n';        // HACK: 'now'
     var NOW = Date();
+    var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
 
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
@@ -122,6 +123,7 @@
 
     function displayPositions(sats) {
         // Display positions, velocities of current satellites
+        // Limit it to first 50 else browser becomes unusable.
         // BUG: Velocity doesn't agree with isstracker.com's KMH; problem with Units?
         // BUG: Latitude is OK, Longitude doesn't agree with ISS Tracker, Height is sometimes NaN
         var position_table = document.getElementById('positions');
@@ -133,7 +135,7 @@
         }
         tbody = document.createElement('tbody');
         position_table.appendChild(tbody);
-        for (satnum = 0; satnum < satrecs.length; satnum++) {
+        for (satnum = 0; satnum < satrecs.length && satnum < SAT_POSITIONS_MAX; satnum++) {
             pos0 = sats.positions[satnum];                 // position of first satellite
             vel0 = sats.velocities[satnum];
             vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
@@ -195,6 +197,46 @@
 
     ///////////////////////////////////////////////////////////////////////////
     // Handle UI events
+
+    function xyzKmFixed(pt, fix) {
+        // Return string formatted for xyz scaled to Km, with fixed precision.
+        return '(' +
+            (pt.x / 1000.0).toFixed(fix) + ', ' +
+            (pt.y / 1000.0).toFixed(fix) + ', ' +
+            (pt.z / 1000.0).toFixed(fix) + ', ' +
+            ')';
+    }
+    
+    // TRY picking billboards (from Cesium SandCastle Picking)
+    
+    function pickBillboard(scene, ellipsoid) {
+        var handler = new Cesium.EventHandler(scene.getCanvas());
+        handler.setMouseAction(
+            function (movement) {
+                var pickedObject = scene.pick(movement.endPosition);
+                var cart;
+                var name = satnames[pickedObject._index];
+                if (pickedObject) {
+                    cart = pickedObject._actualPosition;
+                    console.log('pickedObject _index=' + pickedObject._index + ' name=' + name + ' Cart.xyz=' + cart.toString());
+                    document.getElementById('satellite_mouseover').textContent = satnames[pickedObject._index] +
+                        ' XYZ=' + xyzKmFixed(cart, 3);// +
+                        //' Find in <a href="http://science.nasa.gov/missions/' + name.toLowerCase() + '/">' + name + '</a>';
+                }
+                var billboard = null; // TODO: Sandcastle addBillboard() sets global 'billboard';
+                if (billboard && pickedObject === billboard) {
+                    billboard.setScale(2.0);
+                    billboard.setColor({red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0});
+                }
+                else if (billboard) {
+                    billboard.setScale(1.0);
+                    billboard.setColor({red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0});
+                }
+            },
+            Cesium.MouseEventType.MOVE
+        );
+    }
+    pickBillboard(scene, ellipsoid);
 
     // Switch map/tile providers
     var tileProvider = bing;
