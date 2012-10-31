@@ -25,33 +25,43 @@
 
   <body>
     <form id="controls">
-      <div>
-        <label>View:
-          <select id="select_view"> <!-- handler attached by JS -->
-            <option value="3D">3D</option>
-            <option value="2D">2D</option>
-          </select>
-        </label>
+      <div id="controls_visual">
+        <span>
+          <label>View:
+            <select id="select_view"> <!-- handler attached by JS -->
+              <option value="3D">3D</option>
+              <option value="2D">2D</option>
+            </select>
+          </label>
+        </span>
+        <span>
+          <label>Map provider:
+            <select id="select_tile_provider">
+              <option value="bing">Bing maps</option>
+              <option value="osm">OpenStreetMap</option>
+              <option value="static">static file (no net)</option>
+            </select>
+          </label>
+        </span>
       </div>
-      <div>
-        <label>Graphic tile provider:
-          <select id="select_tile_provider">
-            <option value="bing">Bing</option>
-            <option value="osm">OpenStreetMap</option>
-            <option value="static">Static File</option>
-          </select>
-        </label>
-      </div>
-      <div>
-        <label>Satellite Group:
-          <select id="select_satellite_group">
-            <option value="smd">SMD Science</option>
-            <option value="iss">ISS</option>
-            <option value="space-stations">Space Stations</option>
-            <option value="science">Science</option>
-            <option value="geo">Geosynchronous</option>
-          </select>
-        </label>
+      <div id="controls_satellite">
+        <span>
+          <label>Satellite Group:
+            <select id="select_satellite_group">
+              <option value="smd">SMD Science</option>
+              <option value="iss">ISS</option>
+              <option value="space-stations">Space Stations</option>
+              <option value="science">Science</option>
+              <option value="geo">Geosynchronous</option>
+            </select>
+          </label>
+        </span>
+        <span>
+          <label>Satellite Details:
+            <select id="select_satellite_details">
+            </select>
+          </label>
+        </span>
       </div>
     </form>
 
