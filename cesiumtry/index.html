@@ -1,13 +1,5 @@
 <html>
   <head>
-    <style>                     <!-- TODO: move this to CSS file -->
-      .popup {
-        position: absolute;
-        border: solid 1px black;
-        background-color: white;
-        padding: 4px;
-        }
-    </style>
     <script>
       opsmode = 'i'; //GLOBAL for intl, 'i'mproved
     </script>
@@ -32,28 +24,38 @@
   </head>
 
   <body>
-    <div id="view_buttons">
-      View:
-      <button id="view_3d">3D</button>
-      <button id="view_2d">2D</button>
-    </div>
-    <div id="tile_providers">
-      Graphic tile provider:
-      <button id="tile_bing">Bing</button>
-      <button id="tile_osm">OpenStreetMap</button>
-      <button id="tile_single">Static File</button>
-    </div>
-    <div id="satellites">
-      Satellites:
-      <button id="satellites_smd">SMD Science</button>
-      <button id="satellites_iss">ISS</button>
-      <button id="satellites_stations">Space Stations</button>
-      <button id="satellites_science">Science</button>
-      <button id="satellites_geosynchronous">Geosynchronous</button>
-    </div>
-    <div class="popup" id="satellite_popup" style="display:none;">
-    </div>                      <!--really, I can't use a self-closing tag?-->
+    <form id="controls">
+      <div>
+        <label>View:
+          <select id="select_view"> <!-- handler attached by JS -->
+            <option value="3D">3D</option>
+            <option value="2D">2D</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>Graphic tile provider:
+          <select id="select_tile_provider">
+            <option value="bing">Bing</option>
+            <option value="osm">OpenStreetMap</option>
+            <option value="static">Static File</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>Satellite Group:
+          <select id="select_satellite_group">
+            <option value="smd">SMD Science</option>
+            <option value="iss">ISS</option>
+            <option value="space-stations">Space Stations</option>
+            <option value="science">Science</option>
+            <option value="geo">Geosynchronous</option>
+          </select>
+        </label>
+      </div>
+    </form>
 
+    <div class="popup" id="satellite_popup" style="display:none;"></div>
 
     <canvas id="glCanvas" width="1000px" height="1000px" tabindex="1"></canvas>
 
