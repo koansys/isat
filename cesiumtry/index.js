@@ -150,6 +150,28 @@
         }
     }
 
+    function populateSatelliteSelector() {
+        // Load the satellite names and keys into the selector, sorted by name
+        var sat_select = document.getElementById('select_satellite_details');
+        var option;
+        var satnum;
+        var name_idx = {};
+        var satkeys;
+        for (satnum = 0; satnum < satrecs.length; satnum++) {
+            name_idx[satnames[satnum]] = satnum;
+        }
+        satkeys = Object.keys(name_idx);
+        satkeys.sort();
+        sat_select.innerHTML = ''; // $('select_satellite_details').empty();
+        for (satnum = 0; satnum < satkeys.length; satnum++) {
+            option = document.createElement('option');
+            option.textContent = satkeys[satnum];
+            option.value = name_idx[satkeys[satnum]];
+            sat_select.appendChild(option);
+        }
+    }
+
+
     ///////////////////////////////////////////////////////////////////////////
     // Geo
 
@@ -260,8 +282,10 @@
     // Switch which satellites are displayed.
     document.getElementById('select_satellite_group').onchange = function (event) {
         getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
+        populateSatelliteSelector();
     };
     getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
+    populateSatelliteSelector();
 
 
     /////////////////////////////////////////////////////////////////////////////
