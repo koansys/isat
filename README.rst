@@ -239,16 +239,19 @@ Preference, Advanced, Show Develop menu in menu bar; Develop menu,
 Enable WebGL.
 
 Android CyanogenMod 9 on HP TouchPad:
+
 - The stock browser partially renders some statellites and globe, but then hangs.
 - Firefox runs and displays the calculations but shows me a blank screen.
 - Dolphin: TBD
 
 Android CyanogenMod 7 on Nook Color:
+
 - Stock browser: TBD
 - Firefox: TBD
 - Dolphin: TBD
 
 Android CyanogenMod (SuperSonic) 7.2.0 on HTC Evo 3G (2+ years old):
+
 - Stock Browser: Renders UI controls which work, but no globe or positions displayed
 - Firefox:       Renders UI controls which work, but no globe or positions displayed
 - Dolphin:       Renders UI controls which work, but no globe or positions displayed
