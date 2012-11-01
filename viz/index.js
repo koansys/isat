@@ -1,6 +1,6 @@
-/*global document, Cesium, Image, issPoints, console, navigator, twoline2rv, sgp4, tle*/
+/*global document, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
 (function () {
-    "use strict";
+    'use strict';
     var canvas = document.getElementById('glCanvas');
     var scene = new Cesium.Scene(canvas);
     var primitives = scene.getPrimitives();
@@ -13,7 +13,6 @@
     var WHICHCONST = 84;
     var TYPERUN = 'm';          // 'm'anual, 'c'atalog, 'v'erification)
     var TYPEINPUT = 'n';        // HACK: 'now'
-    var NOW = Date();
     var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
 
     ///////////////////////////////////////////////////////////////////////////
@@ -35,14 +34,14 @@
 
     function getSatrecsFromTLEFile(fileName) {
         var tles = tle.parseFile(fileName);
-        var satnum, max, rets, satrec, startmfe, stopmfe, deltamin, ro, vo;
+        var satnum, max, rets, satrec, startmfe, stopmfe, deltamin;
 
         // Reset the globals
         satrecs = [];
         satnames = [];
         satids = [];
 
-        for (satnum = 0, max = tles.length; satnum < max; satnum++) {
+        for (satnum = 0, max = tles.length; satnum < max; satnum += 1) {
             satnames[satnum] = tles[satnum][0].trim();
             satids[satnum]   = tles[satnum][2].split(' ')[1];
             rets = twoline2rv(WHICHCONST, tles[satnum][1], tles[satnum][2], TYPERUN, TYPEINPUT);
@@ -68,7 +67,7 @@
         var velocities = [];
         var satnum, max, jdSat, minutesSinceEpoch, rets, satrec, r, v;
 
-        for (satnum = 0, max = satrecs.length; satnum < max; satnum++) {
+        for (satnum = 0, max = satrecs.length; satnum < max; satnum += 1) {
             jdSat = new Cesium.JulianDate.fromTotalDays(satrecs[satnum].jdsatepoch);
             minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
             rets = sgp4(satrecs[satnum], minutesSinceEpoch);
@@ -95,11 +94,13 @@
             var billboards = new Cesium.BillboardCollection();
             var textureAtlas = scene.getContext().createTextureAtlas({image: image});
             var now = new Cesium.JulianDate();
-            var posnum, max, pos, rets, satrec, startmfe, stopmfe, deltamin, ro, vo;
-            billboards.modelMatrix = Cesium.Matrix4.fromRotationTranslation(Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
-                                                                            Cesium.Cartesian3.ZERO);
+            var posnum, max, pos;
+            billboards.modelMatrix =
+                Cesium.Matrix4.fromRotationTranslation(
+                    Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
+                    Cesium.Cartesian3.ZERO);
             billboards.setTextureAtlas(textureAtlas);
-            for (posnum = 0, max = satPositions.length; posnum < max; posnum++) {
+            for (posnum = 0, max = satPositions.length; posnum < max; posnum += 1) {
                 pos = satPositions[posnum];
                 billboards.add({imageIndex: 0,
                                 position:  new Cesium.Cartesian3(pos[0] * 1000, pos[1] * 1000, pos[2] * 1000)}); // Km to meter
@@ -116,16 +117,16 @@
     // BUG: Height is sometimes NaN
 
     function displayPositions(sats) {
-        var position_table = document.getElementById('positions');
-        var tbody = position_table.getElementsByTagName('tbody')[0];
+        var positionTable = document.getElementById('positions');
+        var tbody = positionTable.getElementsByTagName('tbody')[0];
         var satnum, max, pos0, vel0, vel0Carte, carte, carto, newRow;
 
         if (typeof tbody !== 'undefined' && tbody !== null) {
-            position_table.removeChild(tbody);
+            positionTable.removeChild(tbody);
         }
         tbody = document.createElement('tbody');
-        position_table.appendChild(tbody);
-        for (satnum = 0, max = satrecs.length; satnum < max && satnum < SAT_POSITIONS_MAX; satnum++) {
+        positionTable.appendChild(tbody);
+        for (satnum = 0, max = satrecs.length; satnum < max && satnum < SAT_POSITIONS_MAX; satnum += 1) {
             pos0 = sats.positions[satnum];                 // position of first satellite
             vel0 = sats.velocities[satnum];
             vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
@@ -139,7 +140,7 @@
             newRow.insertCell(-1).appendChild(document.createTextNode(carte.y.toFixed(0)));
             newRow.insertCell(-1).appendChild(document.createTextNode(carte.z.toFixed(0)));
             newRow.insertCell(-1).appendChild(document.createTextNode(vel0Carte.magnitude().toFixed(0)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.latitude ).toFixed(3)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.latitude).toFixed(3)));
             newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.longitude).toFixed(3)));
             newRow.insertCell(-1).appendChild(document.createTextNode(carto.height.toFixed(0)));
         }
@@ -148,21 +149,21 @@
     // Load the satellite names and keys into the selector, sorted by name
 
     function populateSatelliteSelector() {
-        var sat_select = document.getElementById('select_satellite_details');
-        var name_idx = {};
+        var satSelect = document.getElementById('select_satellite_details');
+        var nameIdx = {};
         var satnum, max, option, satkeys;
 
-        for (satnum = 0, max = satrecs.length; satnum < max; satnum++) {
-            name_idx[satnames[satnum]] = satnum;
+        for (satnum = 0, max = satrecs.length; satnum < max; satnum += 1) {
+            nameIdx[satnames[satnum]] = satnum;
         }
-        satkeys = Object.keys(name_idx);
+        satkeys = Object.keys(nameIdx);
         satkeys.sort();
-        sat_select.innerHTML = ''; // $('select_satellite_details').empty();
-        for (satnum = 0, max = satkeys.length; satnum < max; satnum++) {
+        satSelect.innerHTML = ''; // $('select_satellite_details').empty();
+        for (satnum = 0, max = satkeys.length; satnum < max; satnum += 1) {
             option = document.createElement('option');
             option.textContent = satkeys[satnum];
-            option.value = name_idx[satkeys[satnum]];
-            sat_select.appendChild(option);
+            option.value = nameIdx[satkeys[satnum]];
+            satSelect.appendChild(option);
         }
     }
 
@@ -170,13 +171,7 @@
     // Geo
 
     function viewByGeolocation(scene) {
-        if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition(show_geo);
-        }
-        else {
-            //console.log('I can NOT haz geo :-(');
-        }
-        function show_geo(position) {
+        function showGeo(position) {
             var target = ellipsoid.cartographicToCartesian(
                 Cesium.Cartographic.fromDegrees(position.coords.longitude, position.coords.latitude));
             var eye    = ellipsoid.cartographicToCartesian(
@@ -195,24 +190,27 @@
             };
             // Point the camera at us and position it directly above us
             scene.getCamera().lookAt({
-                up : new Cesium.Cartesian3(0,0,1),
-                eye : eye,
+                up     : new Cesium.Cartesian3(0, 0, 1),
+                eye    : eye,
                 target : target
             });
+        }
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(showGeo);
         }
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Utilities
 
-    function xyzKmFixed(pt, fix) {
-        // Return string formatted for xyz scaled to Km, with fixed precision.
-        return '(' +
-            (pt.x / 1000.0).toFixed(fix) + ', ' +
-            (pt.y / 1000.0).toFixed(fix) + ', ' +
-            (pt.z / 1000.0).toFixed(fix) + ', ' +
-            ')';
-    }
+    // function xyzKmFixed(pt, fix) {
+    //     // Return string formatted for xyz scaled to Km, with fixed precision.
+    //     return '(' +
+    //         (pt.x / 1000.0).toFixed(fix) + ', ' +
+    //         (pt.y / 1000.0).toFixed(fix) + ', ' +
+    //         (pt.z / 1000.0).toFixed(fix) + ', ' +
+    //         ')';
+    // }
 
     ///////////////////////////////////////////////////////////////////////////
     // Handle UI events
@@ -220,30 +218,29 @@
     // When you hover over a satellite, show its name in a popup
     // TODO: scene and ellipsoid are global so why pass them in?
 
-    function satelliteHoverDisplay(scene, ellipsoid) {
+    function satelliteHoverDisplay(scene) {
         var handler = new Cesium.EventHandler(scene.getCanvas());
 
         handler.setMouseAction( // actionFunction, mouseEventType, eventModifierKey
             function (movement) {
                 var pickedObject = scene.pick(movement.endPosition);
-                var sat_div = document.getElementById('satellite_popup');
+                var satDiv = document.getElementById('satellite_popup');
                 var name;
-                var cart;
                 if (pickedObject) { // is the entire Billboard, not just a single satellite in it
                     // TODO: accessing _index directly feels wrong
                     name = satnames[pickedObject._index];
-                    sat_div.textContent = name;
-                    sat_div.style.left = movement.endPosition.x + 'px';
-                    sat_div.style.top  = movement.endPosition.y + 'px'; // seems a bit high from mouse
-                    sat_div.style.display = ''; // remove any 'none'
+                    satDiv.textContent = name;
+                    satDiv.style.left = movement.endPosition.x + 'px';
+                    satDiv.style.top  = movement.endPosition.y + 'px'; // seems a bit high from mouse
+                    satDiv.style.display = ''; // remove any 'none'
                     // The following used to work in <style> section, but stopped; why?
-                    sat_div.style.position = 'absolute'; // vital to positioning near cursor
-                    sat_div.style.padding = '4px';
-                    sat_div.style.backgroundColor = '#909090';
-                    sat_div.style.color = 'black';
+                    satDiv.style.position = 'absolute'; // vital to positioning near cursor
+                    satDiv.style.padding = '4px';
+                    satDiv.style.backgroundColor = '#909090';
+                    satDiv.style.color = 'black';
                 }
                 else {
-                    sat_div.style.display = 'none';
+                    satDiv.style.display = 'none';
                 }
             },
             Cesium.MouseEventType.MOVE // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
@@ -251,7 +248,7 @@
     }
 
     // Switch map/tile providers
-    document.getElementById('select_tile_provider').onchange = function (event) {
+    document.getElementById('select_tile_provider').onchange = function () {
         var providers = {'bing' : bing,
                          'osm'  : osm,
                          'static' : single};
@@ -261,7 +258,7 @@
     };
 
     // Transition between views
-    document.getElementById('select_view').onchange = function (event) {
+    document.getElementById('select_view').onchange = function () {
         var transitioner = new Cesium.SceneTransitioner(scene);
         if (this.value === '2D') {
             transitioner.morphTo2D();
@@ -272,7 +269,7 @@
     };
 
     // Switch which satellites are displayed.
-    document.getElementById('select_satellite_group').onchange = function (event) {
+    document.getElementById('select_satellite_group').onchange = function () {
         getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
         populateSatelliteSelector();
     };
@@ -300,7 +297,7 @@
     viewByGeolocation(scene);   // TODO: immediately disappeared by satellites in billboard :-(
     getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
     populateSatelliteSelector();
-    satelliteHoverDisplay(scene, ellipsoid);
+    satelliteHoverDisplay(scene);
 
     /////////////////////////////////////////////////////////////////////////////
     // Run the timeclock, drive the animations
