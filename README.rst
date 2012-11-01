@@ -25,9 +25,9 @@ Overview
 ========
 
 I've translated the SGP algorithms from MATLAB which we believe to be
-the best current propagator implementation; see the Miura's PhD
-thesis.  It's a direct translation and has some very un-JavaScript
-structure, including globals used by the original FORTRAN and MATLAB
+the best current propagator implementation; see Miura's PhD thesis.
+It's a direct translation and has some very un-JavaScript structure,
+including globals used by the original FORTRAN and MATLAB
 implementations.  This needs to be restructured.  I've written tests
 to capture MATLAB calculations and translated them to validate the
 JavaScript implementation.
@@ -47,10 +47,10 @@ provide sophisticated visualizations without this software.
 We believe client-side JavaScript is the best way to deliver this
 content to users without requiring plugings (e.g., Eyes On The Solar
 System's requirement for the Unity game engine, or World Wind's Java
-download). While not all browsers support WebGL now, most desktops do
-and mobile is improving.  Running client-side means we do not need a
-farm of servers to stream satellite locations to clients: the
-calculations are done in the browsers themselves.
+download). While not all browsers support WebGL now, most desktops
+browsers do and mobile is improving.  Running client-side means we do
+not need a farm of servers to stream satellite locations to clients:
+the calculations are done in the browsers themselves.
 
 The code here is divided into two areas: SGP4 satellite calculations
 and Cesium-based visualizaiton.
@@ -210,7 +210,7 @@ They encourage forking and pull requests.
 
 The Cesium-dev mailing list is very helpful, lots of smart people there:
 
-https://groups.google.com/forum/#!forum/cesium-dev
+  https://groups.google.com/forum/#!forum/cesium-dev
 
 Trying it out
 -------------
@@ -223,7 +223,7 @@ fine. Safari renders the images but for me is stalled loading the
 tiles from Bing (beachball of death).
 
 Instead, put the unpacked files into a place your web server can see
-it, then hit the index.html.  On my Mac, I put it under ~/Sites/
+them, then hit the index.html.  On my Mac, I put it under ~/Sites/
 
 Browser support
 ---------------
@@ -239,10 +239,8 @@ Preference, Advanced, Show Develop menu in menu bar; Develop menu,
 Enable WebGL.
 
 Android CyanogenMod 9 on HP TouchPad:
-- The stock browser partially renders some statellites and globe, but
-  then hangs.
-- Firefox runs and displays the calculations but shows me a blank
-  screen.
+- The stock browser partially renders some statellites and globe, but then hangs.
+- Firefox runs and displays the calculations but shows me a blank screen.
 - Dolphin: TBD
 
 Android CyanogenMod 7 on Nook Color:
