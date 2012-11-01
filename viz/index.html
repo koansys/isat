@@ -1,5 +1,7 @@
 <html>
   <head>
+    <title>SOT: Satellite Orbit Tracker</title>
+    <link rel="icon" type="image/png" href="Images/Satellite.png"></link>
     <style>
       table {border-collapse:collapse;}
       table td, table th {border:1px solid #888; padding: 3px;}
@@ -28,12 +30,14 @@
   </head>
 
   <body>
+    <h1>SOT: Satellite Orbit Tracker</h1>
     <form id="controls">
       <div id="controls_visual">
         <span>
           <label>Earth View:
             <select id="select_view"> <!-- handler attached by JS -->
               <option value="3D">3D</option>
+              <option value="2.5D">2.5D</option>
               <option value="2D">2D</option>
             </select>
           </label>
@@ -61,8 +65,8 @@
           </label>
         </span>
         <span>
-          <label>Satellite Details:
-            <select id="select_satellite_details">
+          <label>Select Satellite:
+            <select id="select_satellite">
             </select>
           </label>
         </span>
