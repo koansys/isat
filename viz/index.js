@@ -16,14 +16,6 @@
     var NOW = Date();
     var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
 
-    scene.getCamera().getControllers().addCentralBody();
-    scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
-    scene.getCamera().lookAt({
-        eye : new Cesium.Cartesian3(4000000.0, -15000000.0,  10000000.0),
-        up : new Cesium.Cartesian3(-0.1642824655609347, 0.5596076102188919, 0.8123118822806428),
-        target : Cesium.Cartesian3.ZERO
-    });
-
     ///////////////////////////////////////////////////////////////////////////
     // Tile Providers
 
@@ -35,19 +27,13 @@
     });
     var single = new Cesium.SingleTileProvider('Images/NE2_50M_SR_W_4096.jpg');
 
-    // How do we tell if we can't get Bing, and substitute flat map with 'single'?
-    cb.dayTileProvider      = bing; // single; // composite;// bing; // osm; // esri;
-    cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
-    cb.bumpMapSource        = 'Images/earthbump1k.jpg';
-    cb.showSkyAtmosphere    = true;
-    primitives.setCentralBody(cb);
-
     ///////////////////////////////////////////////////////////////////////////
     // Satellite records and calculation
 
+    // Read TLEs from file and set GLOBAL satrecs, satnames, satids.
+    // We can then run the SGP4 propagator over it and render as billboards.
+
     function getSatrecsFromTLEFile(fileName) {
-        // Read TLEs from file and set GLOBAL satrecs, satnames, satids.
-        // We can then run the SGP4 propagator over it and render as billboards.
         var tles = tle.parseFile(fileName);
         var satnum, rets, satrec, startmfe, stopmfe, deltamin, ro, vo;
         satrecs = [];
@@ -66,13 +52,14 @@
         // Returns nothing, sets globals: satrecs, satnames, satids
     }
 
+    // Calculate new Satrecs based on time given as fractional Julian Date
+    // (since that's what satrec stores).
+    // Return object containing updated list of Satrecs, Rposition, Velocity.
+    // We don't have r (position) or v (velocity) in the satrec,
+    // so we have to return a those as a list as well; ugly.
+    // XXX Should I just add position and velocity to the satrec objects?
+
     function updateSatrecsPosVel(satrecs, julianDate) {
-        // Calculate new Satrecs based on time given as fractional Julian Date
-        // (since that's what satrec stores).
-        // Return object containing updated list of Satrecs, Rposition, Velocity.
-        // We don't have r (position) or v (velocity) in the satrec,
-        // so we have to return a those as a list as well; ugly.
-        // XXX Should I just add position and velocity to the satrec objects?
         var satrecsOut = [];
         var positions = [];
         var velocities = [];
@@ -93,9 +80,10 @@
                 'velocities': positions};
     }
 
+    // Render an icon for each satPosition in the list
+    // The calculated position is in Km but Cesium wants meters.
+
     function displaySats(satPositions) {
-        // Render an icon for each satPosition in the list
-        // The calculated position is in Km but Cesium wants meters.
         var image = new Image();
         image.src = 'Images/Satellite.png';
         image.onload = function () {
@@ -116,12 +104,13 @@
         };
     }
 
+    // Display positions, velocities of current satellites
+    // Limit number displayed else browser becomes unusable.
+    // BUG: Velocity doesn't agree with isstracker.com's KMH; problem with Units?
+    // BUG: Longitude doesn't agree with ISS Tracker (Latitude is OK)
+    // BUG: Height is sometimes NaN
+
     function displayPositions(sats) {
-        // Display positions, velocities of current satellites
-        // Limit number displayed else browser becomes unusable.
-        // BUG: Velocity doesn't agree with isstracker.com's KMH; problem with Units?
-        // BUG: Longitude doesn't agree with ISS Tracker (Latitude is OK)
-        // BUG: Height is sometimes NaN
         var position_table = document.getElementById('positions');
         var tbody = position_table.getElementsByTagName('tbody')[0];
         var satnum, pos0, vel0, vel0Carte, carte, carto, newRow;
@@ -151,8 +140,9 @@
         }
     }
 
+    // Load the satellite names and keys into the selector, sorted by name
+
     function populateSatelliteSelector() {
-        // Load the satellite names and keys into the selector, sorted by name
         var sat_select = document.getElementById('select_satellite_details');
         var option;
         var satnum;
@@ -172,7 +162,6 @@
         }
     }
 
-
     ///////////////////////////////////////////////////////////////////////////
     // Geo
 
@@ -181,15 +170,13 @@
             navigator.geolocation.getCurrentPosition(show_geo);
         }
         else {
-            //console.log('I can not haz geo :-(');
+            //console.log('I can NOT haz geo :-(');
         }
         function show_geo(position) {
             var target = ellipsoid.cartographicToCartesian(
                 Cesium.Cartographic.fromDegrees(position.coords.longitude, position.coords.latitude));
             var eye    = ellipsoid.cartographicToCartesian(
                 Cesium.Cartographic.fromDegrees(position.coords.longitude, position.coords.latitude, 1e7));
-            // console.log('lat=' + position.coords.latitude + ' lon=' + position.coords.longitude);
-            // console.log('cartesian=' + target);
             // Put a cross where we are
             var image = new Image();
             image.src = 'Images/cross_yellow_16.png';
@@ -208,14 +195,12 @@
                 eye : eye,
                 target : target
             });
-
         }
     }
-    viewByGeolocation(scene);
 
     ///////////////////////////////////////////////////////////////////////////
     // Utilities
-    
+
     function xyzKmFixed(pt, fix) {
         // Return string formatted for xyz scaled to Km, with fixed precision.
         return '(' +
@@ -224,12 +209,13 @@
             (pt.z / 1000.0).toFixed(fix) + ', ' +
             ')';
     }
-    
+
     ///////////////////////////////////////////////////////////////////////////
     // Handle UI events
 
     function satelliteHoverDisplay(scene, ellipsoid) {
         // When you hover over a satellite, show its name in a popup
+        // TODO: scene and ellipsoid are global so why pass them in?
         var handler = new Cesium.EventHandler(scene.getCanvas());
         handler.setMouseAction( // actionFunction, mouseEventType, eventModifierKey
             function (movement) {
@@ -257,7 +243,6 @@
             Cesium.MouseEventType.MOVE // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
         );
     }
-    satelliteHoverDisplay(scene, ellipsoid);
 
     // Switch map/tile providers
     document.getElementById('select_tile_provider').onchange = function (event) {
@@ -268,10 +253,10 @@
             cb.dayTileProvider = providers[this.value];
         }
     };
-    
+
     // Transition between views
-    var transitioner = new Cesium.SceneTransitioner(scene);
     document.getElementById('select_view').onchange = function (event) {
+        var transitioner = new Cesium.SceneTransitioner(scene);
         if (this.value === '2D') {
             transitioner.morphTo2D();
         }
@@ -285,24 +270,44 @@
         getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
         populateSatelliteSelector();
     };
-    getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
-    populateSatelliteSelector();
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Fire it up
+
+    // How do we tell if we can't get Bing, and substitute flat map with 'single'?
+    cb.dayTileProvider      = bing; // single; // composite;// bing; // osm; // esri;
+    cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
+    cb.bumpMapSource        = 'Images/earthbump1k.jpg';
+    cb.showSkyAtmosphere    = true;
+    primitives.setCentralBody(cb);
+
+    scene.getCamera().getControllers().addCentralBody();
+    scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
+    scene.getCamera().lookAt({
+        eye : new Cesium.Cartesian3(4000000.0, -15000000.0,  10000000.0),
+        up : new Cesium.Cartesian3(-0.1642824655609347, 0.5596076102188919, 0.8123118822806428),
+        target : Cesium.Cartesian3.ZERO
+    });
+
+    viewByGeolocation(scene);
+    getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
+    satelliteHoverDisplay(scene, ellipsoid);
+    populateSatelliteSelector();
 
     /////////////////////////////////////////////////////////////////////////////
     // Run the timeclock, drive the animations
 
     scene.setAnimation(function () {
-        // Insert code to update primitives based on time, camera position, etc
+        // Code here updates primitives based on time, camera position, etc
         var currentTime = clock.tick();
-
         document.getElementById('date').textContent = currentTime.toDate();
+
         scene.setSunPosition(Cesium.SunPosition.compute().position);
 
         if (satrecs.length > 0) {
             var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
-            var satnum;
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
             displaySats(sats.positions);
             displayPositions(sats);
@@ -313,4 +318,5 @@
         scene.render();
         Cesium.requestAnimationFrame(tick);
     }());
+
 }());
