@@ -35,11 +35,14 @@
 
     function getSatrecsFromTLEFile(fileName) {
         var tles = tle.parseFile(fileName);
-        var satnum, rets, satrec, startmfe, stopmfe, deltamin, ro, vo;
+        var satnum, max, rets, satrec, startmfe, stopmfe, deltamin, ro, vo;
+
+        // Reset the globals
         satrecs = [];
         satnames = [];
         satids = [];
-        for (satnum = 0; satnum < tles.length; satnum++) {
+
+        for (satnum = 0, max = tles.length; satnum < max; satnum++) {
             satnames[satnum] = tles[satnum][0].trim();
             satids[satnum]   = tles[satnum][2].split(' ')[1];
             rets = twoline2rv(WHICHCONST, tles[satnum][1], tles[satnum][2], TYPERUN, TYPEINPUT);
@@ -63,8 +66,9 @@
         var satrecsOut = [];
         var positions = [];
         var velocities = [];
-        var satnum, jdSat, minutesSinceEpoch, rets, satrec, r, v;
-        for (satnum = 0; satnum < satrecs.length; satnum++) {
+        var satnum, max, jdSat, minutesSinceEpoch, rets, satrec, r, v;
+
+        for (satnum = 0, max = satrecs.length; satnum < max; satnum++) {
             jdSat = new Cesium.JulianDate.fromTotalDays(satrecs[satnum].jdsatepoch);
             minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
             rets = sgp4(satrecs[satnum], minutesSinceEpoch);
@@ -85,16 +89,17 @@
 
     function displaySats(satPositions) {
         var image = new Image();
+
         image.src = 'Images/Satellite.png';
         image.onload = function () {
             var billboards = new Cesium.BillboardCollection();
             var textureAtlas = scene.getContext().createTextureAtlas({image: image});
             var now = new Cesium.JulianDate();
-            var posnum, pos, rets, satrec, startmfe, stopmfe, deltamin, ro, vo;
+            var posnum, max, pos, rets, satrec, startmfe, stopmfe, deltamin, ro, vo;
             billboards.modelMatrix = Cesium.Matrix4.fromRotationTranslation(Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
                                                                             Cesium.Cartesian3.ZERO);
             billboards.setTextureAtlas(textureAtlas);
-            for (posnum = 0; posnum < satPositions.length; posnum++) {
+            for (posnum = 0, max = satPositions.length; posnum < max; posnum++) {
                 pos = satPositions[posnum];
                 billboards.add({imageIndex: 0,
                                 position:  new Cesium.Cartesian3(pos[0] * 1000, pos[1] * 1000, pos[2] * 1000)}); // Km to meter
@@ -113,14 +118,14 @@
     function displayPositions(sats) {
         var position_table = document.getElementById('positions');
         var tbody = position_table.getElementsByTagName('tbody')[0];
-        var satnum, pos0, vel0, vel0Carte, carte, carto, newRow;
+        var satnum, max, pos0, vel0, vel0Carte, carte, carto, newRow;
 
         if (typeof tbody !== 'undefined' && tbody !== null) {
             position_table.removeChild(tbody);
         }
         tbody = document.createElement('tbody');
         position_table.appendChild(tbody);
-        for (satnum = 0; satnum < satrecs.length && satnum < SAT_POSITIONS_MAX; satnum++) {
+        for (satnum = 0, max = satrecs.length; satnum < max && satnum < SAT_POSITIONS_MAX; satnum++) {
             pos0 = sats.positions[satnum];                 // position of first satellite
             vel0 = sats.velocities[satnum];
             vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
@@ -144,17 +149,16 @@
 
     function populateSatelliteSelector() {
         var sat_select = document.getElementById('select_satellite_details');
-        var option;
-        var satnum;
         var name_idx = {};
-        var satkeys;
-        for (satnum = 0; satnum < satrecs.length; satnum++) {
+        var satnum, max, option, satkeys;
+
+        for (satnum = 0, max = satrecs.length; satnum < max; satnum++) {
             name_idx[satnames[satnum]] = satnum;
         }
         satkeys = Object.keys(name_idx);
         satkeys.sort();
         sat_select.innerHTML = ''; // $('select_satellite_details').empty();
-        for (satnum = 0; satnum < satkeys.length; satnum++) {
+        for (satnum = 0, max = satkeys.length; satnum < max; satnum++) {
             option = document.createElement('option');
             option.textContent = satkeys[satnum];
             option.value = name_idx[satkeys[satnum]];
@@ -213,10 +217,12 @@
     ///////////////////////////////////////////////////////////////////////////
     // Handle UI events
 
+    // When you hover over a satellite, show its name in a popup
+    // TODO: scene and ellipsoid are global so why pass them in?
+
     function satelliteHoverDisplay(scene, ellipsoid) {
-        // When you hover over a satellite, show its name in a popup
-        // TODO: scene and ellipsoid are global so why pass them in?
         var handler = new Cesium.EventHandler(scene.getCanvas());
+
         handler.setMouseAction( // actionFunction, mouseEventType, eventModifierKey
             function (movement) {
                 var pickedObject = scene.pick(movement.endPosition);
@@ -280,6 +286,7 @@
     cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
     cb.bumpMapSource        = 'Images/earthbump1k.jpg';
     cb.showSkyAtmosphere    = true;
+
     primitives.setCentralBody(cb);
 
     scene.getCamera().getControllers().addCentralBody();
@@ -290,16 +297,17 @@
         target : Cesium.Cartesian3.ZERO
     });
 
-    viewByGeolocation(scene);
+    viewByGeolocation(scene);   // TODO: immediately disappeared by satellites in billboard :-(
     getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
-    satelliteHoverDisplay(scene, ellipsoid);
     populateSatelliteSelector();
+    satelliteHoverDisplay(scene, ellipsoid);
 
     /////////////////////////////////////////////////////////////////////////////
     // Run the timeclock, drive the animations
 
+    // Code here updates primitives based on time, camera position, etc
+
     scene.setAnimation(function () {
-        // Code here updates primitives based on time, camera position, etc
         var currentTime = clock.tick();
         document.getElementById('date').textContent = currentTime.toDate();
 
@@ -313,6 +321,8 @@
             displayPositions(sats);
         }
     });
+
+    // Loop the clock
 
     (function tick() {
         scene.render();
