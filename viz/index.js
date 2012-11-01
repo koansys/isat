@@ -11,7 +11,7 @@
     var satnames = [];          // populated from onclick file load
     var satids = [];            // populated from onclick file load
     var WHICHCONST = 84;
-    var TYPERUN = 'm';          // 'm'anual, 'c'atalog, 'v'erification)
+    var TYPERUN = 'm';          // 'm'anual, 'c'atalog, 'v'erification
     var TYPEINPUT = 'n';        // HACK: 'now'
     var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
 
@@ -94,7 +94,11 @@
             var billboards = new Cesium.BillboardCollection();
             var textureAtlas = scene.getContext().createTextureAtlas({image: image});
             var now = new Cesium.JulianDate();
-            var posnum, max, pos;
+            // I want to highlight the billboard of and selected satellite
+            var satSelect = document.getElementById('select_satellite');
+            var satIdx = Number(satSelect.value); // "16"
+            var posnum, max, pos, billboard;
+
             billboards.modelMatrix =
                 Cesium.Matrix4.fromRotationTranslation(
                     Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
@@ -102,8 +106,16 @@
             billboards.setTextureAtlas(textureAtlas);
             for (posnum = 0, max = satPositions.length; posnum < max; posnum += 1) {
                 pos = satPositions[posnum];
-                billboards.add({imageIndex: 0,
-                                position:  new Cesium.Cartesian3(pos[0] * 1000, pos[1] * 1000, pos[2] * 1000)}); // Km to meter
+                billboard = billboards.add({imageIndex: 0,
+                                            position:  new Cesium.Cartesian3(pos[0] * 1000,
+                                                                             pos[1] * 1000,
+                                                                             pos[2] * 1000)}); // Km to meter
+                billboard.satelliteName = satnames[posnum]; // attach name for mouse interaction
+            }
+            if (satIdx) {
+                billboard = billboards.get(satIdx);
+                billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1}); // changes icon wings from blue to green
+                billboard.setScale(2.0);
             }
             scene.getPrimitives().removeAll(); // TODO: removes our geo location :-(
             scene.getPrimitives().add(billboards);
@@ -149,7 +161,7 @@
     // Load the satellite names and keys into the selector, sorted by name
 
     function populateSatelliteSelector() {
-        var satSelect = document.getElementById('select_satellite_details');
+        var satSelect = document.getElementById('select_satellite');
         var nameIdx = {};
         var satnum, max, option, satkeys;
 
@@ -158,7 +170,9 @@
         }
         satkeys = Object.keys(nameIdx);
         satkeys.sort();
-        satSelect.innerHTML = ''; // $('select_satellite_details').empty();
+        satSelect.innerHTML = ''; // $('select_satellite').empty();
+        option = document.createElement('option');
+        satSelect.appendChild(option); // first is empty to not select any satellite
         for (satnum = 0, max = satkeys.length; satnum < max; satnum += 1) {
             option = document.createElement('option');
             option.textContent = satkeys[satnum];
@@ -225,11 +239,8 @@
             function (movement) {
                 var pickedObject = scene.pick(movement.endPosition);
                 var satDiv = document.getElementById('satellite_popup');
-                var name;
-                if (pickedObject) { // is the entire Billboard, not just a single satellite in it
-                    // TODO: accessing _index directly feels wrong
-                    name = satnames[pickedObject._index];
-                    satDiv.textContent = name;
+                if (pickedObject) { // The one billboard; what if it's a Geo Billboard not a satellite??
+                    satDiv.textContent = pickedObject.satelliteName;
                     satDiv.style.left = movement.endPosition.x + 'px';
                     satDiv.style.top  = movement.endPosition.y + 'px'; // seems a bit high from mouse
                     satDiv.style.display = ''; // remove any 'none'
@@ -260,11 +271,18 @@
     // Transition between views
     document.getElementById('select_view').onchange = function () {
         var transitioner = new Cesium.SceneTransitioner(scene);
-        if (this.value === '2D') {
+        switch (this.value.toUpperCase()) {
+        case '2D':
             transitioner.morphTo2D();
-        }
-        else {
+            break;
+        case '2.5D':
+            transitioner.morphToColumbusView();
+            break;
+        case '3D':
             transitioner.morphTo3D();
+            break;
+        default:
+            break;
         }
     };
 
