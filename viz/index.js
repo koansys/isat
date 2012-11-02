@@ -18,13 +18,13 @@
     ///////////////////////////////////////////////////////////////////////////
     // Tile Providers
 
-    var bing = new Cesium.BingMapsTileProvider({// fails to detect 404 due to no net :-(
+    var bing = new Cesium.BingMapsImageryProvider({// fails to detect 404 due to no net :-(
         server : 'dev.virtualearth.net'         // default:  mapStyle:Cesium.BingMapStyle.AERIAL
     });
-    var osm = new Cesium.OpenStreetMapTileProvider({
+    var osm = new Cesium.OpenStreetMapImageryProvider({
         url : 'http://tile.openstreetmap.org/'
     });
-    var single = new Cesium.SingleTileProvider('Images/NE2_50M_SR_W_4096.jpg');
+    var single = new Cesium.SingleTileImageryProvider({url: 'Images/NE2_50M_SR_W_4096.jpg'});
 
     ///////////////////////////////////////////////////////////////////////////
     // Satellite records and calculation
@@ -190,6 +190,7 @@
                 Cesium.Cartographic.fromDegrees(position.coords.longitude, position.coords.latitude));
             var eye    = ellipsoid.cartographicToCartesian(
                 Cesium.Cartographic.fromDegrees(position.coords.longitude, position.coords.latitude, 1e7));
+            var up     = new Cesium.Cartesian3(0, 0, 1);
             // Put a cross where we are
             var image = new Image();
             image.src = 'Images/cross_yellow_16.png';
@@ -203,11 +204,7 @@
                 scene.getPrimitives().add(billboards);
             };
             // Point the camera at us and position it directly above us
-            scene.getCamera().lookAt({
-                up     : new Cesium.Cartesian3(0, 0, 1),
-                eye    : eye,
-                target : target
-            });
+            scene.getCamera().lookAt(eye, target, up);
         }
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(showGeo);
@@ -306,11 +303,9 @@
 
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
-    scene.getCamera().lookAt({
-        eye : new Cesium.Cartesian3(4000000.0, -15000000.0,  10000000.0),
-        up : new Cesium.Cartesian3(-0.1642824655609347, 0.5596076102188919, 0.8123118822806428),
-        target : Cesium.Cartesian3.ZERO
-    });
+    scene.getCamera().lookAt(new Cesium.Cartesian3(4000000.0, -15000000.0,  10000000.0), // eye
+                             Cesium.Cartesian3.ZERO, // target
+                             new Cesium.Cartesian3(-0.1642824655609347, 0.5596076102188919, 0.8123118822806428)); // up
 
     viewByGeolocation(scene);   // TODO: immediately disappeared by satellites in billboard :-(
     getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
@@ -324,12 +319,13 @@
 
     scene.setAnimation(function () {
         var currentTime = clock.tick();
+        var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
+
         document.getElementById('date').textContent = currentTime.toDate();
 
-        scene.setSunPosition(Cesium.SunPosition.compute().position);
+        scene.setSunPosition(Cesium.computeSunPosition(now));
 
         if (satrecs.length > 0) {
-            var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
             displaySats(sats.positions);
