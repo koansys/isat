@@ -4,15 +4,15 @@
     var canvas          = document.getElementById('glCanvas');
     var ellipsoid       = Cesium.Ellipsoid.WGS84;
     var scene           = new Cesium.Scene(canvas);
-    var billboards      = new Cesium.BillboardCollection();
+    var satBillboards   = new Cesium.BillboardCollection();
     var cb              = new Cesium.CentralBody(ellipsoid);
     var clock           = new Cesium.Clock();
-    var satrecs = [];           // populated from onclick file load
-    var satnames = [];          // populated from onclick file load
-    var satids = [];            // populated from onclick file load
-    var WHICHCONST = 84;
-    var TYPERUN = 'm';          // 'm'anual, 'c'atalog, 'v'erification
-    var TYPEINPUT = 'n';        // HACK: 'now'
+    var satrecs         = [];   // populated from onclick file load
+    var satnames        = [];   // populated from onclick file load
+    var satids          = [];   // populated from onclick file load
+    var WHICHCONST      = 84;   //
+    var TYPERUN         = 'm';  // 'm'anual, 'c'atalog, 'v'erification
+    var TYPEINPUT       = 'n';  // HACK: 'now'
     var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
 
 
@@ -86,54 +86,23 @@
 
     // Update the location of each satellite in the billboard.
     // The calculated position is in Km but Cesium wants meters.
-    // The satellite's icon (from TextureAtlas) and name are already set.
-    // TODO: change function name to updateSatellitePositions
+    // The satellite's icon (from TextureAtlas) and name are already set
+    // by populateSatelliteBillboard().
 
-    function displaySats(satPositions) {
-        var image = new Image();
+    function updateSatelliteBillboards(satPositions) {
+        var now = new Cesium.JulianDate();
+        var posnum, max, pos, newpos, bb;
 
-        image.src = 'Images/Satellite.png';
-        image.onload = function () {
-            //var billboards = new Cesium.BillboardCollection();
-            var textureAtlas = scene.getContext().createTextureAtlas({image: image});
-            var now = new Cesium.JulianDate();
-            // I want to highlight the billboard of and selected satellite
-            var satSelect = document.getElementById('select_satellite');
-            var satIdx = Number(satSelect.value); // "16"
-            var posnum, max, pos, billboard;
-
-            billboards.modelMatrix =
-                Cesium.Matrix4.fromRotationTranslation(
-                    Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
-                    Cesium.Cartesian3.ZERO);
-            billboards.setTextureAtlas(textureAtlas);
-            for (posnum = 0, max = satPositions.length; posnum < max; posnum += 1) {
-                pos = satPositions[posnum];
-                billboard = billboards.add({imageIndex: 0,
-                                            position:  new Cesium.Cartesian3(pos[0] * 1000,
-                                                                             pos[1] * 1000,
-                                                                             pos[2] * 1000)}); // Km to meter
-                billboard.satelliteName = satnames[posnum]; // attach name for mouse interaction
-            }
-            if (satIdx) {
-                billboard = billboards.get(satIdx);
-                billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1}); // changes icon wings from blue to green
-                billboard.setScale(2.0);
-            }
-            //scene.getPrimitives().removeAll(); // TODO: removes our geo location :-(
-            scene.getPrimitives().add(billboards);
-
-            // var textureAtlas = scene.getContext().createTextureAtlas({image: image}); // seems needed in onload()
-            // billboards.setTextureAtlas(textureAtlas);
-        };
-
-        // I want to highlight the billboard of and selected satellite
-        // var satIdx = Number(satSelect.value); // "16"
-        // if (satIdx) {
-        //     billboard = billboards.get(satIdx);
-        //     billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1}); // changes icon wings from blue to green
-        //     billboard.setScale(2.0);
-        // }
+        satBillboards.modelMatrix =
+            Cesium.Matrix4.fromRotationTranslation(
+                Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
+                Cesium.Cartesian3.ZERO);
+        for (posnum = 0, max = satPositions.length; posnum < max; posnum += 1) {
+            bb = satBillboards.get(posnum);
+            pos = satPositions[posnum];
+            newpos =  new Cesium.Cartesian3(pos[0] * 1000, pos[1] * 1000, pos[2] * 1000);
+            bb.setPosition(newpos);
+        }
     }
 
     // Display positions, velocities of current satellites
@@ -195,33 +164,35 @@
         }
     }
 
-    // Create a new billboard for each satellites which are updated frequently.
+    // Create a new billboard for the satellites which are updated frequently.
     // These are placed in the global satellite billboard, replacing any old ones.
     // Keep it distict from other billboards, e.g., GeoLocation, that don't change.
     // We don't need to set position here to be actual, it'll be updated in the time-loop.
+    // TODO: should this be combined with the populateSatelliteSelector()?
 
     function populateSatelliteBillboard() {
         var satnum, max, billboard;
         var image = new Image();
 
+        satBillboards.removeAll(); // clear out the old ones
         for (satnum = 0, max = satnames.length; satnum < max; satnum += 1) {
-            billboard = billboards.add({imageIndex: 0,
-                                        position:  new Cesium.Cartesian3(0, 0, 0)}); // BOGUS position
+            billboard = satBillboards.add({imageIndex: 0,
+                                           position:  new Cesium.Cartesian3(0, 0, 0)}); // BOGUS position
             billboard.satelliteName = satnames[satnum]; // attach name for mouse interaction
         }
-        scene.getPrimitives().add(billboards);
+        scene.getPrimitives().add(satBillboards);
 
         image.src = 'Images/Satellite.png';
         image.onload = function () {
             var textureAtlas = scene.getContext().createTextureAtlas({image: image}); // seems needed in onload()
-            billboards.setTextureAtlas(textureAtlas);
+            satBillboards.setTextureAtlas(textureAtlas);
         };
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Geo: put a cross where we are, if the browser is Geo-aware
 
-    function viewByGeolocation(scene) {
+    function showGeolocation(scene) {
         function showGeo(position) {
             var target = ellipsoid.cartographicToCartesian(
                 Cesium.Cartographic.fromDegrees(position.coords.longitude, position.coords.latitude));
@@ -295,6 +266,33 @@
         );
     }
 
+    // Highlight satellite billboard when selector pulldown used.
+    // We attach an attribute so we can detect any previously highlighted satellite.
+    // Updates one of the global satBillboard elements, resets others.
+    // The setColor changes icon wings from blue to green.
+    // Maybe we should replace the icon by fiddling the textureAtlas index
+    // but that would require more images in the textureAtlas.
+
+    document.getElementById('select_satellite').onchange = function () {
+        var satIdx = Number(this.value); // "16"
+        var billboard, bbnum, max;
+
+        for (bbnum = 0, max = satBillboards.getLength(); bbnum < max; bbnum += 1) {
+            billboard = satBillboards.get(bbnum);
+            if (billboard.hasOwnProperty('isSelected')) {
+                delete billboard.isSelected;
+                billboard.setColor({red: 1, blue: 1, green: 1, alpha: 1});
+                billboard.setScale(1.0);
+            }
+            if (bbnum === satIdx) {
+                billboard = satBillboards.get(satIdx);
+                billboard.isSelected = true;
+                billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1});
+                billboard.setScale(2.0);
+            }
+        }
+    };
+
     // Switch map/tile providers
     document.getElementById('select_tile_provider').onchange = function () {
         var providers = {'bing' : bing,
@@ -327,6 +325,7 @@
     document.getElementById('select_satellite_group').onchange = function () {
         getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
         populateSatelliteSelector();
+        populateSatelliteBillboard();
     };
 
 
@@ -349,7 +348,8 @@
         target : Cesium.Cartesian3.ZERO
     });
 
-    viewByGeolocation(scene);
+    // BUG: if we show geo (collection) then we can't hover over satellites within the globe.
+    //showGeolocation(scene);
 
     getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
     populateSatelliteSelector();
@@ -378,7 +378,7 @@
             var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
-            displaySats(sats.positions);
+            updateSatelliteBillboards(sats.positions);
             displayPositions(sats);
         }
     });
