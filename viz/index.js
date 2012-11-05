@@ -249,7 +249,7 @@
             function (movement) {
                 var pickedObject = scene.pick(movement.endPosition);
                 var satDiv = document.getElementById('satellite_popup');
-                if (pickedObject) { // The one billboard; what if it's a Geo Billboard not a satellite??
+                if (pickedObject && pickedObject.satelliteName) { // Only show satellite, not Geo marker
                     satDiv.textContent = pickedObject.satelliteName;
                     satDiv.style.left = movement.endPosition.x + 'px';
                     satDiv.style.top  = movement.endPosition.y + 'px'; // seems a bit high from mouse
@@ -351,8 +351,7 @@
                              Cesium.Cartesian3.ZERO, // target
                              new Cesium.Cartesian3(-0.1642824655609347, 0.5596076102188919, 0.8123118822806428)); // up
 
-    // BUG: if we show geo (collection) then we can't hover over satellites within the globe.
-    //showGeolocation(scene);
+    showGeolocation(scene);
 
     getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
     populateSatelliteSelector();
