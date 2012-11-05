@@ -1,4 +1,4 @@
-/*global document, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
+/*global document, Cesium, Image, navigator, twoline2rv, sgp4, tle, console*/
 (function () {
     'use strict';
     var canvas = document.getElementById('glCanvas');
@@ -18,13 +18,18 @@
     ///////////////////////////////////////////////////////////////////////////
     // Tile Providers
 
-    var bing = new Cesium.BingMapsImageryProvider({// fails to detect 404 due to no net :-(
-        server : 'dev.virtualearth.net'         // default:  mapStyle:Cesium.BingMapStyle.AERIAL
-    });
-    var osm = new Cesium.OpenStreetMapImageryProvider({
-        url : 'http://tile.openstreetmap.org/'
-    });
-    var single = new Cesium.SingleTileImageryProvider({url: 'Images/NE2_50M_SR_W_4096.jpg'});
+    var TILE_PROVIDERS = {
+        'bing' : new Cesium.BingMapsImageryProvider(// fails to detect 404 due to no net :-(
+            {server : 'dev.virtualearth.net' // default:  mapStyle:Cesium.BingMapStyle.AERIAL
+            }),
+        'osm'  : new Cesium.OpenStreetMapImageryProvider(
+            {url    : 'http://otile1.mqcdn.com/tiles/1.0.0/osm'
+            }),
+        'static' : new Cesium.SingleTileImageryProvider(
+            {url: 'Images/NE2_50M_SR_W_4096.jpg'
+            })
+    };
+
 
     ///////////////////////////////////////////////////////////////////////////
     // Satellite records and calculation
@@ -256,12 +261,15 @@
     }
 
     // Switch map/tile providers
+    //
+    // TODO .removeAll() doesn't seem optimal but .remove(0) doesn't seem to work.
+    // Should we toggle the Provider's .show attr? how then to add new ones sanely?
+    // and not exhaust resources by having a bunch of providers and their tiles?
     document.getElementById('select_tile_provider').onchange = function () {
-        var providers = {'bing' : bing,
-                         'osm'  : osm,
-                         'static' : single};
-        if (providers[this.value]) {
-            cb.dayTileProvider = providers[this.value];
+        var ilNew = TILE_PROVIDERS[this.value];
+        if (ilNew) {
+            cb.getImageryLayers().removeAll();
+            cb.getImageryLayers().addImageryProvider(ilNew);
         }
     };
 
@@ -294,10 +302,10 @@
     // Fire it up
 
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
-    cb.dayTileProvider      = bing; // single; // composite;// bing; // osm; // esri;
+    cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
     cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
-    cb.bumpMapSource        = 'Images/earthbump1k.jpg';
     cb.showSkyAtmosphere    = true;
+    cb.bumpMapSource        = 'Images/earthbump1k.jpg'; // need/want this? if tile server unavailable?
 
     primitives.setCentralBody(cb);
 
