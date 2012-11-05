@@ -38984,70 +38984,70 @@ define('Scene/WebMercatorTilingScheme',[
 
     return WebMercatorTilingScheme;
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/BillboardCollectionFS',[],function() {
-  
-  return "uniform sampler2D u_atlas;\n" +
-"varying vec2 v_textureCoordinates;\n" +
-"varying vec4 v_color;\n" +
-"varying vec4 v_pickColor;\n" +
-"void main()\n" +
-"{\n" +
-"vec4 color = texture2D(u_atlas, v_textureCoordinates) * v_color;\n" +
-"if (color.a == 0.0)\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"#ifdef RENDER_FOR_PICK\n" +
-"gl_FragColor = v_pickColor;\n" +
-"#else\n" +
-"gl_FragColor = color;\n" +
-"#endif\n" +
-"}\n" +
-"";
+    
+    return "uniform sampler2D u_atlas;\n\
+varying vec2 v_textureCoordinates;\n\
+varying vec4 v_color;\n\
+varying vec4 v_pickColor;\n\
+void main()\n\
+{\n\
+vec4 color = texture2D(u_atlas, v_textureCoordinates) * v_color;\n\
+if (color.a == 0.0)\n\
+{\n\
+discard;\n\
+}\n\
+#ifdef RENDER_FOR_PICK\n\
+gl_FragColor = v_pickColor;\n\
+#else\n\
+gl_FragColor = color;\n\
+#endif\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/BillboardCollectionVS',[],function() {
-  
-  return "attribute vec3 position;\n" +
-"attribute vec2 direction;\n" +
-"attribute vec4 textureCoordinatesAndImageSize;\n" +
-"attribute vec4 color;\n" +
-"attribute vec3 originAndShow;\n" +
-"attribute vec2 pixelOffset;\n" +
-"attribute vec4 eyeOffsetAndScale;\n" +
-"attribute vec4 pickColor;\n" +
-"uniform vec2 u_atlasSize;\n" +
-"uniform float u_clampToPixel;\n" +
-"const vec2 czm_highResolutionSnapScale = vec2(1.0, 1.0);\n" +
-"varying vec2 v_textureCoordinates;\n" +
-"varying vec4 v_color;\n" +
-"varying vec4 v_pickColor;\n" +
-"void main()\n" +
-"{\n" +
-"vec3 eyeOffset = eyeOffsetAndScale.xyz;\n" +
-"float scale = eyeOffsetAndScale.w;\n" +
-"vec2 textureCoordinates = textureCoordinatesAndImageSize.xy;\n" +
-"vec2 imageSize = textureCoordinatesAndImageSize.zw;\n" +
-"vec2 origin = originAndShow.xy;\n" +
-"float show = originAndShow.z;\n" +
-"vec4 positionEC = czm_modelView * vec4(position, 1.0);\n" +
-"positionEC = czm_eyeOffset(positionEC, eyeOffset);\n" +
-"positionEC.xyz *= show;\n" +
-"vec4 positionWC = czm_eyeToWindowCoordinates(positionEC);\n" +
-"vec2 halfSize = u_atlasSize * imageSize * 0.5 * scale * czm_highResolutionSnapScale;\n" +
-"halfSize *= ((direction * 2.0) - 1.0);\n" +
-"positionWC.xy += (origin * abs(halfSize)) + halfSize;\n" +
-"positionWC.xy += (pixelOffset * czm_highResolutionSnapScale);\n" +
-"positionWC.xy = mix(positionWC.xy, floor(positionWC.xy), u_clampToPixel);\n" +
-"gl_Position = czm_viewportOrthographic * vec4(positionWC.xy, -positionWC.z, 1.0);\n" +
-"v_textureCoordinates = textureCoordinates;\n" +
-"v_color = color;\n" +
-"v_pickColor = pickColor;\n" +
-"}\n" +
-"";
+    
+    return "attribute vec3 position;\n\
+attribute vec2 direction;\n\
+attribute vec4 textureCoordinatesAndImageSize;\n\
+attribute vec4 color;\n\
+attribute vec3 originAndShow;\n\
+attribute vec2 pixelOffset;\n\
+attribute vec4 eyeOffsetAndScale;\n\
+attribute vec4 pickColor;\n\
+uniform vec2 u_atlasSize;\n\
+uniform float u_clampToPixel;\n\
+const vec2 czm_highResolutionSnapScale = vec2(1.0, 1.0);\n\
+varying vec2 v_textureCoordinates;\n\
+varying vec4 v_color;\n\
+varying vec4 v_pickColor;\n\
+void main()\n\
+{\n\
+vec3 eyeOffset = eyeOffsetAndScale.xyz;\n\
+float scale = eyeOffsetAndScale.w;\n\
+vec2 textureCoordinates = textureCoordinatesAndImageSize.xy;\n\
+vec2 imageSize = textureCoordinatesAndImageSize.zw;\n\
+vec2 origin = originAndShow.xy;\n\
+float show = originAndShow.z;\n\
+vec4 positionEC = czm_modelView * vec4(position, 1.0);\n\
+positionEC = czm_eyeOffset(positionEC, eyeOffset);\n\
+positionEC.xyz *= show;\n\
+vec4 positionWC = czm_eyeToWindowCoordinates(positionEC);\n\
+vec2 halfSize = u_atlasSize * imageSize * 0.5 * scale * czm_highResolutionSnapScale;\n\
+halfSize *= ((direction * 2.0) - 1.0);\n\
+positionWC.xy += (origin * abs(halfSize)) + halfSize;\n\
+positionWC.xy += (pixelOffset * czm_highResolutionSnapScale);\n\
+positionWC.xy = mix(positionWC.xy, floor(positionWC.xy), u_clampToPixel);\n\
+gl_Position = czm_viewportOrthographic * vec4(positionWC.xy, -positionWC.z, 1.0);\n\
+v_textureCoordinates = textureCoordinates;\n\
+v_color = color;\n\
+v_pickColor = pickColor;\n\
+}\n\
+";
 });
 /*global define*/
 define('Scene/BillboardCollection',[
@@ -45457,227 +45457,217 @@ gl_FragColor = vec4(rgb, 1.0);\n\
  *
  * Modifications made by Analytical Graphics, Inc.
  */
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/CentralBodyFSCommon',[],function() {
-  
-  return "#ifdef SHOW_TERMINATOR\n" +
-"#ifdef GL_OES_standard_derivatives\n" +
-"#extension GL_OES_standard_derivatives : enable\n" +
-"#endif\n" +
-"#endif\n" +
-"#ifdef SHOW_NIGHT\n" +
-"uniform sampler2D u_nightTexture;\n" +
-"#endif\n" +
-"uniform sampler2D u_specularMap;\n" +
-"uniform sampler2D u_cloudMap;\n" +
-"uniform sampler2D u_bumpMap;\n" +
-"uniform float u_dayNightBlendDelta;\n" +
-"uniform vec2 u_bumpMapResoltuion;\n" +
-"uniform float u_bumpMapNormalZ;\n" +
-"uniform float u_nightIntensity;\n" +
-"uniform float u_dayIntensity;\n" +
-"bool isCloud(float cloudCover)\n" +
-"{\n" +
-"return cloudCover > 0.7;\n" +
-"}\n" +
-"vec3 dayColor(vec3 positionMC, vec3 positionEC, vec3 normalEC, vec3 startColor, vec2 txCoord, float cloudCover)\n" +
-"{\n" +
-"#ifdef SHOW_GROUND_ATMOSPHERE\n" +
-"vec4 diffuseSpecularAmbientShininess = vec4(0.35, 0.5, u_dayIntensity, 10.0);\n" +
-"#else\n" +
-"vec4 diffuseSpecularAmbientShininess = vec4(0.75, 0.5, u_dayIntensity, 10.0);\n" +
-"#endif\n" +
-"#ifdef SHOW_SPECULAR\n" +
-"float specularWeight = texture2D(u_specularMap, txCoord).r;\n" +
-"#else\n" +
-"float specularWeight = 1.0;\n" +
-"#endif\n" +
-"float intensity = diffuseSpecularAmbientShininess.z;\n" +
-"float diffuse = max(dot(czm_sunDirectionEC, normalEC), 0.0);\n" +
-"#ifdef SHOW_BUMPS\n" +
-"float center = texture2D(u_bumpMap, txCoord).r;\n" +
-"float right = texture2D(u_bumpMap, txCoord + vec2(u_bumpMapResoltuion.x, 0.0)).r;\n" +
-"float top = texture2D(u_bumpMap, txCoord + vec2(0.0, u_bumpMapResoltuion.y)).r;\n" +
-"vec3 perturbedNormalTC = normalize(vec3(center - right, center - top, u_bumpMapNormalZ));\n" +
-"vec3 perturbedNormalEC = czm_eastNorthUpToEyeCoordinates(positionMC, normalEC) * perturbedNormalTC;\n" +
-"perturbedNormalEC = normalize(perturbedNormalEC);\n" +
-"float perturbedDiffuse = max(dot(czm_sunDirectionEC, perturbedNormalEC), 0.0);\n" +
-"#else\n" +
-"float perturbedDiffuse = diffuse;\n" +
-"#endif\n" +
-"intensity += (diffuseSpecularAmbientShininess.x * perturbedDiffuse);\n" +
-"if (specularWeight != 0.0)\n" +
-"{\n" +
-"vec3 positionToEyeEC = normalize(-positionEC);\n" +
-"vec3 toReflectedLight = reflect(-czm_sunDirectionEC, normalEC);\n" +
-"float specular = max(dot(toReflectedLight, normalize(positionToEyeEC)), 0.0);\n" +
-"specular = pow(specular, diffuseSpecularAmbientShininess.w);\n" +
-"specular *= specularWeight;\n" +
-"intensity += (diffuseSpecularAmbientShininess.y * specular);\n" +
-"}\n" +
-"vec3 earthColor = vec3(intensity) * startColor;\n" +
-"vec3 cloudColor = vec3(cloudCover * diffuse);\n" +
-"vec3 earthUnderCloudColor = mix(earthColor, cloudColor, cloudCover);\n" +
-"#ifdef SHOW_CLOUD_SHADOWS\n" +
-"if (diffuse > 0.0)\n" +
-"{\n" +
-"if (!isCloud(texture2D(u_cloudMap, txCoord).r))\n" +
-"{\n" +
-"mat3 eyeToEastNorthUp = czm_transpose(czm_eastNorthUpToEyeCoordinates(positionMC, normalEC));\n" +
-"vec3 positionToSunTC = eyeToEastNorthUp * czm_sunDirectionEC;\n" +
-"float scale = (1.0 - positionToSunTC.z) * 0.005;\n" +
-"float shadowCloudCover = texture2D(u_cloudMap, txCoord + (scale * positionToSunTC.xy)).r;\n" +
-"float cloudBehind = texture2D(u_cloudMap, txCoord - (scale * positionToSunTC.xy)).r;\n" +
-"float viewDistance = length(positionEC) * 10.0E-8;\n" +
-"viewDistance = min(1.0, viewDistance);\n" +
-"if (isCloud(shadowCloudCover))\n" +
-"{\n" +
-"if(isCloud(cloudBehind))\n" +
-"{\n" +
-"return mix(earthUnderCloudColor, vec3(0.1), shadowCloudCover * viewDistance);\n" +
-"}\n" +
-"return mix(earthUnderCloudColor, vec3(0.1), viewDistance);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"scale = scale * 1.25;\n" +
-"shadowCloudCover = texture2D(u_cloudMap, txCoord + (scale * positionToSunTC.xy)).r;\n" +
-"if(isCloud(shadowCloudCover))\n" +
-"{\n" +
-"return mix(earthUnderCloudColor, vec3(0.1), shadowCloudCover * viewDistance);\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"#endif\n" +
-"return earthUnderCloudColor;\n" +
-"}\n" +
-"vec3 nightColor(vec2 txCoord, float cloudCover)\n" +
-"{\n" +
-"#ifdef SHOW_NIGHT\n" +
-"return u_nightIntensity * texture2D(u_nightTexture, txCoord).rgb * (1.0 - cloudCover);\n" +
-"#else\n" +
-"return vec3(0.0);\n" +
-"#endif\n" +
-"}\n" +
-"vec3 getCentralBodyColor(vec3 positionMC, vec3 positionEC, vec3 normalMC, vec3 normalEC, vec3 startDayColor, vec3 rayleighColor, vec3 mieColor) {\n" +
-"float diffuse = dot(czm_sunDirectionEC, normalEC);\n" +
-"#ifdef SHOW_TERMINATOR\n" +
-"float absDiffuse = abs(diffuse);\n" +
-"#ifdef GL_OES_standard_derivatives\n" +
-"if ((absDiffuse < abs(dFdx(diffuse)) * 1.0) ||\n" +
-"(absDiffuse < abs(dFdy(diffuse)) * 1.0))\n" +
-"{\n" +
-"gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n" +
-"return;\n" +
-"}\n" +
-"#else\n" +
-"if (absDiffuse < 0.005)\n" +
-"{\n" +
-"gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n" +
-"return;\n" +
-"}\n" +
-"#endif\n" +
-"#endif\n" +
-"vec2 txCoord = czm_ellipsoidWgs84TextureCoordinates(normalMC);\n" +
-"#ifdef SHOW_CLOUDS\n" +
-"float cloudCover = texture2D(u_cloudMap, txCoord).r;\n" +
-"#else\n" +
-"float cloudCover = 0.0;\n" +
-"#endif\n" +
-"vec3 rgb = dayColor(positionMC, positionEC, normalEC, startDayColor, txCoord, cloudCover);\n" +
-"#ifdef SHOW_GROUND_ATMOSPHERE\n" +
-"const float fExposure = 2.0;\n" +
-"vec3 color = mieColor + rgb * rayleighColor;\n" +
-"rgb = vec3(1.0) - exp(-fExposure * color);\n" +
-"#endif\n" +
-"if (diffuse < -u_dayNightBlendDelta)\n" +
-"{\n" +
-"rgb = nightColor(txCoord, cloudCover);\n" +
-"}\n" +
-"else if (diffuse <= u_dayNightBlendDelta)\n" +
-"{\n" +
-"rgb = mix(\n" +
-"nightColor(txCoord, cloudCover),\n" +
-"rgb,\n" +
-"(diffuse + u_dayNightBlendDelta) / (2.0 * u_dayNightBlendDelta));\n" +
-"}\n" +
-"return rgb;\n" +
-"}\n" +
-"";
+    
+    return "#ifdef SHOW_TERMINATOR\n\
+#ifdef GL_OES_standard_derivatives\n\
+#extension GL_OES_standard_derivatives : enable\n\
+#endif\n\
+#endif\n\
+#ifdef SHOW_NIGHT\n\
+uniform sampler2D u_nightTexture;\n\
+#endif\n\
+uniform sampler2D u_specularMap;\n\
+uniform sampler2D u_cloudMap;\n\
+uniform sampler2D u_bumpMap;\n\
+uniform float u_dayNightBlendDelta;\n\
+uniform vec2 u_bumpMapResoltuion;\n\
+uniform float u_bumpMapNormalZ;\n\
+uniform float u_nightIntensity;\n\
+uniform float u_dayIntensity;\n\
+bool isCloud(float cloudCover)\n\
+{\n\
+return cloudCover > 0.7;\n\
+}\n\
+vec3 dayColor(vec3 positionMC, vec3 positionEC, vec3 normalEC, vec3 startColor, vec2 txCoord, float cloudCover)\n\
+{\n\
+#ifdef SHOW_GROUND_ATMOSPHERE\n\
+vec4 diffuseSpecularAmbientShininess = vec4(0.35, 0.5, u_dayIntensity, 10.0);\n\
+#else\n\
+vec4 diffuseSpecularAmbientShininess = vec4(0.75, 0.5, u_dayIntensity, 10.0);\n\
+#endif\n\
+#ifdef SHOW_SPECULAR\n\
+float specularWeight = texture2D(u_specularMap, txCoord).r;\n\
+#else\n\
+float specularWeight = 1.0;\n\
+#endif\n\
+float intensity = diffuseSpecularAmbientShininess.z;\n\
+float diffuse = max(dot(czm_sunDirectionEC, normalEC), 0.0);\n\
+#ifdef SHOW_BUMPS\n\
+float center = texture2D(u_bumpMap, txCoord).r;\n\
+float right = texture2D(u_bumpMap, txCoord + vec2(u_bumpMapResoltuion.x, 0.0)).r;\n\
+float top = texture2D(u_bumpMap, txCoord + vec2(0.0, u_bumpMapResoltuion.y)).r;\n\
+vec3 perturbedNormalTC = normalize(vec3(center - right, center - top, u_bumpMapNormalZ));\n\
+vec3 perturbedNormalEC = czm_eastNorthUpToEyeCoordinates(positionMC, normalEC) * perturbedNormalTC;\n\
+perturbedNormalEC = normalize(perturbedNormalEC);\n\
+float perturbedDiffuse = max(dot(czm_sunDirectionEC, perturbedNormalEC), 0.0);\n\
+#else\n\
+float perturbedDiffuse = diffuse;\n\
+#endif\n\
+intensity += (diffuseSpecularAmbientShininess.x * perturbedDiffuse);\n\
+if (specularWeight != 0.0)\n\
+{\n\
+vec3 positionToEyeEC = normalize(-positionEC);\n\
+vec3 toReflectedLight = reflect(-czm_sunDirectionEC, normalEC);\n\
+float specular = max(dot(toReflectedLight, normalize(positionToEyeEC)), 0.0);\n\
+specular = pow(specular, diffuseSpecularAmbientShininess.w);\n\
+specular *= specularWeight;\n\
+intensity += (diffuseSpecularAmbientShininess.y * specular);\n\
+}\n\
+vec3 earthColor = vec3(intensity) * startColor;\n\
+vec3 cloudColor = vec3(cloudCover * diffuse);\n\
+vec3 earthUnderCloudColor = mix(earthColor, cloudColor, cloudCover);\n\
+#ifdef SHOW_CLOUD_SHADOWS\n\
+if (diffuse > 0.0)\n\
+{\n\
+if (!isCloud(texture2D(u_cloudMap, txCoord).r))\n\
+{\n\
+mat3 eyeToEastNorthUp = czm_transpose(czm_eastNorthUpToEyeCoordinates(positionMC, normalEC));\n\
+vec3 positionToSunTC = eyeToEastNorthUp * czm_sunDirectionEC;\n\
+float scale = (1.0 - positionToSunTC.z) * 0.005;\n\
+float shadowCloudCover = texture2D(u_cloudMap, txCoord + (scale * positionToSunTC.xy)).r;\n\
+float cloudBehind = texture2D(u_cloudMap, txCoord - (scale * positionToSunTC.xy)).r;\n\
+float viewDistance = length(positionEC) * 10.0E-8;\n\
+viewDistance = min(1.0, viewDistance);\n\
+if (isCloud(shadowCloudCover))\n\
+{\n\
+if(isCloud(cloudBehind))\n\
+{\n\
+return mix(earthUnderCloudColor, vec3(0.1), shadowCloudCover * viewDistance);\n\
+}\n\
+return mix(earthUnderCloudColor, vec3(0.1), viewDistance);\n\
+}\n\
+else\n\
+{\n\
+scale = scale * 1.25;\n\
+shadowCloudCover = texture2D(u_cloudMap, txCoord + (scale * positionToSunTC.xy)).r;\n\
+if(isCloud(shadowCloudCover))\n\
+{\n\
+return mix(earthUnderCloudColor, vec3(0.1), shadowCloudCover * viewDistance);\n\
+}\n\
+}\n\
+}\n\
+}\n\
+#endif\n\
+return earthUnderCloudColor;\n\
+}\n\
+vec3 nightColor(vec2 txCoord, float cloudCover)\n\
+{\n\
+#ifdef SHOW_NIGHT\n\
+return u_nightIntensity * texture2D(u_nightTexture, txCoord).rgb * (1.0 - cloudCover);\n\
+#else\n\
+return vec3(0.0);\n\
+#endif\n\
+}\n\
+vec3 getCentralBodyColor(vec3 positionMC, vec3 positionEC, vec3 normalMC, vec3 normalEC, vec3 startDayColor, vec3 rayleighColor, vec3 mieColor) {\n\
+float diffuse = dot(czm_sunDirectionEC, normalEC);\n\
+#ifdef SHOW_TERMINATOR\n\
+float absDiffuse = abs(diffuse);\n\
+#ifdef GL_OES_standard_derivatives\n\
+if ((absDiffuse < abs(dFdx(diffuse)) * 1.0) ||\n\
+(absDiffuse < abs(dFdy(diffuse)) * 1.0))\n\
+{\n\
+gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n\
+return;\n\
+}\n\
+#else\n\
+if (absDiffuse < 0.005)\n\
+{\n\
+gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n\
+return;\n\
+}\n\
+#endif\n\
+#endif\n\
+vec2 txCoord = czm_ellipsoidWgs84TextureCoordinates(normalMC);\n\
+#ifdef SHOW_CLOUDS\n\
+float cloudCover = texture2D(u_cloudMap, txCoord).r;\n\
+#else\n\
+float cloudCover = 0.0;\n\
+#endif\n\
+vec3 rgb = dayColor(positionMC, positionEC, normalEC, startDayColor, txCoord, cloudCover);\n\
+#ifdef SHOW_GROUND_ATMOSPHERE\n\
+const float fExposure = 2.0;\n\
+vec3 color = mieColor + rgb * rayleighColor;\n\
+rgb = vec3(1.0) - exp(-fExposure * color);\n\
+#endif\n\
+if (diffuse < -u_dayNightBlendDelta)\n\
+{\n\
+rgb = nightColor(txCoord, cloudCover);\n\
+}\n\
+else if (diffuse <= u_dayNightBlendDelta)\n\
+{\n\
+rgb = mix(\n\
+nightColor(txCoord, cloudCover),\n\
+rgb,\n\
+(diffuse + u_dayNightBlendDelta) / (2.0 * u_dayNightBlendDelta));\n\
+}\n\
+return rgb;\n\
+}\n\
+";
 });
 // This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/CentralBodyFSDepth',[],function() {
     
     return "varying vec4 positionEC;\n\
-\n\
 void main()\n\
 {\n\
-    // TODO: make arbitrary ellipsoid\n\
-    czm_ellipsoid ellipsoid = czm_getWgs84EllipsoidEC();\n\
-    \n\
-    vec3 direction = normalize(positionEC.xyz);\n\
-    czm_ray ray = czm_ray(vec3(0.0), direction);\n\
-    \n\
-    czm_raySegment intersection = czm_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n\
-    if (!czm_isEmpty(intersection))\n\
-    {\n\
-        gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);\n\
-    }\n\
-    else\n\
-    {\n\
-        discard;\n\
-    }\n\
-}";
+czm_ellipsoid ellipsoid = czm_getWgs84EllipsoidEC();\n\
+vec3 direction = normalize(positionEC.xyz);\n\
+czm_ray ray = czm_ray(vec3(0.0), direction);\n\
+czm_raySegment intersection = czm_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n\
+if (!czm_isEmpty(intersection))\n\
+{\n\
+gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);\n\
+}\n\
+else\n\
+{\n\
+discard;\n\
+}\n\
+}\n\
+";
 });
 // This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/CentralBodyFSPole',[],function() {
     
     return "uniform vec3 u_color;\n\
-\n\
 varying vec2 v_textureCoordinates;\n\
-\n\
 void main()\n\
 {\n\
-    // TODO: make arbitrary ellipsoid\n\
-    czm_ellipsoid ellipsoid = czm_getWgs84EllipsoidEC();\n\
-    vec3 direction = normalize(czm_windowToEyeCoordinates(gl_FragCoord).xyz);\n\
-    czm_ray ray = czm_ray(vec3(0.0), direction);\n\
-    czm_raySegment intersection = czm_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n\
-    \n\
-    if (!czm_isEmpty(intersection))\n\
-    {\n\
-        vec3 positionEC = czm_pointAlongRay(ray, intersection.start);\n\
-        vec3 positionMC = (czm_inverseModelView * vec4(positionEC, 1.0)).xyz;\n\
-	    \n\
-	    vec3 normalMC = normalize(czm_geodeticSurfaceNormal(positionMC, vec3(0.0), vec3(1.0)));\n\
-	    vec3 normalEC = normalize(czm_normal * normalMC);\n\
-	    \n\
-	    AtmosphereColor atmosphereColor = computeGroundAtmosphereFromSpace(positionMC);\n\
-	    vec3 mieColor = atmosphereColor.mie;\n\
-        vec3 rayleighColor = atmosphereColor.rayleigh;\n\
-        \n\
-#ifdef SHOW_DAY    \n\
-        vec3 startDayColor = u_color;\n\
+czm_ellipsoid ellipsoid = czm_getWgs84EllipsoidEC();\n\
+vec3 direction = normalize(czm_windowToEyeCoordinates(gl_FragCoord).xyz);\n\
+czm_ray ray = czm_ray(vec3(0.0), direction);\n\
+czm_raySegment intersection = czm_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n\
+if (!czm_isEmpty(intersection))\n\
+{\n\
+vec3 positionEC = czm_pointAlongRay(ray, intersection.start);\n\
+vec3 positionMC = (czm_inverseModelView * vec4(positionEC, 1.0)).xyz;\n\
+vec3 normalMC = normalize(czm_geodeticSurfaceNormal(positionMC, vec3(0.0), vec3(1.0)));\n\
+vec3 normalEC = normalize(czm_normal * normalMC);\n\
+AtmosphereColor atmosphereColor = computeGroundAtmosphereFromSpace(positionMC);\n\
+vec3 mieColor = atmosphereColor.mie;\n\
+vec3 rayleighColor = atmosphereColor.rayleigh;\n\
+#ifdef SHOW_DAY\n\
+vec3 startDayColor = u_color;\n\
 #else\n\
-        vec3 startDayColor = vec3(1.0);\n\
+vec3 startDayColor = vec3(1.0);\n\
 #endif\n\
-		\n\
 #ifdef AFFECTED_BY_LIGHTING\n\
-        vec3 rgb = getCentralBodyColor(positionMC, positionEC, normalMC, normalEC, startDayColor, rayleighColor, mieColor);\n\
+vec3 rgb = getCentralBodyColor(positionMC, positionEC, normalMC, normalEC, startDayColor, rayleighColor, mieColor);\n\
 #else\n\
-        vec3 rgb = startDayColor;\n\
+vec3 rgb = startDayColor;\n\
 #endif\n\
-\n\
-        gl_FragColor = vec4(rgb, 1.0);\n\
-    }\n\
-    else\n\
-    {\n\
-        discard;\n\
-    }\n\
-}";
+gl_FragColor = vec4(rgb, 1.0);\n\
+}\n\
+else\n\
+{\n\
+discard;\n\
+}\n\
+}\n\
+";
 });
 // This file is automatically rebuilt by the Cesium build process.
 /*global define*/
@@ -45754,1153 +45744,1153 @@ v_textureCoordinates = textureCoordinates;\n\
 }\n\
 ";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/CentralBodyVSDepth',[],function() {
-  
-  return "attribute vec4 position;\n" +
-"varying vec4 positionEC;\n" +
-"void main()\n" +
-"{\n" +
-"positionEC = czm_modelView * position;\n" +
-"gl_Position = czm_projection * positionEC;\n" +
-"}\n" +
-"";
+    
+    return "attribute vec4 position;\n\
+varying vec4 positionEC;\n\
+void main()\n\
+{\n\
+positionEC = czm_modelView * position;\n\
+gl_Position = czm_projection * positionEC;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/CentralBodyVSPole',[],function() {
-  
-  return "attribute vec4 position;\n" +
-"varying vec2 v_textureCoordinates;\n" +
-"void main()\n" +
-"{\n" +
-"float x = (position.x - czm_viewport.x) / czm_viewport.z;\n" +
-"float y = (position.y - czm_viewport.y) / czm_viewport.w;\n" +
-"v_textureCoordinates = vec2(x, y);\n" +
-"gl_Position = czm_viewportOrthographic * position;\n" +
-"}\n" +
-"";
+    
+    return "attribute vec4 position;\n\
+varying vec2 v_textureCoordinates;\n\
+void main()\n\
+{\n\
+float x = (position.x - czm_viewport.x) / czm_viewport.z;\n\
+float y = (position.y - czm_viewport.y) / czm_viewport.w;\n\
+v_textureCoordinates = vec2(x, y);\n\
+gl_Position = czm_viewportOrthographic * position;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/ComplexConicSensorVolumeFS',[],function() {
-  
-  return "#ifdef GL_OES_standard_derivatives\n" +
-"#extension GL_OES_standard_derivatives : enable\n" +
-"#endif\n" +
-"uniform float u_sensorRadius;\n" +
-"uniform float u_outerHalfAngle;\n" +
-"uniform float u_innerHalfAngle;\n" +
-"uniform float u_maximumClockAngle;\n" +
-"uniform float u_minimumClockAngle;\n" +
-"uniform bool u_showIntersection;\n" +
-"uniform vec4 u_pickColor;\n" +
-"varying vec3 v_positionEC;\n" +
-"varying vec3 v_sensorVertexWC;\n" +
-"varying vec3 v_sensorVertexEC;\n" +
-"varying vec3 v_sensorAxisEC;\n" +
-"#ifndef RENDER_FOR_PICK\n" +
-"czm_materialInput getMaterialInput(float sensorRadius, vec3 pointEC, vec3 normalEC)\n" +
-"{\n" +
-"czm_materialInput materialInput;\n" +
-"vec3 pointMC = (czm_inverseModelView * vec4(pointEC, 1.0)).xyz;\n" +
-"materialInput.positionToEyeEC = normalize(-v_positionEC);\n" +
-"materialInput.normalEC = normalEC;\n" +
-"materialInput.st = sensor2dTextureCoordinates(sensorRadius, pointMC);\n" +
-"materialInput.str = pointMC / sensorRadius;\n" +
-"materialInput.positionMC = pointMC;\n" +
-"return materialInput;\n" +
-"}\n" +
-"vec4 getOuterColor(float sensorRadius, vec3 pointEC, vec3 normalEC)\n" +
-"{\n" +
-"sensorErode(sensorRadius, pointEC);\n" +
-"czm_materialInput materialInput = getMaterialInput(sensorRadius, pointEC, normalEC);\n" +
-"czm_material material = czm_getOuterMaterial(materialInput);\n" +
-"vec3 positionToEyeEC = normalize(-v_positionEC);\n" +
-"vec4 color;\n" +
-"#ifdef AFFECTED_BY_LIGHTING\n" +
-"color = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n" +
-"#else\n" +
-"color = vec4(material.diffuse, material.alpha);\n" +
-"#endif\n" +
-"return color;\n" +
-"}\n" +
-"vec4 getInnerColor(float sensorRadius, vec3 pointEC, vec3 normalEC)\n" +
-"{\n" +
-"sensorErode(sensorRadius, pointEC);\n" +
-"czm_materialInput materialInput = getMaterialInput(sensorRadius, pointEC, normalEC);\n" +
-"czm_material material = czm_getInnerMaterial(materialInput);\n" +
-"vec3 positionToEyeEC = normalize(-v_positionEC);\n" +
-"vec4 color;\n" +
-"#ifdef AFFECTED_BY_LIGHTING\n" +
-"color = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n" +
-"#else\n" +
-"color = vec4(material.diffuse, material.alpha);\n" +
-"#endif\n" +
-"return color;\n" +
-"}\n" +
-"vec4 getCapColor(float sensorRadius, vec3 pointEC, vec3 normalEC)\n" +
-"{\n" +
-"sensorErode(sensorRadius, pointEC);\n" +
-"czm_materialInput materialInput = getMaterialInput(sensorRadius, pointEC, normalEC);\n" +
-"czm_material material = czm_getCapMaterial(materialInput);\n" +
-"vec3 positionToEyeEC = normalize(-v_positionEC);\n" +
-"vec4 color;\n" +
-"#ifdef AFFECTED_BY_LIGHTING\n" +
-"color = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n" +
-"#else\n" +
-"color = vec4(material.diffuse, material.alpha);\n" +
-"#endif\n" +
-"return color;\n" +
-"}\n" +
-"vec4 getSilhouetteColor(float sensorRadius, vec3 pointEC, vec3 normalEC)\n" +
-"{\n" +
-"sensorErode(sensorRadius, pointEC);\n" +
-"czm_materialInput materialInput = getMaterialInput(sensorRadius, pointEC, normalEC);\n" +
-"czm_material material = czm_getSilhouetteMaterial(materialInput);\n" +
-"vec3 positionToEyeEC = normalize(-v_positionEC);\n" +
-"vec4 color;\n" +
-"#ifdef AFFECTED_BY_LIGHTING\n" +
-"color = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n" +
-"#else\n" +
-"color = vec4(material.diffuse, material.alpha);\n" +
-"#endif\n" +
-"return color;\n" +
-"}\n" +
-"#endif\n" +
-"bool czm_isOnOrNear(float d, czm_raySegment interval, float epsilon)\n" +
-"{\n" +
-"bool answer = (czm_equalsEpsilon(d, interval.start, epsilon) || czm_equalsEpsilon(d, interval.stop, epsilon));\n" +
-"return answer;\n" +
-"}\n" +
-"bool czm_isOnOrNear(float d, czm_raySegmentCollection coneIntervals, float epsilon)\n" +
-"{\n" +
-"bool answer = (coneIntervals.count > 0 && (czm_isOnOrNear(d, coneIntervals.intervals[0], epsilon)))\n" +
-"|| (coneIntervals.count > 1 && (czm_isOnOrNear(d, coneIntervals.intervals[1], epsilon)));\n" +
-"return answer;\n" +
-"}\n" +
-"bool czm_isOnOrNearSensor(float d, czm_raySegmentCollection outerIntervals, czm_raySegmentCollection innerIntervals, float epsilon)\n" +
-"{\n" +
-"bool answer = czm_isOnOrNear(d, outerIntervals, epsilon) || czm_isOnOrNear(d, innerIntervals, epsilon);\n" +
-"return answer;\n" +
-"}\n" +
-"bool ellipsoidSensorIntersection(czm_raySegment sphereInterval,\n" +
-"czm_raySegmentCollection outerIntervals, czm_raySegmentCollection innerIntervals,\n" +
-"czm_raySegmentCollection clockIntervals,\n" +
-"czm_raySegment ellipsoidInterval, czm_raySegment silhouetteHalfspaceInterval, czm_raySegmentCollection solid)\n" +
-"{\n" +
-"if (czm_isEmpty(ellipsoidInterval))\n" +
-"{\n" +
-"return false;\n" +
-"}\n" +
-"float t = ellipsoidInterval.start;\n" +
-"#ifdef GL_OES_standard_derivatives\n" +
-"float epsilon = max(abs(dFdx(t)), abs(dFdy(t)));\n" +
-"#else\n" +
-"float epsilon = t / 500.0;\n" +
-"#endif\n" +
-"float width = 2.0;\n" +
-"epsilon *= width;\n" +
-"if (solid.count > 0)\n" +
-"{\n" +
-"float d = solid.intervals[0].start;\n" +
-"if (d == ellipsoidInterval.start\n" +
-"&& (czm_isOnOrNear(d, silhouetteHalfspaceInterval, epsilon)\n" +
-"|| czm_isOnOrNear(d, sphereInterval, epsilon)\n" +
-"|| czm_isOnOrNear(d, clockIntervals, epsilon)\n" +
-"|| czm_isOnOrNearSensor(d, outerIntervals, innerIntervals, epsilon))) return true;\n" +
-"d = solid.intervals[0].stop;\n" +
-"if (d == ellipsoidInterval.start\n" +
-"&& (czm_isOnOrNear(d, silhouetteHalfspaceInterval, epsilon)\n" +
-"|| czm_isOnOrNear(d, sphereInterval, epsilon)\n" +
-"|| czm_isOnOrNear(d, clockIntervals, epsilon)\n" +
-"|| czm_isOnOrNearSensor(d, outerIntervals, innerIntervals, epsilon))) return true;\n" +
-"if (solid.count > 1)\n" +
-"{\n" +
-"d = solid.intervals[1].start;\n" +
-"if (d == ellipsoidInterval.start\n" +
-"&& (czm_isOnOrNear(d, silhouetteHalfspaceInterval, epsilon)\n" +
-"|| czm_isOnOrNear(d, sphereInterval, epsilon)\n" +
-"|| czm_isOnOrNear(d, clockIntervals, epsilon)\n" +
-"|| czm_isOnOrNearSensor(d, outerIntervals, innerIntervals, epsilon))) return true;\n" +
-"d = solid.intervals[1].stop;\n" +
-"if (d == ellipsoidInterval.start\n" +
-"&& (czm_isOnOrNear(d, silhouetteHalfspaceInterval, epsilon)\n" +
-"|| czm_isOnOrNear(d, sphereInterval, epsilon)\n" +
-"|| czm_isOnOrNear(d, clockIntervals, epsilon)\n" +
-"|| czm_isOnOrNearSensor(d, outerIntervals, innerIntervals, epsilon))) return true;\n" +
-"}\n" +
-"return false;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"false;\n" +
-"}\n" +
-"}\n" +
-"vec4 shade(\n" +
-"czm_ray ray,\n" +
-"float nearestRayTime,\n" +
-"czm_sphere sphere,\n" +
-"czm_cone outerCone,\n" +
-"czm_cone innerCone,\n" +
-"czm_halfspace maxClock,\n" +
-"czm_halfspace minClock,\n" +
-"czm_ellipsoidSilhouetteCone silhouetteCone,\n" +
-"czm_ellipsoidSilhouetteHalfspace silhouetteHalfspace,\n" +
-"czm_raySegment sphereInterval,\n" +
-"czm_raySegmentCollection outerConeInterval,\n" +
-"czm_raySegmentCollection innerConeInterval,\n" +
-"czm_raySegment maxClockInterval,\n" +
-"czm_raySegment minClockInterval,\n" +
-"czm_raySegmentCollection clockIntervals,\n" +
-"czm_raySegment silhouetteConeInterval,\n" +
-"czm_raySegment silhouetteHalfspaceInterval,\n" +
-"czm_raySegment ellipsoidInterval,\n" +
-"czm_raySegmentCollection intervals)\n" +
-"{\n" +
-"#ifdef RENDER_FOR_PICK\n" +
-"return u_pickColor;\n" +
-"#else\n" +
-"vec3 nearestPoint = czm_pointAlongRay(ray, nearestRayTime);\n" +
-"if (u_showIntersection && ellipsoidSensorIntersection(sphereInterval,\n" +
-"outerConeInterval, innerConeInterval, clockIntervals,\n" +
-"ellipsoidInterval, silhouetteHalfspaceInterval, intervals))\n" +
-"{\n" +
-"return getIntersectionColor(u_sensorRadius, nearestPoint);\n" +
-"}\n" +
-"vec3 positionToEyeEC = -ray.direction;\n" +
-"vec3 czm_sunDirectionEC = czm_sunDirectionEC;\n" +
-"for (int i = 0; i < czm_raySegmentCollectionCapacity; ++i)\n" +
-"{\n" +
-"if (i < outerConeInterval.count &&\n" +
-"((nearestRayTime == outerConeInterval.intervals[i].start) ||\n" +
-"(nearestRayTime == outerConeInterval.intervals[i].stop)))\n" +
-"{\n" +
-"vec3 normal = czm_coneNormal(outerCone, nearestPoint);\n" +
-"normal = mix(normal, -normal, step(normal.z, 0.0));\n" +
-"return getOuterColor(u_sensorRadius, nearestPoint, normal);\n" +
-"}\n" +
-"}\n" +
-"for (int i = 0; i < czm_raySegmentCollectionCapacity; ++i)\n" +
-"{\n" +
-"if (i < innerConeInterval.count &&\n" +
-"((nearestRayTime == innerConeInterval.intervals[i].start) ||\n" +
-"(nearestRayTime == innerConeInterval.intervals[i].stop)))\n" +
-"{\n" +
-"vec3 normal = -czm_coneNormal(innerCone, nearestPoint);\n" +
-"normal = mix(normal, -normal, step(normal.z, 0.0));\n" +
-"return getInnerColor(u_sensorRadius, nearestPoint, normal);\n" +
-"}\n" +
-"}\n" +
-"if ((nearestRayTime == sphereInterval.start) ||\n" +
-"(nearestRayTime == sphereInterval.stop))\n" +
-"{\n" +
-"vec3 normal = czm_sphereNormal(sphere, nearestPoint);\n" +
-"normal = mix(normal, -normal, step(normal.z, 0.0));\n" +
-"return getCapColor(u_sensorRadius, nearestPoint, normal);\n" +
-"}\n" +
-"if ((nearestRayTime == maxClockInterval.start) ||\n" +
-"(nearestRayTime == maxClockInterval.stop))\n" +
-"{\n" +
-"vec3 normal = maxClock.normal;\n" +
-"normal = mix(normal, -normal, step(normal.z, 0.0));\n" +
-"return getOuterColor(u_sensorRadius, nearestPoint, normal);\n" +
-"}\n" +
-"if ((nearestRayTime == minClockInterval.start) ||\n" +
-"(nearestRayTime == minClockInterval.stop))\n" +
-"{\n" +
-"vec3 normal = minClock.normal;\n" +
-"normal = mix(normal, -normal, step(normal.z, 0.0));\n" +
-"return getOuterColor(u_sensorRadius, nearestPoint, normal);\n" +
-"}\n" +
-"if ((nearestRayTime == silhouetteConeInterval.start) ||\n" +
-"(nearestRayTime == silhouetteConeInterval.stop))\n" +
-"{\n" +
-"vec3 normal = czm_ellipsoidSilhouetteConeNormal(silhouetteCone, nearestPoint);\n" +
-"normal = mix(normal, -normal, step(normal.z, 0.0));\n" +
-"return getSilhouetteColor(u_sensorRadius, nearestPoint, normal);\n" +
-"}\n" +
-"return vec4(1.0, 0.0, 0.0, 1.0);\n" +
-"#endif\n" +
-"}\n" +
-"vec4 shade(\n" +
-"czm_ray ray,\n" +
-"float nearestRayTime,\n" +
-"czm_sphere sphere,\n" +
-"czm_cone outerCone,\n" +
-"czm_cone innerCone,\n" +
-"czm_halfspace maxClock,\n" +
-"czm_halfspace minClock,\n" +
-"czm_raySegment sphereInterval,\n" +
-"czm_raySegmentCollection outerConeInterval,\n" +
-"czm_raySegmentCollection innerConeInterval,\n" +
-"czm_raySegment maxClockInterval,\n" +
-"czm_raySegment minClockInterval,\n" +
-"czm_raySegmentCollection intervals)\n" +
-"{\n" +
-"#ifdef RENDER_FOR_PICK\n" +
-"return u_pickColor;\n" +
-"#else\n" +
-"vec3 nearestPoint = czm_pointAlongRay(ray, nearestRayTime);\n" +
-"vec3 positionToEyeEC = -ray.direction;\n" +
-"for (int i = 0; i < czm_raySegmentCollectionCapacity; ++i)\n" +
-"{\n" +
-"if (i < outerConeInterval.count &&\n" +
-"((nearestRayTime == outerConeInterval.intervals[i].start) ||\n" +
-"(nearestRayTime == outerConeInterval.intervals[i].stop)))\n" +
-"{\n" +
-"vec3 normal = czm_coneNormal(outerCone, nearestPoint);\n" +
-"normal = mix(normal, -normal, step(normal.z, 0.0));\n" +
-"return getOuterColor(u_sensorRadius, nearestPoint, normal);\n" +
-"}\n" +
-"}\n" +
-"for (int i = 0; i < czm_raySegmentCollectionCapacity; ++i)\n" +
-"{\n" +
-"if (i < innerConeInterval.count &&\n" +
-"((nearestRayTime == innerConeInterval.intervals[i].start) ||\n" +
-"(nearestRayTime == innerConeInterval.intervals[i].stop)))\n" +
-"{\n" +
-"vec3 normal = -czm_coneNormal(innerCone, nearestPoint);\n" +
-"normal = mix(normal, -normal, step(normal.z, 0.0));\n" +
-"return getInnerColor(u_sensorRadius, nearestPoint, normal);\n" +
-"}\n" +
-"}\n" +
-"if ((nearestRayTime == sphereInterval.start) ||\n" +
-"(nearestRayTime == sphereInterval.stop))\n" +
-"{\n" +
-"vec3 normal = czm_sphereNormal(sphere, nearestPoint);\n" +
-"normal = mix(normal, -normal, step(normal.z, 0.0));\n" +
-"return getCapColor(u_sensorRadius, nearestPoint, normal);\n" +
-"}\n" +
-"if ((nearestRayTime == maxClockInterval.start) ||\n" +
-"(nearestRayTime == maxClockInterval.stop))\n" +
-"{\n" +
-"vec3 normal = maxClock.normal;\n" +
-"normal = mix(normal, -normal, step(normal.z, 0.0));\n" +
-"return getOuterColor(u_sensorRadius, nearestPoint, normal);\n" +
-"}\n" +
-"if ((nearestRayTime == minClockInterval.start) ||\n" +
-"(nearestRayTime == minClockInterval.stop))\n" +
-"{\n" +
-"vec3 normal = minClock.normal;\n" +
-"normal = mix(normal, -normal, step(normal.z, 0.0));\n" +
-"return getOuterColor(u_sensorRadius, nearestPoint, normal);\n" +
-"}\n" +
-"return vec4(1.0, 0.0, 0.0, 1.0);\n" +
-"#endif\n" +
-"}\n" +
-"void main()\n" +
-"{\n" +
-"czm_ray ray = czm_ray(vec3(0.0), normalize(v_positionEC));\n" +
-"czm_sphere sphere = czm_sphere(v_sensorVertexEC, u_sensorRadius);\n" +
-"czm_raySegment sphereInterval = czm_raySphereIntersectionInterval(ray, sphere);\n" +
-"if (czm_isEmpty(sphereInterval))\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"vec3 coneAxisEC = normalize(v_sensorAxisEC);\n" +
-"czm_cone outerCone = czm_coneNew(v_sensorVertexEC, coneAxisEC, u_outerHalfAngle);\n" +
-"czm_raySegmentCollection outerConeInterval = czm_rayConeIntersectionInterval(ray, outerCone);\n" +
-"if (outerConeInterval.count == 0)\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"czm_cone innerCone = czm_coneNew(v_sensorVertexEC, coneAxisEC, u_innerHalfAngle);\n" +
-"czm_raySegmentCollection innerConeInterval = czm_rayConeIntersectionInterval(ray, innerCone);\n" +
-"czm_raySegmentCollection difference = (innerConeInterval.count == 0) ? outerConeInterval : czm_subtraction(outerConeInterval, innerConeInterval);\n" +
-"if (difference.count == 0)\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"czm_raySegmentCollection capped = czm_intersection(difference, sphereInterval);\n" +
-"if (capped.count == 0)\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"vec3 maxNormal = normalize((czm_modelView * vec4(-sin(u_maximumClockAngle), cos(u_maximumClockAngle), 0.0, 0.0)).xyz);\n" +
-"czm_halfspace maxClock = czm_halfspace(v_sensorVertexEC, maxNormal);\n" +
-"czm_raySegment maxClockInterval = czm_rayHalfspaceIntersectionInterval(ray, maxClock);\n" +
-"vec3 minNormal = normalize((czm_modelView * vec4(sin(u_minimumClockAngle), -cos(u_minimumClockAngle), 0.0, 0.0)).xyz);\n" +
-"czm_halfspace minClock = czm_halfspace(v_sensorVertexEC, minNormal);\n" +
-"czm_raySegment minClockInterval = czm_rayHalfspaceIntersectionInterval(ray, minClock);\n" +
-"czm_raySegmentCollection clockIntervals = ((u_maximumClockAngle - u_minimumClockAngle) > czm_pi)\n" +
-"? (czm_isEmpty(maxClockInterval)\n" +
-"? (czm_isEmpty(minClockInterval) ? czm_raySegmentCollectionNew() : czm_raySegmentCollectionNew(minClockInterval))\n" +
-": (czm_isEmpty(minClockInterval) ? czm_raySegmentCollectionNew(maxClockInterval) : czm_union(maxClockInterval, minClockInterval)))\n" +
-": ((czm_isEmpty(maxClockInterval) || czm_isEmpty(minClockInterval)) ? czm_raySegmentCollectionNew() : czm_raySegmentCollectionNew(czm_intersection(maxClockInterval, minClockInterval)));\n" +
-"czm_raySegmentCollection sensor = (clockIntervals.count == 0) ? czm_raySegmentCollectionNew() : czm_intersection(capped, clockIntervals);\n" +
-"if (sensor.count == 0)\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"czm_ellipsoid ellipsoid = czm_getWgs84EllipsoidEC();\n" +
-"czm_ellipsoidSilhouetteCone silhouetteCone = czm_ellipsoidSilhouetteConeNew(ellipsoid, v_sensorVertexEC);\n" +
-"czm_raySegment silhouetteConeInterval = czm_rayEllipsoidSilhouetteConeIntersectionInterval(ray, silhouetteCone);\n" +
-"if (czm_isEmpty(silhouetteConeInterval))\n" +
-"{\n" +
-"gl_FragColor = shade(ray, sensor.intervals[0].start,\n" +
-"sphere, outerCone, innerCone, maxClock, minClock,\n" +
-"sphereInterval, outerConeInterval, innerConeInterval, maxClockInterval, minClockInterval,\n" +
-"sensor);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_ellipsoidSilhouetteHalfspace silhouetteHalfspace = czm_ellipsoidSilhouetteHalfspaceNew(ellipsoid, v_sensorVertexEC);\n" +
-"czm_raySegment silhouetteHalfspaceInterval = czm_rayEllipsoidSilhouetteHalfspaceIntersectionInterval(ray, silhouetteHalfspace);\n" +
-"czm_raySegment temp = (czm_isEmpty(silhouetteHalfspaceInterval)) ? czm_emptyRaySegment : czm_intersection(silhouetteConeInterval, silhouetteHalfspaceInterval);\n" +
-"czm_raySegmentCollection stuff = (czm_isEmpty(temp)) ? sensor : czm_subtraction(sensor, temp);\n" +
-"if (stuff.count == 0)\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"czm_raySegment ellipsoidInterval = czm_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n" +
-"czm_raySegmentCollection result = (czm_isEmpty(ellipsoidInterval)) ? stuff : czm_subtraction(stuff, ellipsoidInterval);\n" +
-"if ((result.count == 0)\n" +
-"|| (!czm_isEmpty(ellipsoidInterval) && (result.intervals[0].start > ellipsoidInterval.start)))\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"gl_FragColor = shade(ray, result.intervals[0].start,\n" +
-"sphere, outerCone, innerCone, maxClock, minClock,\n" +
-"silhouetteCone, silhouetteHalfspace,\n" +
-"sphereInterval, outerConeInterval, innerConeInterval, maxClockInterval, minClockInterval, clockIntervals,\n" +
-"silhouetteConeInterval, silhouetteHalfspaceInterval, ellipsoidInterval,\n" +
-"result);\n" +
-"}\n" +
-"}\n" +
-"";
+    
+    return "#ifdef GL_OES_standard_derivatives\n\
+#extension GL_OES_standard_derivatives : enable\n\
+#endif\n\
+uniform float u_sensorRadius;\n\
+uniform float u_outerHalfAngle;\n\
+uniform float u_innerHalfAngle;\n\
+uniform float u_maximumClockAngle;\n\
+uniform float u_minimumClockAngle;\n\
+uniform bool u_showIntersection;\n\
+uniform vec4 u_pickColor;\n\
+varying vec3 v_positionEC;\n\
+varying vec3 v_sensorVertexWC;\n\
+varying vec3 v_sensorVertexEC;\n\
+varying vec3 v_sensorAxisEC;\n\
+#ifndef RENDER_FOR_PICK\n\
+czm_materialInput getMaterialInput(float sensorRadius, vec3 pointEC, vec3 normalEC)\n\
+{\n\
+czm_materialInput materialInput;\n\
+vec3 pointMC = (czm_inverseModelView * vec4(pointEC, 1.0)).xyz;\n\
+materialInput.positionToEyeEC = normalize(-v_positionEC);\n\
+materialInput.normalEC = normalEC;\n\
+materialInput.st = sensor2dTextureCoordinates(sensorRadius, pointMC);\n\
+materialInput.str = pointMC / sensorRadius;\n\
+materialInput.positionMC = pointMC;\n\
+return materialInput;\n\
+}\n\
+vec4 getOuterColor(float sensorRadius, vec3 pointEC, vec3 normalEC)\n\
+{\n\
+sensorErode(sensorRadius, pointEC);\n\
+czm_materialInput materialInput = getMaterialInput(sensorRadius, pointEC, normalEC);\n\
+czm_material material = czm_getOuterMaterial(materialInput);\n\
+vec3 positionToEyeEC = normalize(-v_positionEC);\n\
+vec4 color;\n\
+#ifdef AFFECTED_BY_LIGHTING\n\
+color = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n\
+#else\n\
+color = vec4(material.diffuse, material.alpha);\n\
+#endif\n\
+return color;\n\
+}\n\
+vec4 getInnerColor(float sensorRadius, vec3 pointEC, vec3 normalEC)\n\
+{\n\
+sensorErode(sensorRadius, pointEC);\n\
+czm_materialInput materialInput = getMaterialInput(sensorRadius, pointEC, normalEC);\n\
+czm_material material = czm_getInnerMaterial(materialInput);\n\
+vec3 positionToEyeEC = normalize(-v_positionEC);\n\
+vec4 color;\n\
+#ifdef AFFECTED_BY_LIGHTING\n\
+color = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n\
+#else\n\
+color = vec4(material.diffuse, material.alpha);\n\
+#endif\n\
+return color;\n\
+}\n\
+vec4 getCapColor(float sensorRadius, vec3 pointEC, vec3 normalEC)\n\
+{\n\
+sensorErode(sensorRadius, pointEC);\n\
+czm_materialInput materialInput = getMaterialInput(sensorRadius, pointEC, normalEC);\n\
+czm_material material = czm_getCapMaterial(materialInput);\n\
+vec3 positionToEyeEC = normalize(-v_positionEC);\n\
+vec4 color;\n\
+#ifdef AFFECTED_BY_LIGHTING\n\
+color = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n\
+#else\n\
+color = vec4(material.diffuse, material.alpha);\n\
+#endif\n\
+return color;\n\
+}\n\
+vec4 getSilhouetteColor(float sensorRadius, vec3 pointEC, vec3 normalEC)\n\
+{\n\
+sensorErode(sensorRadius, pointEC);\n\
+czm_materialInput materialInput = getMaterialInput(sensorRadius, pointEC, normalEC);\n\
+czm_material material = czm_getSilhouetteMaterial(materialInput);\n\
+vec3 positionToEyeEC = normalize(-v_positionEC);\n\
+vec4 color;\n\
+#ifdef AFFECTED_BY_LIGHTING\n\
+color = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n\
+#else\n\
+color = vec4(material.diffuse, material.alpha);\n\
+#endif\n\
+return color;\n\
+}\n\
+#endif\n\
+bool czm_isOnOrNear(float d, czm_raySegment interval, float epsilon)\n\
+{\n\
+bool answer = (czm_equalsEpsilon(d, interval.start, epsilon) || czm_equalsEpsilon(d, interval.stop, epsilon));\n\
+return answer;\n\
+}\n\
+bool czm_isOnOrNear(float d, czm_raySegmentCollection coneIntervals, float epsilon)\n\
+{\n\
+bool answer = (coneIntervals.count > 0 && (czm_isOnOrNear(d, coneIntervals.intervals[0], epsilon)))\n\
+|| (coneIntervals.count > 1 && (czm_isOnOrNear(d, coneIntervals.intervals[1], epsilon)));\n\
+return answer;\n\
+}\n\
+bool czm_isOnOrNearSensor(float d, czm_raySegmentCollection outerIntervals, czm_raySegmentCollection innerIntervals, float epsilon)\n\
+{\n\
+bool answer = czm_isOnOrNear(d, outerIntervals, epsilon) || czm_isOnOrNear(d, innerIntervals, epsilon);\n\
+return answer;\n\
+}\n\
+bool ellipsoidSensorIntersection(czm_raySegment sphereInterval,\n\
+czm_raySegmentCollection outerIntervals, czm_raySegmentCollection innerIntervals,\n\
+czm_raySegmentCollection clockIntervals,\n\
+czm_raySegment ellipsoidInterval, czm_raySegment silhouetteHalfspaceInterval, czm_raySegmentCollection solid)\n\
+{\n\
+if (czm_isEmpty(ellipsoidInterval))\n\
+{\n\
+return false;\n\
+}\n\
+float t = ellipsoidInterval.start;\n\
+#ifdef GL_OES_standard_derivatives\n\
+float epsilon = max(abs(dFdx(t)), abs(dFdy(t)));\n\
+#else\n\
+float epsilon = t / 500.0;\n\
+#endif\n\
+float width = 2.0;\n\
+epsilon *= width;\n\
+if (solid.count > 0)\n\
+{\n\
+float d = solid.intervals[0].start;\n\
+if (d == ellipsoidInterval.start\n\
+&& (czm_isOnOrNear(d, silhouetteHalfspaceInterval, epsilon)\n\
+|| czm_isOnOrNear(d, sphereInterval, epsilon)\n\
+|| czm_isOnOrNear(d, clockIntervals, epsilon)\n\
+|| czm_isOnOrNearSensor(d, outerIntervals, innerIntervals, epsilon))) return true;\n\
+d = solid.intervals[0].stop;\n\
+if (d == ellipsoidInterval.start\n\
+&& (czm_isOnOrNear(d, silhouetteHalfspaceInterval, epsilon)\n\
+|| czm_isOnOrNear(d, sphereInterval, epsilon)\n\
+|| czm_isOnOrNear(d, clockIntervals, epsilon)\n\
+|| czm_isOnOrNearSensor(d, outerIntervals, innerIntervals, epsilon))) return true;\n\
+if (solid.count > 1)\n\
+{\n\
+d = solid.intervals[1].start;\n\
+if (d == ellipsoidInterval.start\n\
+&& (czm_isOnOrNear(d, silhouetteHalfspaceInterval, epsilon)\n\
+|| czm_isOnOrNear(d, sphereInterval, epsilon)\n\
+|| czm_isOnOrNear(d, clockIntervals, epsilon)\n\
+|| czm_isOnOrNearSensor(d, outerIntervals, innerIntervals, epsilon))) return true;\n\
+d = solid.intervals[1].stop;\n\
+if (d == ellipsoidInterval.start\n\
+&& (czm_isOnOrNear(d, silhouetteHalfspaceInterval, epsilon)\n\
+|| czm_isOnOrNear(d, sphereInterval, epsilon)\n\
+|| czm_isOnOrNear(d, clockIntervals, epsilon)\n\
+|| czm_isOnOrNearSensor(d, outerIntervals, innerIntervals, epsilon))) return true;\n\
+}\n\
+return false;\n\
+}\n\
+else\n\
+{\n\
+false;\n\
+}\n\
+}\n\
+vec4 shade(\n\
+czm_ray ray,\n\
+float nearestRayTime,\n\
+czm_sphere sphere,\n\
+czm_cone outerCone,\n\
+czm_cone innerCone,\n\
+czm_halfspace maxClock,\n\
+czm_halfspace minClock,\n\
+czm_ellipsoidSilhouetteCone silhouetteCone,\n\
+czm_ellipsoidSilhouetteHalfspace silhouetteHalfspace,\n\
+czm_raySegment sphereInterval,\n\
+czm_raySegmentCollection outerConeInterval,\n\
+czm_raySegmentCollection innerConeInterval,\n\
+czm_raySegment maxClockInterval,\n\
+czm_raySegment minClockInterval,\n\
+czm_raySegmentCollection clockIntervals,\n\
+czm_raySegment silhouetteConeInterval,\n\
+czm_raySegment silhouetteHalfspaceInterval,\n\
+czm_raySegment ellipsoidInterval,\n\
+czm_raySegmentCollection intervals)\n\
+{\n\
+#ifdef RENDER_FOR_PICK\n\
+return u_pickColor;\n\
+#else\n\
+vec3 nearestPoint = czm_pointAlongRay(ray, nearestRayTime);\n\
+if (u_showIntersection && ellipsoidSensorIntersection(sphereInterval,\n\
+outerConeInterval, innerConeInterval, clockIntervals,\n\
+ellipsoidInterval, silhouetteHalfspaceInterval, intervals))\n\
+{\n\
+return getIntersectionColor(u_sensorRadius, nearestPoint);\n\
+}\n\
+vec3 positionToEyeEC = -ray.direction;\n\
+vec3 czm_sunDirectionEC = czm_sunDirectionEC;\n\
+for (int i = 0; i < czm_raySegmentCollectionCapacity; ++i)\n\
+{\n\
+if (i < outerConeInterval.count &&\n\
+((nearestRayTime == outerConeInterval.intervals[i].start) ||\n\
+(nearestRayTime == outerConeInterval.intervals[i].stop)))\n\
+{\n\
+vec3 normal = czm_coneNormal(outerCone, nearestPoint);\n\
+normal = mix(normal, -normal, step(normal.z, 0.0));\n\
+return getOuterColor(u_sensorRadius, nearestPoint, normal);\n\
+}\n\
+}\n\
+for (int i = 0; i < czm_raySegmentCollectionCapacity; ++i)\n\
+{\n\
+if (i < innerConeInterval.count &&\n\
+((nearestRayTime == innerConeInterval.intervals[i].start) ||\n\
+(nearestRayTime == innerConeInterval.intervals[i].stop)))\n\
+{\n\
+vec3 normal = -czm_coneNormal(innerCone, nearestPoint);\n\
+normal = mix(normal, -normal, step(normal.z, 0.0));\n\
+return getInnerColor(u_sensorRadius, nearestPoint, normal);\n\
+}\n\
+}\n\
+if ((nearestRayTime == sphereInterval.start) ||\n\
+(nearestRayTime == sphereInterval.stop))\n\
+{\n\
+vec3 normal = czm_sphereNormal(sphere, nearestPoint);\n\
+normal = mix(normal, -normal, step(normal.z, 0.0));\n\
+return getCapColor(u_sensorRadius, nearestPoint, normal);\n\
+}\n\
+if ((nearestRayTime == maxClockInterval.start) ||\n\
+(nearestRayTime == maxClockInterval.stop))\n\
+{\n\
+vec3 normal = maxClock.normal;\n\
+normal = mix(normal, -normal, step(normal.z, 0.0));\n\
+return getOuterColor(u_sensorRadius, nearestPoint, normal);\n\
+}\n\
+if ((nearestRayTime == minClockInterval.start) ||\n\
+(nearestRayTime == minClockInterval.stop))\n\
+{\n\
+vec3 normal = minClock.normal;\n\
+normal = mix(normal, -normal, step(normal.z, 0.0));\n\
+return getOuterColor(u_sensorRadius, nearestPoint, normal);\n\
+}\n\
+if ((nearestRayTime == silhouetteConeInterval.start) ||\n\
+(nearestRayTime == silhouetteConeInterval.stop))\n\
+{\n\
+vec3 normal = czm_ellipsoidSilhouetteConeNormal(silhouetteCone, nearestPoint);\n\
+normal = mix(normal, -normal, step(normal.z, 0.0));\n\
+return getSilhouetteColor(u_sensorRadius, nearestPoint, normal);\n\
+}\n\
+return vec4(1.0, 0.0, 0.0, 1.0);\n\
+#endif\n\
+}\n\
+vec4 shade(\n\
+czm_ray ray,\n\
+float nearestRayTime,\n\
+czm_sphere sphere,\n\
+czm_cone outerCone,\n\
+czm_cone innerCone,\n\
+czm_halfspace maxClock,\n\
+czm_halfspace minClock,\n\
+czm_raySegment sphereInterval,\n\
+czm_raySegmentCollection outerConeInterval,\n\
+czm_raySegmentCollection innerConeInterval,\n\
+czm_raySegment maxClockInterval,\n\
+czm_raySegment minClockInterval,\n\
+czm_raySegmentCollection intervals)\n\
+{\n\
+#ifdef RENDER_FOR_PICK\n\
+return u_pickColor;\n\
+#else\n\
+vec3 nearestPoint = czm_pointAlongRay(ray, nearestRayTime);\n\
+vec3 positionToEyeEC = -ray.direction;\n\
+for (int i = 0; i < czm_raySegmentCollectionCapacity; ++i)\n\
+{\n\
+if (i < outerConeInterval.count &&\n\
+((nearestRayTime == outerConeInterval.intervals[i].start) ||\n\
+(nearestRayTime == outerConeInterval.intervals[i].stop)))\n\
+{\n\
+vec3 normal = czm_coneNormal(outerCone, nearestPoint);\n\
+normal = mix(normal, -normal, step(normal.z, 0.0));\n\
+return getOuterColor(u_sensorRadius, nearestPoint, normal);\n\
+}\n\
+}\n\
+for (int i = 0; i < czm_raySegmentCollectionCapacity; ++i)\n\
+{\n\
+if (i < innerConeInterval.count &&\n\
+((nearestRayTime == innerConeInterval.intervals[i].start) ||\n\
+(nearestRayTime == innerConeInterval.intervals[i].stop)))\n\
+{\n\
+vec3 normal = -czm_coneNormal(innerCone, nearestPoint);\n\
+normal = mix(normal, -normal, step(normal.z, 0.0));\n\
+return getInnerColor(u_sensorRadius, nearestPoint, normal);\n\
+}\n\
+}\n\
+if ((nearestRayTime == sphereInterval.start) ||\n\
+(nearestRayTime == sphereInterval.stop))\n\
+{\n\
+vec3 normal = czm_sphereNormal(sphere, nearestPoint);\n\
+normal = mix(normal, -normal, step(normal.z, 0.0));\n\
+return getCapColor(u_sensorRadius, nearestPoint, normal);\n\
+}\n\
+if ((nearestRayTime == maxClockInterval.start) ||\n\
+(nearestRayTime == maxClockInterval.stop))\n\
+{\n\
+vec3 normal = maxClock.normal;\n\
+normal = mix(normal, -normal, step(normal.z, 0.0));\n\
+return getOuterColor(u_sensorRadius, nearestPoint, normal);\n\
+}\n\
+if ((nearestRayTime == minClockInterval.start) ||\n\
+(nearestRayTime == minClockInterval.stop))\n\
+{\n\
+vec3 normal = minClock.normal;\n\
+normal = mix(normal, -normal, step(normal.z, 0.0));\n\
+return getOuterColor(u_sensorRadius, nearestPoint, normal);\n\
+}\n\
+return vec4(1.0, 0.0, 0.0, 1.0);\n\
+#endif\n\
+}\n\
+void main()\n\
+{\n\
+czm_ray ray = czm_ray(vec3(0.0), normalize(v_positionEC));\n\
+czm_sphere sphere = czm_sphere(v_sensorVertexEC, u_sensorRadius);\n\
+czm_raySegment sphereInterval = czm_raySphereIntersectionInterval(ray, sphere);\n\
+if (czm_isEmpty(sphereInterval))\n\
+{\n\
+discard;\n\
+}\n\
+vec3 coneAxisEC = normalize(v_sensorAxisEC);\n\
+czm_cone outerCone = czm_coneNew(v_sensorVertexEC, coneAxisEC, u_outerHalfAngle);\n\
+czm_raySegmentCollection outerConeInterval = czm_rayConeIntersectionInterval(ray, outerCone);\n\
+if (outerConeInterval.count == 0)\n\
+{\n\
+discard;\n\
+}\n\
+czm_cone innerCone = czm_coneNew(v_sensorVertexEC, coneAxisEC, u_innerHalfAngle);\n\
+czm_raySegmentCollection innerConeInterval = czm_rayConeIntersectionInterval(ray, innerCone);\n\
+czm_raySegmentCollection difference = (innerConeInterval.count == 0) ? outerConeInterval : czm_subtraction(outerConeInterval, innerConeInterval);\n\
+if (difference.count == 0)\n\
+{\n\
+discard;\n\
+}\n\
+czm_raySegmentCollection capped = czm_intersection(difference, sphereInterval);\n\
+if (capped.count == 0)\n\
+{\n\
+discard;\n\
+}\n\
+vec3 maxNormal = normalize((czm_modelView * vec4(-sin(u_maximumClockAngle), cos(u_maximumClockAngle), 0.0, 0.0)).xyz);\n\
+czm_halfspace maxClock = czm_halfspace(v_sensorVertexEC, maxNormal);\n\
+czm_raySegment maxClockInterval = czm_rayHalfspaceIntersectionInterval(ray, maxClock);\n\
+vec3 minNormal = normalize((czm_modelView * vec4(sin(u_minimumClockAngle), -cos(u_minimumClockAngle), 0.0, 0.0)).xyz);\n\
+czm_halfspace minClock = czm_halfspace(v_sensorVertexEC, minNormal);\n\
+czm_raySegment minClockInterval = czm_rayHalfspaceIntersectionInterval(ray, minClock);\n\
+czm_raySegmentCollection clockIntervals = ((u_maximumClockAngle - u_minimumClockAngle) > czm_pi)\n\
+? (czm_isEmpty(maxClockInterval)\n\
+? (czm_isEmpty(minClockInterval) ? czm_raySegmentCollectionNew() : czm_raySegmentCollectionNew(minClockInterval))\n\
+: (czm_isEmpty(minClockInterval) ? czm_raySegmentCollectionNew(maxClockInterval) : czm_union(maxClockInterval, minClockInterval)))\n\
+: ((czm_isEmpty(maxClockInterval) || czm_isEmpty(minClockInterval)) ? czm_raySegmentCollectionNew() : czm_raySegmentCollectionNew(czm_intersection(maxClockInterval, minClockInterval)));\n\
+czm_raySegmentCollection sensor = (clockIntervals.count == 0) ? czm_raySegmentCollectionNew() : czm_intersection(capped, clockIntervals);\n\
+if (sensor.count == 0)\n\
+{\n\
+discard;\n\
+}\n\
+czm_ellipsoid ellipsoid = czm_getWgs84EllipsoidEC();\n\
+czm_ellipsoidSilhouetteCone silhouetteCone = czm_ellipsoidSilhouetteConeNew(ellipsoid, v_sensorVertexEC);\n\
+czm_raySegment silhouetteConeInterval = czm_rayEllipsoidSilhouetteConeIntersectionInterval(ray, silhouetteCone);\n\
+if (czm_isEmpty(silhouetteConeInterval))\n\
+{\n\
+gl_FragColor = shade(ray, sensor.intervals[0].start,\n\
+sphere, outerCone, innerCone, maxClock, minClock,\n\
+sphereInterval, outerConeInterval, innerConeInterval, maxClockInterval, minClockInterval,\n\
+sensor);\n\
+}\n\
+else\n\
+{\n\
+czm_ellipsoidSilhouetteHalfspace silhouetteHalfspace = czm_ellipsoidSilhouetteHalfspaceNew(ellipsoid, v_sensorVertexEC);\n\
+czm_raySegment silhouetteHalfspaceInterval = czm_rayEllipsoidSilhouetteHalfspaceIntersectionInterval(ray, silhouetteHalfspace);\n\
+czm_raySegment temp = (czm_isEmpty(silhouetteHalfspaceInterval)) ? czm_emptyRaySegment : czm_intersection(silhouetteConeInterval, silhouetteHalfspaceInterval);\n\
+czm_raySegmentCollection stuff = (czm_isEmpty(temp)) ? sensor : czm_subtraction(sensor, temp);\n\
+if (stuff.count == 0)\n\
+{\n\
+discard;\n\
+}\n\
+czm_raySegment ellipsoidInterval = czm_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n\
+czm_raySegmentCollection result = (czm_isEmpty(ellipsoidInterval)) ? stuff : czm_subtraction(stuff, ellipsoidInterval);\n\
+if ((result.count == 0)\n\
+|| (!czm_isEmpty(ellipsoidInterval) && (result.intervals[0].start > ellipsoidInterval.start)))\n\
+{\n\
+discard;\n\
+}\n\
+gl_FragColor = shade(ray, result.intervals[0].start,\n\
+sphere, outerCone, innerCone, maxClock, minClock,\n\
+silhouetteCone, silhouetteHalfspace,\n\
+sphereInterval, outerConeInterval, innerConeInterval, maxClockInterval, minClockInterval, clockIntervals,\n\
+silhouetteConeInterval, silhouetteHalfspaceInterval, ellipsoidInterval,\n\
+result);\n\
+}\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/ComplexConicSensorVolumeVS',[],function() {
-  
-  return "attribute vec4 position;\n" +
-"varying vec3 v_positionEC;\n" +
-"varying vec3 v_sensorVertexWC;\n" +
-"varying vec3 v_sensorVertexEC;\n" +
-"varying vec3 v_sensorAxisEC;\n" +
-"void main()\n" +
-"{\n" +
-"gl_Position = czm_modelViewInfiniteProjection * position;\n" +
-"v_positionEC = (czm_modelView * position).xyz;\n" +
-"vec4 sensorVertexMC = vec4(0.0, 0.0, 0.0, 1.0);\n" +
-"v_sensorVertexWC = (czm_model * sensorVertexMC).xyz;\n" +
-"v_sensorVertexEC = (czm_modelView * sensorVertexMC).xyz;\n" +
-"v_sensorAxisEC = czm_normal * vec3(0.0, 0.0, 1.0);\n" +
-"}\n" +
-"";
+    
+    return "attribute vec4 position;\n\
+varying vec3 v_positionEC;\n\
+varying vec3 v_sensorVertexWC;\n\
+varying vec3 v_sensorVertexEC;\n\
+varying vec3 v_sensorAxisEC;\n\
+void main()\n\
+{\n\
+gl_Position = czm_modelViewInfiniteProjection * position;\n\
+v_positionEC = (czm_modelView * position).xyz;\n\
+vec4 sensorVertexMC = vec4(0.0, 0.0, 0.0, 1.0);\n\
+v_sensorVertexWC = (czm_model * sensorVertexMC).xyz;\n\
+v_sensorVertexEC = (czm_modelView * sensorVertexMC).xyz;\n\
+v_sensorAxisEC = czm_normal * vec3(0.0, 0.0, 1.0);\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/ConstructiveSolidGeometry',[],function() {
-  
-  return "float _czm_addWithCancellationCheck(float left, float right, float tolerance)\n" +
-"{\n" +
-"float difference = left + right;\n" +
-"if ((sign(left) != sign(right)) && abs(difference / max(abs(left), abs(right))) < tolerance)\n" +
-"{\n" +
-"return 0.0;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"return difference;\n" +
-"}\n" +
-"}\n" +
-"struct czm_quadraticRoots\n" +
-"{\n" +
-"int numberOfRoots;\n" +
-"float root0;\n" +
-"float root1;\n" +
-"};\n" +
-"czm_quadraticRoots czm_quadraticRealPolynomialRealRoots(float a, float b, float c)\n" +
-"{\n" +
-"const float tolerance = czm_epsilon7;\n" +
-"if (a == 0.0)\n" +
-"{\n" +
-"if (b == 0.0)\n" +
-"{\n" +
-"czm_quadraticRoots r = czm_quadraticRoots(0, 0.0, 0.0);\n" +
-"return r;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_quadraticRoots r = czm_quadraticRoots(1, -c / b, 0.0);\n" +
-"return r;\n" +
-"}\n" +
-"}\n" +
-"else if (b == 0.0)\n" +
-"{\n" +
-"if (c == 0.0)\n" +
-"{\n" +
-"czm_quadraticRoots r = czm_quadraticRoots(2, 0.0, 0.0);\n" +
-"return r;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"float cMagnitude = abs(c);\n" +
-"float aMagnitude = abs(a);\n" +
-"if ((cMagnitude < aMagnitude) && (cMagnitude / aMagnitude < tolerance))\n" +
-"{\n" +
-"czm_quadraticRoots r = czm_quadraticRoots(2, 0.0, 0.0);\n" +
-"return r;\n" +
-"}\n" +
-"else if ((cMagnitude > aMagnitude) && (aMagnitude / cMagnitude < tolerance))\n" +
-"{\n" +
-"czm_quadraticRoots r = czm_quadraticRoots(0, 0.0, 0.0);\n" +
-"return r;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"float ratio = -c / a;\n" +
-"if (ratio < 0.0)\n" +
-"{\n" +
-"czm_quadraticRoots r = czm_quadraticRoots(0, 0.0, 0.0);\n" +
-"return r;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"float root = sqrt(ratio);\n" +
-"czm_quadraticRoots r = czm_quadraticRoots(2, -root, root);\n" +
-"return r;\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"else if (c == 0.0)\n" +
-"{\n" +
-"float ratio = -b / a;\n" +
-"if (ratio < 0.0)\n" +
-"{\n" +
-"czm_quadraticRoots r = czm_quadraticRoots(2, ratio, 0.0);\n" +
-"return r;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_quadraticRoots r = czm_quadraticRoots(2, 0.0, ratio);\n" +
-"return r;\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"float b2 = b * b;\n" +
-"float four_ac = 4.0 * a * c;\n" +
-"float radicand = _czm_addWithCancellationCheck(b2, -four_ac, tolerance);\n" +
-"if (radicand < 0.0)\n" +
-"{\n" +
-"czm_quadraticRoots r = czm_quadraticRoots(0, 0.0, 0.0);\n" +
-"return r;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"float q = -0.5 * _czm_addWithCancellationCheck(b, sign(b) * sqrt(radicand), tolerance);\n" +
-"if (b > 0.0)\n" +
-"{\n" +
-"czm_quadraticRoots r = czm_quadraticRoots(2, q / a, c / q);\n" +
-"return r;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_quadraticRoots r = czm_quadraticRoots(2, c / q, q / a);\n" +
-"return r;\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"struct czm_sphere\n" +
-"{\n" +
-"vec3 center;\n" +
-"float radius;\n" +
-"};\n" +
-"czm_raySegment czm_raySphereIntersectionInterval(czm_ray ray, czm_sphere sphere)\n" +
-"{\n" +
-"vec3 l = sphere.center - ray.origin;\n" +
-"float s = dot(l, ray.direction);\n" +
-"float l2 = dot(l, l);\n" +
-"float r2 = sphere.radius * sphere.radius;\n" +
-"if ((s < 0.0)\n" +
-"&& (l2 > r2))\n" +
-"{\n" +
-"return czm_emptyRaySegment;\n" +
-"}\n" +
-"float s2 = s * s;\n" +
-"float m2 = l2 - s2;\n" +
-"if (m2 > r2)\n" +
-"{\n" +
-"return czm_emptyRaySegment;\n" +
-"}\n" +
-"float q = sqrt(r2 - m2);\n" +
-"if (czm_equalsEpsilon(q, 0.0))\n" +
-"{\n" +
-"return czm_raySegment(s, s);\n" +
-"}\n" +
-"if (l2 > r2)\n" +
-"{\n" +
-"czm_raySegment i = czm_raySegment(s - q, s + q);\n" +
-"return i;\n" +
-"}\n" +
-"else if (l2 < r2)\n" +
-"{\n" +
-"czm_raySegment i = czm_raySegment(0.0, s + q);\n" +
-"return i;\n" +
-"}\n" +
-"else if (s > 0.0)\n" +
-"{\n" +
-"czm_raySegment i = czm_raySegment(0.0, s + q);\n" +
-"return i;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"return czm_emptyRaySegment;\n" +
-"}\n" +
-"}\n" +
-"vec3 czm_sphereNormal(czm_sphere sphere, vec3 pointOnSphere)\n" +
-"{\n" +
-"return normalize(pointOnSphere - sphere.center);\n" +
-"}\n" +
-"struct czm_cone\n" +
-"{\n" +
-"vec3 vertex;\n" +
-"vec3 axis;\n" +
-"float halfAperture;\n" +
-"float cosineOfHalfAperture;\n" +
-"float cosineSquaredOfHalfAperture;\n" +
-"float sineOfHalfAperture;\n" +
-"float sineSquaredOfHalfAperture;\n" +
-"mat3 intersectionMatrix;\n" +
-"};\n" +
-"czm_cone czm_coneNew(vec3 vertex, vec3 axis, float halfAperture)\n" +
-"{\n" +
-"float cosineOfHalfAperture = cos(halfAperture);\n" +
-"float cosineSquaredOfHalfAperture = cosineOfHalfAperture * cosineOfHalfAperture;\n" +
-"float sineOfHalfAperture = sin(halfAperture);\n" +
-"float sineSquaredOfHalfAperture = sineOfHalfAperture * sineOfHalfAperture;\n" +
-"float x2 = axis.x * axis.x;\n" +
-"float y2 = axis.y * axis.y;\n" +
-"float z2 = axis.z * axis.z;\n" +
-"float xy = axis.x * axis.y;\n" +
-"float yz = axis.y * axis.z;\n" +
-"float zx = axis.z * axis.x;\n" +
-"mat3 intersectionMatrix = mat3(\n" +
-"cosineSquaredOfHalfAperture - x2, -xy,                              -zx,\n" +
-"-xy,                              cosineSquaredOfHalfAperture - y2, -yz,\n" +
-"-zx,                              -yz,                              cosineSquaredOfHalfAperture - z2);\n" +
-"czm_cone temp = czm_cone(vertex, axis, halfAperture,\n" +
-"cosineOfHalfAperture, cosineSquaredOfHalfAperture,\n" +
-"sineOfHalfAperture, sineSquaredOfHalfAperture, intersectionMatrix);\n" +
-"return temp;\n" +
-"}\n" +
-"bool czm_coneContainsPoint(czm_cone cone, vec3 point)\n" +
-"{\n" +
-"vec3 n = normalize(point - cone.vertex);\n" +
-"return (dot(n, cone.axis) >= cone.cosineOfHalfAperture);\n" +
-"}\n" +
-"bool _czm_rayIntersectsReflectedCone(czm_ray ray, czm_cone cone, float time, float cosine)\n" +
-"{\n" +
-"vec3 s = ray.origin + (time * ray.direction) - cone.vertex;\n" +
-"vec3 sUnit = normalize(s);\n" +
-"float c = dot(sUnit, cone.axis);\n" +
-"return (sign(c) != sign(cosine));\n" +
-"}\n" +
-"czm_raySegmentCollection czm_rayConeIntersectionInterval(czm_ray ray, czm_cone cone)\n" +
-"{\n" +
-"vec3 temp = ray.origin - cone.vertex;\n" +
-"float t2 = dot(temp, temp);\n" +
-"float cosineNu = dot(ray.direction, cone.axis);\n" +
-"if (t2 == 0.0)\n" +
-"{\n" +
-"if (cosineNu >= cone.cosineOfHalfAperture)\n" +
-"{\n" +
-"return czm_raySegmentCollectionNew(czm_fullRaySegment);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"return czm_raySegmentCollectionNew();\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"float projection = dot(normalize(temp), cone.axis);\n" +
-"if (projection == cone.cosineOfHalfAperture)\n" +
-"{\n" +
-"vec3 u = ray.direction;\n" +
-"mat3 crossProductMatrix = mat3(0.0, -u.z, u.y,\n" +
-"u.z, 0.0, -u.x,\n" +
-"-u.y, u.x, 0.0);\n" +
-"if (length(crossProductMatrix * temp) == 0.0)\n" +
-"{\n" +
-"if (dot(temp, u) > 0.0)\n" +
-"{\n" +
-"return czm_raySegmentCollectionNew(czm_fullRaySegment);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_raySegment i = czm_raySegment(0.0, length(temp));\n" +
-"return czm_raySegmentCollectionNew(i);\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"return czm_raySegmentCollectionNew();\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"vec3 t = normalize(temp);\n" +
-"float cosineAlpha2 = cone.cosineOfHalfAperture * cone.cosineOfHalfAperture;\n" +
-"float cosineTau = dot(t, cone.axis);\n" +
-"float cosineDelta = dot(t, ray.direction);\n" +
-"float cosineNu2 = cosineNu * cosineNu;\n" +
-"float cosineTau2 = cosineTau * cosineTau;\n" +
-"float stuff = cosineTau * cosineNu;\n" +
-"float positiveTerm = cosineNu2 + cosineTau2;\n" +
-"float negativeTerm = (cosineDelta * cosineDelta - 1.0) * cosineAlpha2;\n" +
-"float signedTerm = -2.0 * stuff * cosineDelta;\n" +
-"if (signedTerm > 0.0)\n" +
-"{\n" +
-"positiveTerm = positiveTerm + signedTerm;\n" +
-"}\n" +
-"else if (signedTerm < 0.0)\n" +
-"{\n" +
-"negativeTerm = negativeTerm + signedTerm;\n" +
-"}\n" +
-"float d = 4.0 * cosineAlpha2 * (positiveTerm + negativeTerm);\n" +
-"if (d < 0.0)\n" +
-"{\n" +
-"if (cone.cosineOfHalfAperture < 0.0)\n" +
-"{\n" +
-"return czm_raySegmentCollectionNew(czm_fullRaySegment);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"return czm_raySegmentCollectionNew();\n" +
-"}\n" +
-"}\n" +
-"else if (d > 0.0)\n" +
-"{\n" +
-"float a = cosineNu2 - cosineAlpha2;\n" +
-"float c = cosineTau2 - cosineAlpha2;\n" +
-"float b = 2.0 * (stuff - cosineDelta * cosineAlpha2);\n" +
-"float s = (b == 0.0) ? 1.0 : sign(b);\n" +
-"float q = -(b + s * sqrt(d)) / 2.0;\n" +
-"float first = q / a;\n" +
-"float second = c / q;\n" +
-"if (second < first)\n" +
-"{\n" +
-"float thing = first;\n" +
-"first = second;\n" +
-"second = thing;\n" +
-"}\n" +
-"bool firstTest = (first >= 0.0) && !(sign(dot(t + first * ray.direction, cone.axis)) == -sign(cone.cosineOfHalfAperture));\n" +
-"bool secondTest = (second >= 0.0) && !(sign(dot(t + second * ray.direction, cone.axis)) == -sign(cone.cosineOfHalfAperture));\n" +
-"float m = sqrt(t2);\n" +
-"if (cosineTau > cone.cosineOfHalfAperture)\n" +
-"{\n" +
-"if (firstTest && secondTest)\n" +
-"{\n" +
-"czm_raySegment one = czm_raySegment(0.0, m * first);\n" +
-"czm_raySegment two = czm_raySegment(m * second, czm_infinity);\n" +
-"return czm_raySegmentCollectionNew(one, two);\n" +
-"}\n" +
-"else if (firstTest)\n" +
-"{\n" +
-"czm_raySegment i = czm_raySegment(0.0, m * first);\n" +
-"return czm_raySegmentCollectionNew(i);\n" +
-"}\n" +
-"else if (secondTest)\n" +
-"{\n" +
-"czm_raySegment i = czm_raySegment(0.0, m * second);\n" +
-"return czm_raySegmentCollectionNew(i);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"return czm_raySegmentCollectionNew(czm_fullRaySegment);\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"if (firstTest && secondTest)\n" +
-"{\n" +
-"czm_raySegment i = czm_raySegment(m * first, m * second);\n" +
-"return czm_raySegmentCollectionNew(i);\n" +
-"}\n" +
-"else if (firstTest)\n" +
-"{\n" +
-"czm_raySegment i = czm_raySegment(m * first, czm_infinity);\n" +
-"return czm_raySegmentCollectionNew(i);\n" +
-"}\n" +
-"else if (secondTest)\n" +
-"{\n" +
-"czm_raySegment i = czm_raySegment(m * second, czm_infinity);\n" +
-"return czm_raySegmentCollectionNew(i);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"return czm_raySegmentCollectionNew();\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"if (cone.cosineOfHalfAperture == 0.0)\n" +
-"{\n" +
-"if (cosineTau >= 0.0)\n" +
-"{\n" +
-"if (cosineNu >= 0.0)\n" +
-"{\n" +
-"return czm_raySegmentCollectionNew(czm_fullRaySegment);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_raySegment i = czm_raySegment(0.0, -sqrt(t2) * cosineTau / cosineNu);\n" +
-"return czm_raySegmentCollectionNew(i);\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"if (cosineNu <= 0.0)\n" +
-"{\n" +
-"return czm_raySegmentCollectionNew();\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_raySegment i = czm_raySegment(-sqrt(t2) * cosineTau / cosineNu, czm_infinity);\n" +
-"return czm_raySegmentCollectionNew(i);\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"float a = cosineNu2 - cosineAlpha2;\n" +
-"float c = cosineTau2 - cosineAlpha2;\n" +
-"float b = 2.0 * (stuff - cosineDelta * cosineAlpha2);\n" +
-"float root = (a == 0.0) ? -sign(b) * czm_infinity : (-sign(b) / sign(a)) * sqrt(c / a);\n" +
-"bool rootTest = (root >= 0.0) && !(sign(dot(t + root * ray.direction, cone.axis)) == -sign(cone.cosineOfHalfAperture));\n" +
-"float m = sqrt(t2);\n" +
-"if (cosineTau > cone.cosineOfHalfAperture)\n" +
-"{\n" +
-"if (rootTest)\n" +
-"{\n" +
-"czm_raySegment i = czm_raySegment(0.0, m * root);\n" +
-"return czm_raySegmentCollectionNew(i);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"return czm_raySegmentCollectionNew(czm_fullRaySegment);\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"if (rootTest)\n" +
-"{\n" +
-"if (c < 0.0)\n" +
-"{\n" +
-"float thing = m * root;\n" +
-"czm_raySegment i = czm_raySegment(thing, thing);\n" +
-"return czm_raySegmentCollectionNew(i);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"float thing = m * root;\n" +
-"czm_raySegment i = czm_raySegment(thing, czm_infinity);\n" +
-"return czm_raySegmentCollectionNew(i);\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"return czm_raySegmentCollectionNew();\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"vec3 czm_coneNormal(czm_cone cone, vec3 pointOnCone)\n" +
-"{\n" +
-"vec3 s = pointOnCone - cone.vertex;\n" +
-"vec3 sUnit = normalize(s);\n" +
-"return normalize((cone.cosineOfHalfAperture * sUnit - cone.axis) / cone.sineOfHalfAperture);\n" +
-"}\n" +
-"struct czm_ellipsoidSilhouetteCone\n" +
-"{\n" +
-"czm_ellipsoid ellipsoid;\n" +
-"vec3 pointOutsideEllipsoid;\n" +
-"czm_cone coneInScaledSpace;\n" +
-"};\n" +
-"vec3 czm_ellipsoidSilhouetteConeNormal(czm_ellipsoidSilhouetteCone cone, vec3 pointOnCone)\n" +
-"{\n" +
-"vec3 pointOnScaledCone = cone.ellipsoid.inverseRadii * (czm_inverseView * vec4(pointOnCone, 1.0)).xyz;\n" +
-"vec3 scaledNormal = czm_coneNormal(cone.coneInScaledSpace, pointOnScaledCone);\n" +
-"vec3 temp = -normalize(czm_viewRotation * (cone.ellipsoid.radii * scaledNormal));\n" +
-"return temp;\n" +
-"}\n" +
-"czm_ellipsoidSilhouetteCone czm_ellipsoidSilhouetteConeNew(czm_ellipsoid ellipsoid, vec3 pointOutsideEllipsoid)\n" +
-"{\n" +
-"vec3 q = ellipsoid.inverseRadii * (czm_inverseView * vec4(pointOutsideEllipsoid, 1.0)).xyz;\n" +
-"vec3 axis = -normalize(q);\n" +
-"float q2 = dot(q, q);\n" +
-"float sineSquaredOfHalfAperture = 1.0 / q2;\n" +
-"float sineOfHalfAperture = sqrt(sineSquaredOfHalfAperture);\n" +
-"float cosineSquaredOfHalfAperture = 1.0 - sineSquaredOfHalfAperture;\n" +
-"float cosineOfHalfAperture = sqrt(cosineSquaredOfHalfAperture);\n" +
-"float halfAperture = atan(sineOfHalfAperture / cosineOfHalfAperture);\n" +
-"float x2 = axis.x * axis.x;\n" +
-"float y2 = axis.y * axis.y;\n" +
-"float z2 = axis.z * axis.z;\n" +
-"float xy = axis.x * axis.y;\n" +
-"float yz = axis.y * axis.z;\n" +
-"float zx = axis.z * axis.x;\n" +
-"mat3 intersectionMatrix = mat3(\n" +
-"cosineSquaredOfHalfAperture - x2, -xy,                              -zx,\n" +
-"-xy,                              cosineSquaredOfHalfAperture - y2, -yz,\n" +
-"-zx,                              -yz,                              cosineSquaredOfHalfAperture - z2);\n" +
-"czm_cone coneInScaledSpace = czm_cone(q, axis, halfAperture,\n" +
-"cosineOfHalfAperture, cosineSquaredOfHalfAperture,\n" +
-"sineOfHalfAperture, sineSquaredOfHalfAperture, intersectionMatrix);\n" +
-"czm_ellipsoidSilhouetteCone temp = czm_ellipsoidSilhouetteCone(ellipsoid, pointOutsideEllipsoid, coneInScaledSpace);\n" +
-"return temp;\n" +
-"}\n" +
-"czm_raySegment czm_rayEllipsoidSilhouetteConeIntersectionInterval(czm_ray ray, czm_ellipsoidSilhouetteCone cone)\n" +
-"{\n" +
-"vec3 origin = cone.ellipsoid.inverseRadii * (czm_inverseView * vec4(ray.origin, 1.0)).xyz;\n" +
-"vec3 direction = normalize(cone.ellipsoid.inverseRadii * (czm_inverseViewRotation * ray.direction));\n" +
-"czm_ray rayInScaledSpace = czm_ray(origin, direction);\n" +
-"czm_raySegmentCollection collection = czm_rayConeIntersectionInterval(rayInScaledSpace, cone.coneInScaledSpace);\n" +
-"if (collection.count == 0)\n" +
-"{\n" +
-"return czm_emptyRaySegment;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_raySegment interval = collection.intervals[0];\n" +
-"float start = interval.start;\n" +
-"if (start != 0.0)\n" +
-"{\n" +
-"vec3 temp = (czm_view * vec4(cone.ellipsoid.radii * czm_pointAlongRay(rayInScaledSpace, start), 1.0)).xyz;\n" +
-"start = dot(temp, ray.direction);\n" +
-"}\n" +
-"float stop = interval.stop;\n" +
-"if (stop != czm_infinity)\n" +
-"{\n" +
-"vec3 temp = (czm_view * vec4(cone.ellipsoid.radii * czm_pointAlongRay(rayInScaledSpace, stop), 1.0)).xyz;\n" +
-"stop = dot(temp, ray.direction);\n" +
-"}\n" +
-"return czm_raySegment(start, stop);\n" +
-"}\n" +
-"}\n" +
-"struct czm_halfspace\n" +
-"{\n" +
-"vec3 center;\n" +
-"vec3 normal;\n" +
-"};\n" +
-"czm_raySegment czm_rayHalfspaceIntersectionInterval(czm_ray ray, czm_halfspace halfspace)\n" +
-"{\n" +
-"float numerator = dot(halfspace.center - ray.origin, halfspace.normal);\n" +
-"float denominator = dot(ray.direction, halfspace.normal);\n" +
-"if (numerator > 0.0)\n" +
-"{\n" +
-"if (denominator > 0.0)\n" +
-"{\n" +
-"return czm_raySegment(0.0, numerator / denominator);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"return czm_fullRaySegment;\n" +
-"}\n" +
-"}\n" +
-"else if (numerator < 0.0)\n" +
-"{\n" +
-"if (denominator < 0.0 )\n" +
-"{\n" +
-"return czm_raySegment(numerator / denominator, czm_infinity);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"return czm_emptyRaySegment;\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"if (denominator < 0.0 )\n" +
-"{\n" +
-"return czm_fullRaySegment;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"return czm_emptyRaySegment;\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"struct czm_ellipsoidSilhouetteHalfspace\n" +
-"{\n" +
-"czm_ellipsoid ellipsoid;\n" +
-"vec3 pointOutsideEllipsoid;\n" +
-"czm_halfspace halfspaceInScaledSpace;\n" +
-"};\n" +
-"czm_ellipsoidSilhouetteHalfspace czm_ellipsoidSilhouetteHalfspaceNew(czm_ellipsoid ellipsoid, vec3 pointOutsideEllipsoid)\n" +
-"{\n" +
-"vec3 q = ellipsoid.inverseRadii * (czm_inverseView * vec4(pointOutsideEllipsoid, 1.0)).xyz;\n" +
-"float magnitude = 1.0 / length(q);\n" +
-"vec3 normal = normalize(q);\n" +
-"vec3 center = magnitude * normal;\n" +
-"czm_halfspace halfspaceInScaledSpace = czm_halfspace(center, normal);\n" +
-"czm_ellipsoidSilhouetteHalfspace temp = czm_ellipsoidSilhouetteHalfspace(ellipsoid, pointOutsideEllipsoid, halfspaceInScaledSpace);\n" +
-"return temp;\n" +
-"}\n" +
-"czm_raySegment czm_rayEllipsoidSilhouetteHalfspaceIntersectionInterval(czm_ray ray, czm_ellipsoidSilhouetteHalfspace halfspace)\n" +
-"{\n" +
-"vec3 origin = halfspace.ellipsoid.inverseRadii * (czm_inverseView * vec4(ray.origin, 1.0)).xyz;\n" +
-"vec3 direction = halfspace.ellipsoid.inverseRadii * (czm_inverseViewRotation * ray.direction);\n" +
-"czm_ray rayInScaledSpace = czm_ray(origin, direction);\n" +
-"czm_raySegment interval = czm_rayHalfspaceIntersectionInterval(rayInScaledSpace, halfspace.halfspaceInScaledSpace);\n" +
-"if (czm_isEmpty(interval))\n" +
-"{\n" +
-"return interval;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"float start = interval.start;\n" +
-"if (start != 0.0)\n" +
-"{\n" +
-"vec3 temp = (czm_view * vec4(halfspace.ellipsoid.radii * czm_pointAlongRay(rayInScaledSpace, start), 1.0)).xyz;\n" +
-"start = dot(temp, ray.direction);\n" +
-"}\n" +
-"float stop = interval.stop;\n" +
-"if (stop != czm_infinity)\n" +
-"{\n" +
-"vec3 temp = (czm_view * vec4(halfspace.ellipsoid.radii * czm_pointAlongRay(rayInScaledSpace, stop), 1.0)).xyz;\n" +
-"stop = dot(temp, ray.direction);\n" +
-"}\n" +
-"return czm_raySegment(start, stop);\n" +
-"}\n" +
-"}\n" +
-"";
+    
+    return "float _czm_addWithCancellationCheck(float left, float right, float tolerance)\n\
+{\n\
+float difference = left + right;\n\
+if ((sign(left) != sign(right)) && abs(difference / max(abs(left), abs(right))) < tolerance)\n\
+{\n\
+return 0.0;\n\
+}\n\
+else\n\
+{\n\
+return difference;\n\
+}\n\
+}\n\
+struct czm_quadraticRoots\n\
+{\n\
+int numberOfRoots;\n\
+float root0;\n\
+float root1;\n\
+};\n\
+czm_quadraticRoots czm_quadraticRealPolynomialRealRoots(float a, float b, float c)\n\
+{\n\
+const float tolerance = czm_epsilon7;\n\
+if (a == 0.0)\n\
+{\n\
+if (b == 0.0)\n\
+{\n\
+czm_quadraticRoots r = czm_quadraticRoots(0, 0.0, 0.0);\n\
+return r;\n\
+}\n\
+else\n\
+{\n\
+czm_quadraticRoots r = czm_quadraticRoots(1, -c / b, 0.0);\n\
+return r;\n\
+}\n\
+}\n\
+else if (b == 0.0)\n\
+{\n\
+if (c == 0.0)\n\
+{\n\
+czm_quadraticRoots r = czm_quadraticRoots(2, 0.0, 0.0);\n\
+return r;\n\
+}\n\
+else\n\
+{\n\
+float cMagnitude = abs(c);\n\
+float aMagnitude = abs(a);\n\
+if ((cMagnitude < aMagnitude) && (cMagnitude / aMagnitude < tolerance))\n\
+{\n\
+czm_quadraticRoots r = czm_quadraticRoots(2, 0.0, 0.0);\n\
+return r;\n\
+}\n\
+else if ((cMagnitude > aMagnitude) && (aMagnitude / cMagnitude < tolerance))\n\
+{\n\
+czm_quadraticRoots r = czm_quadraticRoots(0, 0.0, 0.0);\n\
+return r;\n\
+}\n\
+else\n\
+{\n\
+float ratio = -c / a;\n\
+if (ratio < 0.0)\n\
+{\n\
+czm_quadraticRoots r = czm_quadraticRoots(0, 0.0, 0.0);\n\
+return r;\n\
+}\n\
+else\n\
+{\n\
+float root = sqrt(ratio);\n\
+czm_quadraticRoots r = czm_quadraticRoots(2, -root, root);\n\
+return r;\n\
+}\n\
+}\n\
+}\n\
+}\n\
+else if (c == 0.0)\n\
+{\n\
+float ratio = -b / a;\n\
+if (ratio < 0.0)\n\
+{\n\
+czm_quadraticRoots r = czm_quadraticRoots(2, ratio, 0.0);\n\
+return r;\n\
+}\n\
+else\n\
+{\n\
+czm_quadraticRoots r = czm_quadraticRoots(2, 0.0, ratio);\n\
+return r;\n\
+}\n\
+}\n\
+else\n\
+{\n\
+float b2 = b * b;\n\
+float four_ac = 4.0 * a * c;\n\
+float radicand = _czm_addWithCancellationCheck(b2, -four_ac, tolerance);\n\
+if (radicand < 0.0)\n\
+{\n\
+czm_quadraticRoots r = czm_quadraticRoots(0, 0.0, 0.0);\n\
+return r;\n\
+}\n\
+else\n\
+{\n\
+float q = -0.5 * _czm_addWithCancellationCheck(b, sign(b) * sqrt(radicand), tolerance);\n\
+if (b > 0.0)\n\
+{\n\
+czm_quadraticRoots r = czm_quadraticRoots(2, q / a, c / q);\n\
+return r;\n\
+}\n\
+else\n\
+{\n\
+czm_quadraticRoots r = czm_quadraticRoots(2, c / q, q / a);\n\
+return r;\n\
+}\n\
+}\n\
+}\n\
+}\n\
+struct czm_sphere\n\
+{\n\
+vec3 center;\n\
+float radius;\n\
+};\n\
+czm_raySegment czm_raySphereIntersectionInterval(czm_ray ray, czm_sphere sphere)\n\
+{\n\
+vec3 l = sphere.center - ray.origin;\n\
+float s = dot(l, ray.direction);\n\
+float l2 = dot(l, l);\n\
+float r2 = sphere.radius * sphere.radius;\n\
+if ((s < 0.0)\n\
+&& (l2 > r2))\n\
+{\n\
+return czm_emptyRaySegment;\n\
+}\n\
+float s2 = s * s;\n\
+float m2 = l2 - s2;\n\
+if (m2 > r2)\n\
+{\n\
+return czm_emptyRaySegment;\n\
+}\n\
+float q = sqrt(r2 - m2);\n\
+if (czm_equalsEpsilon(q, 0.0))\n\
+{\n\
+return czm_raySegment(s, s);\n\
+}\n\
+if (l2 > r2)\n\
+{\n\
+czm_raySegment i = czm_raySegment(s - q, s + q);\n\
+return i;\n\
+}\n\
+else if (l2 < r2)\n\
+{\n\
+czm_raySegment i = czm_raySegment(0.0, s + q);\n\
+return i;\n\
+}\n\
+else if (s > 0.0)\n\
+{\n\
+czm_raySegment i = czm_raySegment(0.0, s + q);\n\
+return i;\n\
+}\n\
+else\n\
+{\n\
+return czm_emptyRaySegment;\n\
+}\n\
+}\n\
+vec3 czm_sphereNormal(czm_sphere sphere, vec3 pointOnSphere)\n\
+{\n\
+return normalize(pointOnSphere - sphere.center);\n\
+}\n\
+struct czm_cone\n\
+{\n\
+vec3 vertex;\n\
+vec3 axis;\n\
+float halfAperture;\n\
+float cosineOfHalfAperture;\n\
+float cosineSquaredOfHalfAperture;\n\
+float sineOfHalfAperture;\n\
+float sineSquaredOfHalfAperture;\n\
+mat3 intersectionMatrix;\n\
+};\n\
+czm_cone czm_coneNew(vec3 vertex, vec3 axis, float halfAperture)\n\
+{\n\
+float cosineOfHalfAperture = cos(halfAperture);\n\
+float cosineSquaredOfHalfAperture = cosineOfHalfAperture * cosineOfHalfAperture;\n\
+float sineOfHalfAperture = sin(halfAperture);\n\
+float sineSquaredOfHalfAperture = sineOfHalfAperture * sineOfHalfAperture;\n\
+float x2 = axis.x * axis.x;\n\
+float y2 = axis.y * axis.y;\n\
+float z2 = axis.z * axis.z;\n\
+float xy = axis.x * axis.y;\n\
+float yz = axis.y * axis.z;\n\
+float zx = axis.z * axis.x;\n\
+mat3 intersectionMatrix = mat3(\n\
+cosineSquaredOfHalfAperture - x2, -xy,                              -zx,\n\
+-xy,                              cosineSquaredOfHalfAperture - y2, -yz,\n\
+-zx,                              -yz,                              cosineSquaredOfHalfAperture - z2);\n\
+czm_cone temp = czm_cone(vertex, axis, halfAperture,\n\
+cosineOfHalfAperture, cosineSquaredOfHalfAperture,\n\
+sineOfHalfAperture, sineSquaredOfHalfAperture, intersectionMatrix);\n\
+return temp;\n\
+}\n\
+bool czm_coneContainsPoint(czm_cone cone, vec3 point)\n\
+{\n\
+vec3 n = normalize(point - cone.vertex);\n\
+return (dot(n, cone.axis) >= cone.cosineOfHalfAperture);\n\
+}\n\
+bool _czm_rayIntersectsReflectedCone(czm_ray ray, czm_cone cone, float time, float cosine)\n\
+{\n\
+vec3 s = ray.origin + (time * ray.direction) - cone.vertex;\n\
+vec3 sUnit = normalize(s);\n\
+float c = dot(sUnit, cone.axis);\n\
+return (sign(c) != sign(cosine));\n\
+}\n\
+czm_raySegmentCollection czm_rayConeIntersectionInterval(czm_ray ray, czm_cone cone)\n\
+{\n\
+vec3 temp = ray.origin - cone.vertex;\n\
+float t2 = dot(temp, temp);\n\
+float cosineNu = dot(ray.direction, cone.axis);\n\
+if (t2 == 0.0)\n\
+{\n\
+if (cosineNu >= cone.cosineOfHalfAperture)\n\
+{\n\
+return czm_raySegmentCollectionNew(czm_fullRaySegment);\n\
+}\n\
+else\n\
+{\n\
+return czm_raySegmentCollectionNew();\n\
+}\n\
+}\n\
+else\n\
+{\n\
+float projection = dot(normalize(temp), cone.axis);\n\
+if (projection == cone.cosineOfHalfAperture)\n\
+{\n\
+vec3 u = ray.direction;\n\
+mat3 crossProductMatrix = mat3(0.0, -u.z, u.y,\n\
+u.z, 0.0, -u.x,\n\
+-u.y, u.x, 0.0);\n\
+if (length(crossProductMatrix * temp) == 0.0)\n\
+{\n\
+if (dot(temp, u) > 0.0)\n\
+{\n\
+return czm_raySegmentCollectionNew(czm_fullRaySegment);\n\
+}\n\
+else\n\
+{\n\
+czm_raySegment i = czm_raySegment(0.0, length(temp));\n\
+return czm_raySegmentCollectionNew(i);\n\
+}\n\
+}\n\
+else\n\
+{\n\
+return czm_raySegmentCollectionNew();\n\
+}\n\
+}\n\
+else\n\
+{\n\
+vec3 t = normalize(temp);\n\
+float cosineAlpha2 = cone.cosineOfHalfAperture * cone.cosineOfHalfAperture;\n\
+float cosineTau = dot(t, cone.axis);\n\
+float cosineDelta = dot(t, ray.direction);\n\
+float cosineNu2 = cosineNu * cosineNu;\n\
+float cosineTau2 = cosineTau * cosineTau;\n\
+float stuff = cosineTau * cosineNu;\n\
+float positiveTerm = cosineNu2 + cosineTau2;\n\
+float negativeTerm = (cosineDelta * cosineDelta - 1.0) * cosineAlpha2;\n\
+float signedTerm = -2.0 * stuff * cosineDelta;\n\
+if (signedTerm > 0.0)\n\
+{\n\
+positiveTerm = positiveTerm + signedTerm;\n\
+}\n\
+else if (signedTerm < 0.0)\n\
+{\n\
+negativeTerm = negativeTerm + signedTerm;\n\
+}\n\
+float d = 4.0 * cosineAlpha2 * (positiveTerm + negativeTerm);\n\
+if (d < 0.0)\n\
+{\n\
+if (cone.cosineOfHalfAperture < 0.0)\n\
+{\n\
+return czm_raySegmentCollectionNew(czm_fullRaySegment);\n\
+}\n\
+else\n\
+{\n\
+return czm_raySegmentCollectionNew();\n\
+}\n\
+}\n\
+else if (d > 0.0)\n\
+{\n\
+float a = cosineNu2 - cosineAlpha2;\n\
+float c = cosineTau2 - cosineAlpha2;\n\
+float b = 2.0 * (stuff - cosineDelta * cosineAlpha2);\n\
+float s = (b == 0.0) ? 1.0 : sign(b);\n\
+float q = -(b + s * sqrt(d)) / 2.0;\n\
+float first = q / a;\n\
+float second = c / q;\n\
+if (second < first)\n\
+{\n\
+float thing = first;\n\
+first = second;\n\
+second = thing;\n\
+}\n\
+bool firstTest = (first >= 0.0) && !(sign(dot(t + first * ray.direction, cone.axis)) == -sign(cone.cosineOfHalfAperture));\n\
+bool secondTest = (second >= 0.0) && !(sign(dot(t + second * ray.direction, cone.axis)) == -sign(cone.cosineOfHalfAperture));\n\
+float m = sqrt(t2);\n\
+if (cosineTau > cone.cosineOfHalfAperture)\n\
+{\n\
+if (firstTest && secondTest)\n\
+{\n\
+czm_raySegment one = czm_raySegment(0.0, m * first);\n\
+czm_raySegment two = czm_raySegment(m * second, czm_infinity);\n\
+return czm_raySegmentCollectionNew(one, two);\n\
+}\n\
+else if (firstTest)\n\
+{\n\
+czm_raySegment i = czm_raySegment(0.0, m * first);\n\
+return czm_raySegmentCollectionNew(i);\n\
+}\n\
+else if (secondTest)\n\
+{\n\
+czm_raySegment i = czm_raySegment(0.0, m * second);\n\
+return czm_raySegmentCollectionNew(i);\n\
+}\n\
+else\n\
+{\n\
+return czm_raySegmentCollectionNew(czm_fullRaySegment);\n\
+}\n\
+}\n\
+else\n\
+{\n\
+if (firstTest && secondTest)\n\
+{\n\
+czm_raySegment i = czm_raySegment(m * first, m * second);\n\
+return czm_raySegmentCollectionNew(i);\n\
+}\n\
+else if (firstTest)\n\
+{\n\
+czm_raySegment i = czm_raySegment(m * first, czm_infinity);\n\
+return czm_raySegmentCollectionNew(i);\n\
+}\n\
+else if (secondTest)\n\
+{\n\
+czm_raySegment i = czm_raySegment(m * second, czm_infinity);\n\
+return czm_raySegmentCollectionNew(i);\n\
+}\n\
+else\n\
+{\n\
+return czm_raySegmentCollectionNew();\n\
+}\n\
+}\n\
+}\n\
+else\n\
+{\n\
+if (cone.cosineOfHalfAperture == 0.0)\n\
+{\n\
+if (cosineTau >= 0.0)\n\
+{\n\
+if (cosineNu >= 0.0)\n\
+{\n\
+return czm_raySegmentCollectionNew(czm_fullRaySegment);\n\
+}\n\
+else\n\
+{\n\
+czm_raySegment i = czm_raySegment(0.0, -sqrt(t2) * cosineTau / cosineNu);\n\
+return czm_raySegmentCollectionNew(i);\n\
+}\n\
+}\n\
+else\n\
+{\n\
+if (cosineNu <= 0.0)\n\
+{\n\
+return czm_raySegmentCollectionNew();\n\
+}\n\
+else\n\
+{\n\
+czm_raySegment i = czm_raySegment(-sqrt(t2) * cosineTau / cosineNu, czm_infinity);\n\
+return czm_raySegmentCollectionNew(i);\n\
+}\n\
+}\n\
+}\n\
+else\n\
+{\n\
+float a = cosineNu2 - cosineAlpha2;\n\
+float c = cosineTau2 - cosineAlpha2;\n\
+float b = 2.0 * (stuff - cosineDelta * cosineAlpha2);\n\
+float root = (a == 0.0) ? -sign(b) * czm_infinity : (-sign(b) / sign(a)) * sqrt(c / a);\n\
+bool rootTest = (root >= 0.0) && !(sign(dot(t + root * ray.direction, cone.axis)) == -sign(cone.cosineOfHalfAperture));\n\
+float m = sqrt(t2);\n\
+if (cosineTau > cone.cosineOfHalfAperture)\n\
+{\n\
+if (rootTest)\n\
+{\n\
+czm_raySegment i = czm_raySegment(0.0, m * root);\n\
+return czm_raySegmentCollectionNew(i);\n\
+}\n\
+else\n\
+{\n\
+return czm_raySegmentCollectionNew(czm_fullRaySegment);\n\
+}\n\
+}\n\
+else\n\
+{\n\
+if (rootTest)\n\
+{\n\
+if (c < 0.0)\n\
+{\n\
+float thing = m * root;\n\
+czm_raySegment i = czm_raySegment(thing, thing);\n\
+return czm_raySegmentCollectionNew(i);\n\
+}\n\
+else\n\
+{\n\
+float thing = m * root;\n\
+czm_raySegment i = czm_raySegment(thing, czm_infinity);\n\
+return czm_raySegmentCollectionNew(i);\n\
+}\n\
+}\n\
+else\n\
+{\n\
+return czm_raySegmentCollectionNew();\n\
+}\n\
+}\n\
+}\n\
+}\n\
+}\n\
+}\n\
+}\n\
+vec3 czm_coneNormal(czm_cone cone, vec3 pointOnCone)\n\
+{\n\
+vec3 s = pointOnCone - cone.vertex;\n\
+vec3 sUnit = normalize(s);\n\
+return normalize((cone.cosineOfHalfAperture * sUnit - cone.axis) / cone.sineOfHalfAperture);\n\
+}\n\
+struct czm_ellipsoidSilhouetteCone\n\
+{\n\
+czm_ellipsoid ellipsoid;\n\
+vec3 pointOutsideEllipsoid;\n\
+czm_cone coneInScaledSpace;\n\
+};\n\
+vec3 czm_ellipsoidSilhouetteConeNormal(czm_ellipsoidSilhouetteCone cone, vec3 pointOnCone)\n\
+{\n\
+vec3 pointOnScaledCone = cone.ellipsoid.inverseRadii * (czm_inverseView * vec4(pointOnCone, 1.0)).xyz;\n\
+vec3 scaledNormal = czm_coneNormal(cone.coneInScaledSpace, pointOnScaledCone);\n\
+vec3 temp = -normalize(czm_viewRotation * (cone.ellipsoid.radii * scaledNormal));\n\
+return temp;\n\
+}\n\
+czm_ellipsoidSilhouetteCone czm_ellipsoidSilhouetteConeNew(czm_ellipsoid ellipsoid, vec3 pointOutsideEllipsoid)\n\
+{\n\
+vec3 q = ellipsoid.inverseRadii * (czm_inverseView * vec4(pointOutsideEllipsoid, 1.0)).xyz;\n\
+vec3 axis = -normalize(q);\n\
+float q2 = dot(q, q);\n\
+float sineSquaredOfHalfAperture = 1.0 / q2;\n\
+float sineOfHalfAperture = sqrt(sineSquaredOfHalfAperture);\n\
+float cosineSquaredOfHalfAperture = 1.0 - sineSquaredOfHalfAperture;\n\
+float cosineOfHalfAperture = sqrt(cosineSquaredOfHalfAperture);\n\
+float halfAperture = atan(sineOfHalfAperture / cosineOfHalfAperture);\n\
+float x2 = axis.x * axis.x;\n\
+float y2 = axis.y * axis.y;\n\
+float z2 = axis.z * axis.z;\n\
+float xy = axis.x * axis.y;\n\
+float yz = axis.y * axis.z;\n\
+float zx = axis.z * axis.x;\n\
+mat3 intersectionMatrix = mat3(\n\
+cosineSquaredOfHalfAperture - x2, -xy,                              -zx,\n\
+-xy,                              cosineSquaredOfHalfAperture - y2, -yz,\n\
+-zx,                              -yz,                              cosineSquaredOfHalfAperture - z2);\n\
+czm_cone coneInScaledSpace = czm_cone(q, axis, halfAperture,\n\
+cosineOfHalfAperture, cosineSquaredOfHalfAperture,\n\
+sineOfHalfAperture, sineSquaredOfHalfAperture, intersectionMatrix);\n\
+czm_ellipsoidSilhouetteCone temp = czm_ellipsoidSilhouetteCone(ellipsoid, pointOutsideEllipsoid, coneInScaledSpace);\n\
+return temp;\n\
+}\n\
+czm_raySegment czm_rayEllipsoidSilhouetteConeIntersectionInterval(czm_ray ray, czm_ellipsoidSilhouetteCone cone)\n\
+{\n\
+vec3 origin = cone.ellipsoid.inverseRadii * (czm_inverseView * vec4(ray.origin, 1.0)).xyz;\n\
+vec3 direction = normalize(cone.ellipsoid.inverseRadii * (czm_inverseViewRotation * ray.direction));\n\
+czm_ray rayInScaledSpace = czm_ray(origin, direction);\n\
+czm_raySegmentCollection collection = czm_rayConeIntersectionInterval(rayInScaledSpace, cone.coneInScaledSpace);\n\
+if (collection.count == 0)\n\
+{\n\
+return czm_emptyRaySegment;\n\
+}\n\
+else\n\
+{\n\
+czm_raySegment interval = collection.intervals[0];\n\
+float start = interval.start;\n\
+if (start != 0.0)\n\
+{\n\
+vec3 temp = (czm_view * vec4(cone.ellipsoid.radii * czm_pointAlongRay(rayInScaledSpace, start), 1.0)).xyz;\n\
+start = dot(temp, ray.direction);\n\
+}\n\
+float stop = interval.stop;\n\
+if (stop != czm_infinity)\n\
+{\n\
+vec3 temp = (czm_view * vec4(cone.ellipsoid.radii * czm_pointAlongRay(rayInScaledSpace, stop), 1.0)).xyz;\n\
+stop = dot(temp, ray.direction);\n\
+}\n\
+return czm_raySegment(start, stop);\n\
+}\n\
+}\n\
+struct czm_halfspace\n\
+{\n\
+vec3 center;\n\
+vec3 normal;\n\
+};\n\
+czm_raySegment czm_rayHalfspaceIntersectionInterval(czm_ray ray, czm_halfspace halfspace)\n\
+{\n\
+float numerator = dot(halfspace.center - ray.origin, halfspace.normal);\n\
+float denominator = dot(ray.direction, halfspace.normal);\n\
+if (numerator > 0.0)\n\
+{\n\
+if (denominator > 0.0)\n\
+{\n\
+return czm_raySegment(0.0, numerator / denominator);\n\
+}\n\
+else\n\
+{\n\
+return czm_fullRaySegment;\n\
+}\n\
+}\n\
+else if (numerator < 0.0)\n\
+{\n\
+if (denominator < 0.0 )\n\
+{\n\
+return czm_raySegment(numerator / denominator, czm_infinity);\n\
+}\n\
+else\n\
+{\n\
+return czm_emptyRaySegment;\n\
+}\n\
+}\n\
+else\n\
+{\n\
+if (denominator < 0.0 )\n\
+{\n\
+return czm_fullRaySegment;\n\
+}\n\
+else\n\
+{\n\
+return czm_emptyRaySegment;\n\
+}\n\
+}\n\
+}\n\
+struct czm_ellipsoidSilhouetteHalfspace\n\
+{\n\
+czm_ellipsoid ellipsoid;\n\
+vec3 pointOutsideEllipsoid;\n\
+czm_halfspace halfspaceInScaledSpace;\n\
+};\n\
+czm_ellipsoidSilhouetteHalfspace czm_ellipsoidSilhouetteHalfspaceNew(czm_ellipsoid ellipsoid, vec3 pointOutsideEllipsoid)\n\
+{\n\
+vec3 q = ellipsoid.inverseRadii * (czm_inverseView * vec4(pointOutsideEllipsoid, 1.0)).xyz;\n\
+float magnitude = 1.0 / length(q);\n\
+vec3 normal = normalize(q);\n\
+vec3 center = magnitude * normal;\n\
+czm_halfspace halfspaceInScaledSpace = czm_halfspace(center, normal);\n\
+czm_ellipsoidSilhouetteHalfspace temp = czm_ellipsoidSilhouetteHalfspace(ellipsoid, pointOutsideEllipsoid, halfspaceInScaledSpace);\n\
+return temp;\n\
+}\n\
+czm_raySegment czm_rayEllipsoidSilhouetteHalfspaceIntersectionInterval(czm_ray ray, czm_ellipsoidSilhouetteHalfspace halfspace)\n\
+{\n\
+vec3 origin = halfspace.ellipsoid.inverseRadii * (czm_inverseView * vec4(ray.origin, 1.0)).xyz;\n\
+vec3 direction = halfspace.ellipsoid.inverseRadii * (czm_inverseViewRotation * ray.direction);\n\
+czm_ray rayInScaledSpace = czm_ray(origin, direction);\n\
+czm_raySegment interval = czm_rayHalfspaceIntersectionInterval(rayInScaledSpace, halfspace.halfspaceInScaledSpace);\n\
+if (czm_isEmpty(interval))\n\
+{\n\
+return interval;\n\
+}\n\
+else\n\
+{\n\
+float start = interval.start;\n\
+if (start != 0.0)\n\
+{\n\
+vec3 temp = (czm_view * vec4(halfspace.ellipsoid.radii * czm_pointAlongRay(rayInScaledSpace, start), 1.0)).xyz;\n\
+start = dot(temp, ray.direction);\n\
+}\n\
+float stop = interval.stop;\n\
+if (stop != czm_infinity)\n\
+{\n\
+vec3 temp = (czm_view * vec4(halfspace.ellipsoid.radii * czm_pointAlongRay(rayInScaledSpace, stop), 1.0)).xyz;\n\
+stop = dot(temp, ray.direction);\n\
+}\n\
+return czm_raySegment(start, stop);\n\
+}\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/CustomSensorVolumeFS',[],function() {
-  
-  return "#ifdef GL_OES_standard_derivatives\n" +
-"#extension GL_OES_standard_derivatives : enable\n" +
-"#endif\n" +
-"uniform bool u_showIntersection;\n" +
-"uniform bool u_showThroughEllipsoid;\n" +
-"uniform float u_sensorRadius;\n" +
-"uniform vec4 u_pickColor;\n" +
-"varying vec3 v_positionWC;\n" +
-"varying vec3 v_positionEC;\n" +
-"varying vec3 v_normalEC;\n" +
-"varying vec3 v_sensorVertexWC;\n" +
-"varying vec3 v_sensorVertexEC;\n" +
-"#ifndef RENDER_FOR_PICK\n" +
-"vec4 getColor(float sensorRadius, vec3 pointEC)\n" +
-"{\n" +
-"sensorErode(sensorRadius, pointEC);\n" +
-"czm_materialInput materialInput;\n" +
-"vec3 pointMC = (czm_inverseModelView * vec4(pointEC, 1.0)).xyz;\n" +
-"materialInput.st = sensor2dTextureCoordinates(sensorRadius, pointMC);\n" +
-"materialInput.str = pointMC / sensorRadius;\n" +
-"materialInput.positionMC = pointMC;\n" +
-"vec3 positionToEyeEC = normalize(-v_positionEC);\n" +
-"materialInput.positionToEyeEC = positionToEyeEC;\n" +
-"vec3 normalEC = normalize(v_normalEC);\n" +
-"normalEC = mix(normalEC, -normalEC, step(normalEC.z, 0.0));\n" +
-"materialInput.normalEC = normalEC;\n" +
-"czm_material material = czm_getMaterial(materialInput);\n" +
-"vec4 color;\n" +
-"#ifdef AFFECTED_BY_LIGHTING\n" +
-"color = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n" +
-"#else\n" +
-"color = vec4(material.diffuse, material.alpha);\n" +
-"#endif\n" +
-"return color;\n" +
-"}\n" +
-"#endif\n" +
-"bool ellipsoidSensorIntersection(czm_raySegment ellipsoidInterval)\n" +
-"{\n" +
-"if (czm_isEmpty(ellipsoidInterval))\n" +
-"{\n" +
-"return false;\n" +
-"}\n" +
-"float t = ellipsoidInterval.start;\n" +
-"#ifdef GL_OES_standard_derivatives\n" +
-"float epsilon = max(abs(dFdx(t)), abs(dFdy(t)));\n" +
-"if (epsilon >= ellipsoidInterval.start)\n" +
-"{\n" +
-"return false;\n" +
-"}\n" +
-"#else\n" +
-"float epsilon = t / 500.0;\n" +
-"#endif\n" +
-"float width = 2.0;\n" +
-"epsilon *= width;\n" +
-"return czm_equalsEpsilon(t, length(v_positionEC), epsilon);\n" +
-"}\n" +
-"vec4 shade(czm_raySegment ellipsoidInterval)\n" +
-"{\n" +
-"#ifdef RENDER_FOR_PICK\n" +
-"return u_pickColor;\n" +
-"#else\n" +
-"if (u_showIntersection && ellipsoidSensorIntersection(ellipsoidInterval))\n" +
-"{\n" +
-"return getIntersectionColor(u_sensorRadius, v_positionEC);\n" +
-"}\n" +
-"return getColor(u_sensorRadius, v_positionEC);\n" +
-"#endif\n" +
-"}\n" +
-"bool czm_pointInEllipsoid(czm_ellipsoid ellipsoid, vec3 point)\n" +
-"{\n" +
-"return (((point.x * point.x) / (ellipsoid.radii.x * ellipsoid.radii.x)) +\n" +
-"((point.y * point.y) / (ellipsoid.radii.y * ellipsoid.radii.y)) +\n" +
-"((point.z * point.z) / (ellipsoid.radii.z * ellipsoid.radii.z)) < 1.0);\n" +
-"}\n" +
-"void main()\n" +
-"{\n" +
-"czm_ellipsoid ellipsoid = czm_getWgs84EllipsoidEC();\n" +
-"if (!u_showThroughEllipsoid)\n" +
-"{\n" +
-"if (czm_pointInEllipsoid(ellipsoid, v_positionWC))\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"if (inSensorShadow(v_sensorVertexWC, ellipsoid, v_positionEC))\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"}\n" +
-"if (distance(v_positionEC, v_sensorVertexEC) > u_sensorRadius)\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"czm_ray ray = czm_ray(vec3(0.0), normalize(v_positionEC));\n" +
-"czm_raySegment ellipsoidInterval = czm_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n" +
-"gl_FragColor = shade(ellipsoidInterval);\n" +
-"}\n" +
-"";
+    
+    return "#ifdef GL_OES_standard_derivatives\n\
+#extension GL_OES_standard_derivatives : enable\n\
+#endif\n\
+uniform bool u_showIntersection;\n\
+uniform bool u_showThroughEllipsoid;\n\
+uniform float u_sensorRadius;\n\
+uniform vec4 u_pickColor;\n\
+varying vec3 v_positionWC;\n\
+varying vec3 v_positionEC;\n\
+varying vec3 v_normalEC;\n\
+varying vec3 v_sensorVertexWC;\n\
+varying vec3 v_sensorVertexEC;\n\
+#ifndef RENDER_FOR_PICK\n\
+vec4 getColor(float sensorRadius, vec3 pointEC)\n\
+{\n\
+sensorErode(sensorRadius, pointEC);\n\
+czm_materialInput materialInput;\n\
+vec3 pointMC = (czm_inverseModelView * vec4(pointEC, 1.0)).xyz;\n\
+materialInput.st = sensor2dTextureCoordinates(sensorRadius, pointMC);\n\
+materialInput.str = pointMC / sensorRadius;\n\
+materialInput.positionMC = pointMC;\n\
+vec3 positionToEyeEC = normalize(-v_positionEC);\n\
+materialInput.positionToEyeEC = positionToEyeEC;\n\
+vec3 normalEC = normalize(v_normalEC);\n\
+normalEC = mix(normalEC, -normalEC, step(normalEC.z, 0.0));\n\
+materialInput.normalEC = normalEC;\n\
+czm_material material = czm_getMaterial(materialInput);\n\
+vec4 color;\n\
+#ifdef AFFECTED_BY_LIGHTING\n\
+color = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n\
+#else\n\
+color = vec4(material.diffuse, material.alpha);\n\
+#endif\n\
+return color;\n\
+}\n\
+#endif\n\
+bool ellipsoidSensorIntersection(czm_raySegment ellipsoidInterval)\n\
+{\n\
+if (czm_isEmpty(ellipsoidInterval))\n\
+{\n\
+return false;\n\
+}\n\
+float t = ellipsoidInterval.start;\n\
+#ifdef GL_OES_standard_derivatives\n\
+float epsilon = max(abs(dFdx(t)), abs(dFdy(t)));\n\
+if (epsilon >= ellipsoidInterval.start)\n\
+{\n\
+return false;\n\
+}\n\
+#else\n\
+float epsilon = t / 500.0;\n\
+#endif\n\
+float width = 2.0;\n\
+epsilon *= width;\n\
+return czm_equalsEpsilon(t, length(v_positionEC), epsilon);\n\
+}\n\
+vec4 shade(czm_raySegment ellipsoidInterval)\n\
+{\n\
+#ifdef RENDER_FOR_PICK\n\
+return u_pickColor;\n\
+#else\n\
+if (u_showIntersection && ellipsoidSensorIntersection(ellipsoidInterval))\n\
+{\n\
+return getIntersectionColor(u_sensorRadius, v_positionEC);\n\
+}\n\
+return getColor(u_sensorRadius, v_positionEC);\n\
+#endif\n\
+}\n\
+bool czm_pointInEllipsoid(czm_ellipsoid ellipsoid, vec3 point)\n\
+{\n\
+return (((point.x * point.x) / (ellipsoid.radii.x * ellipsoid.radii.x)) +\n\
+((point.y * point.y) / (ellipsoid.radii.y * ellipsoid.radii.y)) +\n\
+((point.z * point.z) / (ellipsoid.radii.z * ellipsoid.radii.z)) < 1.0);\n\
+}\n\
+void main()\n\
+{\n\
+czm_ellipsoid ellipsoid = czm_getWgs84EllipsoidEC();\n\
+if (!u_showThroughEllipsoid)\n\
+{\n\
+if (czm_pointInEllipsoid(ellipsoid, v_positionWC))\n\
+{\n\
+discard;\n\
+}\n\
+if (inSensorShadow(v_sensorVertexWC, ellipsoid, v_positionEC))\n\
+{\n\
+discard;\n\
+}\n\
+}\n\
+if (distance(v_positionEC, v_sensorVertexEC) > u_sensorRadius)\n\
+{\n\
+discard;\n\
+}\n\
+czm_ray ray = czm_ray(vec3(0.0), normalize(v_positionEC));\n\
+czm_raySegment ellipsoidInterval = czm_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n\
+gl_FragColor = shade(ellipsoidInterval);\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/CustomSensorVolumeVS',[],function() {
-  
-  return "attribute vec4 position;\n" +
-"attribute vec3 normal;\n" +
-"varying vec3 v_positionWC;\n" +
-"varying vec3 v_positionEC;\n" +
-"varying vec3 v_normalEC;\n" +
-"varying vec3 v_sensorVertexWC;\n" +
-"varying vec3 v_sensorVertexEC;\n" +
-"void main()\n" +
-"{\n" +
-"gl_Position = czm_modelViewProjection * position;\n" +
-"v_positionWC = (czm_model * position).xyz;\n" +
-"v_positionEC = (czm_modelView * position).xyz;\n" +
-"v_normalEC = czm_normal * normal;\n" +
-"vec4 sensorVertexMC = vec4(0.0, 0.0, 0.0, 1.0);\n" +
-"v_sensorVertexWC = (czm_model * sensorVertexMC).xyz;\n" +
-"v_sensorVertexEC = (czm_modelView * sensorVertexMC).xyz;\n" +
-"}\n" +
-"";
+    
+    return "attribute vec4 position;\n\
+attribute vec3 normal;\n\
+varying vec3 v_positionWC;\n\
+varying vec3 v_positionEC;\n\
+varying vec3 v_normalEC;\n\
+varying vec3 v_sensorVertexWC;\n\
+varying vec3 v_sensorVertexEC;\n\
+void main()\n\
+{\n\
+gl_Position = czm_modelViewProjection * position;\n\
+v_positionWC = (czm_model * position).xyz;\n\
+v_positionEC = (czm_modelView * position).xyz;\n\
+v_normalEC = czm_normal * normal;\n\
+vec4 sensorVertexMC = vec4(0.0, 0.0, 0.0, 1.0);\n\
+v_sensorVertexWC = (czm_model * sensorVertexMC).xyz;\n\
+v_sensorVertexEC = (czm_modelView * sensorVertexMC).xyz;\n\
+}\n\
+";
 });
 // This file is automatically rebuilt by the Cesium build process.
 /*global define*/
@@ -46908,46 +46898,38 @@ define('Shaders/EllipsoidFS',[],function() {
     
     return "uniform vec3 u_radii;\n\
 uniform vec3 u_oneOverEllipsoidRadiiSquared;\n\
-\n\
 varying vec3 v_positionEC;\n\
-\n\
 void main()\n\
 {\n\
-    czm_ellipsoid ellipsoid = czm_ellipsoidNew(czm_modelView[3].xyz, u_radii);\n\
-    vec3 direction = normalize(v_positionEC);\n\
-    czm_ray ray = czm_ray(vec3(0.0), direction);\n\
-    czm_raySegment intersection = czm_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n\
-    \n\
-    if (czm_isEmpty(intersection))\n\
-    {\n\
-        discard;\n\
-    }\n\
-        \n\
-    // Pick the intersection point based on if the viewer is outside or inside the ellipsoid\n\
-    bool hitFrontFace = (intersection.start != 0.0);\n\
-    vec3 positionEC = czm_pointAlongRay(ray, hitFrontFace ? intersection.start : intersection.stop);\n\
-    vec3 positionMC = (czm_inverseModelView * vec4(positionEC, 1.0)).xyz;\n\
-    vec3 geodeticNormal = normalize(czm_geodeticSurfaceNormal(positionMC, vec3(0.0), u_oneOverEllipsoidRadiiSquared));\n\
-    vec3 normalMC = hitFrontFace ? geodeticNormal : -geodeticNormal;   // normalized surface normal (always facing the viewer) in model coordinates\n\
-    vec3 normalEC = normalize(czm_normal * normalMC);                    // normalized surface normal in eye coordiantes\n\
-    \n\
-    vec2 st = czm_ellipsoidWgs84TextureCoordinates(geodeticNormal);\n\
-    vec3 positionToEyeEC = normalize(-positionEC); \n\
-                \n\
-    czm_materialInput materialInput;\n\
-    materialInput.s = st.s;\n\
-    materialInput.st = st;\n\
-    materialInput.str = (positionMC + u_radii) / u_radii;\n\
-    materialInput.normalEC = normalEC;\n\
-    materialInput.tangentToEyeMatrix = czm_eastNorthUpToEyeCoordinates(positionMC, normalEC);\n\
-    materialInput.positionToEyeEC = positionToEyeEC;\n\
-    materialInput.positionMC = positionMC;\n\
-    czm_material material = czm_getMaterial(materialInput);\n\
-\n\
+czm_ellipsoid ellipsoid = czm_ellipsoidNew(czm_modelView[3].xyz, u_radii);\n\
+vec3 direction = normalize(v_positionEC);\n\
+czm_ray ray = czm_ray(vec3(0.0), direction);\n\
+czm_raySegment intersection = czm_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n\
+if (czm_isEmpty(intersection))\n\
+{\n\
+discard;\n\
+}\n\
+bool hitFrontFace = (intersection.start != 0.0);\n\
+vec3 positionEC = czm_pointAlongRay(ray, hitFrontFace ? intersection.start : intersection.stop);\n\
+vec3 positionMC = (czm_inverseModelView * vec4(positionEC, 1.0)).xyz;\n\
+vec3 geodeticNormal = normalize(czm_geodeticSurfaceNormal(positionMC, vec3(0.0), u_oneOverEllipsoidRadiiSquared));\n\
+vec3 normalMC = hitFrontFace ? geodeticNormal : -geodeticNormal;\n\
+vec3 normalEC = normalize(czm_normal * normalMC);\n\
+vec2 st = czm_ellipsoidWgs84TextureCoordinates(geodeticNormal);\n\
+vec3 positionToEyeEC = normalize(-positionEC);\n\
+czm_materialInput materialInput;\n\
+materialInput.s = st.s;\n\
+materialInput.st = st;\n\
+materialInput.str = (positionMC + u_radii) / u_radii;\n\
+materialInput.normalEC = normalEC;\n\
+materialInput.tangentToEyeMatrix = czm_eastNorthUpToEyeCoordinates(positionMC, normalEC);\n\
+materialInput.positionToEyeEC = positionToEyeEC;\n\
+materialInput.positionMC = positionMC;\n\
+czm_material material = czm_getMaterial(materialInput);\n\
 #ifdef AFFECTED_BY_LIGHTING\n\
-	gl_FragColor = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n\
+gl_FragColor = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n\
 #else\n\
-	gl_FragColor = vec4(material.diffuse, material.alpha);\n\
+gl_FragColor = vec4(material.diffuse, material.alpha);\n\
 #endif\n\
 }\n\
 ";
@@ -46957,21 +46939,13 @@ void main()\n\
 define('Shaders/EllipsoidVS',[],function() {
     
     return "attribute vec3 position;\n\
-\n\
 uniform vec3 u_radii;\n\
-\n\
 varying vec3 v_positionEC;\n\
-\n\
-void main() \n\
+void main()\n\
 {\n\
-   // In the vertex data, the cube goes from (-1.0, -1.0, -1.0) to (1.0, 1.0, 1.0) in model coordinates.\n\
-   // Scale to consider the radii.  We could also do this once on the CPU when using the BoxTessellator,\n\
-   // but doing it here allows us to change the radii without rewriting the vertex data, and\n\
-   // allows all ellipsoids to reuse the same vertex data.\n\
-    vec4 p = vec4(u_radii * position, 1.0);\n\
-    \n\
-    v_positionEC = (czm_modelView * p).xyz;     // position in eye coordinates\n\
-    gl_Position = czm_modelViewProjection * p;  // position in clip coordinates\n\
+vec4 p = vec4(u_radii * position, 1.0);\n\
+v_positionEC = (czm_modelView * p).xyz;\n\
+gl_Position = czm_modelViewProjection * p;\n\
 }\n\
 ";
 });
@@ -47007,275 +46981,276 @@ void main() \n\
  *
  * Modifications made by Analytical Graphics, Inc.
  */
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/GroundAtmosphere',[],function() {
-  
-  return "uniform vec3 v3InvWavelength;\n" +
-"uniform float fCameraHeight;\n" +
-"uniform float fCameraHeight2;\n" +
-"uniform float fOuterRadius;\n" +
-"uniform float fOuterRadius2;\n" +
-"uniform float fInnerRadius;\n" +
-"uniform float fInnerRadius2;\n" +
-"uniform float fKrESun;\n" +
-"uniform float fKmESun;\n" +
-"uniform float fKr4PI;\n" +
-"uniform float fKm4PI;\n" +
-"uniform float fScale;\n" +
-"uniform float fScaleDepth;\n" +
-"uniform float fScaleOverScaleDepth;\n" +
-"uniform float fMinGroundFromAtmosphereHeight;\n" +
-"uniform float fstartFadeGroundFromAtmosphere;\n" +
-"struct AtmosphereColor\n" +
-"{\n" +
-"vec3 mie;\n" +
-"vec3 rayleigh;\n" +
-"};\n" +
-"#ifdef SHOW_GROUND_ATMOSPHERE\n" +
-"const int nSamples = 2;\n" +
-"const float fSamples = 2.0;\n" +
-"float scale(float fCos)\n" +
-"{\n" +
-"float x = 1.0 - fCos;\n" +
-"return fScaleDepth * exp(-0.00287 + x*(0.459 + x*(3.83 + x*(-6.80 + x*5.25))));\n" +
-"}\n" +
-"AtmosphereColor computeGroundAtmosphereFromSpace(vec3 v3Pos)\n" +
-"{\n" +
-"vec3 v3Ray = v3Pos - czm_viewerPositionWC;\n" +
-"float fFar = length(v3Ray);\n" +
-"v3Ray /= fFar;\n" +
-"#ifdef SHOW_GROUND_ATMOSPHERE_FROM_SPACE\n" +
-"float B = 2.0 * length(czm_viewerPositionWC) * dot(normalize(czm_viewerPositionWC), v3Ray);\n" +
-"float C = fCameraHeight2 - fOuterRadius2;\n" +
-"float fDet = max(0.0, B*B - 4.0 * C);\n" +
-"float fNear = 0.5 * (-B - sqrt(fDet));\n" +
-"vec3 v3Start = czm_viewerPositionWC + v3Ray * fNear;\n" +
-"fFar -= fNear;\n" +
-"float fDepth = exp((fInnerRadius - fOuterRadius) / fScaleDepth);\n" +
-"#else\n" +
-"vec3 v3Start = czm_viewerPositionWC;\n" +
-"float fDepth = exp((fInnerRadius - fCameraHeight) / fScaleDepth);\n" +
-"#endif\n" +
-"float fCameraAngle = dot(-v3Ray, v3Pos) / length(v3Pos);\n" +
-"float fLightAngle = dot(czm_sunDirectionWC, v3Pos) / length(v3Pos);\n" +
-"float fCameraScale = scale(fCameraAngle);\n" +
-"float fLightScale = scale(fLightAngle);\n" +
-"float fCameraOffset = fDepth*fCameraScale;\n" +
-"float fTemp = (fLightScale + fCameraScale);\n" +
-"float fSampleLength = fFar / fSamples;\n" +
-"float fScaledLength = fSampleLength * fScale;\n" +
-"vec3 v3SampleRay = v3Ray * fSampleLength;\n" +
-"vec3 v3SamplePoint = v3Start + v3SampleRay * 0.5;\n" +
-"vec3 v3FrontColor = vec3(0.0);\n" +
-"vec3 v3Attenuate = vec3(0.0);\n" +
-"for(int i=0; i<nSamples; i++)\n" +
-"{\n" +
-"float fHeight = length(v3SamplePoint);\n" +
-"float fDepth = exp(fScaleOverScaleDepth * (fInnerRadius - fHeight));\n" +
-"float fScatter = fDepth*fTemp - fCameraOffset;\n" +
-"v3Attenuate = exp(-fScatter * (v3InvWavelength * fKr4PI + fKm4PI));\n" +
-"v3FrontColor += v3Attenuate * (fDepth * fScaledLength);\n" +
-"v3SamplePoint += v3SampleRay;\n" +
-"}\n" +
-"vec3 mie = v3FrontColor * (v3InvWavelength * fKrESun + fKmESun);\n" +
-"vec3 rayleigh = v3Attenuate;\n" +
-"float fade = clamp((fCameraHeight - fMinGroundFromAtmosphereHeight) / fstartFadeGroundFromAtmosphere, 0.0, 1.0);\n" +
-"AtmosphereColor color;\n" +
-"color.mie = mix(vec3(0.0), mie,fade);\n" +
-"color.rayleigh = rayleigh;\n" +
-"return color;\n" +
-"}\n" +
-"#else\n" +
-"AtmosphereColor computeGroundAtmosphereFromSpace(vec3 v3Pos)\n" +
-"{\n" +
-"AtmosphereColor color;\n" +
-"color.mie = vec3(0.0);\n" +
-"color.rayleigh = vec3(1.0);\n" +
-"return color;\n" +
-"}\n" +
-"#endif\n" +
-"";
+    
+    return "uniform vec3 v3InvWavelength;\n\
+uniform float fCameraHeight;\n\
+uniform float fCameraHeight2;\n\
+uniform float fOuterRadius;\n\
+uniform float fOuterRadius2;\n\
+uniform float fInnerRadius;\n\
+uniform float fInnerRadius2;\n\
+uniform float fKrESun;\n\
+uniform float fKmESun;\n\
+uniform float fKr4PI;\n\
+uniform float fKm4PI;\n\
+uniform float fScale;\n\
+uniform float fScaleDepth;\n\
+uniform float fScaleOverScaleDepth;\n\
+uniform float fMinGroundFromAtmosphereHeight;\n\
+uniform float fstartFadeGroundFromAtmosphere;\n\
+struct AtmosphereColor\n\
+{\n\
+vec3 mie;\n\
+vec3 rayleigh;\n\
+};\n\
+#ifdef SHOW_GROUND_ATMOSPHERE\n\
+const int nSamples = 2;\n\
+const float fSamples = 2.0;\n\
+float scale(float fCos)\n\
+{\n\
+float x = 1.0 - fCos;\n\
+return fScaleDepth * exp(-0.00287 + x*(0.459 + x*(3.83 + x*(-6.80 + x*5.25))));\n\
+}\n\
+AtmosphereColor computeGroundAtmosphereFromSpace(vec3 v3Pos)\n\
+{\n\
+vec3 v3Ray = v3Pos - czm_viewerPositionWC;\n\
+float fFar = length(v3Ray);\n\
+v3Ray /= fFar;\n\
+#ifdef SHOW_GROUND_ATMOSPHERE_FROM_SPACE\n\
+float B = 2.0 * length(czm_viewerPositionWC) * dot(normalize(czm_viewerPositionWC), v3Ray);\n\
+float C = fCameraHeight2 - fOuterRadius2;\n\
+float fDet = max(0.0, B*B - 4.0 * C);\n\
+float fNear = 0.5 * (-B - sqrt(fDet));\n\
+vec3 v3Start = czm_viewerPositionWC + v3Ray * fNear;\n\
+fFar -= fNear;\n\
+float fDepth = exp((fInnerRadius - fOuterRadius) / fScaleDepth);\n\
+#else\n\
+vec3 v3Start = czm_viewerPositionWC;\n\
+float fDepth = exp((fInnerRadius - fCameraHeight) / fScaleDepth);\n\
+#endif\n\
+float fCameraAngle = dot(-v3Ray, v3Pos) / length(v3Pos);\n\
+float fLightAngle = dot(czm_sunDirectionWC, v3Pos) / length(v3Pos);\n\
+float fCameraScale = scale(fCameraAngle);\n\
+float fLightScale = scale(fLightAngle);\n\
+float fCameraOffset = fDepth*fCameraScale;\n\
+float fTemp = (fLightScale + fCameraScale);\n\
+float fSampleLength = fFar / fSamples;\n\
+float fScaledLength = fSampleLength * fScale;\n\
+vec3 v3SampleRay = v3Ray * fSampleLength;\n\
+vec3 v3SamplePoint = v3Start + v3SampleRay * 0.5;\n\
+vec3 v3FrontColor = vec3(0.0);\n\
+vec3 v3Attenuate = vec3(0.0);\n\
+for(int i=0; i<nSamples; i++)\n\
+{\n\
+float fHeight = length(v3SamplePoint);\n\
+float fDepth = exp(fScaleOverScaleDepth * (fInnerRadius - fHeight));\n\
+float fScatter = fDepth*fTemp - fCameraOffset;\n\
+v3Attenuate = exp(-fScatter * (v3InvWavelength * fKr4PI + fKm4PI));\n\
+v3FrontColor += v3Attenuate * (fDepth * fScaledLength);\n\
+v3SamplePoint += v3SampleRay;\n\
+}\n\
+vec3 mie = v3FrontColor * (v3InvWavelength * fKrESun + fKmESun);\n\
+vec3 rayleigh = v3Attenuate;\n\
+float fade = clamp((fCameraHeight - fMinGroundFromAtmosphereHeight) / fstartFadeGroundFromAtmosphere, 0.0, 1.0);\n\
+AtmosphereColor color;\n\
+color.mie = mix(vec3(0.0), mie,fade);\n\
+color.rayleigh = rayleigh;\n\
+return color;\n\
+}\n\
+#else\n\
+AtmosphereColor computeGroundAtmosphereFromSpace(vec3 v3Pos)\n\
+{\n\
+AtmosphereColor color;\n\
+color.mie = vec3(0.0);\n\
+color.rayleigh = vec3(1.0);\n\
+return color;\n\
+}\n\
+#endif\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/AsphaltMaterial',[],function() {
-  
-  return "uniform vec4 asphaltColor;\n" +
-"uniform float bumpSize;\n" +
-"uniform float roughness;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec4 color = asphaltColor;\n" +
-"vec2 st = materialInput.st;\n" +
-"vec2 F = czm_cellular(st / bumpSize);\n" +
-"color.rgb -= (F.x / F.y) * 0.1;\n" +
-"float noise = czm_snoise(st / bumpSize);\n" +
-"noise = pow(noise, 5.0) * roughness;\n" +
-"color.rgb += noise;\n" +
-"material.diffuse = color.rgb;\n" +
-"material.alpha = color.a;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 asphaltColor;\n\
+uniform float bumpSize;\n\
+uniform float roughness;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec4 color = asphaltColor;\n\
+vec2 st = materialInput.st;\n\
+vec2 F = czm_cellular(st / bumpSize);\n\
+color.rgb -= (F.x / F.y) * 0.1;\n\
+float noise = czm_snoise(st / bumpSize);\n\
+noise = pow(noise, 5.0) * roughness;\n\
+color.rgb += noise;\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/BlobMaterial',[],function() {
-  
-  return "uniform vec4 lightColor;\n" +
-"uniform vec4 darkColor;\n" +
-"uniform float frequency;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec2 F = czm_cellular(materialInput.st * frequency);\n" +
-"float t = 1.0 - F.x * F.x;\n" +
-"vec4 color = mix(lightColor, darkColor, t);\n" +
-"material.diffuse = color.rgb;\n" +
-"material.alpha = color.a;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 lightColor;\n\
+uniform vec4 darkColor;\n\
+uniform float frequency;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec2 F = czm_cellular(materialInput.st * frequency);\n\
+float t = 1.0 - F.x * F.x;\n\
+vec4 color = mix(lightColor, darkColor, t);\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/BrickMaterial',[],function() {
-  
-  return "uniform vec4 brickColor;\n" +
-"uniform vec4 mortarColor;\n" +
-"uniform vec2 brickSize;\n" +
-"uniform vec2 brickPct;\n" +
-"uniform float brickRoughness;\n" +
-"uniform float mortarRoughness;\n" +
-"#define Integral(x, p) ((floor(x) * p) + max(fract(x) - (1.0 - p), 0.0))\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec2 st = materialInput.st;\n" +
-"vec2 position = st / brickSize;\n" +
-"if(fract(position.y * 0.5) > 0.5) {\n" +
-"position.x += 0.5;\n" +
-"}\n" +
-"vec2 filterWidth = vec2(0.02);\n" +
-"vec2 useBrick = (Integral(position + filterWidth, brickPct) -\n" +
-"Integral(position, brickPct)) / filterWidth;\n" +
-"float useBrickFinal = useBrick.x * useBrick.y;\n" +
-"vec4 color = mix(mortarColor, brickColor, useBrickFinal);\n" +
-"vec2 brickScaled = vec2(st.x / 0.1, st.y / 0.006);\n" +
-"float brickNoise = abs(czm_snoise(brickScaled) * brickRoughness / 5.0);\n" +
-"color.rg += brickNoise * useBrickFinal;\n" +
-"vec2 mortarScaled = st / 0.005;\n" +
-"float mortarNoise = max(czm_snoise(mortarScaled) * mortarRoughness, 0.0);\n" +
-"color.rgb += mortarNoise * (1.0 - useBrickFinal);\n" +
-"material.diffuse = color.rgb;\n" +
-"material.alpha = color.a;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 brickColor;\n\
+uniform vec4 mortarColor;\n\
+uniform vec2 brickSize;\n\
+uniform vec2 brickPct;\n\
+uniform float brickRoughness;\n\
+uniform float mortarRoughness;\n\
+#define Integral(x, p) ((floor(x) * p) + max(fract(x) - (1.0 - p), 0.0))\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec2 st = materialInput.st;\n\
+vec2 position = st / brickSize;\n\
+if(fract(position.y * 0.5) > 0.5) {\n\
+position.x += 0.5;\n\
+}\n\
+vec2 filterWidth = vec2(0.02);\n\
+vec2 useBrick = (Integral(position + filterWidth, brickPct) -\n\
+Integral(position, brickPct)) / filterWidth;\n\
+float useBrickFinal = useBrick.x * useBrick.y;\n\
+vec4 color = mix(mortarColor, brickColor, useBrickFinal);\n\
+vec2 brickScaled = vec2(st.x / 0.1, st.y / 0.006);\n\
+float brickNoise = abs(czm_snoise(brickScaled) * brickRoughness / 5.0);\n\
+color.rg += brickNoise * useBrickFinal;\n\
+vec2 mortarScaled = st / 0.005;\n\
+float mortarNoise = max(czm_snoise(mortarScaled) * mortarRoughness, 0.0);\n\
+color.rgb += mortarNoise * (1.0 - useBrickFinal);\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/BumpMapMaterial',[],function() {
-  
-  return "uniform sampler2D image;\n" +
-"uniform float strength;\n" +
-"uniform vec2 repeat;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec2 st = materialInput.st;\n" +
-"vec2 centerPixel = fract(repeat * st);\n" +
-"float centerBump = texture2D(image, centerPixel).channel;\n" +
-"float imageWidth = float(imageDimensions.x);\n" +
-"vec2 rightPixel = fract(repeat * (st + vec2(1.0 / imageWidth, 0.0)));\n" +
-"float rightBump = texture2D(image, rightPixel).channel;\n" +
-"float imageHeight = float(imageDimensions.y);\n" +
-"vec2 leftPixel = fract(repeat * (st + vec2(0.0, 1.0 / imageHeight)));\n" +
-"float topBump = texture2D(image, leftPixel).channel;\n" +
-"vec3 normalTangentSpace = normalize(vec3(centerBump - rightBump, centerBump - topBump, clamp(1.0 - strength, 0.1, 1.0)));\n" +
-"vec3 normalEC = materialInput.tangentToEyeMatrix * normalTangentSpace;\n" +
-"material.normal = normalEC;\n" +
-"material.diffuse = vec3(0.01);\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform sampler2D image;\n\
+uniform float strength;\n\
+uniform vec2 repeat;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec2 st = materialInput.st;\n\
+vec2 centerPixel = fract(repeat * st);\n\
+float centerBump = texture2D(image, centerPixel).channel;\n\
+float imageWidth = float(imageDimensions.x);\n\
+vec2 rightPixel = fract(repeat * (st + vec2(1.0 / imageWidth, 0.0)));\n\
+float rightBump = texture2D(image, rightPixel).channel;\n\
+float imageHeight = float(imageDimensions.y);\n\
+vec2 leftPixel = fract(repeat * (st + vec2(0.0, 1.0 / imageHeight)));\n\
+float topBump = texture2D(image, leftPixel).channel;\n\
+vec3 normalTangentSpace = normalize(vec3(centerBump - rightBump, centerBump - topBump, clamp(1.0 - strength, 0.1, 1.0)));\n\
+vec3 normalEC = materialInput.tangentToEyeMatrix * normalTangentSpace;\n\
+material.normal = normalEC;\n\
+material.diffuse = vec3(0.01);\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/CementMaterial',[],function() {
-  
-  return "uniform vec4 cementColor;\n" +
-"uniform float grainScale;\n" +
-"uniform float roughness;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"float noise = czm_snoise(materialInput.st / grainScale);\n" +
-"noise = pow(noise, 5.0) * roughness;\n" +
-"vec4 color = cementColor;\n" +
-"color.rgb += noise;\n" +
-"material.diffuse = color.rgb;\n" +
-"material.alpha = color.a;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 cementColor;\n\
+uniform float grainScale;\n\
+uniform float roughness;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+float noise = czm_snoise(materialInput.st / grainScale);\n\
+noise = pow(noise, 5.0) * roughness;\n\
+vec4 color = cementColor;\n\
+color.rgb += noise;\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/CheckerboardMaterial',[],function() {
-  
-  return "uniform vec4 lightColor;\n" +
-"uniform vec4 darkColor;\n" +
-"uniform vec2 repeat;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec2 st = materialInput.st;\n" +
-"const float fuzz = 0.03;\n" +
-"float b = mod(floor(repeat.s * st.s) + floor(repeat.t * st.t), 2.0);\n" +
-"float scaledWidth = fract(repeat.s * st.s);\n" +
-"scaledWidth = abs(scaledWidth - floor(scaledWidth + 0.5));\n" +
-"float scaledHeight = fract(repeat.t * st.t);\n" +
-"scaledHeight = abs(scaledHeight - floor(scaledHeight + 0.5));\n" +
-"float value = min(scaledWidth, scaledHeight);\n" +
-"float val1 = clamp(value / fuzz, 0.0, 1.0);\n" +
-"float val2 = clamp((value - 0.5) / fuzz, 0.0, 1.0);\n" +
-"val1 = val1 * (1.0 - val2);\n" +
-"val1 = val1 * val1 * (3.0 - (2.0 * val1));\n" +
-"val1 = pow(val1, 0.5);\n" +
-"vec4 midColor = (lightColor + darkColor) / 2.0;\n" +
-"vec4 currentColor = mix(lightColor, darkColor, b);\n" +
-"vec4 color = mix(midColor, currentColor, val1);\n" +
-"material.diffuse = color.rgb;\n" +
-"material.alpha = color.a;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 lightColor;\n\
+uniform vec4 darkColor;\n\
+uniform vec2 repeat;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec2 st = materialInput.st;\n\
+const float fuzz = 0.03;\n\
+float b = mod(floor(repeat.s * st.s) + floor(repeat.t * st.t), 2.0);\n\
+float scaledWidth = fract(repeat.s * st.s);\n\
+scaledWidth = abs(scaledWidth - floor(scaledWidth + 0.5));\n\
+float scaledHeight = fract(repeat.t * st.t);\n\
+scaledHeight = abs(scaledHeight - floor(scaledHeight + 0.5));\n\
+float value = min(scaledWidth, scaledHeight);\n\
+float val1 = clamp(value / fuzz, 0.0, 1.0);\n\
+float val2 = clamp((value - 0.5) / fuzz, 0.0, 1.0);\n\
+val1 = val1 * (1.0 - val2);\n\
+val1 = val1 * val1 * (3.0 - (2.0 * val1));\n\
+val1 = pow(val1, 0.5);\n\
+vec4 midColor = (lightColor + darkColor) / 2.0;\n\
+vec4 currentColor = mix(lightColor, darkColor, b);\n\
+vec4 color = mix(midColor, currentColor, val1);\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/DistanceIntervalMaterial',[],function() {
-  
-  return "uniform vec4 u_colors[NUMBER_OF_DISTANCES];\n" +
-"uniform float u_distances[NUMBER_OF_DISTANCES];\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec4 color = vec4(0.0);\n" +
-"for (int i = 0; i < NUMBER_OF_DISTANCES; ++i)\n" +
-"{\n" +
-"if (materialInput.positionMC.z < u_distances[i])\n" +
-"{\n" +
-"color = u_colors[i];\n" +
-"break;\n" +
-"}\n" +
-"}\n" +
-"material.diffuse = color.rgb;\n" +
-"material.alpha = color.a;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 u_colors[NUMBER_OF_DISTANCES];\n\
+uniform float u_distances[NUMBER_OF_DISTANCES];\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec4 color = vec4(0.0);\n\
+for (int i = 0; i < NUMBER_OF_DISTANCES; ++i)\n\
+{\n\
+if (materialInput.positionMC.z < u_distances[i])\n\
+{\n\
+color = u_colors[i];\n\
+break;\n\
+}\n\
+}\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a;\n\
+return material;\n\
+}\n\
+";
 });
 /*global define*/
 define('Scene/DistanceIntervalMaterial',[
@@ -47323,213 +47298,213 @@ define('Scene/DistanceIntervalMaterial',[
 
     return DistanceIntervalMaterial;
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/DotMaterial',[],function() {
-  
-  return "uniform vec4 lightColor;\n" +
-"uniform vec4 darkColor;\n" +
-"uniform vec2 repeat;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"float b = smoothstep(0.3, 0.32, length(fract(repeat * materialInput.st) - 0.5));\n" +
-"vec4 color = mix(lightColor, darkColor, b);\n" +
-"material.diffuse = color.rgb;\n" +
-"material.alpha = color.a;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 lightColor;\n\
+uniform vec4 darkColor;\n\
+uniform vec2 repeat;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+float b = smoothstep(0.3, 0.32, length(fract(repeat * materialInput.st) - 0.5));\n\
+vec4 color = mix(lightColor, darkColor, b);\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/FacetMaterial',[],function() {
-  
-  return "uniform vec4 lightColor;\n" +
-"uniform vec4 darkColor;\n" +
-"uniform float frequency;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec2 F = czm_cellular(materialInput.st * frequency);\n" +
-"float t = 0.1 + (F.y - F.x);\n" +
-"vec4 color = mix(lightColor, darkColor, t);\n" +
-"material.diffuse = color.rgb;\n" +
-"material.alpha = color.a;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 lightColor;\n\
+uniform vec4 darkColor;\n\
+uniform float frequency;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec2 F = czm_cellular(materialInput.st * frequency);\n\
+float t = 0.1 + (F.y - F.x);\n\
+vec4 color = mix(lightColor, darkColor, t);\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/FresnelMaterial',[],function() {
-  
-  return "czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec3 normalWC = normalize(czm_inverseViewRotation * material.normal);\n" +
-"vec3 positionWC = normalize(czm_inverseViewRotation * materialInput.positionToEyeEC);\n" +
-"float cosAngIncidence = max(dot(normalWC, positionWC), 0.0);\n" +
-"material.diffuse = mix(reflection.diffuse, refraction.diffuse, cosAngIncidence);\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec3 normalWC = normalize(czm_inverseViewRotation * material.normal);\n\
+vec3 positionWC = normalize(czm_inverseViewRotation * materialInput.positionToEyeEC);\n\
+float cosAngIncidence = max(dot(normalWC, positionWC), 0.0);\n\
+material.diffuse = mix(reflection.diffuse, refraction.diffuse, cosAngIncidence);\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/GrassMaterial',[],function() {
-  
-  return "uniform vec4 grassColor;\n" +
-"uniform vec4 dirtColor;\n" +
-"uniform float patchiness;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec2 st = materialInput.st;\n" +
-"float noise1 = (czm_snoise(st * patchiness * 1.0)) * 1.0;\n" +
-"float noise2 = (czm_snoise(st * patchiness * 2.0)) * 0.5;\n" +
-"float noise3 = (czm_snoise(st * patchiness * 4.0)) * 0.25;\n" +
-"float noise = sin(noise1 + noise2 + noise3) * 0.1;\n" +
-"vec4 color = mix(grassColor, dirtColor, noise);\n" +
-"float verticalNoise = czm_snoise(vec2(st.x * 100.0, st.y * 20.0)) * 0.02;\n" +
-"float horizontalNoise = czm_snoise(vec2(st.x * 20.0, st.y * 100.0)) * 0.02;\n" +
-"float stripeNoise = min(verticalNoise, horizontalNoise);\n" +
-"color.rgb += stripeNoise;\n" +
-"material.diffuse = color.rgb;\n" +
-"material.alpha = color.a;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 grassColor;\n\
+uniform vec4 dirtColor;\n\
+uniform float patchiness;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec2 st = materialInput.st;\n\
+float noise1 = (czm_snoise(st * patchiness * 1.0)) * 1.0;\n\
+float noise2 = (czm_snoise(st * patchiness * 2.0)) * 0.5;\n\
+float noise3 = (czm_snoise(st * patchiness * 4.0)) * 0.25;\n\
+float noise = sin(noise1 + noise2 + noise3) * 0.1;\n\
+vec4 color = mix(grassColor, dirtColor, noise);\n\
+float verticalNoise = czm_snoise(vec2(st.x * 100.0, st.y * 20.0)) * 0.02;\n\
+float horizontalNoise = czm_snoise(vec2(st.x * 20.0, st.y * 100.0)) * 0.02;\n\
+float stripeNoise = min(verticalNoise, horizontalNoise);\n\
+color.rgb += stripeNoise;\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/NormalMapMaterial',[],function() {
-  
-  return "uniform sampler2D image;\n" +
-"uniform float strength;\n" +
-"uniform vec2 repeat;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec4 textureValue = texture2D(image, fract(repeat * materialInput.st));\n" +
-"vec3 normalTangentSpace = textureValue.channels;\n" +
-"normalTangentSpace.xy = normalTangentSpace.xy * 2.0 - 1.0;\n" +
-"normalTangentSpace.z = clamp(1.0 - strength, 0.1, 1.0);\n" +
-"normalTangentSpace = normalize(normalTangentSpace);\n" +
-"vec3 normalEC = materialInput.tangentToEyeMatrix * normalTangentSpace;\n" +
-"material.normal = normalEC;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform sampler2D image;\n\
+uniform float strength;\n\
+uniform vec2 repeat;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec4 textureValue = texture2D(image, fract(repeat * materialInput.st));\n\
+vec3 normalTangentSpace = textureValue.channels;\n\
+normalTangentSpace.xy = normalTangentSpace.xy * 2.0 - 1.0;\n\
+normalTangentSpace.z = clamp(1.0 - strength, 0.1, 1.0);\n\
+normalTangentSpace = normalize(normalTangentSpace);\n\
+vec3 normalEC = materialInput.tangentToEyeMatrix * normalTangentSpace;\n\
+material.normal = normalEC;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/ReflectionMaterial',[],function() {
-  
-  return "uniform samplerCube cubeMap;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec3 normalWC = normalize(czm_inverseViewRotation * material.normal);\n" +
-"vec3 positionWC = normalize(czm_inverseViewRotation * materialInput.positionToEyeEC);\n" +
-"vec3 reflectedWC = reflect(positionWC, normalWC);\n" +
-"material.diffuse = textureCube(cubeMap, reflectedWC).channels;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform samplerCube cubeMap;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec3 normalWC = normalize(czm_inverseViewRotation * material.normal);\n\
+vec3 positionWC = normalize(czm_inverseViewRotation * materialInput.positionToEyeEC);\n\
+vec3 reflectedWC = reflect(positionWC, normalWC);\n\
+material.diffuse = textureCube(cubeMap, reflectedWC).channels;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/RefractionMaterial',[],function() {
-  
-  return "uniform samplerCube cubeMap;\n" +
-"uniform float indexOfRefractionRatio;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec3 normalWC = normalize(czm_inverseViewRotation * material.normal);\n" +
-"vec3 positionWC = normalize(czm_inverseViewRotation * materialInput.positionToEyeEC);\n" +
-"vec3 refractedWC = refract(positionWC, -normalWC, indexOfRefractionRatio);\n" +
-"material.diffuse = textureCube(cubeMap, refractedWC).channels;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform samplerCube cubeMap;\n\
+uniform float indexOfRefractionRatio;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec3 normalWC = normalize(czm_inverseViewRotation * material.normal);\n\
+vec3 positionWC = normalize(czm_inverseViewRotation * materialInput.positionToEyeEC);\n\
+vec3 refractedWC = refract(positionWC, -normalWC, indexOfRefractionRatio);\n\
+material.diffuse = textureCube(cubeMap, refractedWC).channels;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/StripeMaterial',[],function() {
-  
-  return "uniform vec4 lightColor;\n" +
-"uniform vec4 darkColor;\n" +
-"uniform float offset;\n" +
-"uniform float repeat;\n" +
-"uniform bool horizontal;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"const float fuzz = 0.1;\n" +
-"float coord = mix(materialInput.st.s, materialInput.st.t, float(horizontal));\n" +
-"float value = fract((coord - offset) * (repeat * 0.5));\n" +
-"float val1 = clamp(value / fuzz, 0.0, 1.0);\n" +
-"float val2 = clamp((value - 0.5) / fuzz, 0.0, 1.0);\n" +
-"val1 = val1 * (1.0 - val2);\n" +
-"val1 = val1 * val1 * (3.0 - (2.0 * val1));\n" +
-"vec4 color = mix(lightColor, darkColor, val1);\n" +
-"material.diffuse = color.rgb;\n" +
-"material.alpha = color.a;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 lightColor;\n\
+uniform vec4 darkColor;\n\
+uniform float offset;\n\
+uniform float repeat;\n\
+uniform bool horizontal;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+const float fuzz = 0.1;\n\
+float coord = mix(materialInput.st.s, materialInput.st.t, float(horizontal));\n\
+float value = fract((coord - offset) * (repeat * 0.5));\n\
+float val1 = clamp(value / fuzz, 0.0, 1.0);\n\
+float val2 = clamp((value - 0.5) / fuzz, 0.0, 1.0);\n\
+val1 = val1 * (1.0 - val2);\n\
+val1 = val1 * val1 * (3.0 - (2.0 * val1));\n\
+vec4 color = mix(lightColor, darkColor, val1);\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/TieDyeMaterial',[],function() {
-  
-  return "uniform vec4 lightColor;\n" +
-"uniform vec4 darkColor;\n" +
-"uniform float frequency;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec3 scaled = materialInput.str * frequency;\n" +
-"float t = abs(czm_snoise(scaled));\n" +
-"vec4 color = mix(lightColor, darkColor, t);\n" +
-"material.diffuse = color.rgb;\n" +
-"material.alpha = color.a;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 lightColor;\n\
+uniform vec4 darkColor;\n\
+uniform float frequency;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec3 scaled = materialInput.str * frequency;\n\
+float t = abs(czm_snoise(scaled));\n\
+vec4 color = mix(lightColor, darkColor, t);\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a;\n\
+return material;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Materials/WoodMaterial',[],function() {
-  
-  return "uniform vec4 lightWoodColor;\n" +
-"uniform vec4 darkWoodColor;\n" +
-"uniform float ringFrequency;\n" +
-"uniform vec2 noiseScale;\n" +
-"uniform float grainFrequency;\n" +
-"czm_material czm_getMaterial(czm_materialInput materialInput)\n" +
-"{\n" +
-"czm_material material = czm_getDefaultMaterial(materialInput);\n" +
-"vec2 st = materialInput.st;\n" +
-"vec2 noisevec;\n" +
-"noisevec.x = czm_snoise(st * noiseScale.x);\n" +
-"noisevec.y = czm_snoise(st * noiseScale.y);\n" +
-"vec2 location = st + noisevec;\n" +
-"float dist = sqrt(location.x * location.x + location.y * location.y);\n" +
-"dist *= ringFrequency;\n" +
-"float r = fract(dist + noisevec[0] + noisevec[1]) * 2.0;\n" +
-"if(r > 1.0)\n" +
-"r = 2.0 - r;\n" +
-"vec4 color = mix(lightWoodColor, darkWoodColor, r);\n" +
-"r = abs(czm_snoise(vec2(st.x * grainFrequency, st.y * grainFrequency * 0.02))) * 0.2;\n" +
-"color.rgb += lightWoodColor.rgb * r;\n" +
-"material.diffuse = color.rgb;\n" +
-"material.alpha = color.a;\n" +
-"return material;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 lightWoodColor;\n\
+uniform vec4 darkWoodColor;\n\
+uniform float ringFrequency;\n\
+uniform vec2 noiseScale;\n\
+uniform float grainFrequency;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+vec2 st = materialInput.st;\n\
+vec2 noisevec;\n\
+noisevec.x = czm_snoise(st * noiseScale.x);\n\
+noisevec.y = czm_snoise(st * noiseScale.y);\n\
+vec2 location = st + noisevec;\n\
+float dist = sqrt(location.x * location.x + location.y * location.y);\n\
+dist *= ringFrequency;\n\
+float r = fract(dist + noisevec[0] + noisevec[1]) * 2.0;\n\
+if(r > 1.0)\n\
+r = 2.0 - r;\n\
+vec4 color = mix(lightWoodColor, darkWoodColor, r);\n\
+r = abs(czm_snoise(vec2(st.x * grainFrequency, st.y * grainFrequency * 0.02))) * 0.2;\n\
+color.rgb += lightWoodColor.rgb * r;\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a;\n\
+return material;\n\
+}\n\
+";
 });
 /*!
  * Description : Array and textureless GLSL 2D/3D/4D simplex 
@@ -47547,354 +47522,355 @@ define('Shaders/Materials/WoodMaterial',[],function() {
  * This code is released under the conditions of the MIT license.
  * See LICENSE file for details.
  */
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Noise',[],function() {
-  
-  return "#ifndef czm_NOISE\n" +
-"#define czm_NOISE 1\n" +
-"vec4 _czm_mod289(vec4 x)\n" +
-"{\n" +
-"return x - floor(x * (1.0 / 289.0)) * 289.0;\n" +
-"}\n" +
-"vec3 _czm_mod289(vec3 x)\n" +
-"{\n" +
-"return x - floor(x * (1.0 / 289.0)) * 289.0;\n" +
-"}\n" +
-"vec2 _czm_mod289(vec2 x)\n" +
-"{\n" +
-"return x - floor(x * (1.0 / 289.0)) * 289.0;\n" +
-"}\n" +
-"float _czm_mod289(float x)\n" +
-"{\n" +
-"return x - floor(x * (1.0 / 289.0)) * 289.0;\n" +
-"}\n" +
-"vec4 _czm_permute(vec4 x)\n" +
-"{\n" +
-"return _czm_mod289(((x*34.0)+1.0)*x);\n" +
-"}\n" +
-"vec3 _czm_permute(vec3 x)\n" +
-"{\n" +
-"return _czm_mod289(((x*34.0)+1.0)*x);\n" +
-"}\n" +
-"float _czm_permute(float x)\n" +
-"{\n" +
-"return _czm_mod289(((x*34.0)+1.0)*x);\n" +
-"}\n" +
-"vec4 _czm_taylorInvSqrt(vec4 r)\n" +
-"{\n" +
-"return 1.79284291400159 - 0.85373472095314 * r;\n" +
-"}\n" +
-"float _czm_taylorInvSqrt(float r)\n" +
-"{\n" +
-"return 1.79284291400159 - 0.85373472095314 * r;\n" +
-"}\n" +
-"vec4 _czm_grad4(float j, vec4 ip)\n" +
-"{\n" +
-"const vec4 ones = vec4(1.0, 1.0, 1.0, -1.0);\n" +
-"vec4 p,s;\n" +
-"p.xyz = floor( fract (vec3(j) * ip.xyz) * 7.0) * ip.z - 1.0;\n" +
-"p.w = 1.5 - dot(abs(p.xyz), ones.xyz);\n" +
-"s = vec4(lessThan(p, vec4(0.0)));\n" +
-"p.xyz = p.xyz + (s.xyz*2.0 - 1.0) * s.www;\n" +
-"return p;\n" +
-"}\n" +
-"float czm_snoise(vec2 v)\n" +
-"{\n" +
-"const vec4 C = vec4(0.211324865405187,\n" +
-"0.366025403784439,\n" +
-"-0.577350269189626,\n" +
-"0.024390243902439);\n" +
-"vec2 i  = floor(v + dot(v, C.yy) );\n" +
-"vec2 x0 = v -   i + dot(i, C.xx);\n" +
-"vec2 i1;\n" +
-"i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);\n" +
-"vec4 x12 = x0.xyxy + C.xxzz;\n" +
-"x12.xy -= i1;\n" +
-"i = _czm_mod289(i);\n" +
-"vec3 p = _czm_permute( _czm_permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));\n" +
-"vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);\n" +
-"m = m*m ;\n" +
-"m = m*m ;\n" +
-"vec3 x = 2.0 * fract(p * C.www) - 1.0;\n" +
-"vec3 h = abs(x) - 0.5;\n" +
-"vec3 ox = floor(x + 0.5);\n" +
-"vec3 a0 = x - ox;\n" +
-"m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );\n" +
-"vec3 g;\n" +
-"g.x  = a0.x  * x0.x  + h.x  * x0.y;\n" +
-"g.yz = a0.yz * x12.xz + h.yz * x12.yw;\n" +
-"return 130.0 * dot(m, g);\n" +
-"}\n" +
-"float czm_snoise(vec3 v)\n" +
-"{\n" +
-"const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;\n" +
-"const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);\n" +
-"vec3 i  = floor(v + dot(v, C.yyy) );\n" +
-"vec3 x0 =   v - i + dot(i, C.xxx) ;\n" +
-"vec3 g = step(x0.yzx, x0.xyz);\n" +
-"vec3 l = 1.0 - g;\n" +
-"vec3 i1 = min( g.xyz, l.zxy );\n" +
-"vec3 i2 = max( g.xyz, l.zxy );\n" +
-"vec3 x1 = x0 - i1 + C.xxx;\n" +
-"vec3 x2 = x0 - i2 + C.yyy;\n" +
-"vec3 x3 = x0 - D.yyy;\n" +
-"i = _czm_mod289(i);\n" +
-"vec4 p = _czm_permute( _czm_permute( _czm_permute(\n" +
-"i.z + vec4(0.0, i1.z, i2.z, 1.0 ))\n" +
-"+ i.y + vec4(0.0, i1.y, i2.y, 1.0 ))\n" +
-"+ i.x + vec4(0.0, i1.x, i2.x, 1.0 ));\n" +
-"float n_ = 0.142857142857;\n" +
-"vec3  ns = n_ * D.wyz - D.xzx;\n" +
-"vec4 j = p - 49.0 * floor(p * ns.z * ns.z);\n" +
-"vec4 x_ = floor(j * ns.z);\n" +
-"vec4 y_ = floor(j - 7.0 * x_ );\n" +
-"vec4 x = x_ *ns.x + ns.yyyy;\n" +
-"vec4 y = y_ *ns.x + ns.yyyy;\n" +
-"vec4 h = 1.0 - abs(x) - abs(y);\n" +
-"vec4 b0 = vec4( x.xy, y.xy );\n" +
-"vec4 b1 = vec4( x.zw, y.zw );\n" +
-"vec4 s0 = floor(b0)*2.0 + 1.0;\n" +
-"vec4 s1 = floor(b1)*2.0 + 1.0;\n" +
-"vec4 sh = -step(h, vec4(0.0));\n" +
-"vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;\n" +
-"vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;\n" +
-"vec3 p0 = vec3(a0.xy,h.x);\n" +
-"vec3 p1 = vec3(a0.zw,h.y);\n" +
-"vec3 p2 = vec3(a1.xy,h.z);\n" +
-"vec3 p3 = vec3(a1.zw,h.w);\n" +
-"vec4 norm = _czm_taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));\n" +
-"p0 *= norm.x;\n" +
-"p1 *= norm.y;\n" +
-"p2 *= norm.z;\n" +
-"p3 *= norm.w;\n" +
-"vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);\n" +
-"m = m * m;\n" +
-"return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),\n" +
-"dot(p2,x2), dot(p3,x3) ) );\n" +
-"}\n" +
-"float czm_snoise(vec4 v)\n" +
-"{\n" +
-"const vec4  C = vec4( 0.138196601125011,\n" +
-"0.276393202250021,\n" +
-"0.414589803375032,\n" +
-"-0.447213595499958);\n" +
-"#define F4 0.309016994374947451\n" +
-"vec4 i  = floor(v + dot(v, vec4(F4)) );\n" +
-"vec4 x0 = v -   i + dot(i, C.xxxx);\n" +
-"vec4 i0;\n" +
-"vec3 isX = step( x0.yzw, x0.xxx );\n" +
-"vec3 isYZ = step( x0.zww, x0.yyz );\n" +
-"i0.x = isX.x + isX.y + isX.z;\n" +
-"i0.yzw = 1.0 - isX;\n" +
-"i0.y += isYZ.x + isYZ.y;\n" +
-"i0.zw += 1.0 - isYZ.xy;\n" +
-"i0.z += isYZ.z;\n" +
-"i0.w += 1.0 - isYZ.z;\n" +
-"vec4 i3 = clamp( i0, 0.0, 1.0 );\n" +
-"vec4 i2 = clamp( i0-1.0, 0.0, 1.0 );\n" +
-"vec4 i1 = clamp( i0-2.0, 0.0, 1.0 );\n" +
-"vec4 x1 = x0 - i1 + C.xxxx;\n" +
-"vec4 x2 = x0 - i2 + C.yyyy;\n" +
-"vec4 x3 = x0 - i3 + C.zzzz;\n" +
-"vec4 x4 = x0 + C.wwww;\n" +
-"i = _czm_mod289(i);\n" +
-"float j0 = _czm_permute( _czm_permute( _czm_permute( _czm_permute(i.w) + i.z) + i.y) + i.x);\n" +
-"vec4 j1 = _czm_permute( _czm_permute( _czm_permute( _czm_permute (\n" +
-"i.w + vec4(i1.w, i2.w, i3.w, 1.0 ))\n" +
-"+ i.z + vec4(i1.z, i2.z, i3.z, 1.0 ))\n" +
-"+ i.y + vec4(i1.y, i2.y, i3.y, 1.0 ))\n" +
-"+ i.x + vec4(i1.x, i2.x, i3.x, 1.0 ));\n" +
-"vec4 ip = vec4(1.0/294.0, 1.0/49.0, 1.0/7.0, 0.0) ;\n" +
-"vec4 p0 = _czm_grad4(j0,   ip);\n" +
-"vec4 p1 = _czm_grad4(j1.x, ip);\n" +
-"vec4 p2 = _czm_grad4(j1.y, ip);\n" +
-"vec4 p3 = _czm_grad4(j1.z, ip);\n" +
-"vec4 p4 = _czm_grad4(j1.w, ip);\n" +
-"vec4 norm = _czm_taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));\n" +
-"p0 *= norm.x;\n" +
-"p1 *= norm.y;\n" +
-"p2 *= norm.z;\n" +
-"p3 *= norm.w;\n" +
-"p4 *= _czm_taylorInvSqrt(dot(p4,p4));\n" +
-"vec3 m0 = max(0.6 - vec3(dot(x0,x0), dot(x1,x1), dot(x2,x2)), 0.0);\n" +
-"vec2 m1 = max(0.6 - vec2(dot(x3,x3), dot(x4,x4)            ), 0.0);\n" +
-"m0 = m0 * m0;\n" +
-"m1 = m1 * m1;\n" +
-"return 49.0 * ( dot(m0*m0, vec3( dot( p0, x0 ), dot( p1, x1 ), dot( p2, x2 )))\n" +
-"+ dot(m1*m1, vec2( dot( p3, x3 ), dot( p4, x4 ) ) ) ) ;\n" +
-"}\n" +
-"vec3 _czm_permute289(vec3 x)\n" +
-"{\n" +
-"return mod((34.0 * x + 1.0) * x, 289.0);\n" +
-"}\n" +
-"vec2 czm_cellular(vec2 P)\n" +
-"{\n" +
-"#define K 0.142857142857\n" +
-"#define Ko 0.428571428571\n" +
-"#define jitter 1.0\n" +
-"vec2 Pi = mod(floor(P), 289.0);\n" +
-"vec2 Pf = fract(P);\n" +
-"vec3 oi = vec3(-1.0, 0.0, 1.0);\n" +
-"vec3 of = vec3(-0.5, 0.5, 1.5);\n" +
-"vec3 px = _czm_permute289(Pi.x + oi);\n" +
-"vec3 p = _czm_permute289(px.x + Pi.y + oi);\n" +
-"vec3 ox = fract(p*K) - Ko;\n" +
-"vec3 oy = mod(floor(p*K),7.0)*K - Ko;\n" +
-"vec3 dx = Pf.x + 0.5 + jitter*ox;\n" +
-"vec3 dy = Pf.y - of + jitter*oy;\n" +
-"vec3 d1 = dx * dx + dy * dy;\n" +
-"p = _czm_permute289(px.y + Pi.y + oi);\n" +
-"ox = fract(p*K) - Ko;\n" +
-"oy = mod(floor(p*K),7.0)*K - Ko;\n" +
-"dx = Pf.x - 0.5 + jitter*ox;\n" +
-"dy = Pf.y - of + jitter*oy;\n" +
-"vec3 d2 = dx * dx + dy * dy;\n" +
-"p = _czm_permute289(px.z + Pi.y + oi);\n" +
-"ox = fract(p*K) - Ko;\n" +
-"oy = mod(floor(p*K),7.0)*K - Ko;\n" +
-"dx = Pf.x - 1.5 + jitter*ox;\n" +
-"dy = Pf.y - of + jitter*oy;\n" +
-"vec3 d3 = dx * dx + dy * dy;\n" +
-"vec3 d1a = min(d1, d2);\n" +
-"d2 = max(d1, d2);\n" +
-"d2 = min(d2, d3);\n" +
-"d1 = min(d1a, d2);\n" +
-"d2 = max(d1a, d2);\n" +
-"d1.xy = (d1.x < d1.y) ? d1.xy : d1.yx;\n" +
-"d1.xz = (d1.x < d1.z) ? d1.xz : d1.zx;\n" +
-"d1.yz = min(d1.yz, d2.yz);\n" +
-"d1.y = min(d1.y, d1.z);\n" +
-"d1.y = min(d1.y, d2.x);\n" +
-"return sqrt(d1.xy);\n" +
-"}\n" +
-"#endif\n" +
-"";
+    
+    return "#ifndef czm_NOISE\n\
+#define czm_NOISE 1\n\
+vec4 _czm_mod289(vec4 x)\n\
+{\n\
+return x - floor(x * (1.0 / 289.0)) * 289.0;\n\
+}\n\
+vec3 _czm_mod289(vec3 x)\n\
+{\n\
+return x - floor(x * (1.0 / 289.0)) * 289.0;\n\
+}\n\
+vec2 _czm_mod289(vec2 x)\n\
+{\n\
+return x - floor(x * (1.0 / 289.0)) * 289.0;\n\
+}\n\
+float _czm_mod289(float x)\n\
+{\n\
+return x - floor(x * (1.0 / 289.0)) * 289.0;\n\
+}\n\
+vec4 _czm_permute(vec4 x)\n\
+{\n\
+return _czm_mod289(((x*34.0)+1.0)*x);\n\
+}\n\
+vec3 _czm_permute(vec3 x)\n\
+{\n\
+return _czm_mod289(((x*34.0)+1.0)*x);\n\
+}\n\
+float _czm_permute(float x)\n\
+{\n\
+return _czm_mod289(((x*34.0)+1.0)*x);\n\
+}\n\
+vec4 _czm_taylorInvSqrt(vec4 r)\n\
+{\n\
+return 1.79284291400159 - 0.85373472095314 * r;\n\
+}\n\
+float _czm_taylorInvSqrt(float r)\n\
+{\n\
+return 1.79284291400159 - 0.85373472095314 * r;\n\
+}\n\
+vec4 _czm_grad4(float j, vec4 ip)\n\
+{\n\
+const vec4 ones = vec4(1.0, 1.0, 1.0, -1.0);\n\
+vec4 p,s;\n\
+p.xyz = floor( fract (vec3(j) * ip.xyz) * 7.0) * ip.z - 1.0;\n\
+p.w = 1.5 - dot(abs(p.xyz), ones.xyz);\n\
+s = vec4(lessThan(p, vec4(0.0)));\n\
+p.xyz = p.xyz + (s.xyz*2.0 - 1.0) * s.www;\n\
+return p;\n\
+}\n\
+float czm_snoise(vec2 v)\n\
+{\n\
+const vec4 C = vec4(0.211324865405187,\n\
+0.366025403784439,\n\
+-0.577350269189626,\n\
+0.024390243902439);\n\
+vec2 i  = floor(v + dot(v, C.yy) );\n\
+vec2 x0 = v -   i + dot(i, C.xx);\n\
+vec2 i1;\n\
+i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);\n\
+vec4 x12 = x0.xyxy + C.xxzz;\n\
+x12.xy -= i1;\n\
+i = _czm_mod289(i);\n\
+vec3 p = _czm_permute( _czm_permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));\n\
+vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);\n\
+m = m*m ;\n\
+m = m*m ;\n\
+vec3 x = 2.0 * fract(p * C.www) - 1.0;\n\
+vec3 h = abs(x) - 0.5;\n\
+vec3 ox = floor(x + 0.5);\n\
+vec3 a0 = x - ox;\n\
+m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );\n\
+vec3 g;\n\
+g.x  = a0.x  * x0.x  + h.x  * x0.y;\n\
+g.yz = a0.yz * x12.xz + h.yz * x12.yw;\n\
+return 130.0 * dot(m, g);\n\
+}\n\
+float czm_snoise(vec3 v)\n\
+{\n\
+const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;\n\
+const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);\n\
+vec3 i  = floor(v + dot(v, C.yyy) );\n\
+vec3 x0 =   v - i + dot(i, C.xxx) ;\n\
+vec3 g = step(x0.yzx, x0.xyz);\n\
+vec3 l = 1.0 - g;\n\
+vec3 i1 = min( g.xyz, l.zxy );\n\
+vec3 i2 = max( g.xyz, l.zxy );\n\
+vec3 x1 = x0 - i1 + C.xxx;\n\
+vec3 x2 = x0 - i2 + C.yyy;\n\
+vec3 x3 = x0 - D.yyy;\n\
+i = _czm_mod289(i);\n\
+vec4 p = _czm_permute( _czm_permute( _czm_permute(\n\
+i.z + vec4(0.0, i1.z, i2.z, 1.0 ))\n\
++ i.y + vec4(0.0, i1.y, i2.y, 1.0 ))\n\
++ i.x + vec4(0.0, i1.x, i2.x, 1.0 ));\n\
+float n_ = 0.142857142857;\n\
+vec3  ns = n_ * D.wyz - D.xzx;\n\
+vec4 j = p - 49.0 * floor(p * ns.z * ns.z);\n\
+vec4 x_ = floor(j * ns.z);\n\
+vec4 y_ = floor(j - 7.0 * x_ );\n\
+vec4 x = x_ *ns.x + ns.yyyy;\n\
+vec4 y = y_ *ns.x + ns.yyyy;\n\
+vec4 h = 1.0 - abs(x) - abs(y);\n\
+vec4 b0 = vec4( x.xy, y.xy );\n\
+vec4 b1 = vec4( x.zw, y.zw );\n\
+vec4 s0 = floor(b0)*2.0 + 1.0;\n\
+vec4 s1 = floor(b1)*2.0 + 1.0;\n\
+vec4 sh = -step(h, vec4(0.0));\n\
+vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;\n\
+vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;\n\
+vec3 p0 = vec3(a0.xy,h.x);\n\
+vec3 p1 = vec3(a0.zw,h.y);\n\
+vec3 p2 = vec3(a1.xy,h.z);\n\
+vec3 p3 = vec3(a1.zw,h.w);\n\
+vec4 norm = _czm_taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));\n\
+p0 *= norm.x;\n\
+p1 *= norm.y;\n\
+p2 *= norm.z;\n\
+p3 *= norm.w;\n\
+vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);\n\
+m = m * m;\n\
+return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),\n\
+dot(p2,x2), dot(p3,x3) ) );\n\
+}\n\
+float czm_snoise(vec4 v)\n\
+{\n\
+const vec4  C = vec4( 0.138196601125011,\n\
+0.276393202250021,\n\
+0.414589803375032,\n\
+-0.447213595499958);\n\
+#define F4 0.309016994374947451\n\
+vec4 i  = floor(v + dot(v, vec4(F4)) );\n\
+vec4 x0 = v -   i + dot(i, C.xxxx);\n\
+vec4 i0;\n\
+vec3 isX = step( x0.yzw, x0.xxx );\n\
+vec3 isYZ = step( x0.zww, x0.yyz );\n\
+i0.x = isX.x + isX.y + isX.z;\n\
+i0.yzw = 1.0 - isX;\n\
+i0.y += isYZ.x + isYZ.y;\n\
+i0.zw += 1.0 - isYZ.xy;\n\
+i0.z += isYZ.z;\n\
+i0.w += 1.0 - isYZ.z;\n\
+vec4 i3 = clamp( i0, 0.0, 1.0 );\n\
+vec4 i2 = clamp( i0-1.0, 0.0, 1.0 );\n\
+vec4 i1 = clamp( i0-2.0, 0.0, 1.0 );\n\
+vec4 x1 = x0 - i1 + C.xxxx;\n\
+vec4 x2 = x0 - i2 + C.yyyy;\n\
+vec4 x3 = x0 - i3 + C.zzzz;\n\
+vec4 x4 = x0 + C.wwww;\n\
+i = _czm_mod289(i);\n\
+float j0 = _czm_permute( _czm_permute( _czm_permute( _czm_permute(i.w) + i.z) + i.y) + i.x);\n\
+vec4 j1 = _czm_permute( _czm_permute( _czm_permute( _czm_permute (\n\
+i.w + vec4(i1.w, i2.w, i3.w, 1.0 ))\n\
++ i.z + vec4(i1.z, i2.z, i3.z, 1.0 ))\n\
++ i.y + vec4(i1.y, i2.y, i3.y, 1.0 ))\n\
++ i.x + vec4(i1.x, i2.x, i3.x, 1.0 ));\n\
+vec4 ip = vec4(1.0/294.0, 1.0/49.0, 1.0/7.0, 0.0) ;\n\
+vec4 p0 = _czm_grad4(j0,   ip);\n\
+vec4 p1 = _czm_grad4(j1.x, ip);\n\
+vec4 p2 = _czm_grad4(j1.y, ip);\n\
+vec4 p3 = _czm_grad4(j1.z, ip);\n\
+vec4 p4 = _czm_grad4(j1.w, ip);\n\
+vec4 norm = _czm_taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));\n\
+p0 *= norm.x;\n\
+p1 *= norm.y;\n\
+p2 *= norm.z;\n\
+p3 *= norm.w;\n\
+p4 *= _czm_taylorInvSqrt(dot(p4,p4));\n\
+vec3 m0 = max(0.6 - vec3(dot(x0,x0), dot(x1,x1), dot(x2,x2)), 0.0);\n\
+vec2 m1 = max(0.6 - vec2(dot(x3,x3), dot(x4,x4)            ), 0.0);\n\
+m0 = m0 * m0;\n\
+m1 = m1 * m1;\n\
+return 49.0 * ( dot(m0*m0, vec3( dot( p0, x0 ), dot( p1, x1 ), dot( p2, x2 )))\n\
++ dot(m1*m1, vec2( dot( p3, x3 ), dot( p4, x4 ) ) ) ) ;\n\
+}\n\
+vec3 _czm_permute289(vec3 x)\n\
+{\n\
+return mod((34.0 * x + 1.0) * x, 289.0);\n\
+}\n\
+vec2 czm_cellular(vec2 P)\n\
+{\n\
+#define K 0.142857142857\n\
+#define Ko 0.428571428571\n\
+#define jitter 1.0\n\
+vec2 Pi = mod(floor(P), 289.0);\n\
+vec2 Pf = fract(P);\n\
+vec3 oi = vec3(-1.0, 0.0, 1.0);\n\
+vec3 of = vec3(-0.5, 0.5, 1.5);\n\
+vec3 px = _czm_permute289(Pi.x + oi);\n\
+vec3 p = _czm_permute289(px.x + Pi.y + oi);\n\
+vec3 ox = fract(p*K) - Ko;\n\
+vec3 oy = mod(floor(p*K),7.0)*K - Ko;\n\
+vec3 dx = Pf.x + 0.5 + jitter*ox;\n\
+vec3 dy = Pf.y - of + jitter*oy;\n\
+vec3 d1 = dx * dx + dy * dy;\n\
+p = _czm_permute289(px.y + Pi.y + oi);\n\
+ox = fract(p*K) - Ko;\n\
+oy = mod(floor(p*K),7.0)*K - Ko;\n\
+dx = Pf.x - 0.5 + jitter*ox;\n\
+dy = Pf.y - of + jitter*oy;\n\
+vec3 d2 = dx * dx + dy * dy;\n\
+p = _czm_permute289(px.z + Pi.y + oi);\n\
+ox = fract(p*K) - Ko;\n\
+oy = mod(floor(p*K),7.0)*K - Ko;\n\
+dx = Pf.x - 1.5 + jitter*ox;\n\
+dy = Pf.y - of + jitter*oy;\n\
+vec3 d3 = dx * dx + dy * dy;\n\
+vec3 d1a = min(d1, d2);\n\
+d2 = max(d1, d2);\n\
+d2 = min(d2, d3);\n\
+d1 = min(d1a, d2);\n\
+d2 = max(d1a, d2);\n\
+d1.xy = (d1.x < d1.y) ? d1.xy : d1.yx;\n\
+d1.xz = (d1.x < d1.z) ? d1.xz : d1.zx;\n\
+d1.yz = min(d1.yz, d2.yz);\n\
+d1.y = min(d1.y, d1.z);\n\
+d1.y = min(d1.y, d2.x);\n\
+return sqrt(d1.xy);\n\
+}\n\
+#endif\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/PolygonFS',[],function() {
-  
-  return "uniform float u_erosion;\n" +
-"varying vec3 v_positionMC;\n" +
-"varying vec3 v_positionEC;\n" +
-"varying vec2 v_textureCoordinates;\n" +
-"#ifndef RENDER_FOR_PICK\n" +
-"void erode(vec3 str)\n" +
-"{\n" +
-"if (u_erosion != 1.0)\n" +
-"{\n" +
-"float t = 0.5 + (0.5 * czm_snoise(str / (1.0 / 10.0)));\n" +
-"if (t > u_erosion)\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"#endif\n" +
-"void main()\n" +
-"{\n" +
-"czm_materialInput materialInput;\n" +
-"materialInput.st = v_textureCoordinates;\n" +
-"materialInput.str = vec3(v_textureCoordinates, 0.0);\n" +
-"materialInput.positionMC = v_positionMC;\n" +
-"materialInput.normalEC = normalize(czm_normal * czm_geodeticSurfaceNormal(v_positionMC, vec3(0.0), vec3(1.0)));\n" +
-"materialInput.tangentToEyeMatrix = czm_eastNorthUpToEyeCoordinates(v_positionMC, materialInput.normalEC);\n" +
-"vec3 positionToEyeEC = normalize(-v_positionEC);\n" +
-"materialInput.positionToEyeEC = positionToEyeEC;\n" +
-"erode(materialInput.str);\n" +
-"czm_material material = czm_getMaterial(materialInput);\n" +
-"vec4 color;\n" +
-"#ifdef AFFECTED_BY_LIGHTING\n" +
-"color = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n" +
-"#else\n" +
-"color = vec4(material.diffuse, material.alpha);\n" +
-"#endif\n" +
-"gl_FragColor = color;\n" +
-"}\n" +
-"";
+    
+    return "uniform float u_erosion;\n\
+varying vec3 v_positionMC;\n\
+varying vec3 v_positionEC;\n\
+varying vec2 v_textureCoordinates;\n\
+#ifndef RENDER_FOR_PICK\n\
+void erode(vec3 str)\n\
+{\n\
+if (u_erosion != 1.0)\n\
+{\n\
+float t = 0.5 + (0.5 * czm_snoise(str / (1.0 / 10.0)));\n\
+if (t > u_erosion)\n\
+{\n\
+discard;\n\
+}\n\
+}\n\
+}\n\
+#endif\n\
+void main()\n\
+{\n\
+czm_materialInput materialInput;\n\
+materialInput.st = v_textureCoordinates;\n\
+materialInput.str = vec3(v_textureCoordinates, 0.0);\n\
+materialInput.positionMC = v_positionMC;\n\
+materialInput.normalEC = normalize(czm_normal * czm_geodeticSurfaceNormal(v_positionMC, vec3(0.0), vec3(1.0)));\n\
+materialInput.tangentToEyeMatrix = czm_eastNorthUpToEyeCoordinates(v_positionMC, materialInput.normalEC);\n\
+vec3 positionToEyeEC = normalize(-v_positionEC);\n\
+materialInput.positionToEyeEC = positionToEyeEC;\n\
+erode(materialInput.str);\n\
+czm_material material = czm_getMaterial(materialInput);\n\
+vec4 color;\n\
+#ifdef AFFECTED_BY_LIGHTING\n\
+color = czm_lightValuePhong(czm_sunDirectionEC, positionToEyeEC, material);\n\
+#else\n\
+color = vec4(material.diffuse, material.alpha);\n\
+#endif\n\
+gl_FragColor = color;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/PolygonFSPick',[],function() {
-  
-  return "uniform vec4 u_pickColor;\n" +
-"void main()\n" +
-"{\n" +
-"gl_FragColor = u_pickColor;\n" +
-"}\n" +
-"";
+    
+    return "uniform vec4 u_pickColor;\n\
+void main()\n\
+{\n\
+gl_FragColor = u_pickColor;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/PolygonVS',[],function() {
-  
-  return "attribute vec2 position2D;\n" +
-"attribute vec3 position3D;\n" +
-"attribute vec2 textureCoordinates;\n" +
-"uniform float u_morphTime;\n" +
-"uniform float u_height;\n" +
-"varying vec3 v_positionMC;\n" +
-"varying vec3 v_positionEC;\n" +
-"varying vec2 v_textureCoordinates;\n" +
-"void main()\n" +
-"{\n" +
-"vec4 p = czm_columbusViewMorph(vec3(u_height, position2D), position3D, u_morphTime);\n" +
-"v_positionMC = position3D;\n" +
-"v_positionEC = (czm_modelView * vec4(position3D, 1.0)).xyz;\n" +
-"v_textureCoordinates = textureCoordinates;\n" +
-"gl_Position = czm_modelViewProjection * p;\n" +
-"}\n" +
-"";
+    
+    return "attribute vec2 position2D;\n\
+attribute vec3 position3D;\n\
+attribute vec2 textureCoordinates;\n\
+uniform float u_morphTime;\n\
+uniform float u_height;\n\
+varying vec3 v_positionMC;\n\
+varying vec3 v_positionEC;\n\
+varying vec2 v_textureCoordinates;\n\
+void main()\n\
+{\n\
+vec4 p = czm_columbusViewMorph(vec3(u_height, position2D), position3D, u_morphTime);\n\
+v_positionMC = position3D;\n\
+v_positionEC = (czm_modelView * vec4(position3D, 1.0)).xyz;\n\
+v_textureCoordinates = textureCoordinates;\n\
+gl_Position = czm_modelViewProjection * p;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/PolygonVSPick',[],function() {
-  
-  return "attribute vec2 position2D;\n" +
-"attribute vec3 position3D;\n" +
-"uniform float u_morphTime;\n" +
-"uniform float u_height;\n" +
-"void main()\n" +
-"{\n" +
-"vec4 p = czm_columbusViewMorph(vec3(u_height, position2D), position3D, u_morphTime);\n" +
-"gl_Position = czm_modelViewProjection * p;\n" +
-"}\n" +
-"";
+    
+    return "attribute vec2 position2D;\n\
+attribute vec3 position3D;\n\
+uniform float u_morphTime;\n\
+uniform float u_height;\n\
+void main()\n\
+{\n\
+vec4 p = czm_columbusViewMorph(vec3(u_height, position2D), position3D, u_morphTime);\n\
+gl_Position = czm_modelViewProjection * p;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/PolylineFS',[],function() {
-  
-  return "varying vec4 v_color;\n" +
-"void main()\n" +
-"{\n" +
-"gl_FragColor = v_color;\n" +
-"}\n" +
-"";
+    
+    return "varying vec4 v_color;\n\
+void main()\n\
+{\n\
+gl_FragColor = v_color;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/PolylineVS',[],function() {
-  
-  return "attribute vec3 position2D;\n" +
-"attribute vec3 position3D;\n" +
-"attribute vec4 color;\n" +
-"attribute float show;\n" +
-"varying vec4 v_color;\n" +
-"uniform float u_morphTime;\n" +
-"void main()\n" +
-"{\n" +
-"#ifdef GROUND_TRACK\n" +
-"vec4 p = czm_columbusViewMorph(vec3(0.0, position2D.xy), position3D, u_morphTime);\n" +
-"#elif defined(HEIGHT_TRACK)\n" +
-"vec4 p = czm_columbusViewMorph(vec3(position2D.z, position2D.x, 10000000.0), position3D, u_morphTime);\n" +
-"#else\n" +
-"vec4 p = czm_columbusViewMorph(position2D.zxy, position3D, u_morphTime);\n" +
-"#endif\n" +
-"gl_Position = czm_modelViewProjection * p * show;\n" +
-"v_color = color;\n" +
-"}\n" +
-"";
+    
+    return "attribute vec3 position2D;\n\
+attribute vec3 position3D;\n\
+attribute vec4 color;\n\
+attribute float show;\n\
+varying vec4 v_color;\n\
+uniform float u_morphTime;\n\
+void main()\n\
+{\n\
+#ifdef GROUND_TRACK\n\
+vec4 p = czm_columbusViewMorph(vec3(0.0, position2D.xy), position3D, u_morphTime);\n\
+#elif defined(HEIGHT_TRACK)\n\
+vec4 p = czm_columbusViewMorph(vec3(position2D.z, position2D.x, 10000000.0), position3D, u_morphTime);\n\
+#else\n\
+vec4 p = czm_columbusViewMorph(position2D.zxy, position3D, u_morphTime);\n\
+#endif\n\
+gl_Position = czm_modelViewProjection * p * show;\n\
+v_color = color;\n\
+}\n\
+";
 });
 /*global define*/
 define('Scene/PolylineCollection',[
@@ -49940,362 +49916,362 @@ define('DynamicScene/DynamicPolylineVisualizer',[
 
     return DynamicPolylineVisualizer;
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/Ray',[],function() {
-  
-  return "const int czm_raySegmentCollectionCapacity = 4;\n" +
-"struct czm_raySegmentCollection\n" +
-"{\n" +
-"czm_raySegment intervals[czm_raySegmentCollectionCapacity];\n" +
-"int count;\n" +
-"};\n" +
-"czm_raySegmentCollection czm_raySegmentCollectionNew()\n" +
-"{\n" +
-"czm_raySegment intervals[czm_raySegmentCollectionCapacity];\n" +
-"czm_raySegmentCollection i = czm_raySegmentCollection(intervals, 0);\n" +
-"return i;\n" +
-"}\n" +
-"czm_raySegmentCollection czm_raySegmentCollectionNew(czm_raySegment segment)\n" +
-"{\n" +
-"czm_raySegment intervals[czm_raySegmentCollectionCapacity];\n" +
-"intervals[0] = segment;\n" +
-"czm_raySegmentCollection i = czm_raySegmentCollection(intervals, 1);\n" +
-"return i;\n" +
-"}\n" +
-"czm_raySegmentCollection czm_raySegmentCollectionNew(czm_raySegment first, czm_raySegment second)\n" +
-"{\n" +
-"czm_raySegment intervals[czm_raySegmentCollectionCapacity];\n" +
-"intervals[0] = first;\n" +
-"intervals[1] = second;\n" +
-"czm_raySegmentCollection i = czm_raySegmentCollection(intervals, 2);\n" +
-"return i;\n" +
-"}\n" +
-"void czm_removeAt(inout czm_raySegmentCollection collection, int index)\n" +
-"{\n" +
-"--collection.count;\n" +
-"for (int i = 0; i < czm_raySegmentCollectionCapacity; ++i)\n" +
-"{\n" +
-"if (i >= index && i < collection.count)\n" +
-"{\n" +
-"collection.intervals[i] = collection.intervals[i + 1];\n" +
-"}\n" +
-"else if (i == collection.count)\n" +
-"{\n" +
-"break;\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"void czm_insertAt(inout czm_raySegmentCollection collection, czm_raySegment segment, int index)\n" +
-"{\n" +
-"for (int i = czm_raySegmentCollectionCapacity - 1; i >= 0; --i)\n" +
-"{\n" +
-"if (i <= collection.count && i > index)\n" +
-"{\n" +
-"collection.intervals[i] = collection.intervals[i - 1];\n" +
-"}\n" +
-"else if (i == index)\n" +
-"{\n" +
-"collection.intervals[i] = segment;\n" +
-"}\n" +
-"else if (i < index)\n" +
-"{\n" +
-"break;\n" +
-"}\n" +
-"}\n" +
-"++collection.count;\n" +
-"}\n" +
-"void czm_insertAt(inout czm_raySegmentCollection collection, czm_raySegmentCollection segments, int index)\n" +
-"{\n" +
-"if (segments.count == 1)\n" +
-"{\n" +
-"czm_insertAt(collection, segments.intervals[0], index);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"for (int i = czm_raySegmentCollectionCapacity - 1; i >= 0; --i)\n" +
-"{\n" +
-"if (i < segments.count)\n" +
-"{\n" +
-"czm_insertAt(collection, segments.intervals[i], index);\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"void czm_complement(czm_raySegment segment, out czm_raySegmentCollection collection)\n" +
-"{\n" +
-"if (czm_isEmpty(segment))\n" +
-"{\n" +
-"collection = czm_raySegmentCollectionNew(czm_fullRaySegment);\n" +
-"}\n" +
-"else if (segment.stop == czm_infinity)\n" +
-"{\n" +
-"if (segment.start == 0.0)\n" +
-"{\n" +
-"collection = czm_raySegmentCollectionNew();\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"collection = czm_raySegmentCollectionNew(czm_raySegment(0.0, segment.start));\n" +
-"}\n" +
-"}\n" +
-"else if (segment.start == 0.0)\n" +
-"{\n" +
-"collection = czm_raySegmentCollectionNew(czm_raySegment(segment.stop, czm_infinity));\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_raySegment head = czm_raySegment(0.0, segment.start);\n" +
-"czm_raySegment tail = czm_raySegment(segment.stop, czm_infinity);\n" +
-"collection = czm_raySegmentCollectionNew(head, tail);\n" +
-"}\n" +
-"}\n" +
-"czm_raySegmentCollection czm_complement(czm_raySegmentCollection collection)\n" +
-"{\n" +
-"if (collection.count == 0)\n" +
-"{\n" +
-"czm_raySegmentCollection result = czm_raySegmentCollectionNew(czm_fullRaySegment);\n" +
-"return result;\n" +
-"}\n" +
-"else if (collection.count == 1)\n" +
-"{\n" +
-"czm_raySegmentCollection result;\n" +
-"czm_complement(collection.intervals[0], result);\n" +
-"return result;\n" +
-"}\n" +
-"czm_raySegmentCollection result = czm_raySegmentCollectionNew();\n" +
-"for (int i = 0; i < czm_raySegmentCollectionCapacity; ++i)\n" +
-"{\n" +
-"if (i < collection.count)\n" +
-"{\n" +
-"float start = collection.intervals[i].stop;\n" +
-"if (i < collection.count - 1)\n" +
-"{\n" +
-"float stop = collection.intervals[i + 1].start;\n" +
-"result.intervals[i] = czm_raySegment(start, stop);\n" +
-"++result.count;\n" +
-"}\n" +
-"else if (start != czm_infinity)\n" +
-"{\n" +
-"result.intervals[i] = czm_raySegment(start, czm_infinity);\n" +
-"++result.count;\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"break;\n" +
-"}\n" +
-"}\n" +
-"if (collection.count > 0)\n" +
-"{\n" +
-"float stop = collection.intervals[0].start;\n" +
-"if (stop != 0.0)\n" +
-"{\n" +
-"czm_insertAt(result, czm_raySegment(0.0, stop), 0);\n" +
-"}\n" +
-"}\n" +
-"return result;\n" +
-"}\n" +
-"czm_raySegmentCollection czm_union(czm_raySegment left, czm_raySegment right)\n" +
-"{\n" +
-"if (czm_isFull(left) || czm_isFull(right))\n" +
-"{\n" +
-"czm_raySegmentCollection result = czm_raySegmentCollectionNew(czm_fullRaySegment);\n" +
-"return result;\n" +
-"}\n" +
-"float stop = min(left.stop, right.stop);\n" +
-"float start = max(left.start, right.start);\n" +
-"if (stop < start)\n" +
-"{\n" +
-"czm_raySegmentCollection result = (left.start < right.start) ? czm_raySegmentCollectionNew(left, right) : czm_raySegmentCollectionNew(right, left);\n" +
-"return result;\n" +
-"}\n" +
-"czm_raySegmentCollection result = czm_raySegmentCollectionNew(czm_raySegment(min(left.start, right.start), max(left.stop, right.stop)));\n" +
-"return result;\n" +
-"}\n" +
-"czm_raySegment czm_intersection(czm_raySegment left, czm_raySegment right)\n" +
-"{\n" +
-"float stop = min(left.stop, right.stop);\n" +
-"if (stop < 0.0)\n" +
-"{\n" +
-"return czm_emptyRaySegment;\n" +
-"}\n" +
-"float start = max(left.start, right.start);\n" +
-"if (stop < start)\n" +
-"{\n" +
-"return czm_emptyRaySegment;\n" +
-"}\n" +
-"czm_raySegment s = czm_raySegment(start, stop);\n" +
-"return s;\n" +
-"}\n" +
-"czm_raySegmentCollection czm_intersection(czm_raySegmentCollection left, czm_raySegment right)\n" +
-"{\n" +
-"if (left.count == 1)\n" +
-"{\n" +
-"czm_raySegment intersection = czm_intersection(left.intervals[0], right);\n" +
-"if (czm_isEmpty(intersection))\n" +
-"{\n" +
-"czm_raySegmentCollection result = czm_raySegmentCollectionNew();\n" +
-"return result;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_raySegmentCollection result = czm_raySegmentCollectionNew(intersection);\n" +
-"return result;\n" +
-"}\n" +
-"}\n" +
-"czm_raySegmentCollection result = czm_raySegmentCollectionNew();\n" +
-"for (int leftIndex = 0; leftIndex < czm_raySegmentCollectionCapacity; ++leftIndex)\n" +
-"{\n" +
-"if (leftIndex < left.count)\n" +
-"{\n" +
-"czm_raySegment intersection = czm_intersection(left.intervals[leftIndex], right);\n" +
-"if (!czm_isEmpty(intersection))\n" +
-"{\n" +
-"czm_insertAt(result, intersection, result.count);\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"break;\n" +
-"}\n" +
-"}\n" +
-"return result;\n" +
-"}\n" +
-"czm_raySegmentCollection czm_intersection(czm_raySegmentCollection left, czm_raySegmentCollection right)\n" +
-"{\n" +
-"if (right.count == 1)\n" +
-"{\n" +
-"if (left.count == 1)\n" +
-"{\n" +
-"czm_raySegment intersection = czm_intersection(left.intervals[0], right.intervals[0]);\n" +
-"if (czm_isEmpty(intersection))\n" +
-"{\n" +
-"czm_raySegmentCollection result = czm_raySegmentCollectionNew();\n" +
-"return result;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_raySegmentCollection result = czm_raySegmentCollectionNew(intersection);\n" +
-"return result;\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_raySegmentCollection result = czm_intersection(left, right.intervals[0]);\n" +
-"return result;\n" +
-"}\n" +
-"}\n" +
-"czm_raySegmentCollection result = czm_raySegmentCollectionNew();\n" +
-"if (left.count > 0 && right.count > 0)\n" +
-"{\n" +
-"for (int leftIndex = 0; leftIndex < czm_raySegmentCollectionCapacity; ++leftIndex)\n" +
-"{\n" +
-"if (leftIndex < left.count)\n" +
-"{\n" +
-"for (int rightIndex = 0; rightIndex < czm_raySegmentCollectionCapacity; ++rightIndex)\n" +
-"{\n" +
-"if (rightIndex <= right.count && left.intervals[leftIndex].stop >= right.intervals[rightIndex].start)\n" +
-"{\n" +
-"czm_raySegment intersection = czm_intersection(left.intervals[leftIndex], right.intervals[rightIndex]);\n" +
-"if (!czm_isEmpty(intersection))\n" +
-"{\n" +
-"czm_insertAt(result, intersection, result.count);\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"break;\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"break;\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"return result;\n" +
-"}\n" +
-"czm_raySegmentCollection czm_subtraction(czm_raySegment outer, czm_raySegment inner)\n" +
-"{\n" +
-"czm_raySegmentCollection i = czm_raySegmentCollectionNew();\n" +
-"czm_raySegment intersection = czm_intersection(outer, inner);\n" +
-"if (czm_isEmpty(intersection) || (intersection.start == intersection.stop))\n" +
-"{\n" +
-"i.count = 1;\n" +
-"i.intervals[0] = outer;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"if ((intersection.start == outer.start) && (intersection.stop == outer.stop))\n" +
-"{\n" +
-"i.count = 0;\n" +
-"}\n" +
-"else if (intersection.start == outer.start)\n" +
-"{\n" +
-"i.count = 1;\n" +
-"i.intervals[0] = czm_raySegment(inner.stop, outer.stop);\n" +
-"}\n" +
-"else if (intersection.stop == outer.stop)\n" +
-"{\n" +
-"i.count = 1;\n" +
-"i.intervals[0] = czm_raySegment(outer.start, inner.start);\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"i.count = 2;\n" +
-"i.intervals[0] = czm_raySegment(outer.start, inner.start);\n" +
-"i.intervals[1] = czm_raySegment(inner.stop, outer.stop);\n" +
-"}\n" +
-"}\n" +
-"return i;\n" +
-"}\n" +
-"czm_raySegmentCollection czm_subtraction(czm_raySegmentCollection left, czm_raySegment right)\n" +
-"{\n" +
-"if (left.count == 1)\n" +
-"{\n" +
-"czm_raySegmentCollection result = czm_subtraction(left.intervals[0], right);\n" +
-"return result;\n" +
-"}\n" +
-"czm_raySegmentCollection result = czm_raySegmentCollectionNew();\n" +
-"for (int leftIndex = 0; leftIndex < czm_raySegmentCollectionCapacity; ++leftIndex)\n" +
-"{\n" +
-"if (leftIndex < left.count)\n" +
-"{\n" +
-"czm_raySegmentCollection segments = czm_subtraction(left.intervals[leftIndex], right);\n" +
-"if (segments.count != 0)\n" +
-"{\n" +
-"czm_insertAt(result, segments, result.count);\n" +
-"}\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"break;\n" +
-"}\n" +
-"}\n" +
-"return result;\n" +
-"}\n" +
-"czm_raySegmentCollection czm_subtraction(czm_raySegmentCollection left, czm_raySegmentCollection right)\n" +
-"{\n" +
-"if (right.count == 1)\n" +
-"{\n" +
-"if (left.count == 1)\n" +
-"{\n" +
-"czm_raySegmentCollection result = czm_subtraction(left.intervals[0], right.intervals[0]);\n" +
-"return result;\n" +
-"}\n" +
-"else\n" +
-"{\n" +
-"czm_raySegmentCollection result = czm_subtraction(left, right.intervals[0]);\n" +
-"return result;\n" +
-"}\n" +
-"}\n" +
-"czm_raySegmentCollection complement = czm_complement(right);\n" +
-"czm_raySegmentCollection result = czm_intersection(left, complement);\n" +
-"return result;\n" +
-"}\n" +
-"";
+    
+    return "const int czm_raySegmentCollectionCapacity = 4;\n\
+struct czm_raySegmentCollection\n\
+{\n\
+czm_raySegment intervals[czm_raySegmentCollectionCapacity];\n\
+int count;\n\
+};\n\
+czm_raySegmentCollection czm_raySegmentCollectionNew()\n\
+{\n\
+czm_raySegment intervals[czm_raySegmentCollectionCapacity];\n\
+czm_raySegmentCollection i = czm_raySegmentCollection(intervals, 0);\n\
+return i;\n\
+}\n\
+czm_raySegmentCollection czm_raySegmentCollectionNew(czm_raySegment segment)\n\
+{\n\
+czm_raySegment intervals[czm_raySegmentCollectionCapacity];\n\
+intervals[0] = segment;\n\
+czm_raySegmentCollection i = czm_raySegmentCollection(intervals, 1);\n\
+return i;\n\
+}\n\
+czm_raySegmentCollection czm_raySegmentCollectionNew(czm_raySegment first, czm_raySegment second)\n\
+{\n\
+czm_raySegment intervals[czm_raySegmentCollectionCapacity];\n\
+intervals[0] = first;\n\
+intervals[1] = second;\n\
+czm_raySegmentCollection i = czm_raySegmentCollection(intervals, 2);\n\
+return i;\n\
+}\n\
+void czm_removeAt(inout czm_raySegmentCollection collection, int index)\n\
+{\n\
+--collection.count;\n\
+for (int i = 0; i < czm_raySegmentCollectionCapacity; ++i)\n\
+{\n\
+if (i >= index && i < collection.count)\n\
+{\n\
+collection.intervals[i] = collection.intervals[i + 1];\n\
+}\n\
+else if (i == collection.count)\n\
+{\n\
+break;\n\
+}\n\
+}\n\
+}\n\
+void czm_insertAt(inout czm_raySegmentCollection collection, czm_raySegment segment, int index)\n\
+{\n\
+for (int i = czm_raySegmentCollectionCapacity - 1; i >= 0; --i)\n\
+{\n\
+if (i <= collection.count && i > index)\n\
+{\n\
+collection.intervals[i] = collection.intervals[i - 1];\n\
+}\n\
+else if (i == index)\n\
+{\n\
+collection.intervals[i] = segment;\n\
+}\n\
+else if (i < index)\n\
+{\n\
+break;\n\
+}\n\
+}\n\
+++collection.count;\n\
+}\n\
+void czm_insertAt(inout czm_raySegmentCollection collection, czm_raySegmentCollection segments, int index)\n\
+{\n\
+if (segments.count == 1)\n\
+{\n\
+czm_insertAt(collection, segments.intervals[0], index);\n\
+}\n\
+else\n\
+{\n\
+for (int i = czm_raySegmentCollectionCapacity - 1; i >= 0; --i)\n\
+{\n\
+if (i < segments.count)\n\
+{\n\
+czm_insertAt(collection, segments.intervals[i], index);\n\
+}\n\
+}\n\
+}\n\
+}\n\
+void czm_complement(czm_raySegment segment, out czm_raySegmentCollection collection)\n\
+{\n\
+if (czm_isEmpty(segment))\n\
+{\n\
+collection = czm_raySegmentCollectionNew(czm_fullRaySegment);\n\
+}\n\
+else if (segment.stop == czm_infinity)\n\
+{\n\
+if (segment.start == 0.0)\n\
+{\n\
+collection = czm_raySegmentCollectionNew();\n\
+}\n\
+else\n\
+{\n\
+collection = czm_raySegmentCollectionNew(czm_raySegment(0.0, segment.start));\n\
+}\n\
+}\n\
+else if (segment.start == 0.0)\n\
+{\n\
+collection = czm_raySegmentCollectionNew(czm_raySegment(segment.stop, czm_infinity));\n\
+}\n\
+else\n\
+{\n\
+czm_raySegment head = czm_raySegment(0.0, segment.start);\n\
+czm_raySegment tail = czm_raySegment(segment.stop, czm_infinity);\n\
+collection = czm_raySegmentCollectionNew(head, tail);\n\
+}\n\
+}\n\
+czm_raySegmentCollection czm_complement(czm_raySegmentCollection collection)\n\
+{\n\
+if (collection.count == 0)\n\
+{\n\
+czm_raySegmentCollection result = czm_raySegmentCollectionNew(czm_fullRaySegment);\n\
+return result;\n\
+}\n\
+else if (collection.count == 1)\n\
+{\n\
+czm_raySegmentCollection result;\n\
+czm_complement(collection.intervals[0], result);\n\
+return result;\n\
+}\n\
+czm_raySegmentCollection result = czm_raySegmentCollectionNew();\n\
+for (int i = 0; i < czm_raySegmentCollectionCapacity; ++i)\n\
+{\n\
+if (i < collection.count)\n\
+{\n\
+float start = collection.intervals[i].stop;\n\
+if (i < collection.count - 1)\n\
+{\n\
+float stop = collection.intervals[i + 1].start;\n\
+result.intervals[i] = czm_raySegment(start, stop);\n\
+++result.count;\n\
+}\n\
+else if (start != czm_infinity)\n\
+{\n\
+result.intervals[i] = czm_raySegment(start, czm_infinity);\n\
+++result.count;\n\
+}\n\
+}\n\
+else\n\
+{\n\
+break;\n\
+}\n\
+}\n\
+if (collection.count > 0)\n\
+{\n\
+float stop = collection.intervals[0].start;\n\
+if (stop != 0.0)\n\
+{\n\
+czm_insertAt(result, czm_raySegment(0.0, stop), 0);\n\
+}\n\
+}\n\
+return result;\n\
+}\n\
+czm_raySegmentCollection czm_union(czm_raySegment left, czm_raySegment right)\n\
+{\n\
+if (czm_isFull(left) || czm_isFull(right))\n\
+{\n\
+czm_raySegmentCollection result = czm_raySegmentCollectionNew(czm_fullRaySegment);\n\
+return result;\n\
+}\n\
+float stop = min(left.stop, right.stop);\n\
+float start = max(left.start, right.start);\n\
+if (stop < start)\n\
+{\n\
+czm_raySegmentCollection result = (left.start < right.start) ? czm_raySegmentCollectionNew(left, right) : czm_raySegmentCollectionNew(right, left);\n\
+return result;\n\
+}\n\
+czm_raySegmentCollection result = czm_raySegmentCollectionNew(czm_raySegment(min(left.start, right.start), max(left.stop, right.stop)));\n\
+return result;\n\
+}\n\
+czm_raySegment czm_intersection(czm_raySegment left, czm_raySegment right)\n\
+{\n\
+float stop = min(left.stop, right.stop);\n\
+if (stop < 0.0)\n\
+{\n\
+return czm_emptyRaySegment;\n\
+}\n\
+float start = max(left.start, right.start);\n\
+if (stop < start)\n\
+{\n\
+return czm_emptyRaySegment;\n\
+}\n\
+czm_raySegment s = czm_raySegment(start, stop);\n\
+return s;\n\
+}\n\
+czm_raySegmentCollection czm_intersection(czm_raySegmentCollection left, czm_raySegment right)\n\
+{\n\
+if (left.count == 1)\n\
+{\n\
+czm_raySegment intersection = czm_intersection(left.intervals[0], right);\n\
+if (czm_isEmpty(intersection))\n\
+{\n\
+czm_raySegmentCollection result = czm_raySegmentCollectionNew();\n\
+return result;\n\
+}\n\
+else\n\
+{\n\
+czm_raySegmentCollection result = czm_raySegmentCollectionNew(intersection);\n\
+return result;\n\
+}\n\
+}\n\
+czm_raySegmentCollection result = czm_raySegmentCollectionNew();\n\
+for (int leftIndex = 0; leftIndex < czm_raySegmentCollectionCapacity; ++leftIndex)\n\
+{\n\
+if (leftIndex < left.count)\n\
+{\n\
+czm_raySegment intersection = czm_intersection(left.intervals[leftIndex], right);\n\
+if (!czm_isEmpty(intersection))\n\
+{\n\
+czm_insertAt(result, intersection, result.count);\n\
+}\n\
+}\n\
+else\n\
+{\n\
+break;\n\
+}\n\
+}\n\
+return result;\n\
+}\n\
+czm_raySegmentCollection czm_intersection(czm_raySegmentCollection left, czm_raySegmentCollection right)\n\
+{\n\
+if (right.count == 1)\n\
+{\n\
+if (left.count == 1)\n\
+{\n\
+czm_raySegment intersection = czm_intersection(left.intervals[0], right.intervals[0]);\n\
+if (czm_isEmpty(intersection))\n\
+{\n\
+czm_raySegmentCollection result = czm_raySegmentCollectionNew();\n\
+return result;\n\
+}\n\
+else\n\
+{\n\
+czm_raySegmentCollection result = czm_raySegmentCollectionNew(intersection);\n\
+return result;\n\
+}\n\
+}\n\
+else\n\
+{\n\
+czm_raySegmentCollection result = czm_intersection(left, right.intervals[0]);\n\
+return result;\n\
+}\n\
+}\n\
+czm_raySegmentCollection result = czm_raySegmentCollectionNew();\n\
+if (left.count > 0 && right.count > 0)\n\
+{\n\
+for (int leftIndex = 0; leftIndex < czm_raySegmentCollectionCapacity; ++leftIndex)\n\
+{\n\
+if (leftIndex < left.count)\n\
+{\n\
+for (int rightIndex = 0; rightIndex < czm_raySegmentCollectionCapacity; ++rightIndex)\n\
+{\n\
+if (rightIndex <= right.count && left.intervals[leftIndex].stop >= right.intervals[rightIndex].start)\n\
+{\n\
+czm_raySegment intersection = czm_intersection(left.intervals[leftIndex], right.intervals[rightIndex]);\n\
+if (!czm_isEmpty(intersection))\n\
+{\n\
+czm_insertAt(result, intersection, result.count);\n\
+}\n\
+}\n\
+else\n\
+{\n\
+break;\n\
+}\n\
+}\n\
+}\n\
+else\n\
+{\n\
+break;\n\
+}\n\
+}\n\
+}\n\
+return result;\n\
+}\n\
+czm_raySegmentCollection czm_subtraction(czm_raySegment outer, czm_raySegment inner)\n\
+{\n\
+czm_raySegmentCollection i = czm_raySegmentCollectionNew();\n\
+czm_raySegment intersection = czm_intersection(outer, inner);\n\
+if (czm_isEmpty(intersection) || (intersection.start == intersection.stop))\n\
+{\n\
+i.count = 1;\n\
+i.intervals[0] = outer;\n\
+}\n\
+else\n\
+{\n\
+if ((intersection.start == outer.start) && (intersection.stop == outer.stop))\n\
+{\n\
+i.count = 0;\n\
+}\n\
+else if (intersection.start == outer.start)\n\
+{\n\
+i.count = 1;\n\
+i.intervals[0] = czm_raySegment(inner.stop, outer.stop);\n\
+}\n\
+else if (intersection.stop == outer.stop)\n\
+{\n\
+i.count = 1;\n\
+i.intervals[0] = czm_raySegment(outer.start, inner.start);\n\
+}\n\
+else\n\
+{\n\
+i.count = 2;\n\
+i.intervals[0] = czm_raySegment(outer.start, inner.start);\n\
+i.intervals[1] = czm_raySegment(inner.stop, outer.stop);\n\
+}\n\
+}\n\
+return i;\n\
+}\n\
+czm_raySegmentCollection czm_subtraction(czm_raySegmentCollection left, czm_raySegment right)\n\
+{\n\
+if (left.count == 1)\n\
+{\n\
+czm_raySegmentCollection result = czm_subtraction(left.intervals[0], right);\n\
+return result;\n\
+}\n\
+czm_raySegmentCollection result = czm_raySegmentCollectionNew();\n\
+for (int leftIndex = 0; leftIndex < czm_raySegmentCollectionCapacity; ++leftIndex)\n\
+{\n\
+if (leftIndex < left.count)\n\
+{\n\
+czm_raySegmentCollection segments = czm_subtraction(left.intervals[leftIndex], right);\n\
+if (segments.count != 0)\n\
+{\n\
+czm_insertAt(result, segments, result.count);\n\
+}\n\
+}\n\
+else\n\
+{\n\
+break;\n\
+}\n\
+}\n\
+return result;\n\
+}\n\
+czm_raySegmentCollection czm_subtraction(czm_raySegmentCollection left, czm_raySegmentCollection right)\n\
+{\n\
+if (right.count == 1)\n\
+{\n\
+if (left.count == 1)\n\
+{\n\
+czm_raySegmentCollection result = czm_subtraction(left.intervals[0], right.intervals[0]);\n\
+return result;\n\
+}\n\
+else\n\
+{\n\
+czm_raySegmentCollection result = czm_subtraction(left, right.intervals[0]);\n\
+return result;\n\
+}\n\
+}\n\
+czm_raySegmentCollection complement = czm_complement(right);\n\
+czm_raySegmentCollection result = czm_intersection(left, complement);\n\
+return result;\n\
+}\n\
+";
 });
 // This file is automatically rebuilt by the Cesium build process.
 /*global define*/
@@ -50333,52 +50309,52 @@ gl_Position = czm_viewportOrthographic * (position * vec4(u_textureDimensions, 1
 }\n\
 ";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/SensorVolume',[],function() {
-  
-  return "uniform float u_erosion;\n" +
-"uniform vec4 u_intersectionColor;\n" +
-"bool inSensorShadow(vec3 coneVertexWC, czm_ellipsoid ellipsoidEC, vec3 pointEC)\n" +
-"{\n" +
-"vec3 D = ellipsoidEC.inverseRadii;\n" +
-"vec3 q = D * coneVertexWC;\n" +
-"float qMagnitudeSquared = dot(q, q);\n" +
-"float test = qMagnitudeSquared - 1.0;\n" +
-"vec3 t = (czm_inverseView * vec4(pointEC, 1.0)).xyz;\n" +
-"vec3 temp = D * t - q;\n" +
-"float d = dot(temp, q);\n" +
-"return (d < -test) && (d / length(temp) < -sqrt(test));\n" +
-"}\n" +
-"#ifndef RENDER_FOR_PICK\n" +
-"void sensorErode(float sensorRadius, vec3 pointEC)\n" +
-"{\n" +
-"if (u_erosion != 1.0)\n" +
-"{\n" +
-"vec3 pointMC = (czm_inverseModelView * vec4(pointEC, 1.0)).xyz;\n" +
-"pointMC /= sensorRadius;\n" +
-"pointMC /= (1.0 / 10.0);\n" +
-"float t = 0.5 + (0.5 * czm_snoise(pointMC));\n" +
-"if (t > u_erosion)\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"}\n" +
-"}\n" +
-"vec4 getIntersectionColor(float sensorRadius, vec3 pointEC)\n" +
-"{\n" +
-"sensorErode(sensorRadius, pointEC);\n" +
-"return u_intersectionColor;\n" +
-"}\n" +
-"vec2 sensor2dTextureCoordinates(float sensorRadius, vec3 pointMC)\n" +
-"{\n" +
-"float t = pointMC.z / sensorRadius;\n" +
-"float s = 1.0 + (atan(pointMC.y, pointMC.x) / czm_twoPi);\n" +
-"s = s - floor(s);\n" +
-"return vec2(s, t);\n" +
-"}\n" +
-"#endif\n" +
-"";
+    
+    return "uniform float u_erosion;\n\
+uniform vec4 u_intersectionColor;\n\
+bool inSensorShadow(vec3 coneVertexWC, czm_ellipsoid ellipsoidEC, vec3 pointEC)\n\
+{\n\
+vec3 D = ellipsoidEC.inverseRadii;\n\
+vec3 q = D * coneVertexWC;\n\
+float qMagnitudeSquared = dot(q, q);\n\
+float test = qMagnitudeSquared - 1.0;\n\
+vec3 t = (czm_inverseView * vec4(pointEC, 1.0)).xyz;\n\
+vec3 temp = D * t - q;\n\
+float d = dot(temp, q);\n\
+return (d < -test) && (d / length(temp) < -sqrt(test));\n\
+}\n\
+#ifndef RENDER_FOR_PICK\n\
+void sensorErode(float sensorRadius, vec3 pointEC)\n\
+{\n\
+if (u_erosion != 1.0)\n\
+{\n\
+vec3 pointMC = (czm_inverseModelView * vec4(pointEC, 1.0)).xyz;\n\
+pointMC /= sensorRadius;\n\
+pointMC /= (1.0 / 10.0);\n\
+float t = 0.5 + (0.5 * czm_snoise(pointMC));\n\
+if (t > u_erosion)\n\
+{\n\
+discard;\n\
+}\n\
+}\n\
+}\n\
+vec4 getIntersectionColor(float sensorRadius, vec3 pointEC)\n\
+{\n\
+sensorErode(sensorRadius, pointEC);\n\
+return u_intersectionColor;\n\
+}\n\
+vec2 sensor2dTextureCoordinates(float sensorRadius, vec3 pointMC)\n\
+{\n\
+float t = pointMC.z / sensorRadius;\n\
+float s = 1.0 + (atan(pointMC.y, pointMC.x) / czm_twoPi);\n\
+s = s - floor(s);\n\
+return vec2(s, t);\n\
+}\n\
+#endif\n\
+";
 });
 /*!
  * Copyright (c) 2000-2005, Sean O'Neil (s_p_oneil@hotmail.com)
@@ -50414,70 +50390,27 @@ define('Shaders/SensorVolume',[],function() {
 /*global define*/
 define('Shaders/SkyAtmosphereFS',[],function() {
     
-    return "/*!\n\
- * Copyright (c) 2000-2005, Sean O'Neil (s_p_oneil@hotmail.com)\n\
- * All rights reserved.\n\
- * \n\
- * Redistribution and use in source and binary forms, with or without\n\
- * modification, are permitted provided that the following conditions\n\
- * are met:\n\
- * \n\
- * * Redistributions of source code must retain the above copyright notice,\n\
- *   this list of conditions and the following disclaimer.\n\
- * * Redistributions in binary form must reproduce the above copyright notice,\n\
- *   this list of conditions and the following disclaimer in the documentation\n\
- *   and/or other materials provided with the distribution.\n\
- * * Neither the name of the project nor the names of its contributors may be\n\
- *   used to endorse or promote products derived from this software without\n\
- *   specific prior written permission.\n\
- * \n\
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\n\
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\n\
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\n\
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE\n\
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\n\
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\n\
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n\
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n\
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n\
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n\
- *\n\
- * Modifications made by Analytical Graphics, Inc.\n\
- */\n\
- \n\
- // Code:  http://sponeil.net/\n\
- // GPU Gems 2 Article:  http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter16.html\n\
- \n\
-uniform float g;\n\
+    return "uniform float g;\n\
 uniform float g2;\n\
-\n\
 varying vec3 v_rayleighColor;\n\
 varying vec3 v_mieColor;\n\
 varying vec3 v_toCamera;\n\
 varying vec3 v_positionEC;\n\
-\n\
 void main (void)\n\
 {\n\
-    // TODO: make arbitrary ellipsoid\n\
-    czm_ellipsoid ellipsoid = czm_getWgs84EllipsoidEC();\n\
-    \n\
-    vec3 direction = normalize(v_positionEC);\n\
-    czm_ray ray = czm_ray(vec3(0.0), direction);\n\
-    \n\
-    czm_raySegment intersection = czm_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n\
-    if (!czm_isEmpty(intersection)) {\n\
-        discard;\n\
-    }\n\
-    \n\
-    // Extra normalize added for Android\n\
-    float fCos = dot(czm_sunDirectionWC, normalize(v_toCamera)) / length(v_toCamera);\n\
-    float fRayleighPhase = 0.75 * (1.0 + fCos*fCos);\n\
-    float fMiePhase = 1.5 * ((1.0 - g2) / (2.0 + g2)) * (1.0 + fCos*fCos) / pow(1.0 + g2 - 2.0*g*fCos, 1.5);\n\
-    \n\
-    const float fExposure = 2.0;\n\
-    \n\
-    vec3 rgb = fRayleighPhase * v_rayleighColor + fMiePhase * v_mieColor;\n\
-    gl_FragColor = vec4(vec3(1.0) - exp(-fExposure * rgb), 1.0);\n\
+czm_ellipsoid ellipsoid = czm_getWgs84EllipsoidEC();\n\
+vec3 direction = normalize(v_positionEC);\n\
+czm_ray ray = czm_ray(vec3(0.0), direction);\n\
+czm_raySegment intersection = czm_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n\
+if (!czm_isEmpty(intersection)) {\n\
+discard;\n\
+}\n\
+float fCos = dot(czm_sunDirectionWC, normalize(v_toCamera)) / length(v_toCamera);\n\
+float fRayleighPhase = 0.75 * (1.0 + fCos*fCos);\n\
+float fMiePhase = 1.5 * ((1.0 - g2) / (2.0 + g2)) * (1.0 + fCos*fCos) / pow(1.0 + g2 - 2.0*g*fCos, 1.5);\n\
+const float fExposure = 2.0;\n\
+vec3 rgb = fRayleighPhase * v_rayleighColor + fMiePhase * v_mieColor;\n\
+gl_FragColor = vec4(vec3(1.0) - exp(-fExposure * rgb), 1.0);\n\
 }\n\
 ";
 });
@@ -50511,112 +50444,113 @@ void main (void)\n\
  *
  * Modifications made by Analytical Graphics, Inc.
  */
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/SkyAtmosphereVS',[],function() {
-  
-  return "attribute vec4 position;\n" +
-"uniform float fCameraHeight;\n" +
-"uniform float fCameraHeight2;\n" +
-"uniform vec3 v3InvWavelength;\n" +
-"uniform float fOuterRadius;\n" +
-"uniform float fOuterRadius2;\n" +
-"uniform float fInnerRadius;\n" +
-"uniform float fInnerRadius2;\n" +
-"uniform float fKrESun;\n" +
-"uniform float fKmESun;\n" +
-"uniform float fKr4PI;\n" +
-"uniform float fKm4PI;\n" +
-"uniform float fScale;\n" +
-"uniform float fScaleDepth;\n" +
-"uniform float fScaleOverScaleDepth;\n" +
-"const int nSamples = 2;\n" +
-"const float fSamples = 2.0;\n" +
-"varying vec3 v_rayleighColor;\n" +
-"varying vec3 v_mieColor;\n" +
-"varying vec3 v_toCamera;\n" +
-"varying vec3 v_positionEC;\n" +
-"float scale(float fCos)\n" +
-"{\n" +
-"float x = 1.0 - fCos;\n" +
-"return fScaleDepth * exp(-0.00287 + x*(0.459 + x*(3.83 + x*(-6.80 + x*5.25))));\n" +
-"}\n" +
-"void main(void)\n" +
-"{\n" +
-"vec3 v3Pos = position.xyz;\n" +
-"vec3 v3Ray = v3Pos - czm_viewerPositionWC;\n" +
-"float fFar = length(v3Ray);\n" +
-"v3Ray /= fFar;\n" +
-"#ifdef SKY_FROM_SPACE\n" +
-"float B = 2.0 * dot(czm_viewerPositionWC, v3Ray);\n" +
-"float C = fCameraHeight2 - fOuterRadius2;\n" +
-"float fDet = max(0.0, B*B - 4.0 * C);\n" +
-"float fNear = 0.5 * (-B - sqrt(fDet));\n" +
-"vec3 v3Start = czm_viewerPositionWC + v3Ray * fNear;\n" +
-"fFar -= fNear;\n" +
-"float fStartAngle = dot(v3Ray, v3Start) / fOuterRadius;\n" +
-"float fStartDepth = exp(-1.0 / fScaleDepth);\n" +
-"float fStartOffset = fStartDepth*scale(fStartAngle);\n" +
-"#else\n" +
-"vec3 v3Start = czm_viewerPositionWC;\n" +
-"float fHeight = length(v3Start);\n" +
-"float fDepth = exp(fScaleOverScaleDepth * (fInnerRadius - fCameraHeight));\n" +
-"float fStartAngle = dot(v3Ray, v3Start) / fHeight;\n" +
-"float fStartOffset = fDepth*scale(fStartAngle);\n" +
-"#endif\n" +
-"float fSampleLength = fFar / fSamples;\n" +
-"float fScaledLength = fSampleLength * fScale;\n" +
-"vec3 v3SampleRay = v3Ray * fSampleLength;\n" +
-"vec3 v3SamplePoint = v3Start + v3SampleRay * 0.5;\n" +
-"vec3 v3FrontColor = vec3(0.0, 0.0, 0.0);\n" +
-"for(int i=0; i<nSamples; i++)\n" +
-"{\n" +
-"float fHeight = length(v3SamplePoint);\n" +
-"float fDepth = exp(fScaleOverScaleDepth * (fInnerRadius - fHeight));\n" +
-"float fLightAngle = dot(czm_sunDirectionWC, v3SamplePoint) / fHeight;\n" +
-"float fCameraAngle = dot(v3Ray, v3SamplePoint) / fHeight;\n" +
-"float fScatter = (fStartOffset + fDepth*(scale(fLightAngle) - scale(fCameraAngle)));\n" +
-"vec3 v3Attenuate = exp(-fScatter * (v3InvWavelength * fKr4PI + fKm4PI));\n" +
-"v3FrontColor += v3Attenuate * (fDepth * fScaledLength);\n" +
-"v3SamplePoint += v3SampleRay;\n" +
-"}\n" +
-"v_mieColor = v3FrontColor * fKmESun;\n" +
-"v_rayleighColor = v3FrontColor * (v3InvWavelength * fKrESun);\n" +
-"v_toCamera = czm_viewerPositionWC - v3Pos;\n" +
-"v_positionEC = (czm_modelView * position).xyz;\n" +
-"gl_Position = czm_modelViewProjection * position;\n" +
-"}\n" +
-"";
+    
+    return "attribute vec4 position;\n\
+uniform float fCameraHeight;\n\
+uniform float fCameraHeight2;\n\
+uniform vec3 v3InvWavelength;\n\
+uniform float fOuterRadius;\n\
+uniform float fOuterRadius2;\n\
+uniform float fInnerRadius;\n\
+uniform float fInnerRadius2;\n\
+uniform float fKrESun;\n\
+uniform float fKmESun;\n\
+uniform float fKr4PI;\n\
+uniform float fKm4PI;\n\
+uniform float fScale;\n\
+uniform float fScaleDepth;\n\
+uniform float fScaleOverScaleDepth;\n\
+const int nSamples = 2;\n\
+const float fSamples = 2.0;\n\
+varying vec3 v_rayleighColor;\n\
+varying vec3 v_mieColor;\n\
+varying vec3 v_toCamera;\n\
+varying vec3 v_positionEC;\n\
+float scale(float fCos)\n\
+{\n\
+float x = 1.0 - fCos;\n\
+return fScaleDepth * exp(-0.00287 + x*(0.459 + x*(3.83 + x*(-6.80 + x*5.25))));\n\
+}\n\
+void main(void)\n\
+{\n\
+vec3 v3Pos = position.xyz;\n\
+vec3 v3Ray = v3Pos - czm_viewerPositionWC;\n\
+float fFar = length(v3Ray);\n\
+v3Ray /= fFar;\n\
+#ifdef SKY_FROM_SPACE\n\
+float B = 2.0 * dot(czm_viewerPositionWC, v3Ray);\n\
+float C = fCameraHeight2 - fOuterRadius2;\n\
+float fDet = max(0.0, B*B - 4.0 * C);\n\
+float fNear = 0.5 * (-B - sqrt(fDet));\n\
+vec3 v3Start = czm_viewerPositionWC + v3Ray * fNear;\n\
+fFar -= fNear;\n\
+float fStartAngle = dot(v3Ray, v3Start) / fOuterRadius;\n\
+float fStartDepth = exp(-1.0 / fScaleDepth);\n\
+float fStartOffset = fStartDepth*scale(fStartAngle);\n\
+#else\n\
+vec3 v3Start = czm_viewerPositionWC;\n\
+float fHeight = length(v3Start);\n\
+float fDepth = exp(fScaleOverScaleDepth * (fInnerRadius - fCameraHeight));\n\
+float fStartAngle = dot(v3Ray, v3Start) / fHeight;\n\
+float fStartOffset = fDepth*scale(fStartAngle);\n\
+#endif\n\
+float fSampleLength = fFar / fSamples;\n\
+float fScaledLength = fSampleLength * fScale;\n\
+vec3 v3SampleRay = v3Ray * fSampleLength;\n\
+vec3 v3SamplePoint = v3Start + v3SampleRay * 0.5;\n\
+vec3 v3FrontColor = vec3(0.0, 0.0, 0.0);\n\
+for(int i=0; i<nSamples; i++)\n\
+{\n\
+float fHeight = length(v3SamplePoint);\n\
+float fDepth = exp(fScaleOverScaleDepth * (fInnerRadius - fHeight));\n\
+float fLightAngle = dot(czm_sunDirectionWC, v3SamplePoint) / fHeight;\n\
+float fCameraAngle = dot(v3Ray, v3SamplePoint) / fHeight;\n\
+float fScatter = (fStartOffset + fDepth*(scale(fLightAngle) - scale(fCameraAngle)));\n\
+vec3 v3Attenuate = exp(-fScatter * (v3InvWavelength * fKr4PI + fKm4PI));\n\
+v3FrontColor += v3Attenuate * (fDepth * fScaledLength);\n\
+v3SamplePoint += v3SampleRay;\n\
+}\n\
+v_mieColor = v3FrontColor * fKmESun;\n\
+v_rayleighColor = v3FrontColor * (v3InvWavelength * fKrESun);\n\
+v_toCamera = czm_viewerPositionWC - v3Pos;\n\
+v_positionEC = (czm_modelView * position).xyz;\n\
+gl_Position = czm_modelViewProjection * position;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/ViewportQuadFS',[],function() {
-  
-  return "uniform sampler2D u_texture;\n" +
-"varying vec2 v_textureCoordinates;\n" +
-"void main()\n" +
-"{\n" +
-"vec4 c = texture2D(u_texture, v_textureCoordinates);\n" +
-"if (c.a == 0.0)\n" +
-"{\n" +
-"discard;\n" +
-"}\n" +
-"gl_FragColor = c;\n" +
-"}\n" +
-"";
+    
+    return "uniform sampler2D u_texture;\n\
+varying vec2 v_textureCoordinates;\n\
+void main()\n\
+{\n\
+vec4 c = texture2D(u_texture, v_textureCoordinates);\n\
+if (c.a == 0.0)\n\
+{\n\
+discard;\n\
+}\n\
+gl_FragColor = c;\n\
+}\n\
+";
 });
-
+// This file is automatically rebuilt by the Cesium build process.
 /*global define*/
 define('Shaders/ViewportQuadVS',[],function() {
-  
-  return "attribute vec4 position;\n" +
-"attribute vec2 textureCoordinates;\n" +
-"varying vec2 v_textureCoordinates;\n" +
-"void main()\n" +
-"{\n" +
-"gl_Position = position;\n" +
-"v_textureCoordinates = textureCoordinates;\n" +
-"}\n" +
-"";
+    
+    return "attribute vec4 position;\n\
+attribute vec2 textureCoordinates;\n\
+varying vec2 v_textureCoordinates;\n\
+void main()\n\
+{\n\
+gl_Position = position;\n\
+v_textureCoordinates = textureCoordinates;\n\
+}\n\
+";
 });
 /*global define*/
 define('Scene/ViewportQuad',[
@@ -59049,6 +58983,132 @@ define('DynamicScene/DynamicPointVisualizer',[
     };
 
     return DynamicPointVisualizer;
+});
+/*global define*/
+define('Core/loadText',[
+        './DeveloperError',
+        '../ThirdParty/when'
+    ], function(
+        DeveloperError,
+        when) {
+    
+
+    /**
+     * Asynchronously loads the given URL as text.  Returns a promise that will resolve to
+     * a String once loaded, or reject if the URL failed to load.  The data is loaded
+     * using XMLHttpRequest, which means that in order to make requests to another origin,
+     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
+     *
+     * @exports loadText
+     *
+     * @param {String|Promise} url The URL to request, or a promise for the URL.
+     * @param {Object} [headers] HTTP headers to send with the request.
+     * @returns {Promise} a promise that will resolve to the requested data when loaded.
+     *
+     * @exception {DeveloperError} url is required.
+     *
+     * @example
+     * // load text from a URL, setting a custom header
+     * loadText('http://someUrl.com/someJson.txt', {
+     *   'X-Custom-Header' : 'some value'
+     * }).then(function(text) {
+     *     //Do something with the text
+     * }, function() {
+     *     // an error occurred
+     * });
+     *
+     * @see <a href="http://en.wikipedia.org/wiki/XMLHttpRequest">XMLHttpRequest</a>
+     * @see <a href='http://www.w3.org/TR/cors/'>Cross-Origin Resource Sharing</a>
+     * @see <a href='http://wiki.commonjs.org/wiki/Promises/A'>CommonJS Promises/A</a>
+     */
+    var loadText = function(url, headers) {
+        if (typeof url === 'undefined') {
+            throw new DeveloperError('url is required.');
+        }
+
+        return when(url, function(url) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+
+            if (typeof headers !== 'undefined') {
+                for ( var key in headers) {
+                    if (headers.hasOwnProperty(key)) {
+                        xhr.setRequestHeader(key, headers[key]);
+                    }
+                }
+            }
+
+            var deferred = when.defer();
+
+            xhr.onload = function(e) {
+                deferred.resolve(xhr.response);
+            };
+
+            xhr.onerror = function(e) {
+                deferred.reject(e);
+            };
+
+            xhr.send();
+
+            return deferred.promise;
+        });
+    };
+
+    return loadText;
+});
+/*global define*/
+define('Core/loadJson',[
+        './defaultValue',
+        './loadText',
+        './DeveloperError'
+    ], function(
+        defaultValue,
+        loadText,
+        DeveloperError) {
+    
+
+    /**
+     * Asynchronously loads the given URL as JSON.  Returns a promise that will resolve to
+     * a JSON object once loaded, or reject if the URL failed to load.  The data is loaded
+     * using XMLHttpRequest, which means that in order to make requests to another origin,
+     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled. This function
+     * always adds 'Accept: application/json' to the request headers.
+     *
+     * @exports loadJson
+     *
+     * @param {String|Promise} url The URL to request, or a promise for the URL.
+     * @param {Object} [headers] HTTP headers to send with the request.
+     * 'Accept: application/json' is added to the request headers automatically
+     * and does not need to be specified.
+     * @returns {Promise} a promise that will resolve to the requested data when loaded.
+     *
+     * @exception {DeveloperError} url is required.
+     *
+     * @example
+     * loadJson('http://someUrl.com/someJson.txt').then(function(jsonData){
+     *     //Do something with the JSON object
+     * }, function() {
+     *     // an error occurred
+     * });
+     *
+     * @see loadText
+     * @see <a href='http://www.w3.org/TR/cors/'>Cross-Origin Resource Sharing</a>
+     * @see <a href='http://wiki.commonjs.org/wiki/Promises/A'>CommonJS Promises/A</a>
+     */
+    var loadJson = function loadJson(url, headers) {
+        if (typeof url === 'undefined') {
+            throw new DeveloperError('url is required.');
+        }
+
+        headers = defaultValue(headers, {});
+        headers.Accept = 'application/json';
+
+        return loadText(url, headers).then(function(value) {
+            return JSON.parse(value);
+        });
+    };
+
+    return loadJson;
 });
 /*global define*/
 define('Core/throttleRequestByServer',[
@@ -71589,7 +71649,7 @@ define('Scene/SingleTileImageryProvider',[
     return SingleTileImageryProvider;
 });
 /*global define*/
-define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Core/BoundingRectangle', 'Core/BoundingSphere', 'Core/BoxTessellator', 'Core/Cartesian2', 'Core/Cartesian3', 'Core/Cartesian4', 'Core/Cartographic', 'Core/CatmullRomSpline', 'Core/Clock', 'Core/ClockRange', 'Core/ClockStep', 'Core/Color', 'Core/ComponentDatatype', 'Core/CubeMapEllipsoidTessellator', 'Core/DefaultProxy', 'Core/DeveloperError', 'Core/Ellipsoid', 'Core/EllipsoidTangentPlane', 'Core/EllipsoidalOccluder', 'Core/Enumeration', 'Core/Event', 'Core/EventHandler', 'Core/EventModifier', 'Core/Extent', 'Core/ExtentTessellator', 'Core/FAR', 'Core/FeatureDetection', 'Core/FullScreen', 'Core/GeographicProjection', 'Core/HermitePolynomialApproximation', 'Core/HermiteSpline', 'Core/IndexDatatype', 'Core/Intersect', 'Core/IntersectionTests', 'Core/Interval', 'Core/Iso8601', 'Core/JulianDate', 'Core/LagrangePolynomialApproximation', 'Core/LeapSecond', 'Core/LinearApproximation', 'Core/Math', 'Core/Matrix2', 'Core/Matrix3', 'Core/Matrix4', 'Core/MeshFilters', 'Core/MouseEventType', 'Core/Occluder', 'Core/OrientationInterpolator', 'Core/PlaneTessellator', 'Core/PolygonPipeline', 'Core/PolylinePipeline', 'Core/PrimitiveType', 'Core/Quaternion', 'Core/Queue', 'Core/Ray', 'Core/RuntimeError', 'Core/Shapes', 'Core/Spherical', 'Core/TaskProcessor', 'Core/TimeConstants', 'Core/TimeInterval', 'Core/TimeIntervalCollection', 'Core/TimeStandard', 'Core/Tipsify', 'Core/Transforms', 'Core/TridiagonalSystemSolver', 'Core/Visibility', 'Core/WebMercatorProjection', 'Core/WindingOrder', 'Core/binarySearch', 'Core/clone', 'Core/combine', 'Core/computeSunPosition', 'Core/createGuid', 'Core/defaultValue', 'Core/destroyObject', 'Core/freezeObject', 'Core/getImagePixels', 'Core/isLeapYear', 'Core/jsonp', 'Core/loadArrayBuffer', 'Core/loadImage', 'Core/pointInsideTriangle2D', 'Core/requestAnimationFrame', 'Core/throttleRequestByServer', 'Core/writeTextToCanvas', 'DynamicScene/CompositeDynamicObjectCollection', 'DynamicScene/CzmlBoolean', 'DynamicScene/CzmlCartesian2', 'DynamicScene/CzmlCartesian3', 'DynamicScene/CzmlCartographic', 'DynamicScene/CzmlColor', 'DynamicScene/CzmlDefaults', 'DynamicScene/CzmlHorizontalOrigin', 'DynamicScene/CzmlImage', 'DynamicScene/CzmlLabelStyle', 'DynamicScene/CzmlNumber', 'DynamicScene/CzmlString', 'DynamicScene/CzmlUnitCartesian3', 'DynamicScene/CzmlUnitQuaternion', 'DynamicScene/CzmlUnitSpherical', 'DynamicScene/CzmlVerticalOrigin', 'DynamicScene/DynamicBillboard', 'DynamicScene/DynamicBillboardVisualizer', 'DynamicScene/DynamicColorMaterial', 'DynamicScene/DynamicCone', 'DynamicScene/DynamicConeVisualizer', 'DynamicScene/DynamicConeVisualizerUsingCustomSensor', 'DynamicScene/DynamicDirectionsProperty', 'DynamicScene/DynamicEllipsoid', 'DynamicScene/DynamicEllipsoidVisualizer', 'DynamicScene/DynamicImageMaterial', 'DynamicScene/DynamicLabel', 'DynamicScene/DynamicLabelVisualizer', 'DynamicScene/DynamicMaterialProperty', 'DynamicScene/DynamicObject', 'DynamicScene/DynamicObjectCollection', 'DynamicScene/DynamicObjectView', 'DynamicScene/DynamicPath', 'DynamicScene/DynamicPathVisualizer', 'DynamicScene/DynamicPoint', 'DynamicScene/DynamicPointVisualizer', 'DynamicScene/DynamicPolygon', 'DynamicScene/DynamicPolygonVisualizer', 'DynamicScene/DynamicPolyline', 'DynamicScene/DynamicPolylineVisualizer', 'DynamicScene/DynamicPositionProperty', 'DynamicScene/DynamicProperty', 'DynamicScene/DynamicPyramid', 'DynamicScene/DynamicPyramidVisualizer', 'DynamicScene/DynamicVertexPositionsProperty', 'DynamicScene/ReferenceProperty', 'DynamicScene/VisualizerCollection', 'DynamicScene/processCzml', 'Renderer/BlendEquation', 'Renderer/BlendFunction', 'Renderer/BlendingState', 'Renderer/Buffer', 'Renderer/BufferUsage', 'Renderer/ClearCommand', 'Renderer/CommandLists', 'Renderer/Context', 'Renderer/CubeMap', 'Renderer/CubeMapFace', 'Renderer/CullFace', 'Renderer/DepthFunction', 'Renderer/DrawCommand', 'Renderer/Framebuffer', 'Renderer/MipmapHint', 'Renderer/PickFramebuffer', 'Renderer/PixelDatatype', 'Renderer/PixelFormat', 'Renderer/Renderbuffer', 'Renderer/RenderbufferFormat', 'Renderer/ShaderCache', 'Renderer/ShaderProgram', 'Renderer/StencilFunction', 'Renderer/StencilOperation', 'Renderer/Texture', 'Renderer/TextureAtlas', 'Renderer/TextureAtlasBuilder', 'Renderer/TextureMagnificationFilter', 'Renderer/TextureMinificationFilter', 'Renderer/TextureWrap', 'Renderer/UniformDatatype', 'Renderer/UniformState', 'Renderer/VertexArray', 'Renderer/VertexArrayFacade', 'Renderer/VertexLayout', 'Scene/AnimationCollection', 'Scene/ArcGisMapServerImageryProvider', 'Scene/Billboard', 'Scene/BillboardCollection', 'Scene/BingMapsImageryProvider', 'Scene/BingMapsStyle', 'Scene/Camera', 'Scene/Camera2DController', 'Scene/CameraCentralBodyController', 'Scene/CameraColumbusViewController', 'Scene/CameraControllerCollection', 'Scene/CameraEventHandler', 'Scene/CameraEventType', 'Scene/CameraFlightController', 'Scene/CameraFreeLookController', 'Scene/CameraHelpers', 'Scene/CameraSpindleController', 'Scene/CameraSpindleControllerMode', 'Scene/CentralBody', 'Scene/CentralBodySurface', 'Scene/CentralBodySurfaceShaderSet', 'Scene/ComplexConicSensorVolume', 'Scene/CompositePrimitive', 'Scene/CullingVolume', 'Scene/CustomSensorVolume', 'Scene/DiscardMissingTileImagePolicy', 'Scene/DistanceIntervalMaterial', 'Scene/EllipsoidPrimitive', 'Scene/EllipsoidTerrainProvider', 'Scene/FrameState', 'Scene/FrustumCommands', 'Scene/GeographicTilingScheme', 'Scene/HorizontalOrigin', 'Scene/Imagery', 'Scene/ImageryLayer', 'Scene/ImageryLayerCollection', 'Scene/ImageryProvider', 'Scene/ImageryProviderError', 'Scene/ImageryState', 'Scene/Label', 'Scene/LabelCollection', 'Scene/LabelStyle', 'Scene/Material', 'Scene/NeverTileDiscardPolicy', 'Scene/OpenStreetMapImageryProvider', 'Scene/OrthographicFrustum', 'Scene/PerformanceDisplay', 'Scene/PerspectiveFrustum', 'Scene/PerspectiveOffCenterFrustum', 'Scene/Polygon', 'Scene/Polyline', 'Scene/PolylineCollection', 'Scene/Projections', 'Scene/RectangularPyramidSensorVolume', 'Scene/Scene', 'Scene/SceneMode', 'Scene/SceneTransitioner', 'Scene/SensorVolumeCollection', 'Scene/SingleTileImageryProvider', 'Scene/TerrainProvider', 'Scene/TexturePool', 'Scene/Tile', 'Scene/TileDiscardPolicy', 'Scene/TileImagery', 'Scene/TileLoadQueue', 'Scene/TileReplacementQueue', 'Scene/TileState', 'Scene/TilingScheme', 'Scene/VerticalOrigin', 'Scene/ViewportQuad', 'Scene/WebMapServiceImageryProvider', 'Scene/WebMercatorTilingScheme', 'Shaders/BillboardCollectionFS', 'Shaders/BillboardCollectionVS', 'Shaders/BuiltinFunctions', 'Shaders/CentralBodyFS', 'Shaders/CentralBodyFSCommon', 'Shaders/CentralBodyFSDepth', 'Shaders/CentralBodyFSPole', 'Shaders/CentralBodyVS', 'Shaders/CentralBodyVSDepth', 'Shaders/CentralBodyVSPole', 'Shaders/ComplexConicSensorVolumeFS', 'Shaders/ComplexConicSensorVolumeVS', 'Shaders/ConstructiveSolidGeometry', 'Shaders/CustomSensorVolumeFS', 'Shaders/CustomSensorVolumeVS', 'Shaders/EllipsoidFS', 'Shaders/EllipsoidVS', 'Shaders/GroundAtmosphere', 'Shaders/Materials/AsphaltMaterial', 'Shaders/Materials/BlobMaterial', 'Shaders/Materials/BrickMaterial', 'Shaders/Materials/BumpMapMaterial', 'Shaders/Materials/CementMaterial', 'Shaders/Materials/CheckerboardMaterial', 'Shaders/Materials/DistanceIntervalMaterial', 'Shaders/Materials/DotMaterial', 'Shaders/Materials/FacetMaterial', 'Shaders/Materials/FresnelMaterial', 'Shaders/Materials/GrassMaterial', 'Shaders/Materials/NormalMapMaterial', 'Shaders/Materials/ReflectionMaterial', 'Shaders/Materials/RefractionMaterial', 'Shaders/Materials/StripeMaterial', 'Shaders/Materials/TieDyeMaterial', 'Shaders/Materials/WoodMaterial', 'Shaders/Noise', 'Shaders/PolygonFS', 'Shaders/PolygonFSPick', 'Shaders/PolygonVS', 'Shaders/PolygonVSPick', 'Shaders/PolylineFS', 'Shaders/PolylineVS', 'Shaders/Ray', 'Shaders/ReprojectWebMercatorFS', 'Shaders/ReprojectWebMercatorVS', 'Shaders/SensorVolume', 'Shaders/SkyAtmosphereFS', 'Shaders/SkyAtmosphereVS', 'Shaders/ViewportQuadFS', 'Shaders/ViewportQuadVS', 'ThirdParty/Tween', 'ThirdParty/Uri', 'ThirdParty/measureText', 'ThirdParty/when'], function(Core_AnimationController, Core_AxisAlignedBoundingBox, Core_BoundingRectangle, Core_BoundingSphere, Core_BoxTessellator, Core_Cartesian2, Core_Cartesian3, Core_Cartesian4, Core_Cartographic, Core_CatmullRomSpline, Core_Clock, Core_ClockRange, Core_ClockStep, Core_Color, Core_ComponentDatatype, Core_CubeMapEllipsoidTessellator, Core_DefaultProxy, Core_DeveloperError, Core_Ellipsoid, Core_EllipsoidTangentPlane, Core_EllipsoidalOccluder, Core_Enumeration, Core_Event, Core_EventHandler, Core_EventModifier, Core_Extent, Core_ExtentTessellator, Core_FAR, Core_FeatureDetection, Core_FullScreen, Core_GeographicProjection, Core_HermitePolynomialApproximation, Core_HermiteSpline, Core_IndexDatatype, Core_Intersect, Core_IntersectionTests, Core_Interval, Core_Iso8601, Core_JulianDate, Core_LagrangePolynomialApproximation, Core_LeapSecond, Core_LinearApproximation, Core_Math, Core_Matrix2, Core_Matrix3, Core_Matrix4, Core_MeshFilters, Core_MouseEventType, Core_Occluder, Core_OrientationInterpolator, Core_PlaneTessellator, Core_PolygonPipeline, Core_PolylinePipeline, Core_PrimitiveType, Core_Quaternion, Core_Queue, Core_Ray, Core_RuntimeError, Core_Shapes, Core_Spherical, Core_TaskProcessor, Core_TimeConstants, Core_TimeInterval, Core_TimeIntervalCollection, Core_TimeStandard, Core_Tipsify, Core_Transforms, Core_TridiagonalSystemSolver, Core_Visibility, Core_WebMercatorProjection, Core_WindingOrder, Core_binarySearch, Core_clone, Core_combine, Core_computeSunPosition, Core_createGuid, Core_defaultValue, Core_destroyObject, Core_freezeObject, Core_getImagePixels, Core_isLeapYear, Core_jsonp, Core_loadArrayBuffer, Core_loadImage, Core_pointInsideTriangle2D, Core_requestAnimationFrame, Core_throttleRequestByServer, Core_writeTextToCanvas, DynamicScene_CompositeDynamicObjectCollection, DynamicScene_CzmlBoolean, DynamicScene_CzmlCartesian2, DynamicScene_CzmlCartesian3, DynamicScene_CzmlCartographic, DynamicScene_CzmlColor, DynamicScene_CzmlDefaults, DynamicScene_CzmlHorizontalOrigin, DynamicScene_CzmlImage, DynamicScene_CzmlLabelStyle, DynamicScene_CzmlNumber, DynamicScene_CzmlString, DynamicScene_CzmlUnitCartesian3, DynamicScene_CzmlUnitQuaternion, DynamicScene_CzmlUnitSpherical, DynamicScene_CzmlVerticalOrigin, DynamicScene_DynamicBillboard, DynamicScene_DynamicBillboardVisualizer, DynamicScene_DynamicColorMaterial, DynamicScene_DynamicCone, DynamicScene_DynamicConeVisualizer, DynamicScene_DynamicConeVisualizerUsingCustomSensor, DynamicScene_DynamicDirectionsProperty, DynamicScene_DynamicEllipsoid, DynamicScene_DynamicEllipsoidVisualizer, DynamicScene_DynamicImageMaterial, DynamicScene_DynamicLabel, DynamicScene_DynamicLabelVisualizer, DynamicScene_DynamicMaterialProperty, DynamicScene_DynamicObject, DynamicScene_DynamicObjectCollection, DynamicScene_DynamicObjectView, DynamicScene_DynamicPath, DynamicScene_DynamicPathVisualizer, DynamicScene_DynamicPoint, DynamicScene_DynamicPointVisualizer, DynamicScene_DynamicPolygon, DynamicScene_DynamicPolygonVisualizer, DynamicScene_DynamicPolyline, DynamicScene_DynamicPolylineVisualizer, DynamicScene_DynamicPositionProperty, DynamicScene_DynamicProperty, DynamicScene_DynamicPyramid, DynamicScene_DynamicPyramidVisualizer, DynamicScene_DynamicVertexPositionsProperty, DynamicScene_ReferenceProperty, DynamicScene_VisualizerCollection, DynamicScene_processCzml, Renderer_BlendEquation, Renderer_BlendFunction, Renderer_BlendingState, Renderer_Buffer, Renderer_BufferUsage, Renderer_ClearCommand, Renderer_CommandLists, Renderer_Context, Renderer_CubeMap, Renderer_CubeMapFace, Renderer_CullFace, Renderer_DepthFunction, Renderer_DrawCommand, Renderer_Framebuffer, Renderer_MipmapHint, Renderer_PickFramebuffer, Renderer_PixelDatatype, Renderer_PixelFormat, Renderer_Renderbuffer, Renderer_RenderbufferFormat, Renderer_ShaderCache, Renderer_ShaderProgram, Renderer_StencilFunction, Renderer_StencilOperation, Renderer_Texture, Renderer_TextureAtlas, Renderer_TextureAtlasBuilder, Renderer_TextureMagnificationFilter, Renderer_TextureMinificationFilter, Renderer_TextureWrap, Renderer_UniformDatatype, Renderer_UniformState, Renderer_VertexArray, Renderer_VertexArrayFacade, Renderer_VertexLayout, Scene_AnimationCollection, Scene_ArcGisMapServerImageryProvider, Scene_Billboard, Scene_BillboardCollection, Scene_BingMapsImageryProvider, Scene_BingMapsStyle, Scene_Camera, Scene_Camera2DController, Scene_CameraCentralBodyController, Scene_CameraColumbusViewController, Scene_CameraControllerCollection, Scene_CameraEventHandler, Scene_CameraEventType, Scene_CameraFlightController, Scene_CameraFreeLookController, Scene_CameraHelpers, Scene_CameraSpindleController, Scene_CameraSpindleControllerMode, Scene_CentralBody, Scene_CentralBodySurface, Scene_CentralBodySurfaceShaderSet, Scene_ComplexConicSensorVolume, Scene_CompositePrimitive, Scene_CullingVolume, Scene_CustomSensorVolume, Scene_DiscardMissingTileImagePolicy, Scene_DistanceIntervalMaterial, Scene_EllipsoidPrimitive, Scene_EllipsoidTerrainProvider, Scene_FrameState, Scene_FrustumCommands, Scene_GeographicTilingScheme, Scene_HorizontalOrigin, Scene_Imagery, Scene_ImageryLayer, Scene_ImageryLayerCollection, Scene_ImageryProvider, Scene_ImageryProviderError, Scene_ImageryState, Scene_Label, Scene_LabelCollection, Scene_LabelStyle, Scene_Material, Scene_NeverTileDiscardPolicy, Scene_OpenStreetMapImageryProvider, Scene_OrthographicFrustum, Scene_PerformanceDisplay, Scene_PerspectiveFrustum, Scene_PerspectiveOffCenterFrustum, Scene_Polygon, Scene_Polyline, Scene_PolylineCollection, Scene_Projections, Scene_RectangularPyramidSensorVolume, Scene_Scene, Scene_SceneMode, Scene_SceneTransitioner, Scene_SensorVolumeCollection, Scene_SingleTileImageryProvider, Scene_TerrainProvider, Scene_TexturePool, Scene_Tile, Scene_TileDiscardPolicy, Scene_TileImagery, Scene_TileLoadQueue, Scene_TileReplacementQueue, Scene_TileState, Scene_TilingScheme, Scene_VerticalOrigin, Scene_ViewportQuad, Scene_WebMapServiceImageryProvider, Scene_WebMercatorTilingScheme, Shaders_BillboardCollectionFS, Shaders_BillboardCollectionVS, Shaders_BuiltinFunctions, Shaders_CentralBodyFS, Shaders_CentralBodyFSCommon, Shaders_CentralBodyFSDepth, Shaders_CentralBodyFSPole, Shaders_CentralBodyVS, Shaders_CentralBodyVSDepth, Shaders_CentralBodyVSPole, Shaders_ComplexConicSensorVolumeFS, Shaders_ComplexConicSensorVolumeVS, Shaders_ConstructiveSolidGeometry, Shaders_CustomSensorVolumeFS, Shaders_CustomSensorVolumeVS, Shaders_EllipsoidFS, Shaders_EllipsoidVS, Shaders_GroundAtmosphere, Shaders_Materials_AsphaltMaterial, Shaders_Materials_BlobMaterial, Shaders_Materials_BrickMaterial, Shaders_Materials_BumpMapMaterial, Shaders_Materials_CementMaterial, Shaders_Materials_CheckerboardMaterial, Shaders_Materials_DistanceIntervalMaterial, Shaders_Materials_DotMaterial, Shaders_Materials_FacetMaterial, Shaders_Materials_FresnelMaterial, Shaders_Materials_GrassMaterial, Shaders_Materials_NormalMapMaterial, Shaders_Materials_ReflectionMaterial, Shaders_Materials_RefractionMaterial, Shaders_Materials_StripeMaterial, Shaders_Materials_TieDyeMaterial, Shaders_Materials_WoodMaterial, Shaders_Noise, Shaders_PolygonFS, Shaders_PolygonFSPick, Shaders_PolygonVS, Shaders_PolygonVSPick, Shaders_PolylineFS, Shaders_PolylineVS, Shaders_Ray, Shaders_ReprojectWebMercatorFS, Shaders_ReprojectWebMercatorVS, Shaders_SensorVolume, Shaders_SkyAtmosphereFS, Shaders_SkyAtmosphereVS, Shaders_ViewportQuadFS, Shaders_ViewportQuadVS, ThirdParty_Tween, ThirdParty_Uri, ThirdParty_measureText, ThirdParty_when) {
+define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Core/BoundingRectangle', 'Core/BoundingSphere', 'Core/BoxTessellator', 'Core/Cartesian2', 'Core/Cartesian3', 'Core/Cartesian4', 'Core/Cartographic', 'Core/CatmullRomSpline', 'Core/Clock', 'Core/ClockRange', 'Core/ClockStep', 'Core/Color', 'Core/ComponentDatatype', 'Core/CubeMapEllipsoidTessellator', 'Core/DefaultProxy', 'Core/DeveloperError', 'Core/Ellipsoid', 'Core/EllipsoidTangentPlane', 'Core/EllipsoidalOccluder', 'Core/Enumeration', 'Core/Event', 'Core/EventHandler', 'Core/EventModifier', 'Core/Extent', 'Core/ExtentTessellator', 'Core/FAR', 'Core/FeatureDetection', 'Core/FullScreen', 'Core/GeographicProjection', 'Core/HermitePolynomialApproximation', 'Core/HermiteSpline', 'Core/IndexDatatype', 'Core/Intersect', 'Core/IntersectionTests', 'Core/Interval', 'Core/Iso8601', 'Core/JulianDate', 'Core/LagrangePolynomialApproximation', 'Core/LeapSecond', 'Core/LinearApproximation', 'Core/Math', 'Core/Matrix2', 'Core/Matrix3', 'Core/Matrix4', 'Core/MeshFilters', 'Core/MouseEventType', 'Core/Occluder', 'Core/OrientationInterpolator', 'Core/PlaneTessellator', 'Core/PolygonPipeline', 'Core/PolylinePipeline', 'Core/PrimitiveType', 'Core/Quaternion', 'Core/Queue', 'Core/Ray', 'Core/RuntimeError', 'Core/Shapes', 'Core/Spherical', 'Core/TaskProcessor', 'Core/TimeConstants', 'Core/TimeInterval', 'Core/TimeIntervalCollection', 'Core/TimeStandard', 'Core/Tipsify', 'Core/Transforms', 'Core/TridiagonalSystemSolver', 'Core/Visibility', 'Core/WebMercatorProjection', 'Core/WindingOrder', 'Core/binarySearch', 'Core/clone', 'Core/combine', 'Core/computeSunPosition', 'Core/createGuid', 'Core/defaultValue', 'Core/destroyObject', 'Core/freezeObject', 'Core/getImagePixels', 'Core/isLeapYear', 'Core/jsonp', 'Core/loadArrayBuffer', 'Core/loadImage', 'Core/loadJson', 'Core/loadText', 'Core/pointInsideTriangle2D', 'Core/requestAnimationFrame', 'Core/throttleRequestByServer', 'Core/writeTextToCanvas', 'DynamicScene/CompositeDynamicObjectCollection', 'DynamicScene/CzmlBoolean', 'DynamicScene/CzmlCartesian2', 'DynamicScene/CzmlCartesian3', 'DynamicScene/CzmlCartographic', 'DynamicScene/CzmlColor', 'DynamicScene/CzmlDefaults', 'DynamicScene/CzmlHorizontalOrigin', 'DynamicScene/CzmlImage', 'DynamicScene/CzmlLabelStyle', 'DynamicScene/CzmlNumber', 'DynamicScene/CzmlString', 'DynamicScene/CzmlUnitCartesian3', 'DynamicScene/CzmlUnitQuaternion', 'DynamicScene/CzmlUnitSpherical', 'DynamicScene/CzmlVerticalOrigin', 'DynamicScene/DynamicBillboard', 'DynamicScene/DynamicBillboardVisualizer', 'DynamicScene/DynamicColorMaterial', 'DynamicScene/DynamicCone', 'DynamicScene/DynamicConeVisualizer', 'DynamicScene/DynamicConeVisualizerUsingCustomSensor', 'DynamicScene/DynamicDirectionsProperty', 'DynamicScene/DynamicEllipsoid', 'DynamicScene/DynamicEllipsoidVisualizer', 'DynamicScene/DynamicImageMaterial', 'DynamicScene/DynamicLabel', 'DynamicScene/DynamicLabelVisualizer', 'DynamicScene/DynamicMaterialProperty', 'DynamicScene/DynamicObject', 'DynamicScene/DynamicObjectCollection', 'DynamicScene/DynamicObjectView', 'DynamicScene/DynamicPath', 'DynamicScene/DynamicPathVisualizer', 'DynamicScene/DynamicPoint', 'DynamicScene/DynamicPointVisualizer', 'DynamicScene/DynamicPolygon', 'DynamicScene/DynamicPolygonVisualizer', 'DynamicScene/DynamicPolyline', 'DynamicScene/DynamicPolylineVisualizer', 'DynamicScene/DynamicPositionProperty', 'DynamicScene/DynamicProperty', 'DynamicScene/DynamicPyramid', 'DynamicScene/DynamicPyramidVisualizer', 'DynamicScene/DynamicVertexPositionsProperty', 'DynamicScene/ReferenceProperty', 'DynamicScene/VisualizerCollection', 'DynamicScene/processCzml', 'Renderer/BlendEquation', 'Renderer/BlendFunction', 'Renderer/BlendingState', 'Renderer/Buffer', 'Renderer/BufferUsage', 'Renderer/ClearCommand', 'Renderer/CommandLists', 'Renderer/Context', 'Renderer/CubeMap', 'Renderer/CubeMapFace', 'Renderer/CullFace', 'Renderer/DepthFunction', 'Renderer/DrawCommand', 'Renderer/Framebuffer', 'Renderer/MipmapHint', 'Renderer/PickFramebuffer', 'Renderer/PixelDatatype', 'Renderer/PixelFormat', 'Renderer/Renderbuffer', 'Renderer/RenderbufferFormat', 'Renderer/ShaderCache', 'Renderer/ShaderProgram', 'Renderer/StencilFunction', 'Renderer/StencilOperation', 'Renderer/Texture', 'Renderer/TextureAtlas', 'Renderer/TextureAtlasBuilder', 'Renderer/TextureMagnificationFilter', 'Renderer/TextureMinificationFilter', 'Renderer/TextureWrap', 'Renderer/UniformDatatype', 'Renderer/UniformState', 'Renderer/VertexArray', 'Renderer/VertexArrayFacade', 'Renderer/VertexLayout', 'Scene/AnimationCollection', 'Scene/ArcGisMapServerImageryProvider', 'Scene/Billboard', 'Scene/BillboardCollection', 'Scene/BingMapsImageryProvider', 'Scene/BingMapsStyle', 'Scene/Camera', 'Scene/Camera2DController', 'Scene/CameraCentralBodyController', 'Scene/CameraColumbusViewController', 'Scene/CameraControllerCollection', 'Scene/CameraEventHandler', 'Scene/CameraEventType', 'Scene/CameraFlightController', 'Scene/CameraFreeLookController', 'Scene/CameraHelpers', 'Scene/CameraSpindleController', 'Scene/CameraSpindleControllerMode', 'Scene/CentralBody', 'Scene/CentralBodySurface', 'Scene/CentralBodySurfaceShaderSet', 'Scene/ComplexConicSensorVolume', 'Scene/CompositePrimitive', 'Scene/CullingVolume', 'Scene/CustomSensorVolume', 'Scene/DiscardMissingTileImagePolicy', 'Scene/DistanceIntervalMaterial', 'Scene/EllipsoidPrimitive', 'Scene/EllipsoidTerrainProvider', 'Scene/FrameState', 'Scene/FrustumCommands', 'Scene/GeographicTilingScheme', 'Scene/HorizontalOrigin', 'Scene/Imagery', 'Scene/ImageryLayer', 'Scene/ImageryLayerCollection', 'Scene/ImageryProvider', 'Scene/ImageryProviderError', 'Scene/ImageryState', 'Scene/Label', 'Scene/LabelCollection', 'Scene/LabelStyle', 'Scene/Material', 'Scene/NeverTileDiscardPolicy', 'Scene/OpenStreetMapImageryProvider', 'Scene/OrthographicFrustum', 'Scene/PerformanceDisplay', 'Scene/PerspectiveFrustum', 'Scene/PerspectiveOffCenterFrustum', 'Scene/Polygon', 'Scene/Polyline', 'Scene/PolylineCollection', 'Scene/Projections', 'Scene/RectangularPyramidSensorVolume', 'Scene/Scene', 'Scene/SceneMode', 'Scene/SceneTransitioner', 'Scene/SensorVolumeCollection', 'Scene/SingleTileImageryProvider', 'Scene/TerrainProvider', 'Scene/TexturePool', 'Scene/Tile', 'Scene/TileDiscardPolicy', 'Scene/TileImagery', 'Scene/TileLoadQueue', 'Scene/TileReplacementQueue', 'Scene/TileState', 'Scene/TilingScheme', 'Scene/VerticalOrigin', 'Scene/ViewportQuad', 'Scene/WebMapServiceImageryProvider', 'Scene/WebMercatorTilingScheme', 'Shaders/BillboardCollectionFS', 'Shaders/BillboardCollectionVS', 'Shaders/BuiltinFunctions', 'Shaders/CentralBodyFS', 'Shaders/CentralBodyFSCommon', 'Shaders/CentralBodyFSDepth', 'Shaders/CentralBodyFSPole', 'Shaders/CentralBodyVS', 'Shaders/CentralBodyVSDepth', 'Shaders/CentralBodyVSPole', 'Shaders/ComplexConicSensorVolumeFS', 'Shaders/ComplexConicSensorVolumeVS', 'Shaders/ConstructiveSolidGeometry', 'Shaders/CustomSensorVolumeFS', 'Shaders/CustomSensorVolumeVS', 'Shaders/EllipsoidFS', 'Shaders/EllipsoidVS', 'Shaders/GroundAtmosphere', 'Shaders/Materials/AsphaltMaterial', 'Shaders/Materials/BlobMaterial', 'Shaders/Materials/BrickMaterial', 'Shaders/Materials/BumpMapMaterial', 'Shaders/Materials/CementMaterial', 'Shaders/Materials/CheckerboardMaterial', 'Shaders/Materials/DistanceIntervalMaterial', 'Shaders/Materials/DotMaterial', 'Shaders/Materials/FacetMaterial', 'Shaders/Materials/FresnelMaterial', 'Shaders/Materials/GrassMaterial', 'Shaders/Materials/NormalMapMaterial', 'Shaders/Materials/ReflectionMaterial', 'Shaders/Materials/RefractionMaterial', 'Shaders/Materials/StripeMaterial', 'Shaders/Materials/TieDyeMaterial', 'Shaders/Materials/WoodMaterial', 'Shaders/Noise', 'Shaders/PolygonFS', 'Shaders/PolygonFSPick', 'Shaders/PolygonVS', 'Shaders/PolygonVSPick', 'Shaders/PolylineFS', 'Shaders/PolylineVS', 'Shaders/Ray', 'Shaders/ReprojectWebMercatorFS', 'Shaders/ReprojectWebMercatorVS', 'Shaders/SensorVolume', 'Shaders/SkyAtmosphereFS', 'Shaders/SkyAtmosphereVS', 'Shaders/ViewportQuadFS', 'Shaders/ViewportQuadVS', 'ThirdParty/Tween', 'ThirdParty/Uri', 'ThirdParty/measureText', 'ThirdParty/when'], function(Core_AnimationController, Core_AxisAlignedBoundingBox, Core_BoundingRectangle, Core_BoundingSphere, Core_BoxTessellator, Core_Cartesian2, Core_Cartesian3, Core_Cartesian4, Core_Cartographic, Core_CatmullRomSpline, Core_Clock, Core_ClockRange, Core_ClockStep, Core_Color, Core_ComponentDatatype, Core_CubeMapEllipsoidTessellator, Core_DefaultProxy, Core_DeveloperError, Core_Ellipsoid, Core_EllipsoidTangentPlane, Core_EllipsoidalOccluder, Core_Enumeration, Core_Event, Core_EventHandler, Core_EventModifier, Core_Extent, Core_ExtentTessellator, Core_FAR, Core_FeatureDetection, Core_FullScreen, Core_GeographicProjection, Core_HermitePolynomialApproximation, Core_HermiteSpline, Core_IndexDatatype, Core_Intersect, Core_IntersectionTests, Core_Interval, Core_Iso8601, Core_JulianDate, Core_LagrangePolynomialApproximation, Core_LeapSecond, Core_LinearApproximation, Core_Math, Core_Matrix2, Core_Matrix3, Core_Matrix4, Core_MeshFilters, Core_MouseEventType, Core_Occluder, Core_OrientationInterpolator, Core_PlaneTessellator, Core_PolygonPipeline, Core_PolylinePipeline, Core_PrimitiveType, Core_Quaternion, Core_Queue, Core_Ray, Core_RuntimeError, Core_Shapes, Core_Spherical, Core_TaskProcessor, Core_TimeConstants, Core_TimeInterval, Core_TimeIntervalCollection, Core_TimeStandard, Core_Tipsify, Core_Transforms, Core_TridiagonalSystemSolver, Core_Visibility, Core_WebMercatorProjection, Core_WindingOrder, Core_binarySearch, Core_clone, Core_combine, Core_computeSunPosition, Core_createGuid, Core_defaultValue, Core_destroyObject, Core_freezeObject, Core_getImagePixels, Core_isLeapYear, Core_jsonp, Core_loadArrayBuffer, Core_loadImage, Core_loadJson, Core_loadText, Core_pointInsideTriangle2D, Core_requestAnimationFrame, Core_throttleRequestByServer, Core_writeTextToCanvas, DynamicScene_CompositeDynamicObjectCollection, DynamicScene_CzmlBoolean, DynamicScene_CzmlCartesian2, DynamicScene_CzmlCartesian3, DynamicScene_CzmlCartographic, DynamicScene_CzmlColor, DynamicScene_CzmlDefaults, DynamicScene_CzmlHorizontalOrigin, DynamicScene_CzmlImage, DynamicScene_CzmlLabelStyle, DynamicScene_CzmlNumber, DynamicScene_CzmlString, DynamicScene_CzmlUnitCartesian3, DynamicScene_CzmlUnitQuaternion, DynamicScene_CzmlUnitSpherical, DynamicScene_CzmlVerticalOrigin, DynamicScene_DynamicBillboard, DynamicScene_DynamicBillboardVisualizer, DynamicScene_DynamicColorMaterial, DynamicScene_DynamicCone, DynamicScene_DynamicConeVisualizer, DynamicScene_DynamicConeVisualizerUsingCustomSensor, DynamicScene_DynamicDirectionsProperty, DynamicScene_DynamicEllipsoid, DynamicScene_DynamicEllipsoidVisualizer, DynamicScene_DynamicImageMaterial, DynamicScene_DynamicLabel, DynamicScene_DynamicLabelVisualizer, DynamicScene_DynamicMaterialProperty, DynamicScene_DynamicObject, DynamicScene_DynamicObjectCollection, DynamicScene_DynamicObjectView, DynamicScene_DynamicPath, DynamicScene_DynamicPathVisualizer, DynamicScene_DynamicPoint, DynamicScene_DynamicPointVisualizer, DynamicScene_DynamicPolygon, DynamicScene_DynamicPolygonVisualizer, DynamicScene_DynamicPolyline, DynamicScene_DynamicPolylineVisualizer, DynamicScene_DynamicPositionProperty, DynamicScene_DynamicProperty, DynamicScene_DynamicPyramid, DynamicScene_DynamicPyramidVisualizer, DynamicScene_DynamicVertexPositionsProperty, DynamicScene_ReferenceProperty, DynamicScene_VisualizerCollection, DynamicScene_processCzml, Renderer_BlendEquation, Renderer_BlendFunction, Renderer_BlendingState, Renderer_Buffer, Renderer_BufferUsage, Renderer_ClearCommand, Renderer_CommandLists, Renderer_Context, Renderer_CubeMap, Renderer_CubeMapFace, Renderer_CullFace, Renderer_DepthFunction, Renderer_DrawCommand, Renderer_Framebuffer, Renderer_MipmapHint, Renderer_PickFramebuffer, Renderer_PixelDatatype, Renderer_PixelFormat, Renderer_Renderbuffer, Renderer_RenderbufferFormat, Renderer_ShaderCache, Renderer_ShaderProgram, Renderer_StencilFunction, Renderer_StencilOperation, Renderer_Texture, Renderer_TextureAtlas, Renderer_TextureAtlasBuilder, Renderer_TextureMagnificationFilter, Renderer_TextureMinificationFilter, Renderer_TextureWrap, Renderer_UniformDatatype, Renderer_UniformState, Renderer_VertexArray, Renderer_VertexArrayFacade, Renderer_VertexLayout, Scene_AnimationCollection, Scene_ArcGisMapServerImageryProvider, Scene_Billboard, Scene_BillboardCollection, Scene_BingMapsImageryProvider, Scene_BingMapsStyle, Scene_Camera, Scene_Camera2DController, Scene_CameraCentralBodyController, Scene_CameraColumbusViewController, Scene_CameraControllerCollection, Scene_CameraEventHandler, Scene_CameraEventType, Scene_CameraFlightController, Scene_CameraFreeLookController, Scene_CameraHelpers, Scene_CameraSpindleController, Scene_CameraSpindleControllerMode, Scene_CentralBody, Scene_CentralBodySurface, Scene_CentralBodySurfaceShaderSet, Scene_ComplexConicSensorVolume, Scene_CompositePrimitive, Scene_CullingVolume, Scene_CustomSensorVolume, Scene_DiscardMissingTileImagePolicy, Scene_DistanceIntervalMaterial, Scene_EllipsoidPrimitive, Scene_EllipsoidTerrainProvider, Scene_FrameState, Scene_FrustumCommands, Scene_GeographicTilingScheme, Scene_HorizontalOrigin, Scene_Imagery, Scene_ImageryLayer, Scene_ImageryLayerCollection, Scene_ImageryProvider, Scene_ImageryProviderError, Scene_ImageryState, Scene_Label, Scene_LabelCollection, Scene_LabelStyle, Scene_Material, Scene_NeverTileDiscardPolicy, Scene_OpenStreetMapImageryProvider, Scene_OrthographicFrustum, Scene_PerformanceDisplay, Scene_PerspectiveFrustum, Scene_PerspectiveOffCenterFrustum, Scene_Polygon, Scene_Polyline, Scene_PolylineCollection, Scene_Projections, Scene_RectangularPyramidSensorVolume, Scene_Scene, Scene_SceneMode, Scene_SceneTransitioner, Scene_SensorVolumeCollection, Scene_SingleTileImageryProvider, Scene_TerrainProvider, Scene_TexturePool, Scene_Tile, Scene_TileDiscardPolicy, Scene_TileImagery, Scene_TileLoadQueue, Scene_TileReplacementQueue, Scene_TileState, Scene_TilingScheme, Scene_VerticalOrigin, Scene_ViewportQuad, Scene_WebMapServiceImageryProvider, Scene_WebMercatorTilingScheme, Shaders_BillboardCollectionFS, Shaders_BillboardCollectionVS, Shaders_BuiltinFunctions, Shaders_CentralBodyFS, Shaders_CentralBodyFSCommon, Shaders_CentralBodyFSDepth, Shaders_CentralBodyFSPole, Shaders_CentralBodyVS, Shaders_CentralBodyVSDepth, Shaders_CentralBodyVSPole, Shaders_ComplexConicSensorVolumeFS, Shaders_ComplexConicSensorVolumeVS, Shaders_ConstructiveSolidGeometry, Shaders_CustomSensorVolumeFS, Shaders_CustomSensorVolumeVS, Shaders_EllipsoidFS, Shaders_EllipsoidVS, Shaders_GroundAtmosphere, Shaders_Materials_AsphaltMaterial, Shaders_Materials_BlobMaterial, Shaders_Materials_BrickMaterial, Shaders_Materials_BumpMapMaterial, Shaders_Materials_CementMaterial, Shaders_Materials_CheckerboardMaterial, Shaders_Materials_DistanceIntervalMaterial, Shaders_Materials_DotMaterial, Shaders_Materials_FacetMaterial, Shaders_Materials_FresnelMaterial, Shaders_Materials_GrassMaterial, Shaders_Materials_NormalMapMaterial, Shaders_Materials_ReflectionMaterial, Shaders_Materials_RefractionMaterial, Shaders_Materials_StripeMaterial, Shaders_Materials_TieDyeMaterial, Shaders_Materials_WoodMaterial, Shaders_Noise, Shaders_PolygonFS, Shaders_PolygonFSPick, Shaders_PolygonVS, Shaders_PolygonVSPick, Shaders_PolylineFS, Shaders_PolylineVS, Shaders_Ray, Shaders_ReprojectWebMercatorFS, Shaders_ReprojectWebMercatorVS, Shaders_SensorVolume, Shaders_SkyAtmosphereFS, Shaders_SkyAtmosphereVS, Shaders_ViewportQuadFS, Shaders_ViewportQuadVS, ThirdParty_Tween, ThirdParty_Uri, ThirdParty_measureText, ThirdParty_when) {
   
   var Cesium = {
     _shaders : {}
@@ -71678,6 +71738,8 @@ define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Cor
   Cesium.jsonp = Core_jsonp;
   Cesium.loadArrayBuffer = Core_loadArrayBuffer;
   Cesium.loadImage = Core_loadImage;
+  Cesium.loadJson = Core_loadJson;
+  Cesium.loadText = Core_loadText;
   Cesium.pointInsideTriangle2D = Core_pointInsideTriangle2D;
   Cesium.requestAnimationFrame = Core_requestAnimationFrame;
   Cesium.throttleRequestByServer = Core_throttleRequestByServer;
