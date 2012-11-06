@@ -1,4 +1,4 @@
-/*global document, window, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
+/*global document, window, console, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
 (function () {
     'use strict';
     var canvas          = document.getElementById('glCanvas');
@@ -20,13 +20,18 @@
     ///////////////////////////////////////////////////////////////////////////
     // Tile Providers
 
-    var bing = new Cesium.BingMapsTileProvider({// fails to detect 404 due to no net :-(
-        server : 'dev.virtualearth.net'         // default:  mapStyle:Cesium.BingMapStyle.AERIAL
-    });
-    var osm = new Cesium.OpenStreetMapTileProvider({
-        url : 'http://tile.openstreetmap.org/'
-    });
-    var single = new Cesium.SingleTileProvider('Images/NE2_50M_SR_W_4096.jpg');
+    var TILE_PROVIDERS = {
+        'bing' : new Cesium.BingMapsImageryProvider(// fails to detect 404 due to no net :-(
+            {server : 'dev.virtualearth.net' // default:  mapStyle:Cesium.BingMapStyle.AERIAL
+            }),
+        'osm'  : new Cesium.OpenStreetMapImageryProvider(
+            {url    : 'http://otile1.mqcdn.com/tiles/1.0.0/osm'
+            }),
+        'static' : new Cesium.SingleTileImageryProvider(
+            {url: 'Images/NE2_50M_SR_W_4096.jpg'
+            })
+    };
+
 
     ///////////////////////////////////////////////////////////////////////////
     // Satellite records and calculation
@@ -201,24 +206,21 @@
                 Cesium.Cartographic.fromDegrees(position.coords.longitude, position.coords.latitude));
             var eye    = ellipsoid.cartographicToCartesian(
                 Cesium.Cartographic.fromDegrees(position.coords.longitude, position.coords.latitude, 1e7));
+            var up     = new Cesium.Cartesian3(0, 0, 1);
+            // Put a cross where we are
             var image = new Image();
-            var geoBillboards = new Cesium.BillboardCollection();
-
-            geoBillboards.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(target);
-            geoBillboards.add({imageIndex: 0,
-                               position: new Cesium.Cartesian3(0.0, 0.0, 0.0)});
-            scene.getPrimitives().add(geoBillboards);
-            scene.getCamera().lookAt({ // Point camera at us and position it directly above us
-                up     : new Cesium.Cartesian3(0, 0, 1),
-                eye    : eye,
-                target : target
-            });
             image.src = 'Images/cross_yellow_16.png';
             image.onload = function () {
-                var textureAtlas = scene.getContext().createTextureAtlas({image: image}); // seems needed in onload()
-                geoBillboards.setTextureAtlas(textureAtlas);
-
+                var billboards = new Cesium.BillboardCollection(); // how to make single?
+                var textureAtlas = scene.getContext().createTextureAtlas({image: image});
+                billboards.setTextureAtlas(textureAtlas);
+                billboards.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(target);
+                billboards.add({imageIndex: 0,
+                                position: new Cesium.Cartesian3(0.0, 0.0, 0.0)});
+                scene.getPrimitives().add(billboards);
             };
+            // Point the camera at us and position it directly above us
+            scene.getCamera().lookAt(eye, target, up);
         }
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(showGeo);
@@ -250,7 +252,7 @@
             function (movement) {
                 var pickedObject = scene.pick(movement.endPosition);
                 var satDiv = document.getElementById('satellite_popup');
-                if (pickedObject) { // The one billboard; what if it's a Geo Billboard not a satellite??
+                if (pickedObject && pickedObject.satelliteName) { // Only show satellite, not Geo marker
                     satDiv.textContent = pickedObject.satelliteName;
                     satDiv.style.left = movement.endPosition.x + 'px';
                     satDiv.style.top  = movement.endPosition.y + 'px'; // seems a bit high from mouse
@@ -318,12 +320,15 @@
     };
 
     // Switch map/tile providers
+    //
+    // TODO .removeAll() doesn't seem optimal but .remove(0) doesn't seem to work.
+    // Should we toggle the Provider's .show attr? how then to add new ones sanely?
+    // and not exhaust resources by having a bunch of providers and their tiles?
     document.getElementById('select_tile_provider').onchange = function () {
-        var providers = {'bing' : bing,
-                         'osm'  : osm,
-                         'static' : single};
-        if (providers[this.value]) {
-            cb.dayTileProvider = providers[this.value];
+        var ilNew = TILE_PROVIDERS[this.value];
+        if (ilNew) {
+            cb.getImageryLayers().removeAll();
+            cb.getImageryLayers().addImageryProvider(ilNew);
         }
     };
 
@@ -357,23 +362,20 @@
     // Fire it up
 
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
-    cb.dayTileProvider      = bing; // single; // composite;// bing; // osm; // esri;
+    cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
     cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
-    cb.bumpMapSource        = 'Images/earthbump1k.jpg';
     cb.showSkyAtmosphere    = true;
+    cb.bumpMapSource        = 'Images/earthbump1k.jpg'; // need/want this? if tile server unavailable?
 
     scene.getPrimitives().setCentralBody(cb);
 
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
-    scene.getCamera().lookAt({
-        eye : new Cesium.Cartesian3(4000000.0, -15000000.0,  10000000.0),
-        up : new Cesium.Cartesian3(-0.1642824655609347, 0.5596076102188919, 0.8123118822806428),
-        target : Cesium.Cartesian3.ZERO
-    });
+    scene.getCamera().lookAt(new Cesium.Cartesian3(4000000.0, -15000000.0,  10000000.0), // eye
+                             Cesium.Cartesian3.ZERO, // target
+                             new Cesium.Cartesian3(-0.1642824655609347, 0.5596076102188919, 0.8123118822806428)); // up
 
-    // BUG: if we show geo (collection) then we can't hover over satellites within the globe.
-    //showGeolocation(scene);
+    showGeolocation(scene);
 
     getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
     populateSatelliteSelector();
@@ -394,12 +396,13 @@
 
     scene.setAnimation(function () {
         var currentTime = clock.tick();
+        var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
+
         document.getElementById('date').textContent = currentTime.toDate();
 
-        scene.setSunPosition(Cesium.SunPosition.compute().position);
+        scene.setSunPosition(Cesium.computeSunPosition(now));
 
         if (satrecs.length > 0) {
-            var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
             updateSatelliteBillboards(sats.positions);
