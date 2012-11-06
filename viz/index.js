@@ -1,4 +1,4 @@
-/*global document, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
+/*global document, window, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
 (function () {
     'use strict';
     var canvas          = document.getElementById('glCanvas');
@@ -8,6 +8,7 @@
     var cb              = new Cesium.CentralBody(ellipsoid);
     var clock           = new Cesium.Clock();
     var satrecs         = [];   // populated from onclick file load
+    var satdesigs       = [];   // populated from onclick file load
     var satnames        = [];   // populated from onclick file load
     var satids          = [];   // populated from onclick file load
     var WHICHCONST      = 84;   //
@@ -40,11 +41,13 @@
         // Reset the globals
         satrecs = [];
         satnames = [];
+        satdesigs = [];
         satids = [];
 
         for (satnum = 0, max = tles.length; satnum < max; satnum += 1) {
-            satnames[satnum] = tles[satnum][0].trim();
-            satids[satnum]   = tles[satnum][2].split(' ')[1];
+            satnames[satnum] = tles[satnum][0].trim();        // Name: (ISS (ZARYA))
+            satdesigs[satnum] = tles[satnum][1].slice(9, 17); // Intl Designator YYNNNPPP (98067A)
+            satids[satnum]   = tles[satnum][2].split(' ')[1]; // NORAD ID (25544)
             rets = twoline2rv(WHICHCONST, tles[satnum][1], tles[satnum][2], TYPERUN, TYPEINPUT);
             satrec   = rets.shift();
             startmfe = rets.shift();
@@ -266,7 +269,9 @@
         );
     }
 
-    // Highlight satellite billboard when selector pulldown used.
+    // Highlight satellite billboard when selector pulldown used;
+    // open a new window (Pop Up) that shows Science.nasa.gov's info about it.
+    //
     // We attach an attribute so we can detect any previously highlighted satellite.
     // Updates one of the global satBillboard elements, resets others.
     // The setColor changes icon wings from blue to green.
@@ -276,6 +281,11 @@
     document.getElementById('select_satellite').onchange = function () {
         var satIdx = Number(this.value); // "16"
         var billboard, bbnum, max;
+        var satName = satnames[satIdx].toLowerCase();
+        var satDesig = satdesigs[satIdx]; // need to mangle for NSSDC
+        var scienceUrl = 'http://science.nasa.gov/missions/' + satName + '/';
+        var nssdcUrl = 'http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=';
+        var year;
 
         for (bbnum = 0, max = satBillboards.getLength(); bbnum < max; bbnum += 1) {
             billboard = satBillboards.get(bbnum);
@@ -290,6 +300,20 @@
                 billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1});
                 billboard.setScale(2.0);
             }
+        }
+        // Open a tab with the URL based on satellite name to get details
+        if (typeof window !== 'undefined') {
+            window.open(scienceUrl, '_science');
+            // mangle Intl Designator for NSSDC: 98067A -> 1998-067A
+            year = Number(satDesig.slice(0, 2));
+            if (year < 20) {    // heuristic from JTrack3D source code
+                year = '20' + year;
+            }
+            else {
+                year = '19' + year;
+            }
+            nssdcUrl += year + '-' + satDesig.slice(2);
+            window.open(nssdcUrl, '_nssdc');
         }
     };
 
