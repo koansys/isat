@@ -11,6 +11,7 @@
     var satdesigs       = [];   // populated from onclick file load
     var satnames        = [];   // populated from onclick file load
     var satids          = [];   // populated from onclick file load
+    var satPositions    = [];   // calculated by updateSatrecsPosVel()
     var WHICHCONST      = 84;   //
     var TYPERUN         = 'm';  // 'm'anual, 'c'atalog, 'v'erification
     var TYPEINPUT       = 'n';  // HACK: 'now'
@@ -87,6 +88,8 @@
             positions.push(r);
             velocities.push(v);
         }
+        // UPDATE GLOBAL SO OTHERS CAN USE IT (TODO: make this sane w.r.t. globals)
+        satPositions = positions;
         return {'satrecs': satrecsOut,
                 'positions': positions,
                 'velocities': positions};
@@ -205,7 +208,7 @@
 
     function showGeolocation(scene) {
         function showGeo(position) {
-            var target = ellipsoid.cartographicToCartesian(
+            var target = ellipsoid.cartographicToCartesian( // TODO: should this be 0, 0, 0 through Geolocation?
                 Cesium.Cartographic.fromDegrees(position.coords.longitude, position.coords.latitude));
             var eye    = ellipsoid.cartographicToCartesian(
                 Cesium.Cartographic.fromDegrees(position.coords.longitude, position.coords.latitude, 1e7));
@@ -223,7 +226,16 @@
                 scene.getPrimitives().add(billboards);
             };
             // Point the camera at us and position it directly above us
+            console.log('showGeolocation before lookAt eye=' + eye);
             scene.getCamera().lookAt(eye, target, up);
+            console.log('showGeolocation  after lookAt eye=' + eye);
+            var camera = scene.getCamera();
+            var camPos = camera.getPositionWC();
+            var camDir = camera.getDirectionWC();
+            var camUp  = camera.getUpWC();
+            console.log('showGeolocation camPos=' + camPos);
+            console.log('showGeolocation camDir=' + camDir);
+            console.log('showGeolocation camUp=' + camUp);
         }
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(showGeo);
@@ -336,7 +348,9 @@
 
     document.getElementById('select_satellite').onchange = function () {
         var satIdx = Number(this.value); // "16"
-        var billboard, bbnum, max;
+        var target = Cesium.Cartesian3.ZERO;
+        var up     = new Cesium.Cartesian3(0, 0, 1);
+        var billboard, bbnum, max, pos, eye;
 
         for (bbnum = 0, max = satBillboards.getLength(); bbnum < max; bbnum += 1) {
             billboard = satBillboards.get(bbnum);
@@ -350,8 +364,38 @@
                 billboard.isSelected = true;
                 billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1});
                 billboard.setScale(2.0);
+                pos = billboard.getPosition(); // Cartesian3, but what coordinate system?
             }
         }
+        // TODO: *fly* to 'above' the satellite still looking at Earth
+        console.log('selected Idx=' + satIdx);
+        console.log('selected position =' + satPositions[satIdx]);
+        console.log('billboard position=' + pos);
+        eye =  new Cesium.Cartesian3(pos.x, pos.y, pos.z);
+        console.log('      eye position=' + eye);
+        console.log('            target=' + target);
+        console.log('                up=' + up);
+
+        var camera, camPos, camDir, camUp;
+        camera = scene.getCamera();
+        camPos = camera.getPositionWC();
+        camDir = camera.getDirectionWC();
+        camUp  = camera.getUpWC();
+        console.log('before lookAt camPos=' + camPos);
+        console.log('before lookAt camDir=' + camDir);
+        console.log('before lookAt camUp=' + camUp);
+
+        ///////scene.getCamera().lookAt(eye, target, up);
+
+        // camera = scene.getCamera();
+        // camPos = camera.getPositionWC();
+        // camDir = camera.getDirectionWC();
+        // camUp  = camera.getUpWC();
+        // console.log(' after lookAt camPos=' + camPos);
+        // console.log(' after lookAt camDir=' + camDir);
+        // console.log(' after lookAt camUp=' + camUp);
+
+
     };
 
     // Switch map/tile providers
