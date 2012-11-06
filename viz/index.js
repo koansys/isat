@@ -186,7 +186,10 @@
         for (satnum = 0, max = satnames.length; satnum < max; satnum += 1) {
             billboard = satBillboards.add({imageIndex: 0,
                                            position:  new Cesium.Cartesian3(0, 0, 0)}); // BOGUS position
-            billboard.satelliteName = satnames[satnum]; // attach name for mouse interaction
+            // attach names for mouse interaction
+            billboard.satelliteName       = satnames[satnum];
+            billboard.satelliteNoradId    = satids[satnum];
+            billboard.satelliteDesignator = satdesigs[satnum];
         }
         scene.getPrimitives().add(satBillboards);
 
@@ -230,7 +233,22 @@
     ///////////////////////////////////////////////////////////////////////////
     // Utilities
 
-    // function xyzKmFixed(pt, fix) {
+    // Convert TLE name to something science.nasa.gov might use in Mission URLs.
+    // How do we handle reliably?
+    // Note: doesn't adhere to Django slugify() naming.
+    // * TOPEX/POSEIDON -> topex-poseidon
+    // * HINODE (SOLAR-B) -> hinode
+
+    function scienceSlugify(value) {
+        value = value.trim().toLowerCase();
+        value = value.split('(')[0].trim(); // remove anything in trailing parens
+        value = value.replace('/', '-');    // topex/poseidon -> topex-poseidon
+        value = value.replace(/[^\w\s\-]/, ''); // remove nonword, nonspace, nondash
+        value = value.replace(/[\-\s]+/, '-'); // multiple spaces/dashes to a single dash
+        return value;
+    }
+
+    // Function xyzKmFixed(pt, fix) {
     //     // Return string formatted for xyz scaled to Km, with fixed precision.
     //     return '(' +
     //         (pt.x / 1000.0).toFixed(fix) + ', ' +
@@ -271,6 +289,42 @@
         );
     }
 
+
+    // Clicking a satellite opens a page to Sciencce and NSSDC details
+
+    function satelliteClickDetails(scene) {
+        var handler = new Cesium.EventHandler(scene.getCanvas());
+
+        handler.setMouseAction( // actionFunction, mouseEventType, eventModifierKey
+            function (click) {
+                var pickedObject = scene.pick(click.position);
+                var scienceUrl = 'http://science.nasa.gov/missions/';
+                var nssdcUrl = 'http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=';
+                var satName, satDesig, century;
+
+                if (pickedObject) {
+                    satName  = pickedObject.satelliteName.toLowerCase();
+                    satDesig = pickedObject.satelliteDesignator;
+                    if (typeof window !== 'undefined') {
+                        scienceUrl +=  scienceSlugify(satName) + '/';
+                        window.open(scienceUrl, '_science');
+                        // mangle Intl Designator for NSSDC: 98067A -> 1998-067A
+                        if (Number(satDesig.slice(0, 2)) < 20) { // heuristic from JTrack3D source code
+                            century = '20';
+                        }
+                        else {
+                            century = '19';
+                        }
+                        nssdcUrl += century + satDesig.slice(0, 2) + '-' + satDesig.slice(2);
+                        window.open(nssdcUrl, '_nssdc');
+                    }
+                }
+            },
+            Cesium.MouseEventType.LEFT_CLICK // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
+        );
+    }
+
+
     // Highlight satellite billboard when selector pulldown used;
     // open a new window (Pop Up) that shows Science.nasa.gov's info about it.
     //
@@ -283,11 +337,6 @@
     document.getElementById('select_satellite').onchange = function () {
         var satIdx = Number(this.value); // "16"
         var billboard, bbnum, max;
-        var satName = satnames[satIdx].toLowerCase();
-        var satDesig = satdesigs[satIdx]; // need to mangle for NSSDC
-        var scienceUrl = 'http://science.nasa.gov/missions/' + satName + '/';
-        var nssdcUrl = 'http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=';
-        var year;
 
         for (bbnum = 0, max = satBillboards.getLength(); bbnum < max; bbnum += 1) {
             billboard = satBillboards.get(bbnum);
@@ -302,20 +351,6 @@
                 billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1});
                 billboard.setScale(2.0);
             }
-        }
-        // Open a tab with the URL based on satellite name to get details
-        if (typeof window !== 'undefined') {
-            window.open(scienceUrl, '_science');
-            // mangle Intl Designator for NSSDC: 98067A -> 1998-067A
-            year = Number(satDesig.slice(0, 2));
-            if (year < 20) {    // heuristic from JTrack3D source code
-                year = '20' + year;
-            }
-            else {
-                year = '19' + year;
-            }
-            nssdcUrl += year + '-' + satDesig.slice(2);
-            window.open(nssdcUrl, '_nssdc');
         }
     };
 
@@ -380,7 +415,9 @@
     getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
     populateSatelliteSelector();
     populateSatelliteBillboard();
-    satelliteHoverDisplay(scene);
+    satelliteHoverDisplay(scene); // should be self-invoked
+    satelliteClickDetails(scene); // should be self-invoked
+    //satelliteClickTest(scene); // should be self-invoked
 
     // Billboards (Geo, Satellite icons) are added only once.
     // Satellite positions are updated in the tick-loop.
