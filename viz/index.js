@@ -111,7 +111,7 @@
         for (posnum = 0, max = satPositions.length; posnum < max; posnum += 1) {
             bb = satBillboards.get(posnum);
             pos = satPositions[posnum];
-            newpos =  new Cesium.Cartesian3(pos[0] * 1000, pos[1] * 1000, pos[2] * 1000);
+            newpos =  new Cesium.Cartesian3(pos[0] * 1000, pos[1] * 1000, pos[2] * 1000); // TODO multiplyByScalar(1000)
             bb.setPosition(newpos);
         }
     }
@@ -226,16 +226,7 @@
                 scene.getPrimitives().add(billboards);
             };
             // Point the camera at us and position it directly above us
-            console.log('showGeolocation before lookAt eye=' + eye);
             scene.getCamera().lookAt(eye, target, up);
-            console.log('showGeolocation  after lookAt eye=' + eye);
-            var camera = scene.getCamera();
-            var camPos = camera.getPositionWC();
-            var camDir = camera.getDirectionWC();
-            var camUp  = camera.getUpWC();
-            console.log('showGeolocation camPos=' + camPos);
-            console.log('showGeolocation camDir=' + camDir);
-            console.log('showGeolocation camUp=' + camUp);
         }
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(showGeo);
@@ -368,34 +359,13 @@
             }
         }
         // TODO: *fly* to 'above' the satellite still looking at Earth
-        console.log('selected Idx=' + satIdx);
-        console.log('selected position =' + satPositions[satIdx]);
-        console.log('billboard position=' + pos);
-        eye =  new Cesium.Cartesian3(pos.x, pos.y, pos.z);
-        console.log('      eye position=' + eye);
-        console.log('            target=' + target);
-        console.log('                up=' + up);
-
-        var camera, camPos, camDir, camUp;
-        camera = scene.getCamera();
-        camPos = camera.getPositionWC();
-        camDir = camera.getDirectionWC();
-        camUp  = camera.getUpWC();
-        console.log('before lookAt camPos=' + camPos);
-        console.log('before lookAt camDir=' + camDir);
-        console.log('before lookAt camUp=' + camUp);
-
-        ///////scene.getCamera().lookAt(eye, target, up);
-
-        // camera = scene.getCamera();
-        // camPos = camera.getPositionWC();
-        // camDir = camera.getDirectionWC();
-        // camUp  = camera.getUpWC();
-        // console.log(' after lookAt camPos=' + camPos);
-        // console.log(' after lookAt camDir=' + camDir);
-        // console.log(' after lookAt camUp=' + camUp);
-
-
+        // Transform to put me "over" satellite location.
+        scene.getCamera().transform = Cesium.Matrix4.fromRotationTranslation(
+            Cesium.Transforms.computeTemeToPseudoFixedMatrix(new Cesium.JulianDate()),
+            Cesium.Cartesian3.ZERO);
+        eye =  new Cesium.Cartesian3.clone(pos);
+        eye = eye.multiplyByScalar(1.5); // Zoom out a bit from the satellite
+        scene.getCamera().lookAt(eye, target, up);
     };
 
     // Switch map/tile providers
@@ -461,14 +431,6 @@
     populateSatelliteBillboard();
     satelliteHoverDisplay(scene); // should be self-invoked
     satelliteClickDetails(scene); // should be self-invoked
-    //satelliteClickTest(scene); // should be self-invoked
-
-    // Billboards (Geo, Satellite icons) are added only once.
-    // Satellite positions are updated in the tick-loop.
-    // Satellites are updated when the Group selector is used.
-    // Highlighting is updated when the Satellite selector is used.
-    //scene.getPrimitives().add(billboards);
-
 
     /////////////////////////////////////////////////////////////////////////////
     // Run the timeclock, drive the animations
