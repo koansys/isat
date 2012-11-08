@@ -57779,7 +57779,7 @@ define('Core/TaskProcessor',[
         delete deferreds[id];
     }
 
-    var cesiumScriptRegex = /(.*)\/?Cesium\w*\.js(?:\W|$)/i;
+    var cesiumScriptRegex = /(.*\/?)Cesium\w*\.js(?:\W|$)/i;
     var bootstrapperScript = 'cesiumWorkerBootstrapper.js';
     var bootstrapperUrl;
     function getBootstrapperUrl() {
@@ -57795,7 +57795,7 @@ define('Core/TaskProcessor',[
                     var src = scripts[i].getAttribute('src');
                     var result = cesiumScriptRegex.exec(src);
                     if (result !== null) {
-                        bootstrapperUrl = result[1] + '/' + bootstrapperScript;
+                        bootstrapperUrl = result[1] + bootstrapperScript;
                         break;
                     }
                 }
