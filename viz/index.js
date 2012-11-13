@@ -31,6 +31,10 @@
         'static' : new Cesium.SingleTileImageryProvider(
             {url: 'Images/NE2_50M_SR_W_4096.jpg'
             })
+        // Cross-origin image load denied by Cross-Origin Resource Sharing policy.
+        // 'arcgis' : new Cesium.ArcGisMapServerImageryProvider(
+        //     {url: 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
+        //     })
     };
 
 
