@@ -290,6 +290,8 @@
 
 
     // When you hover over a satellite, show its name in a popup
+    // Add offset of canvas and an approx height of icon/label to position properly.
+    // TODO: make offset based on label text height so cursor doesn't occlude.
     // TODO: scene and ellipsoid are global so why pass them in?
 
     function satelliteHoverDisplay(scene) {
@@ -299,14 +301,15 @@
             function (movement) {
                 var pickedObject = scene.pick(movement.endPosition);
                 var satDiv = document.getElementById('satellite_popup');
+                var canvasTop = canvas.offsetTop;
                 if (pickedObject && pickedObject.satelliteName) { // Only show satellite, not Geo marker
                     satDiv.textContent = pickedObject.satelliteName;
                     satDiv.style.left = movement.endPosition.x + 'px';
-                    satDiv.style.top  = movement.endPosition.y + 'px'; // seems a bit high from mouse
+                    satDiv.style.top  = movement.endPosition.y + canvasTop - 24 + 'px'; // seems a bit high from mouse
                     satDiv.style.display = ''; // remove any 'none'
                     // The following used to work in <style> section, but stopped; why?
                     satDiv.style.position = 'absolute'; // vital to positioning near cursor
-                    satDiv.style.padding = '4px';
+                    satDiv.style.padding = '2px';
                     satDiv.style.backgroundColor = '#909090';
                     satDiv.style.color = 'black';
                 }
