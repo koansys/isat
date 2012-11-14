@@ -76,7 +76,11 @@
 
     <div class="popup" id="satellite_popup" style="display:none;"></div>
 
-    <canvas id="glCanvas" width="1000px" height="1000px" tabindex="1"></canvas>
+    <div id="cesiumContainer">
+      <!-- Cesium jQuery updates this with onResize at startup -->
+      <canvas id="glCanvas" width="300" height="300" tabindex="1"></canvas>
+    </div>
+
 
     <div id="statistics">
       <div id="date">Date</div>

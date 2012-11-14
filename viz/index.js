@@ -267,6 +267,28 @@
     ///////////////////////////////////////////////////////////////////////////
     // Handle UI events
 
+    // If the screen is resized, set animation window to a square 95% of width,
+    // which leaves some room for scrollbars (else you end up zooming).
+    // In <canvas> tag our height and width can only be in pixels, not percent.
+    // So wrap it in a div whose height/width we can query.
+
+    function onResize() {
+        var cc = document.getElementById('cesiumContainer');
+        var width = cc.clientWidth * 0.95;
+        var height = width;     // make it square
+
+        if (canvas.width === width && canvas.height === height) {
+            return;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        cc.height = height;
+        scene.getCamera().frustum.aspectRatio = width / height;
+    }
+    window.addEventListener('resize', onResize, false);
+    onResize();
+
+
     // When you hover over a satellite, show its name in a popup
     // TODO: scene and ellipsoid are global so why pass them in?
 
