@@ -57,7 +57,7 @@
         <span>
           <label>Satellite Group:
             <select id="select_satellite_group">
-              <option value="SMD">SMD Science</option>
+              <option value="SMD">NASA Science</option>
               <option value="iss">ISS</option>
               <option value="space-stations">Space Stations</option>
               <option value="science">Science</option>
@@ -96,6 +96,24 @@
         </thead>
         <!-- tbody destroyed and recreated by javascript -->
       </table>
+    </div>
+
+    <!-- Need a place at the top for this but then pushes interesting bits too low.
+         Maybe use a (dreaded) pop-up? -->
+    <div id="instructions">
+      <p>
+        The satellites are displayed based on calculated position; you
+        can watch them move but it helps to zoom in a bit. You may have
+        to zoon out quite a bit to see satellites with very large
+        orbits. You can rotate the Earth and zoom in or out. If you've
+        allowed geolocation in your browser, a marker will show your
+        current position.</p>
+      <p>Hover over a satelite icon to show its name. Click it to bring
+        up pages/tabs that provide details
+        from <a href="http://science.nasa.gov/">Science.nasa.gov</a>
+        and <a href="http://nssdc.gsfc.nasa.gov/">NSSDC</a>. Select a
+        specific satellite from a group to highlight it and move the
+        camera to its position.</p>
     </div>
 
     <script src="index.js" type="text/javascript"></script>
