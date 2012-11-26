@@ -255,6 +255,19 @@
         return value;
     }
 
+    // Detect WebGL support so we can avoid graphics if it's not available.
+    // Might want to use Modernizr's implementation instead:
+    // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/webgl-extensions.js
+
+    function supportsWebGL() {
+        var testCanvas = document.createElement('canvas');
+        if (! testCanvas.getContext) {
+            return false;
+        }
+        return !!(window.WebGLRenderingContext &&
+                  (testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl')));
+    }
+
     // Function xyzKmFixed(pt, fix) {
     //     // Return string formatted for xyz scaled to Km, with fixed precision.
     //     return '(' +
@@ -439,6 +452,12 @@
     ///////////////////////////////////////////////////////////////////////////
     // Fire it up
 
+    // should we set the content of the canvas tag to say 'sorry, dude' in HTML?
+    if (! supportsWebGL()) {
+        canvas.innerHTML = '<p>Sorry, your browser does not support WebGL';
+        // How to exit at this point? Need to append to any other 'sorry' text
+    }
+        
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
     cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
     cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
