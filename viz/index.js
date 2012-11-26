@@ -454,9 +454,15 @@
 
     // should we set the content of the canvas tag to say 'sorry, dude' in HTML?
     if (! supportsWebGL()) {
-        canvas.innerHTML = '<p>Sorry, your browser does not support WebGL';
+        document.getElementById('cesiumContainer').innerHTML = '<p>Sorry, your browser does not support WebGL</p>';
+        console.log('no webgl dude');
         // How to exit at this point? Need to append to any other 'sorry' text
     }
+    else {
+        document.getElementById('cesiumContainer').innerHTML = '<p>You\'ve got WebGL!</p>';
+        console.log('no webgl dude');
+    }
+        
         
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
     cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
