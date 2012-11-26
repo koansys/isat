@@ -459,8 +459,7 @@
         // How to exit at this point? Need to append to any other 'sorry' text
     }
     else {
-        document.getElementById('cesiumContainer').innerHTML = '<p>You\'ve got WebGL!</p>';
-        console.log('no webgl dude');
+        console.log('You\'ve got WebGL');
     }
         
         
