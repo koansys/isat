@@ -9,6 +9,7 @@ function testWebGL() {
 Modernizr.load([
   {
     test : testWebGL(),
+    yep: 'index.js',
     nope : 'static/js/nope.js'
   },{
     load: '//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js',
@@ -19,6 +20,6 @@ Modernizr.load([
     }
   },
   {
-    load: ['static/js/jquery.simplemodal.js', 'static/js/main.js', 'index.js']
+    load: ['static/js/jquery.simplemodal.js', 'static/js/main.js']
   }
 ]);
