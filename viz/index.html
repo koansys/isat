@@ -1,20 +1,10 @@
 <!DOCTYPE html>
-<!--
-The "no-js" class is here as a fallback.
-If Modernizr is not running, you'll know
-something is wrong and you will be able to act
-accordingly. In contrast, if everything goes well,
-Modernizr will remove that special class.
--->
-<html class="no-js">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
   <head>
     <title>SOT: Satellite Orbit Tracker</title>
-    <link rel="icon" type="image/png" href="Images/Satellite.png"></link>
-    <style>
-      table {border-collapse:collapse;}
-      table td, table th {border:1px solid #888; padding: 3px;}
-      table td {text-align: right;}
-    </style>
     <script>
       opsmode = 'i'; //GLOBAL for intl, 'i'mproved
     </script>
@@ -36,7 +26,10 @@ Modernizr will remove that special class.
     <script type="text/javascript" src="tle.js"></script>
 
     <script type="text/javascript" src="cesium/Cesium.js"></script>
-    <script type="text/javascript" src="static/js/modernizr.js"></script>
+    <script type="text/javascript" src="static/js/modernizr.js"></script> <!-- There is a minified one to use... -->
+
+    <link rel="stylesheet" href="static/css/normalize.css">
+    <link rel="stylesheet" href="static/css/main.css">
   </head>
 
   <body>
@@ -130,5 +123,7 @@ Modernizr will remove that special class.
     </div>
 
     <script src="index.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="static/js/jquery-1.8.3.min.js"><\/script>')</script>
   </body>
 </html>
