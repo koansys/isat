@@ -255,19 +255,6 @@
         return value;
     }
 
-    // Detect WebGL support so we can avoid graphics if it's not available.
-    // Might want to use Modernizr's implementation instead:
-    // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/webgl-extensions.js
-
-    function supportsWebGL() {
-        var testCanvas = document.createElement('canvas');
-        if (! testCanvas.getContext) {
-            return false;
-        }
-        return !!(window.WebGLRenderingContext &&
-                  (testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl')));
-    }
-
     // Function xyzKmFixed(pt, fix) {
     //     // Return string formatted for xyz scaled to Km, with fixed precision.
     //     return '(' +
@@ -452,22 +439,8 @@
     ///////////////////////////////////////////////////////////////////////////
     // Fire it up
 
-    // should we set the content of the canvas tag to say 'sorry, dude' in HTML?
-    if (! supportsWebGL()) {
-        document.getElementById('cesiumContainer').innerHTML = '<p>Sorry, your browser does not support WebGL</p>';
-        console.log('no webgl dude');
-        // How to exit at this point? Need to append to any other 'sorry' text
-    }
-    else {
-        console.log('You\'ve got WebGL');
-    }
-        
-        
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
     cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
-    cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
-    cb.showSkyAtmosphere    = true;
-    cb.bumpMapSource        = 'Images/earthbump1k.jpg'; // need/want this? if tile server unavailable?
 
     scene.getPrimitives().setCentralBody(cb);
 
@@ -495,8 +468,6 @@
         var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
 
         document.getElementById('date').textContent = currentTime.toDate();
-
-        scene.setSunPosition(Cesium.computeSunPosition(now));
 
         if (satrecs.length > 0) {
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
