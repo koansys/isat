@@ -404,19 +404,21 @@
     // For the given satellite, calculate points for one orbit, starting 'now'
     // and create a polyline to visualize it.
     // It does this by copying the satrec then looping over it through time.
+    //
+    // TODO: How to prevent dupes? Remove Old? Every one we select gets a new trace
+    // TODO: the position loop repeats much of updateSatrecsPosVel()
+    //
     // The TLE.slice(52, 63) is Mean Motion, Revs per day, e.g., ISS=15.72125391
     // ISS (ZARYA)
     // 1 25544U 98067A   08264.51782528 −.00002182  00000-0 -11606-4 0  2927
     // 2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537
-    // and we invert that to get the time time we need for one rev.
-    // IS IT IN OUR SATREC?
-    // satrec.no is TLE.slice(51,63) / xpdotp == radians/minute but it's manipulated; try it.
+    // We can invert that to get the time time we need for one rev.
+    // But it's not our satrec, and we are't storing parsed TLEs.
+    // satrec.no is TLE.slice(51,63) / xpdotp in radians/minute; it's manipulated by SGP4 but OK.
     // ISS no=0.06767671366760845
     // To get full 'circle' = 2*Pi => minutes/orbit = 2*Pi / satrec.no = 92.84 minutes for ISS
     // Compare with TLE 15.721.. revs/day:
-    // 24 hr/day * 60 min/hr / 15.72125391 rev/day = 91.59574 minutes/rev -- close
-    // TODO: this repeats much of updateSatrecsPosVel()
-    // TODO: split into calculateOrbitPoints and renderOrbitPoints
+    // 24 hr/day * 60 min/hr / 15.72125391 rev/day = 91.59574 minutes/rev -- close (enough?)
 
     function showOrbit(satIdx) {
         var positions = [];
@@ -430,6 +432,11 @@
         var primitives = scene.getPrimitives(); // how to introspect?
         var minutes, julianDate, minutesSinceEpoch, rets, r, position, polyline;
 
+        polylines.modelMatrix =
+            Cesium.Matrix4.fromRotationTranslation(
+                Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
+                Cesium.Cartesian3.ZERO);
+
         for (minutes = 0; minutes <= minutesPerOrbit; minutes += minutesPerPoint) {
             julianDate = now.addMinutes(minutes);
             minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
@@ -440,14 +447,12 @@
             position = position.multiplyByScalar(1000); // Km to meters
             positions.push(position)
         };
-        console.log("showOrbit positions calculated");
-        // TODO: convert SGP4 coords to Cesium TEME (?)
         polyline = polylines.add();
-        polyline.setColor({red: 1, green: 1, blue: 0, alpha: 0.7});
         polyline.setPositions(positions);
-        // TODO: How to prevent dupes? Remove Old? Every one we select gets a new trace
-        console.log("showOrbit adding polylines");
+        polyline.setColor({red: 1, green: 1, blue: 0, alpha: 0.7});
+        console.log('showOrbit adding polylines');
         primitives.add(polylines);
+
     };
 
 
