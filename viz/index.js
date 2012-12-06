@@ -79,10 +79,11 @@
         var satrecsOut = [];
         var positions = [];
         var velocities = [];
-        var satnum, max, jdSat, minutesSinceEpoch, rets, satrec, r, v;
+        var satnum, max, satrecTmp, jdSat, minutesSinceEpoch, rets, satrec, r, v;
 
         for (satnum = 0, max = satrecs.length; satnum < max; satnum += 1) {
-            jdSat = new Cesium.JulianDate.fromTotalDays(satrecs[satnum].jdsatepoch);
+            satrecTmp = satrecs[satnum];
+            jdSat = new Cesium.JulianDate.fromTotalDays(satrecTmp.jdsatepoch);
             minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
             rets = sgp4(satrecs[satnum], minutesSinceEpoch);
             satrec = rets.shift();
@@ -321,7 +322,6 @@
         );
     }
 
-
     // Clicking a satellite opens a page to Sciencce and NSSDC details
 
     function satelliteClickDetails(scene) {
@@ -395,7 +395,61 @@
         eye =  new Cesium.Cartesian3.clone(pos);
         eye = eye.multiplyByScalar(1.5); // Zoom out a bit from the satellite
         scene.getCamera().lookAt(eye, target, up);
+
+        // TODO TMP: draw orbit, since we have the satIdx (not just a BB as we get in hover)
+        showOrbit(satIdx);
     };
+
+
+    // For the given satellite, calculate points for one orbit, starting 'now'
+    // and create a polyline to visualize it.
+    // It does this by copying the satrec then looping over it through time.
+    // The TLE.slice(52, 63) is Mean Motion, Revs per day, e.g., ISS=15.72125391
+    // ISS (ZARYA)
+    // 1 25544U 98067A   08264.51782528 −.00002182  00000-0 -11606-4 0  2927
+    // 2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537
+    // and we invert that to get the time time we need for one rev.
+    // IS IT IN OUR SATREC?
+    // satrec.no is TLE.slice(51,63) / xpdotp == radians/minute but it's manipulated; try it.
+    // ISS no=0.06767671366760845
+    // To get full 'circle' = 2*Pi => minutes/orbit = 2*Pi / satrec.no = 92.84 minutes for ISS
+    // Compare with TLE 15.721.. revs/day:
+    // 24 hr/day * 60 min/hr / 15.72125391 rev/day = 91.59574 minutes/rev -- close
+    // TODO: this repeats much of updateSatrecsPosVel()
+    // TODO: split into calculateOrbitPoints and renderOrbitPoints
+
+    function showOrbit(satIdx) {
+        var positions = [];
+        var satrec = satrecs[satIdx];
+        var jdSat = new Cesium.JulianDate.fromTotalDays(satrec.jdsatepoch);
+        var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
+        var minutesPerOrbit = 2 * Math.PI / satrec.no;
+        var pointsPerOrbit = 36; // arbitrary: should be adaptive based on size (radius) of orbit
+        var minutesPerPoint = minutesPerOrbit / pointsPerOrbit;
+        var minutes, julianDate, minutesSinceEpoch, rets, r, position;
+        var polyline = new Cesium.Polyline()
+
+        for (minutes = 0; minutes < minutesPerOrbit; minutes += minutesPerPoint) {
+            julianDate = now.addMinutes(minutes);
+            minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
+            rets = sgp4(satrec, minutesSinceEpoch);
+            satrec = rets.shift();
+            r = rets.shift();      // [1802,    3835,    5287] Km, not meters
+            position = new Cesium.Cartesian3(r[0], r[1], r[2]);  // becomes .x, .y, .z
+            position = position.multiplyByScalar(1000); // Km to meters
+            positions.push(position)
+        };
+        console.log("showOrbit positions calculated");
+        // have to convert SGP4 Km and coords to Cesium meters and TEME (?)
+        polyline.setPositions(positions); // {positions: positions}
+        // render...
+        if (scene.getPrimitives().getLength() < 3) {        // 0=Billboards, 1=Billboards, 2=Polyline
+            console.log("showOrbit adding polyline");
+            scene.getPrimitives().add(polyline); // how to prevent dupes??
+            // ERROR: Objecdt [object Object] has no method 'update' Cesium.js:32845 from tick
+        }
+    };
+
 
     // Switch map/tile providers
     //
