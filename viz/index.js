@@ -424,12 +424,13 @@
         var jdSat = new Cesium.JulianDate.fromTotalDays(satrec.jdsatepoch);
         var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
         var minutesPerOrbit = 2 * Math.PI / satrec.no;
-        var pointsPerOrbit = 36; // arbitrary: should be adaptive based on size (radius) of orbit
+        var pointsPerOrbit = 144; // arbitrary: should be adaptive based on size (radius) of orbit
         var minutesPerPoint = minutesPerOrbit / pointsPerOrbit;
-        var minutes, julianDate, minutesSinceEpoch, rets, r, position;
-        var polyline = new Cesium.Polyline()
+        var polylines = new Cesium.PolylineCollection();
+        var primitives = scene.getPrimitives(); // how to introspect?
+        var minutes, julianDate, minutesSinceEpoch, rets, r, position, polyline;
 
-        for (minutes = 0; minutes < minutesPerOrbit; minutes += minutesPerPoint) {
+        for (minutes = 0; minutes <= minutesPerOrbit; minutes += minutesPerPoint) {
             julianDate = now.addMinutes(minutes);
             minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
             rets = sgp4(satrec, minutesSinceEpoch);
@@ -440,14 +441,13 @@
             positions.push(position)
         };
         console.log("showOrbit positions calculated");
-        // have to convert SGP4 Km and coords to Cesium meters and TEME (?)
-        polyline.setPositions(positions); // {positions: positions}
-        // render...
-        if (scene.getPrimitives().getLength() < 3) {        // 0=Billboards, 1=Billboards, 2=Polyline
-            console.log("showOrbit adding polyline");
-            scene.getPrimitives().add(polyline); // how to prevent dupes??
-            // ERROR: Objecdt [object Object] has no method 'update' Cesium.js:32845 from tick
-        }
+        // TODO: convert SGP4 coords to Cesium TEME (?)
+        polyline = polylines.add();
+        polyline.setColor({red: 1, green: 1, blue: 0, alpha: 0.7});
+        polyline.setPositions(positions);
+        // TODO: How to prevent dupes? Remove Old? Every one we select gets a new trace
+        console.log("showOrbit adding polylines");
+        primitives.add(polylines);
     };
 
 
