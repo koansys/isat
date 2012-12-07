@@ -26,15 +26,21 @@
     <script type="text/javascript" src="tle.js"></script>
 
     <script type="text/javascript" src="cesium/Cesium.js"></script>
-    <script type="text/javascript" src="static/js/modernizr.js"></script> <!-- There is a minified one to use... -->
+    <script type="text/javascript" src="static/js/modernizr-2.6.2.min.js"></script> <!-- There is a minified one to use... -->
 
     <link href="static/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="static/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="static/css/main.css" rel="stylesheet">
+
+    <script type="text/javascript" src="static/js/modernizr_load.js"></script>
   </head>
 
   <body>
     <h1>SOT: Satellite Orbit Tracker</h1>
+    <span id='basic-modal1'><input type='button' name='basic' value='Instructions' class='modal'/></span>
+      or
+    <span id='basic-modal2'><input type='button' name='basic' value='Statistics' class='modal'/></span>
+    </div>
     <form id="controls">
       <div id="controls_visual">
         <span>
@@ -145,8 +151,7 @@
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
       </div>
     </div>
-
-    <script src="index.js" type="text/javascript"></script>
+<script src="index.js" type="text/javascript"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="static/js/jquery-1.8.3.min.js"><\/script>')</script>
     <script src="static/js/bootstrap-modal.js"></script>
