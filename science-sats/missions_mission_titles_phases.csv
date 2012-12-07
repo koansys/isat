@@ -1,0 +1,207 @@
+title,slug,full_name,launch_date,phase_id,home_page
+GOES I - M,goes-m,"Geostationary Operational Environmental Satellite, I-M Series ","Apr 13, 1994",3,http://goespoes.gsfc.nasa.gov/
+TSS,tss,Tethered Satellite System ,"Jun 26, 1992",4,http://www.nasa.gov/mission_pages/shuttle/shuttlemissions/archives/sts-75.html
+Phoenix,phoenix,Phoenix,"Aug 4, 2007",4,http://phoenix.lpl.arizona.edu/index.php
+Lunar Prospector,lunar-prospector,Lunar Prospector,"Jan 7, 1998",4,http://lunar.arc.nasa.gov/
+ADEOS,adeos,Advanced Earth Observing Satellite,"Aug 17, 1996",4,
+ATLAS,atlas,Atmospheric Laboratory of Applications and Science,"Mar 24, 1992",4,http://wwwghcc.msfc.nasa.gov/atlas.html
+Mars Global Surveyor,mars-global-surveyor,Mars Global Surveyor,"Nov 7, 1996",4,http://marsprogram.jpl.nasa.gov/mgs/
+Clementine,clementine,Clementine,"Jan 25, 1994",4,http://msl.jpl.nasa.gov/QuickLooks/clementineQL.html
+NEAR-Shoemaker,near,Near Earth Asteroid Rendezvous - Shoemaker  ,"Feb 17, 1996",4,http://near.jhuapl.edu/
+CLARREO,clarreo,Climate Absolute Radiance and Refractivity Observatory,,1,
+Cluster-II,cluster,,"Jul 16, 2000",15,http://sci.esa.int/science-e/www/area/index.cfm?fareaid=8
+CONTOUR,contour,Comet Nucleus Tour,"Jul 3, 2002",4,http://discovery.nasa.gov/contour.html
+CRRES,crres,Combined Release and Radiation Effects Satellite ,"Jul 25, 1990",4,http://nssdc.gsfc.nasa.gov/nmc/masterCatalog.do?sc=1990-065A
+Dynamics Explorer,de,Dynamics Explorer Plasma Wave Investigator,"Aug 3, 1981",4,http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=1981-070A
+New Horizons,new-horizons,New Horizons,"Jan 19, 2006",3,http://pluto.jhuapl.edu/index.php
+Viking 1 - 2,viking,Viking,"Aug 20, 1975",4,http://nssdc.gsfc.nasa.gov/planetary/viking.html
+Galileo,galileo,GALILEO,"Oct 18, 1989",4,http://galileo.jpl.nasa.gov/
+ERBS,erbs,Earth Radiation Budget Satellite ,"Oct 5, 1984",4,http://asd-www.larc.nasa.gov/erbe/erbs.html
+ESSA,essa,Environmental Science Services Administration Satellite Program ,"Feb 3, 1966",4,http://nssdc.gsfc.nasa.gov/nmc/masterCatalog.do?sc=1966-008A
+Mars Exploration Rover - Spirit,mars-exploration-rover-spirit,Mars Exploration Rover - Spirit,"Jun 10, 2003",4,http://marsrovers.nasa.gov/home/index.html
+Genesis,genesis,Genesis Solar Wind Sample Return,"Aug 8, 2001",4,http://genesismission.jpl.nasa.gov/
+NOAA/POES,noaa,NOAA Polar Operational Environmental Satellites,"Mar 28, 1993",4,http://goespoes.gsfc.nasa.gov/
+Geosat,geosat,U.S. Navy GEOdetic SATellite,"Mar 12, 1985",4,http://leonardo.jpl.nasa.gov/msl/QuickLooks/geosatQL.html
+Geotail,geotail,GEOTAIL,"Jul 24, 1992",3,http://pwg.gsfc.nasa.gov/geotail.shtml
+GOES A - C,goes,Geostationary Operational Environmental Satellite,"Oct 16, 1975",4,http://goespoes.gsfc.nasa.gov/
+GOES D - H,goes-l,Geostationary Operational Environmental Satellite ,"Sep 9, 1980",4,http://goespoes.gsfc.nasa.gov/
+Mariner Missions,mariner-missions,Mariner,"Jul 21, 1962",4,http://www.jpl.nasa.gov/missions/past/mariner1-2.html
+Mars Climate Orbiter,mars-climate-orbiter,Mars Climate Orbiter,"Dec 11, 1998",4,http://mars.jpl.nasa.gov/missions/past/climorb.html
+TIMED,timed,"Thermosphere, Ionosphere, Mesosphere Energetics and Dynamics ","Dec 7, 2001",3,http://www.timed.jhuapl.edu/WWW/index.php
+LAGEOS 1&2,lageos-1-2,LAGEOS,"May 4, 1976",3,http://ilrs.gsfc.nasa.gov/satellite_missions/list_of_satellites/lag1_general.html
+Lunar Reconnaisance Orbiter,lunar-reconnaisance-orbiter,Lunar Reconnaisance Orbiter,"Jun 17, 2009",3,http://lunar.gsfc.nasa.gov/mission.html
+Magellan,magellan,Venus Radar Mapper,"May 4, 1989",4,http://www2.jpl.nasa.gov/magellan/
+Mars Express (ASPERA-3),mars-express,Mars Express,"Jun 2, 2003",3,http://www.aspera-3.org/
+Nimbus,nimbus,Nimbus,"Aug 27, 1964",4,http://nssdc.gsfc.nasa.gov/earth/nimbus.html
+Mars Observer,mars-observer,Mars Observer,"Sep 25, 1992",4,http://nssdc.gsfc.nasa.gov/nmc/masterCatalog.do?sc=1992-063A
+SMS,sms,Synchronous Meterological Satellite Program ,"May 17, 1974",4,http://nssdc.gsfc.nasa.gov/nmc/masterCatalog.do?sc=1974-033A
+CINDI/CNOFS,cindi,Coupled Ion-Neutral Dynamics Investigations ,"Apr 16, 2008",3,http://cindispace.utdallas.edu/
+Mars Odyssey,mars-odyssey,2001 Mars Odyssey orbiter,"Apr 7, 2001",3,http://marsprogram.jpl.nasa.gov/odyssey/
+Mars Pathfinder,mars-pathfinder,Mars Pathfinder,"Dec 4, 1996",4,http://mpfwww.jpl.nasa.gov/MPF/
+Mars Polar Lander,mars-polar-lander,Mars Polar Lander ,"Jan 3, 1999",4,http://mars.jpl.nasa.gov/msp98/index.html
+ERS,ers,European Remote Sensing Satellite,"Jul 17, 1991",4,http://www.crisp.nus.edu.sg/ers/ers.html
+Mars Reconnaissance Orbiter,mars-reconnaissance-orbiter,Mars Reconnaissance Orbiter (MRO),"Aug 12, 2005",3,http://mars.jpl.nasa.gov/mro/
+MOMS,moms,Modular Optoelectronic Multispectral Scanner,"Jun 18, 1983",4,
+MOS,mos,Marine Observation Satellite,"Feb 19, 1987",4,http://www.jaxa.jp/projects/sat/mos1/index_e.html
+Pioneer 10 & 11,pioneer-10-11,Pioneer 10 & 11,"Mar 3, 1972",4,http://web.archive.org/web/20060206090452/spaceprojects.arc.nasa.gov/Space_Projects/pioneer/PNhome.html 
+Pioneer Venus Missions,pioneer-venus-orbiter,Pioneer Venus Orbiter,"May 20, 1978",4,http://heasarc.nasa.gov/docs/heasarc/missions/pvo.html
+TERRIERS,terriers,Tomographic Experiment using Radiative Recombinative Ionospheric EUV and Radio Sources ,"May 18, 1999",4,http://www.bu.edu/satellite/
+TOMS-EP,toms,Total Ozone Mapping Spectrometer ,"Jul 2, 1996",4,http://toms.gsfc.nasa.gov/index_v8.html
+Radarsat,radarsat,Radar Satellite,"Nov 4, 1995",4,http://nssdc.gsfc.nasa.gov/nmc/masterCatalog.do?sc=1995-059A
+Spartan 201,spartan,Spartan,"Sep 13, 1994",4,http://heasarc.gsfc.nasa.gov/docs/heasarc/missions/spartan1.html
+Seasat 1,seasat-1,Ocean Dynamics Satellite ,"Jun 27, 1978",4,http://www.jpl.nasa.gov/missions/missiondetails.cfm?mission=Seasat
+SeaStar (SeaWiFS),seastar,SeaStar,"Aug 1, 1997",3,http://oceancolor.gsfc.nasa.gov/SeaWiFS/SEASTAR/SPACECRAFT.html
+SeaWinds (ADEOS II),seawinds,SeaWinds scatterometer ,"Dec 14, 2002",3,http://winds.jpl.nasa.gov/missions/seawinds/
+SRTM,srtm,Shuttle Radar Topography Mission ,"Feb 11, 2000",4,http://www.jpl.nasa.gov/srtm
+TIROS,tiros,Television Infrared Observation Satellite Program ,"Apr 1, 1960",4,http://msl.jpl.nasa.gov/QuickLooks/tirosQL.html
+GOES-R,goes-r,Geostationary Operational Environmental Satellite – R Series,"Oct 1, 2015",2,http://www.goes-r.gov/
+SOHO,soho,Solar and Heliospheric Observatory,"Dec 2, 1995",3,http://sohowww.nascom.nasa.gov/
+ST6,st6,Space Technology 6 ,"Dec 16, 2006",4,http://nmp.jpl.nasa.gov/st6/index.html
+Stardust,stardust,Stardust,"Feb 7, 1999",4,http://stardust.jpl.nasa.gov/home/index.html
+Starshine,starshine,Starshine,"Jun 5, 1999",4,http://azinet.com/starshine/index.html
+TOPEX/Poseidon,topex-poseidon,TOPEX/Poseidon,"Aug 10, 1992",4,http://topex-www.jpl.nasa.gov/index.html
+UARS,uars,Upper Atmosphere Research Satellite,"Sep 12, 1991",4,http://umpgal.gsfc.nasa.gov/
+Swift,swift,"Swift Gamma Ray Burst Explorer ","Nov 20, 2004",3,http://swift.gsfc.nasa.gov/
+BARREL,barrel,Balloon Array for Radiation-belt Relativistic Electron Losses ,,2,http://www.dartmouth.edu/~rmillan/barrel.html
+MAVEN,maven,Mars Atmosphere and Volatile Evolution,"Nov 18, 2013",2,http://www.nasa.gov/mission_pages/mars/news/maven_20080915.html
+GLORY,glory,,,4,http://glory.gsfc.nasa.gov/
+Hayabusa,hyabusa,Hayabusa,"May 9, 2003",4,http://www.isas.jaxa.jp/e/enterp/missions/hayabusa/index.shtml
+Mars Exploration Rover - Opportunity,mars-rovers,Mars Exploration Rover - Opportunity,"Jul 7, 2003",3,http://marsrovers.nasa.gov/home/index.html
+JDEM,jdem,Joint Dark Energy Mission,,14,
+MESSENGER,messenger,"MErcury Surface, Space ENvironment, GEochemistry and Ranging","Aug 3, 2004",3,http://messenger.jhuapl.edu/
+Epoxi,epoxi,Extrasolar Planet Observation and Deep Impact Extended Investigation,"Jan 12, 2005",3,http://epoxi.umd.edu/
+ILN,iln,International Lunar Network,"Mar 1, 2018",1,
+Solar Probe Plus,solar-probe,Solar Probe Plus,,1,http://solarprobe.gsfc.nasa.gov/
+LADEE,ladee,Lunar Atmosphere and Dust Environment Explorer,"May 2, 2013",2,
+Polar,polar,Polar,"Feb 24, 1996",4,http://pwg.gsfc.nasa.gov/polar/
+Voyager,voyager,Voyager,"Sep 5, 1977",3,http://voyager.jpl.nasa.gov/index.html
+Wind,wind,Wind,"Nov 1, 1994",3,http://pwg.gsfc.nasa.gov/wind.shtml
+Equator-S,equator-s,Equator-S,"Dec 2, 1997",4,http://www.mpe-garching.mpg.de/EQS/eqs_home.html
+FAST,fast,Fast Auroral Snapshot Explorer,"Aug 21, 1996",4,http://sunland.gsfc.nasa.gov/smex/fast/index.html
+ICESat,icesat,"Ice, Clouds, and Land Elevation Satellite","Jan 12, 2003",4,http://icesat.gsfc.nasa.gov/
+IBEX,ibex,Interstellar Boundary Explorer ,"Oct 19, 2008",3,http://www.ibex.swri.edu/
+Hinode (Solar-B),hinode,Hinode (Solar-B),"Sep 23, 2006",3,http://solarb.msfc.nasa.gov/
+THEMIS,themis,Time History of Events and Macroscale Interactions during Substorms,"Feb 17, 2007",3,http://themis.ssl.berkeley.edu/
+IMAGE,image,Imager for Magnetopause-to-Aurora Global Exploration ,"Mar 25, 2000",4,http://pluto.space.swri.edu/IMAGE/
+IMP-8,imp-8,Interplanetary Monitoring Platform-8 ,"Oct 26, 1973",4,http://www-pi.physics.uiowa.edu/imp/
+Chandrayaan-1 (M3),moon-mineralogy-mapper,Chandrayaan-1,"Oct 22, 2008",4,http://moonmineralogymapper.jpl.nasa.gov/
+SNOE,snoe,Student Nitric Oxide Explorer ,"Feb 26, 1998",4,http://lasp.colorado.edu/snoe/
+Space Environment Testbeds,space-environment-testbeds,Space Environment Testbeds,"Jan 1, 2014",2,http://lws.gsfc.nasa.gov/lws_elements/set.htm
+RHESSI,rhessi,Reuven Ramaty High Energy Solar Spectroscope Imager,"Feb 5, 2002",3,http://hesperia.gsfc.nasa.gov/rhessi2/
+ST5,st5,Space Technology 5 ,"Mar 22, 2006",4,http://nmp.jpl.nasa.gov/st5/index.html
+TWINS A & B,twins,Two Wide-Angle Imaging Neutral-Atom Spectrometers ,"Mar 13, 2008",3,http://twins.swri.edu/index.jsp
+Keck Interferometer (KI),keck,Keck Interferometer (KI),,3,http://planetquest.jpl.nasa.gov/Keck/keck_index.cfm
+ATS,ats,Applications Technology Satellite,"Dec 7, 1966",4,http://msl.jpl.nasa.gov/Programs/ats.html
+GRACE,grace,Gravity Recovery and Climate Experiment ,"Mar 17, 2002",3,http://www.csr.utexas.edu/grace/
+TRACE,trace,Transition Region and Coronal Explorer ,"Apr 1, 1998",4,http://sunland.gsfc.nasa.gov/smex/trace/mission/trace.htm
+NOAA-N,noaa-n,NOAA Polar Operational Environmental Satellites N Series,"May 20, 2005",3,http://www.nasa.gov/mission_pages/noaa-n/main/index.html
+NPOESS,npoes,National Polar-orbiting Operational Environmental Satellite System,"Mar 31, 2014",2,http://www.ipo.noaa.gov/
+Deep Impact,deep-impact,Deep Impact,"Jan 12, 2005",4,http://deepimpact.jpl.nasa.gov/index.cfm
+Planck,planck,Planck,"May 14, 2009",3,http://planck.caltech.edu/
+LDCM,ldcm,Landsat Data Continuity Mission,"Feb 11, 2013",2,http://ldcm.nasa.gov/
+OSTM,ostm,Ocean Surface Topography Mission ,"Jun 20, 2008",3,http://sealevel.jpl.nasa.gov/mission/ostm.html
+TPF,tpf,Terrestrial Planet Finder ,,14,http://exep.jpl.nasa.gov/archive/
+XMM-Newton,xmm-newton,X-ray Multi-Mirror Mission,"Dec 10, 1999",3,http://heasarc.gsfc.nasa.gov/docs/xmm/xmmgof.html
+SAC-B,sac-b,Satelite de Aplicaciones Cientificas ,"Nov 4, 1996",4,http://space.jpl.nasa.gov/msl/QuickLooks/sacbQL.html
+STEREO,stereo,Solar Terrestrial Relations Observatory ,"Oct 25, 2006",3,http://stereo.gsfc.nasa.gov/
+Herschel,herschel,Herschel Space Observatory,"May 14, 2009",3,http://herschel.jpl.nasa.gov/
+MMS,mms,Magnetospheric MultiScale ,"Aug 14, 2014",2,http://mms.gsfc.nasa.gov/
+Solar Dynamics Observatory (SDO),sdo,Solar Dynamics Observatory,"Feb 11, 2010",3,http://sdo.gsfc.nasa.gov/
+Stardust-NExT,stardust-next,STARDUST New Exploration of Tempel-1,,4,http://stardustnext.jpl.nasa.gov/
+IUE,iue,International Ultraviolet Explorer ,"Jan 26, 1978",4,http://archive.stsci.edu/iue/
+Yohkoh,yohkoh,Yohkoh,"Aug 30, 1991",4,http://www.lmsal.com/SXT/
+AIM,aim,Aeronomy of Ice in the Mesosphere,"Apr 25, 2007",3,http://aim.hamptonu.edu/
+LISA,lisa,Laser Interferometer Space Antenna ,,1,http://lisa.nasa.gov/
+Hubble Space Telescope (HST),hst,Hubble Space Telescope,"Apr 24, 1990",3,http://hubble.nasa.gov/
+WMAP,wmap,Wilkinson Microwave Anisotropy Probe,"Jun 30, 2001",4,http://map.gsfc.nasa.gov/
+Suzaku (Astro-E2),suzaku,Suzaku (formerly Astro-E2),"Jul 10, 2005",3,http://heasarc.gsfc.nasa.gov/docs/astroe/astroegof.html
+OAO,oao,Orbiting Astronomical Observatory,,4,http://nssdc.gsfc.nasa.gov/nmc/masterCatalog.do?sc=1968-110A
+Gravity Probe B (GP-B),gravity-probe-b,Gravity Probe B ,"Apr 20, 2004",4,http://einstein.stanford.edu/
+DISCOVER-AQ,discover-aq,Deriving Information on Surface Conditions from Column and Vertically Resolved Observations Relevant to Air Quality ,"Jul 1, 2011",3,http://discover-aq.larc.nasa.gov/
+ORFEUS-SPAS II,orfeus-spas-ii,Orbiting Retrievable Far and Extreme Ultraviolet Spectrometer ,"Nov 20, 1996",4,http://nssdc.gsfc.nasa.gov/nmc/masterCatalog.do?sc=1996-065B
+Spitzer,spitzer,Spitzer Space Telescope,"Aug 25, 2003",3,http://spitzer.caltech.edu/
+CloudSat,cloudsat,CloudSat,"Apr 28, 2006",3,http://cloudsat.atmos.colostate.edu/
+WIRE,wire,Wide-Field Infrared Explorer ,"Mar 4, 1999",4,http://sunland.gsfc.nasa.gov/smex/wire/mission/
+INTEGRAL,integral,International Gamma-Ray Astrophysics Laboratory,"Oct 17, 2002",3,http://heasarc.nasa.gov/docs/integral/integral.html
+ST-7 / Lisa Pathfinder,st-7,ST-7 / Lisa Pathfinder,"Jun 30, 2014",2,http://www.esa.int/esaSC/120397_index_0_m.html
+SIM,sim,Space Interferometry Mission,,14,http://sim.jpl.nasa.gov/index.cfm
+LBTI,lbti,Large Binocular Telescope Interferometer ,,2,http://lbti.as.arizona.edu/LBTI/index.html
+Deep Space 1,deep-space-1,Deep Space-1,"Oct 24, 1998",4,http://www.jpl.nasa.gov/missions/details.cfm?id=5870
+Kepler,kepler,Kepler,"Mar 6, 2009",3,http://kepler.nasa.gov/
+Fermi,glast,Fermi Gamma-ray Space Telescope,"Jun 11, 2008",3,http://fermi.gsfc.nasa.gov/
+IXO,constellation-x,International X-ray Observatory,,1,http://ixo.gsfc.nasa.gov/
+Ranger,ranger,Ranger,"Aug 22, 1961",4,http://www.jpl.nasa.gov/missions/missiondetails.cfm?mission=Ranger
+ACRIMSAT,acrimsat,Active Cavity Radiometer Irradiance Monitor,"Dec 20, 1999",3,http://acrim.jpl.nasa.gov/
+Earth Observing-1 (NMP),eo-1,New Millennium Program Earth Observing-1,"Nov 21, 2000",3,http://nmp.jpl.nasa.gov/
+ISEE,isee,International Earth-Sun Explorer-3 ,"Aug 12, 1978",4,http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=1978-079A
+CHAMP,champ,Challenging Mini-Satellite Payload for Geo-scientific Research and Applications program,"Jul 15, 2000",4,http://www.gfz-potsdam.de/pb1/op/champ/
+Jason-1,jason-1,Jason-1,"Dec 7, 2001",3,http://sealevel.jpl.nasa.gov/mission/jason-1.html
+SORCE,sorce,Solar Radiation and Climate Experiment,"Jan 25, 2003",3,http://lasp.colorado.edu/sorce/
+WISE,wise,Widefield Infrared Survey Explorer ,"Dec 14, 2009",4,http://wise.ssl.berkeley.edu/
+CARVE,carve,Carbon in Arctic Reservoirs Vulnerability Experiment,"Mar 1, 2012",2,http://science.jpl.nasa.gov/projects/CARVE/
+ATTREX,attrex,Airborne Tropical Tropopause Experiment ,"Aug 1, 2013",2,
+Dawn,dawn,Dawn,"Sep 27, 2007",3,http://dawn.jpl.nasa.gov/
+RXTE,rxte,Rossi X-ray Timing Explorer,"Dec 30, 1995",3,http://heasarc.gsfc.nasa.gov/docs/xte/xte_1st.html
+OCO,oco,Orbiting Carbon Observatory,"Feb 24, 2009",4,http://oco.jpl.nasa.gov/
+Aura,aura,Aura,"Jul 15, 2004",3,http://aura.gsfc.nasa.gov/
+SAGE III – Meteor-3M,sage-3,Stratospheric Aerosol and Gas Experiment III – Meteor-3M,"Dec 10, 2001",4,http://www-sage3.larc.nasa.gov/
+QuikSCAT,quikscat,Quick Scatterometer,"Jun 19, 1999",3,http://winds.jpl.nasa.gov/missions/quikscat/
+CALIPSO,calipso,Cloud-Aerosol Lidar and Infrared Pathfinder Satellite Observations ,"Apr 28, 2006",3,http://www-calipso.larc.nasa.gov/
+Terra,terra,TERRA,"Dec 18, 1999",3,http://terra.nasa.gov/
+TRMM,trmm,Tropical Rainfall Measuring Mission ,"Nov 27, 1997",3,http://trmm.gsfc.nasa.gov/
+FUSE,fuse,Far Ultraviolet Spectroscopic Explorer ,"Jun 24, 1999",4,http://fuse.pha.jhu.edu/
+CGRO,cgro,Compton Gamma Ray Observatory,"Apr 5, 1991",4,http://heasarc.gsfc.nasa.gov/docs/cgro/cossc/
+COBE,cobe,Cosmic Background Explorer ,"Nov 18, 1989",4,http://lambda.gsfc.nasa.gov/product/cobe/
+SAMPEX,sampex,"Solar, Anomalous, and Magnetospheric Particle Explorer ","Jul 3, 1992",4,http://sunland.gsfc.nasa.gov/smex/sampex/index.html
+GALEX,galex,Galaxy Evolution Explorer,"Apr 28, 2003",4,http://www.galex.caltech.edu/
+Chandra,chandra,Chandra X-Ray Observatory,"Jul 23, 1999",3,http://chandra.harvard.edu/index.html
+SAGE III - ISS,sage-3-iss,Stratospheric Aerosol and Gas Experiment III - International Space Station,"Jul 25, 2014",2,http://www-sage3oniss.larc.nasa.gov/
+Aqua,aqua,Aqua,"May 4, 2002",3,http://aqua.nasa.gov/
+Astro Observatory (ASTRO 1 & 2),astro,Astro Observatory,"Dec 2, 1990",4,http://nssdc.gsfc.nasa.gov/nmc/masterCatalog.do?sc=ASTRO
+SIR-C,sir,Shuttle Imaging Radar,"Apr 19, 1994",4,http://www.jpl.nasa.gov/radar/sircxsar/
+HETE-1,hete-1,High Energy Transient Explorer-1,"Nov 4, 1996",4,http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=1996-061A
+ICESat-2,icesat-ii,"Ice, Cloud, and land Elevation Satellite","Apr 1, 2016",1,http://icesat.gsfc.nasa.gov/index.php
+Aquarius,aquarius,Aquarius,"Jun 10, 2011",3,http://aquarius.gsfc.nasa.gov/
+Operation IceBridge,operation-ice-bridge,Operation IceBridge,"Oct 15, 2009",3,http://www.espo.nasa.gov/oib/
+Mars Science Laboratory,msl,Mars Science Laboratory,"Nov 26, 2011",3,http://www.jpl.nasa.gov/missions/details.cfm?id=5918
+Cassini,cassini,Cassini Orbiter,"Oct 15, 1997",3,http://saturn.jpl.nasa.gov/
+Ulysses,ulysses,Ulysses,"Oct 6, 1990",4,http://ulysses.jpl.nasa.gov/index.html
+Surveyor,surveyor-1-7,Surveyor 1-7,"May 29, 1966",4,http://www.jpl.nasa.gov/missions/past/surveyor.html
+Landsat 7,landsat-7,LANDSAT 7,"Apr 15, 1999",3,http://landsat.gsfc.nasa.gov/
+Juno,juno,Juno,"Aug 5, 2011",3,http://www.nasa.gov/mission_pages/juno/main/index.html
+GRAIL,grail,Gravity Recovery and Interior Laboratory,"Sep 10, 2011",3,http://moon.mit.edu/
+GOES N - P,goes-n-o-p,Geostationary Operational Environmental Satellite,"Mar 4, 2010",2,http://goespoes.gsfc.nasa.gov/
+GRIP,grip,Genesis and Rapid Intensification Processes ,"Aug 15, 2010",4,http://airbornescience.nsstc.nasa.gov/grip/
+OSIRIS-REx,osiris-rex,Origins-Spectral Interpretation-Resource Identification-Security-Regolith Explorer,"Sep 1, 2016",2,http://osiris-rex.lpl.arizona.edu/
+RBSP,rbsp,Radiation Belt Storm Probes ,"Aug 30, 2012",3,http://rbsp.jhuapl.edu/
+ExoMars Trace Gas Orbiter,exomars,ExoMars Urey Instrument,,4,http://www.nasa.gov/mission_pages/mars/news/exo20100826.html
+AirMOSS,airmoss,Airborne Microwave Observatory of Subcanopy and Subsurface,"Mar 1, 2012",2,http://airmoss.jpl.nasa.gov/
+Suomi NPP,suomi-npp,Suomi National Polar-orbiting Partnership,"Oct 25, 2011",3,http://jointmission.gsfc.nasa.gov/
+DESDynI,desdyni,"Deformation, Ecosystem Structure and Dynamics of Ice","Jan 1, 2021",1,http://desdyni.jpl.nasa.gov/
+OCO-2,oco-2,Orbiting Carbon Observatory,"Jan 1, 2015",2,http://oco.jpl.nasa.gov/
+HS3,hs3,Hurricane and Severe Storm Sentinel ,"Aug 1, 2012",2,
+IRIS,iris,Interface Region Imaging Spectrograph,"Apr 1, 2013",2,http://iris.lmsal.com/#ov
+JWST,jwst,James Webb Space Telescope ,"Jan 1, 2018",2,http://www.jwst.nasa.gov/
+Astro-H,astro-h,Astro-H,"Feb 15, 2014",2,http://heasarc.gsfc.nasa.gov/docs/astroh/
+NuSTAR,nustar,Nuclear Spectroscopic Telescope Array ,"Jun 13, 2012",3,http://www.nustar.caltech.edu/
+GPM,gpm,Global Precipitation Measurement,"Jun 1, 2014",2,http://gpm.gsfc.nasa.gov/
+CHIPS,chips,Cosmic Hot Interstellar Plasma Spectrometer ,"Jan 12, 2003",4,http://chips.ssl.berkeley.edu/chips.html
+Rosetta,rosetta,Rosetta Orbiter ,"Mar 2, 2004",3,http://rosetta.jpl.nasa.gov/
+ASCA,asca,Advanced Satellite for Cosmology and Astrophysics ,"Feb 20, 1993",4,http://heasarc.gsfc.nasa.gov/docs/asca/ascagof.html
+BBXRT,bbxrt,Broad Band X-ray Telescope ,"Dec 2, 1990",4,http://heasarc.gsfc.nasa.gov/docs/bbxrt/bbxrt_about.html
+GEMS,gems,Gravity and Extreme Magnetism Small Explorer,"Nov 1, 2014",2,http://gems.gsfc.nasa.gov/
+KAO,kao,Kuiper Airborne Observatory  ,"May 21, 1975",4,http://quest.arc.nasa.gov/lfs/about-kao%5E.html
+SOFIA,sofia,Stratospheric Observatory for Infrared Astronomy ,,2,http://www.sofia.usra.edu/index.html
+Hipparcos,hipparcos,Hipparcos,"Aug 8, 1989",4,http://sci.esa.int/science-e/www/area/index.cfm?fareaid=20
+ACE,ace,Advanced Composition Explorer,"Aug 25, 1997",3,http://www.srl.caltech.edu/ACE/
+ROSAT,rosat,ROentgen SATellite,"Jun 1, 1990",4,http://heasarc.gsfc.nasa.gov/docs/rosat/rosat.html
+EUVE,euve,Extreme Ultraviolet Explorer,"Jun 7, 1992",4,http://www.ssl.berkeley.edu/euve/
+ISO,iso,Infrared Space Observatory ,"Nov 17, 1995",4,http://sci.esa.int/science-e/www/area/index.cfm?fareaid=18
+DXS,dxs,Diffuse X-ray Spectrometer ,"Jan 13, 1993",4,http://heasarc.gsfc.nasa.gov/docs/dxs/dxs.html
+HALCA,halca,Highly Advanced Laboratory for Communications and Astronomy,"Feb 12, 1997",4,http://www.vsop.isas.ac.jp/
+IEH-3,ieh-3,International Extreme Ultraviolet Hitchhiker ,"Oct 29, 1998",4,
+Leonid MAC,lenoid-mac,Leonid Multi-instrument Aircraft Campaign,"Nov 17, 1998",4,http://leonid.arc.nasa.gov/
+SWAS,swas,Submillimeter Wave Astronomy Satellite ,"Dec 6, 1998",4,http://www.cfa.harvard.edu/swas/
+SMAP,smap,Soil Moisture Active-Passive,"Jan 1, 2015",2,http://smap.jpl.nasa.gov/
+Solar Orbiter,solar-orbiter,Solar Orbiter,,1,http://sci.esa.int/science-e/www/area/index.cfm?fareaid=45
+HETE-2,hete-2,High Energy Transient Explorer-2 ,"Oct 9, 2000",4,http://space.mit.edu/HETE/
