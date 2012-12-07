@@ -381,8 +381,10 @@ define('Core/DeveloperError',[],function() {
 
 /*global define*/
 define('Core/Math',[
+        './defaultValue',
         './DeveloperError'
        ], function(
+         defaultValue,
          DeveloperError) {
     
 
@@ -826,6 +828,37 @@ define('Core/Math',[
             }
         }
         return factorials[n];
+    };
+
+    /**
+     * Increments a number with a wrapping to a minimum value if the number exceeds the maximum value.
+     *
+     * @memberof CesiumMath
+     *
+     * @param {Number} [n] The number to be incremented.
+     * @param {Number} [maximumValue] The maximum incremented value before rolling over to the minimum value.
+     * @param {Number} [minimumValue=0.0] The number reset to after the maximum value has been exceeded.
+     *
+     * @return {Number} The incremented number.
+     *
+     * @example
+     * var n = CesiumMath.incrementWrap(5, 10, 0); // returns 6
+     * var n = CesiumMath.incrementWrap(10, 10, 0); // returns 0
+     *
+     * @exception {DeveloperError} Maximum value must be greater than minimum value.
+     */
+    CesiumMath.incrementWrap = function(n, maximumValue, minimumValue) {
+        minimumValue = defaultValue(minimumValue, 0.0);
+
+        if (maximumValue <= minimumValue) {
+            throw new DeveloperError('Maximum value must be greater than minimum value.');
+        }
+
+        ++n;
+        if(n > maximumValue) {
+            n = minimumValue;
+        }
+        return n;
     };
 
     /**
@@ -1558,6 +1591,42 @@ define('Core/Cartesian3',[
         return Math.atan2(sine, cosine);
     };
 
+    var mostOrthogonalAxisScratch = new Cartesian3();
+    /**
+     * Returns the axis that is most orthogonal to the provided Cartesian.
+     * @memberof Cartesian3
+     *
+     * @param {Cartesian3} cartesian The Cartesian on which to find the most orthogonal axis.
+     * @param {Cartesian3} [result] The object onto which to store the result.
+     * @return {Cartesian3} The most orthogonal axis.
+     *
+     * @exception {DeveloperError} cartesian is required.
+     */
+    Cartesian3.mostOrthogonalAxis = function(cartesian, result) {
+        if (typeof cartesian === 'undefined') {
+            throw new DeveloperError('cartesian is required.');
+        }
+
+        var f = Cartesian3.normalize(cartesian, mostOrthogonalAxisScratch);
+        Cartesian3.abs(f, f);
+
+        if (f.x <= f.y) {
+            if (f.x <= f.z) {
+                result = Cartesian3.clone(Cartesian3.UNIT_X, result);
+            } else {
+                result = Cartesian3.clone(Cartesian3.UNIT_Z, result);
+            }
+        } else {
+            if (f.y <= f.z) {
+                result = Cartesian3.clone(Cartesian3.UNIT_Y, result);
+            } else {
+                result = Cartesian3.clone(Cartesian3.UNIT_Z, result);
+            }
+        }
+
+        return result;
+    };
+
     /**
      * Compares the provided Cartesians componentwise and returns
      * <code>true</code> if they are equal, <code>false</code> otherwise.
@@ -1860,6 +1929,17 @@ define('Core/Cartesian3',[
      */
     Cartesian3.prototype.angleBetween = function(right) {
         return Cartesian3.angleBetween(this, right);
+    };
+
+    /**
+     * Returns the axis that is most orthogonal to the this Cartesian.
+     * @memberof Cartesian3
+     *
+     * @param {Cartesian3} [result] The object onto which to store the result.
+     * @return {Cartesian3} The most orthogonal axis.
+     */
+    Cartesian3.prototype.mostOrthogonalAxis = function(result) {
+        return Cartesian3.mostOrthogonalAxis(this, result);
     };
 
     /**

@@ -441,9 +441,6 @@
 
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
     cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
-    cb.nightImageSource     = 'Images/land_ocean_ice_lights_2048.jpg';
-    cb.showSkyAtmosphere    = true;
-    cb.bumpMapSource        = 'Images/earthbump1k.jpg'; // need/want this? if tile server unavailable?
 
     scene.getPrimitives().setCentralBody(cb);
 
@@ -471,8 +468,6 @@
         var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
 
         document.getElementById('date').textContent = currentTime.toDate();
-
-        scene.setSunPosition(Cesium.computeSunPosition(now));
 
         if (satrecs.length > 0) {
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
