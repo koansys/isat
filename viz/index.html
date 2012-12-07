@@ -28,8 +28,9 @@
     <script type="text/javascript" src="cesium/Cesium.js"></script>
     <script type="text/javascript" src="static/js/modernizr.js"></script> <!-- There is a minified one to use... -->
 
-    <link rel="stylesheet" href="static/css/normalize.css">
-    <link rel="stylesheet" href="static/css/main.css">
+    <link href="static/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="static/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="static/css/main.css" rel="stylesheet">
   </head>
 
   <body>
@@ -76,6 +77,12 @@
       </div>
     </form>
 
+    <!-- Button to trigger modal -->
+    <a href="#instructions" role="button" class="btn" data-toggle="modal">Instructions</a>
+
+    <a href="#statistics" role="button" class="btn" data-toggle="modal">Show Statistics</a>
+
+
     <div class="popup" id="satellite_popup" style="display:none;"></div>
 
     <div id="cesiumContainer">
@@ -83,47 +90,65 @@
       <canvas id="glCanvas" width="300" height="300" tabindex="1"></canvas>
     </div>
 
-
-    <div id="statistics">
-      <div id="date">Date</div>
-      <table id="positions">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>ID</th>
-            <th>X Km</th>
-            <th>Y Km</th>
-            <th>Z Km</th>
-            <th>Velocity (BUG)</th>
-            <th>Latitude</th>
-            <th>Longitude (BUG)</th>
-            <th>Height Km/? (BUG)</th>
-          </tr>
-        </thead>
-        <!-- tbody destroyed and recreated by javascript -->
-      </table>
+    <!-- Modal for Statistics-->
+    <div id="statistics" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="statisticsLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="statisticsLabel">Satellite Statistics</h3>
+      </div>
+      <div class="modal-body">
+        <div id="date">Date</div>
+          <table id="positions">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>X Km</th>
+                <th>Y Km</th>
+                <th>Z Km</th>
+                <th>Velocity (BUG)</th>
+                <th>Latitude</th>
+                <th>Longitude (BUG)</th>
+                <th>Height Km/? (BUG)</th>
+              </tr>
+            </thead>
+            <!-- tbody destroyed and recreated by javascript -->
+          </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
     </div>
 
-    <!-- Need a place at the top for this but then pushes interesting bits too low.
-         Maybe use a (dreaded) pop-up? -->
-    <div id="instructions">
-      <p>
-        The satellites are displayed based on calculated position; you
-        can watch them move but it helps to zoom in a bit. You may have
-        to zoon out quite a bit to see satellites with very large
-        orbits. You can rotate the Earth and zoom in or out. If you've
-        allowed geolocation in your browser, a marker will show your
-        current position.</p>
-      <p>Hover over a satelite icon to show its name. Click it to bring
-        up pages/tabs that provide details
-        from <a href="http://science.nasa.gov/">Science.nasa.gov</a>
-        and <a href="http://nssdc.gsfc.nasa.gov/">NSSDC</a>. Select a
-        specific satellite from a group to highlight it and move the
-        camera to its position.</p>
+    <!-- Modal for Instructions -->
+    <div id="instructions" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="instructionsLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="instructionsLabel">Instructions</h3>
+      </div>
+      <div class="modal-body">
+        <p>
+            The satellites are displayed based on calculated position; you
+            can watch them move but it helps to zoom in a bit. You may have
+            to zoon out quite a bit to see satellites with very large
+            orbits. You can rotate the Earth and zoom in or out. If you've
+            allowed geolocation in your browser, a marker will show your
+            current position.</p>
+          <p>Hover over a satelite icon to show its name. Click it to bring
+            up pages/tabs that provide details
+            from <a href="http://science.nasa.gov/">Science.nasa.gov</a>
+            and <a href="http://nssdc.gsfc.nasa.gov/">NSSDC</a>. Select a
+            specific satellite from a group to highlight it and move the
+            camera to its position.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
     </div>
 
     <script src="index.js" type="text/javascript"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="static/js/jquery-1.8.3.min.js"><\/script>')</script>
+    <script src="static/js/bootstrap-modal.js"></script>
   </body>
 </html>
