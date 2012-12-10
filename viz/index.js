@@ -1,4 +1,4 @@
-/*global document, window, console, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
+/*global document, window, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
 (function () {
     'use strict';
     var canvas          = document.getElementById('glCanvas');
@@ -24,7 +24,8 @@
 
     var TILE_PROVIDERS = {
         'bing' : new Cesium.BingMapsImageryProvider(// fails to detect 404 due to no net :-(
-            {server : 'dev.virtualearth.net' // default:  mapStyle:Cesium.BingMapStyle.AERIAL
+            {server : 'dev.virtualearth.net',
+             mapStyle: Cesium.BingMapsStyle.AERIAL_WITH_LABELS
             }),
         'osm'  : new Cesium.OpenStreetMapImageryProvider(
             {url    : 'http://otile1.mqcdn.com/tiles/1.0.0/osm'
