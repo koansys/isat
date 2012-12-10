@@ -8,9 +8,19 @@
  * Revision:
  */
 
+
 #statistics {
-    width: 800px;
-    margin-left: -375px;}
+    width: 795px;
+    margin-left: -375px;
+}
+
+#cesiumContainer {
+    padding-top: 15px;
+    bottom: 0px;
+}
+
+#glCanvas {
+}
 
 table {border-collapse:collapse;}
 table td, table th {border:1px solid #888; padding: 3px;}

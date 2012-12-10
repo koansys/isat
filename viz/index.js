@@ -274,15 +274,14 @@
 
     function onResize() {
         var cc = document.getElementById('cesiumContainer');
-        var width = cc.clientWidth * 0.95;
-        var height = width;     // make it square
+        var width = cc.offsetWidth;
+        var height = width;     // make it square width * 0.5625 - 400
 
         if (canvas.width === width && canvas.height === height) {
             return;
         }
         canvas.width = width;
         canvas.height = height;
-        cc.height = height;
         scene.getCamera().frustum.aspectRatio = width / height;
     }
     window.addEventListener('resize', onResize, false);
