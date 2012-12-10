@@ -7,6 +7,7 @@
     var satBillboards   = new Cesium.BillboardCollection();
     var cb              = new Cesium.CentralBody(ellipsoid);
     var clock           = new Cesium.Clock();
+    var orbitTraces       = new Cesium.PolylineCollection(); // currently only one at a time
     var satrecs         = [];   // populated from onclick file load
     var satdesigs       = [];   // populated from onclick file load
     var satnames        = [];   // populated from onclick file load
@@ -428,11 +429,9 @@
         var minutesPerOrbit = 2 * Math.PI / satrec.no;
         var pointsPerOrbit = 144; // arbitrary: should be adaptive based on size (radius) of orbit
         var minutesPerPoint = minutesPerOrbit / pointsPerOrbit;
-        var polylines = new Cesium.PolylineCollection();
-        var primitives = scene.getPrimitives(); // how to introspect?
-        var minutes, julianDate, minutesSinceEpoch, rets, r, position, polyline;
+        var minutes, julianDate, minutesSinceEpoch, rets, r, position;
 
-        polylines.modelMatrix =
+        orbitTraces.modelMatrix =
             Cesium.Matrix4.fromRotationTranslation(
                 Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
                 Cesium.Cartesian3.ZERO);
@@ -445,15 +444,13 @@
             r = rets.shift();      // [1802,    3835,    5287] Km, not meters
             position = new Cesium.Cartesian3(r[0], r[1], r[2]);  // becomes .x, .y, .z
             position = position.multiplyByScalar(1000); // Km to meters
-            positions.push(position)
-        };
-        polyline = polylines.add();
-        polyline.setPositions(positions);
-        polyline.setColor({red: 1, green: 1, blue: 0, alpha: 0.7});
-        console.log('showOrbit adding polylines');
-        primitives.add(polylines);
+            positions.push(position);
+        }
+        orbitTraces.removeAll();
+        orbitTraces.add({positions: positions,
+                         color: {red: 1, green: 1, blue: 0, alpha: 0.7}});
 
-    };
+    }
 
 
     // Switch map/tile providers
@@ -489,6 +486,7 @@
 
     // Switch which satellites are displayed.
     document.getElementById('select_satellite_group').onchange = function () {
+        orbitTraces.removeAll();
         getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
         populateSatelliteSelector();
         populateSatelliteBillboard();
@@ -502,6 +500,8 @@
     cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
 
     scene.getPrimitives().setCentralBody(cb);
+    scene.getPrimitives().add(orbitTraces);
+
 
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
