@@ -274,9 +274,9 @@
 
     function onResize() {
         var cc = document.getElementById('cesiumContainer');
-        var width = cc.clientWidth * 0.95;
-        var height = width;     // make it square
-
+        var width = cc.scrollWidth - 15;
+        var height = width * 0.75 - 250;     // 800x600 minus header
+        // var height = cc.scrollHeight;
         if (canvas.width === width && canvas.height === height) {
             return;
         }
