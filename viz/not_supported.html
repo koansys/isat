@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
   <head>
     <title>SOT: Satellite Orbit Tracker</title>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <script>
       opsmode = 'i'; //GLOBAL for intl, 'i'mproved
     </script>
@@ -30,6 +31,11 @@
 
     <link rel="stylesheet" href="static/css/normalize.css">
     <link rel="stylesheet" href="static/css/not_supported.css">
+
+    <!--[if IE]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+    <script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
+    <![endif]-->
   </head>
 
   <body>
