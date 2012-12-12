@@ -1,8 +1,8 @@
 /*global document, window, console, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
 (function () {
     var ellipsoid       = Cesium.Ellipsoid.WGS84;
-    var cb              = new Cesium.CentralBody(ellipsoid);
     var clock           = new Cesium.Clock();
+    var orbitTraces       = new Cesium.PolylineCollection(); // currently only one at a time
     var satrecs         = [];   // populated from onclick file load
     var satdesigs       = [];   // populated from onclick file load
     var satnames        = [];   // populated from onclick file load
@@ -12,6 +12,7 @@
     var TYPERUN         = 'm';  // 'm'anual, 'c'atalog, 'v'erification
     var TYPEINPUT       = 'n';  // HACK: 'now'
     var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
+    var CALC_INTERVAL_MS  = 1000;
 
     function getSatrecsFromTLEFile(fileName) {
         var tles = tle.parseFile(fileName);
@@ -91,36 +92,6 @@
         }
     }
 
-    function populateSatelliteSelector() {
-        var satSelect = document.getElementById('select_satellite');
-        var nameIdx = {};
-        var satnum, max, option, satkeys;
-
-        for (satnum = 0, max = satrecs.length; satnum < max; satnum += 1) {
-            nameIdx[satnames[satnum]] = satnum;
-        }
-        satkeys = Object.keys(nameIdx);
-        satkeys.sort();
-        satSelect.innerHTML = ''; // $('select_satellite').empty();
-        // option = document.createElement('option');
-        // satSelect.appendChild(option); // first is empty to not select any satellite
-        for (satnum = 0, max = satkeys.length; satnum < max; satnum += 1) {
-            option = document.createElement('option');
-            option.textContent = satkeys[satnum];
-            option.value = nameIdx[satkeys[satnum]];
-            satSelect.appendChild(option);
-        }
-        computeStats();
-    }
-
-    document.getElementById('select_satellite_group').onchange = function () {
-        getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
-        populateSatelliteSelector();
-    };
-
-    getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
-    populateSatelliteSelector();
-
     function computeStats(){
         var currentTime = clock.tick();
         var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
@@ -133,8 +104,12 @@
         }
     }
 
-    (function tick() {
-        computeStats();
-        Cesium.requestAnimationFrame(tick);
-    }());
+    getSatrecsFromTLEFile('tle/SMD.txt');
+    document.getElementById('select_satellite_group').onchange = function () {
+        orbitTraces.removeAll();
+        getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
+    };
+
+    var displayStat = setInterval(computeStats, CALC_INTERVAL_MS);
+
 }());
