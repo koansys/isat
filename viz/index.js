@@ -272,21 +272,33 @@
     // In <canvas> tag our height and width can only be in pixels, not percent.
     // So wrap it in a div whose height/width we can query.
 
-    function onResize() {
-        var cc = document.getElementById('cesiumContainer');
-        var width = cc.scrollWidth - 15;
-        var height = width * 0.75 - 250;     // 800x600 minus header
-        // var height = cc.scrollHeight;
-        if (canvas.width === width && canvas.height === height) {
-            return;
-        }
-        canvas.width = width;
-        canvas.height = height;
-        cc.height = height;
-        scene.getCamera().frustum.aspectRatio = width / height;
+    window.onload = window.onresize = function() {
+        var C = 6/8;        // canvas width to viewport width ratio
+        var W_TO_H = 2/1;   // canvas width to canvas height ratio
+        var el = document.getElementById("glCanvas");
+
+        // For IE compatibility http://www.google.com/search?q=get+viewport+size+js
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+
+        var canvasWidth = viewportWidth * C;
+        var canvasHeight = canvasWidth / W_TO_H;
+        el.style.position = "fixed";
+        el.setAttribute("width", canvasWidth);
+        el.setAttribute("height", canvasHeight);
+        el.style.top = (viewportHeight - canvasHeight) / 2;
+        el.style.left = (viewportWidth - canvasWidth) / 2;
+
+        window.ctx = el.getContext("2d");
+        ctx.clearRect(0,0,canvasWidth,canvasHeight);
+        ctx.fillStyle = 'yellow';
+        ctx.moveTo(0, canvasHeight/2);
+        ctx.lineTo(canvasWidth/2, 0);
+        ctx.lineTo(canvasWidth, canvasHeight/2);
+        ctx.lineTo(canvasWidth/2, canvasHeight);
+        ctx.lineTo(0, canvasHeight/2);
+        ctx.fill()
     }
-    window.addEventListener('resize', onResize, false);
-    onResize();
 
 
     // When you hover over a satellite, show its name in a popup
