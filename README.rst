@@ -10,7 +10,7 @@ which uses the SGP4 algorithms to calculate satellite positions and
 renders them in 3D using the Cesium engine -- completely in the browser,
 implemented as JavaScript.
 
-.. image:: screenshot.png
+.. image:: sot/screenshot.png
 
 (Dis)Claimer
 ============
