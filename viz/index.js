@@ -1,4 +1,4 @@
-/*global document, window, console, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
+/*global document, window, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
 (function () {
     'use strict';
     var canvas          = document.getElementById('glCanvas');
@@ -7,6 +7,7 @@
     var satBillboards   = new Cesium.BillboardCollection();
     var cb              = new Cesium.CentralBody(ellipsoid);
     var clock           = new Cesium.Clock();
+    var orbitTraces       = new Cesium.PolylineCollection(); // currently only one at a time
     var satrecs         = [];   // populated from onclick file load
     var satdesigs       = [];   // populated from onclick file load
     var satnames        = [];   // populated from onclick file load
@@ -23,7 +24,8 @@
 
     var TILE_PROVIDERS = {
         'bing' : new Cesium.BingMapsImageryProvider(// fails to detect 404 due to no net :-(
-            {server : 'dev.virtualearth.net' // default:  mapStyle:Cesium.BingMapStyle.AERIAL
+            {server : 'dev.virtualearth.net',
+             mapStyle: Cesium.BingMapsStyle.AERIAL_WITH_LABELS
             }),
         'osm'  : new Cesium.OpenStreetMapImageryProvider(
             {url    : 'http://otile1.mqcdn.com/tiles/1.0.0/osm'
@@ -79,10 +81,11 @@
         var satrecsOut = [];
         var positions = [];
         var velocities = [];
-        var satnum, max, jdSat, minutesSinceEpoch, rets, satrec, r, v;
+        var satnum, max, satrecTmp, jdSat, minutesSinceEpoch, rets, satrec, r, v;
 
         for (satnum = 0, max = satrecs.length; satnum < max; satnum += 1) {
-            jdSat = new Cesium.JulianDate.fromTotalDays(satrecs[satnum].jdsatepoch);
+            satrecTmp = satrecs[satnum];
+            jdSat = new Cesium.JulianDate.fromTotalDays(satrecTmp.jdsatepoch);
             minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
             rets = sgp4(satrecs[satnum], minutesSinceEpoch);
             satrec = rets.shift();
@@ -321,7 +324,6 @@
         );
     }
 
-
     // Clicking a satellite opens a page to Sciencce and NSSDC details
 
     function satelliteClickDetails(scene) {
@@ -395,7 +397,62 @@
         eye =  new Cesium.Cartesian3.clone(pos);
         eye = eye.multiplyByScalar(1.5); // Zoom out a bit from the satellite
         scene.getCamera().lookAt(eye, target, up);
+
+        // TODO TMP: draw orbit, since we have the satIdx (not just a BB as we get in hover)
+        showOrbit(satIdx);
     };
+
+
+    // For the given satellite, calculate points for one orbit, starting 'now'
+    // and create a polyline to visualize it.
+    // It does this by copying the satrec then looping over it through time.
+    //
+    // TODO: How to prevent dupes? Remove Old? Every one we select gets a new trace
+    // TODO: the position loop repeats much of updateSatrecsPosVel()
+    //
+    // The TLE.slice(52, 63) is Mean Motion, Revs per day, e.g., ISS=15.72125391
+    // ISS (ZARYA)
+    // 1 25544U 98067A   08264.51782528 −.00002182  00000-0 -11606-4 0  2927
+    // 2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537
+    // We can invert that to get the time time we need for one rev.
+    // But it's not our satrec, and we are't storing parsed TLEs.
+    // satrec.no is TLE.slice(51,63) / xpdotp in radians/minute; it's manipulated by SGP4 but OK.
+    // ISS no=0.06767671366760845
+    // To get full 'circle' = 2*Pi => minutes/orbit = 2*Pi / satrec.no = 92.84 minutes for ISS
+    // Compare with TLE 15.721.. revs/day:
+    // 24 hr/day * 60 min/hr / 15.72125391 rev/day = 91.59574 minutes/rev -- close (enough?)
+
+    function showOrbit(satIdx) {
+        var positions = [];
+        var satrec = satrecs[satIdx];
+        var jdSat = new Cesium.JulianDate.fromTotalDays(satrec.jdsatepoch);
+        var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
+        var minutesPerOrbit = 2 * Math.PI / satrec.no;
+        var pointsPerOrbit = 144; // arbitrary: should be adaptive based on size (radius) of orbit
+        var minutesPerPoint = minutesPerOrbit / pointsPerOrbit;
+        var minutes, julianDate, minutesSinceEpoch, rets, r, position;
+
+        orbitTraces.modelMatrix =
+            Cesium.Matrix4.fromRotationTranslation(
+                Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
+                Cesium.Cartesian3.ZERO);
+
+        for (minutes = 0; minutes <= minutesPerOrbit; minutes += minutesPerPoint) {
+            julianDate = now.addMinutes(minutes);
+            minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
+            rets = sgp4(satrec, minutesSinceEpoch);
+            satrec = rets.shift();
+            r = rets.shift();      // [1802,    3835,    5287] Km, not meters
+            position = new Cesium.Cartesian3(r[0], r[1], r[2]);  // becomes .x, .y, .z
+            position = position.multiplyByScalar(1000); // Km to meters
+            positions.push(position);
+        }
+        orbitTraces.removeAll();
+        orbitTraces.add({positions: positions,
+                         color: {red: 1, green: 1, blue: 0, alpha: 0.7}});
+
+    }
+
 
     // Switch map/tile providers
     //
@@ -430,6 +487,7 @@
 
     // Switch which satellites are displayed.
     document.getElementById('select_satellite_group').onchange = function () {
+        orbitTraces.removeAll();
         getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
         populateSatelliteSelector();
         populateSatelliteBillboard();
@@ -443,6 +501,8 @@
     cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
 
     scene.getPrimitives().setCentralBody(cb);
+    scene.getPrimitives().add(orbitTraces);
+
 
     scene.getCamera().getControllers().addCentralBody();
     scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
