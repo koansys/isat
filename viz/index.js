@@ -17,7 +17,7 @@
     var TYPERUN         = 'm';  // 'm'anual, 'c'atalog, 'v'erification
     var TYPEINPUT       = 'n';  // HACK: 'now'
     var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
-
+    var CALC_INTERVAL_MS  = 1000;
 
     ///////////////////////////////////////////////////////////////////////////
     // Tile Providers
@@ -521,20 +521,24 @@
     /////////////////////////////////////////////////////////////////////////////
     // Run the timeclock, drive the animations
 
-    // Code here updates primitives based on time, camera position, etc
-
-    scene.setAnimation(function () {
-        var currentTime = clock.tick();
+    var satelliteTimer = setInterval(function () {
         var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
 
-        document.getElementById('date').textContent = currentTime.toDate();
-
+        document.getElementById('date').textContent = clock.tick().toDate();
         if (satrecs.length > 0) {
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
             updateSatelliteBillboards(sats.positions);
             displayPositions(sats);
         }
+    }, CALC_INTERVAL_MS);
+    
+        
+    // Code here updates primitives based on time, camera position, etc
+    // We're updating positions and date with an interval timer,
+    // and those are global, so the animation renderer gets them automatically.
+    
+    scene.setAnimation(function () {
     });
 
     // Loop the clock
