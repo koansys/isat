@@ -229,7 +229,7 @@
             var up     = new Cesium.Cartesian3(0, 0, 1);
             // Put a cross where we are
             var image = new Image();
-            image.src = 'Images/cross_yellow_16.png';
+            image.src = 'Images/icon_geolocation.png';
             image.onload = function () {
                 var billboards = new Cesium.BillboardCollection(); // how to make single?
                 var textureAtlas = scene.getContext().createTextureAtlas({image: image});
