@@ -21,15 +21,6 @@
 # - launch_date: Apr 13, 1994
 # - phase_id: 1,2,3,4,14,15 (see below)
 
-# Phase IDs:
-# 1: under study
-# 2: development
-# 3: operating
-# 4: past
-# 14: studied
-# 15: extended
-
-
 import csv
 import logging
 
@@ -43,7 +34,13 @@ OUTPUT_KEYS   = [               # sucks these have to be hand-coded
     'noradid_url', 'intldesig_url', 'mission_url',
     'launch_date', 'phase_id', # are these needed in output?
     ]
-PHASES_WITH_IDS = ['3', '4', '15']
+PHASE_NAMES = {'1': 'Under Study',
+               '2': 'Development',
+               '3': 'Operating',
+               '4': 'Past',
+               '14': 'Studied',
+               '15': 'Extended'}
+PHASES_WITH_TLES = ['3', '15']
 
 logging.basicConfig(level=logging.INFO)
 
@@ -72,12 +69,13 @@ logging.info('Read %d TLE entries' % len(tles))
 sats = {}
 num_with_ids = 0
 num_sans_ids = 0
+num_with_tles = 0
 with open(SCIENCE_CSV) as science_csv:
     reader = csv.DictReader(science_csv)
     for linenum, row in enumerate(reader):
-        if row['phase_id'] not in PHASES_WITH_IDS:
-            logging.debug('Skip phase_id=%s for %s' %
-                          (row['phase_id'], row['slug']))
+        if row['phase_id'] not in PHASES_WITH_TLES:
+            logging.info('Skip phase_id=%s (%s) for %s' %
+                          (row['phase_id'], PHASE_NAMES[row['phase_id']], row['slug']))
             num_sans_ids += 1
             continue
         num_with_ids += 1
@@ -94,6 +92,7 @@ with open(SCIENCE_CSV) as science_csv:
             logging.info('Found by upslug="%s"' % upslug)
         # If we got one, store the other attrs:
         if satName:
+            num_with_tles += 1
             tle = tles[satName]
             # TODO: add intldesig field
             sats[satName] = {'tle_name'      : satName,
@@ -113,7 +112,8 @@ with open(SCIENCE_CSV) as science_csv:
             sats[title].update({'mission_url' : '/missions/%s' % row['slug']})
 
 
-logging.info('Num with ids=%d sans=%d' % (num_with_ids, num_sans_ids))
+logging.info('Num with  IDs=%d sans=%d' % (num_with_ids, num_sans_ids))
+logging.info('Num with TLEs=%d' % num_with_tles)
 logging.info('Found %d sats of %d in TLEs' % (len(sats), linenum + 1))
 
 from pprint import pprint as pp
