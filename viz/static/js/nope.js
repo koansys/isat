@@ -1,1 +1,1 @@
-window.location = "not_supported.html"
+window.location = "not_supported.html";

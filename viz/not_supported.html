@@ -5,9 +5,103 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
   <head>
     <title>SOT: Satellite Orbit Tracker</title>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <script>
+      opsmode = 'i'; //GLOBAL for intl, 'i'mproved
+    </script>
+
+    <script type="text/javascript" src="../js/twoline2rv.js"></script>
+    <script type="text/javascript" src="../js/getgravc.js"></script>
+    <script type="text/javascript" src="../js/days2mdh.js"></script>
+    <script type="text/javascript" src="../js/jday.js"></script>
+    <script type="text/javascript" src="../js/sgp4init.js"></script>
+    <script type="text/javascript" src="../js/initl.js"></script>
+    <script type="text/javascript" src="../js/gstime.js"></script>
+    <script type="text/javascript" src="../js/sgp4.js"></script>
+
+    <script type="text/javascript" src="../js/dscom.js"></script>
+    <script type="text/javascript" src="../js/dpper.js"></script>
+    <script type="text/javascript" src="../js/dsinit.js"></script>
+    <script type="text/javascript" src="../js/dspace.js"></script>
+
+    <script type="text/javascript" src="tle.js"></script>
+
+    <script type="text/javascript" src="cesium/Cesium.js"></script>
+    <script type="text/javascript" src="static/js/modernizr-2.6.2.min.js"></script> <!-- There is a minified one to use... -->
+
+    <link rel="stylesheet" href="static/css/normalize.css">
+    <link rel="stylesheet" href="static/css/not_supported.css">
+
+    <!--[if IE]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+    <script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
+    <![endif]-->
+    <script type="text/javascript">
+      var QueryString = function () {
+        // This function is anonymous, is executed immediately and
+        // the return value is assigned to QueryString!
+        var query_string = {};
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+          var pair = vars[i].split("=");
+            // If first entry with this name
+          if (typeof query_string[pair[0]] === "undefined") {
+            query_string[pair[0]] = pair[1];
+            // If second entry with this name
+          } else if (typeof query_string[pair[0]] === "string") {
+            var arr = [ query_string[pair[0]], pair[1] ];
+            query_string[pair[0]] = arr;
+            // If third or later entry with this name
+          } else {
+            query_string[pair[0]].push(pair[1]);
+          }
+        }
+          return query_string;
+      } ();
+      window.onload = function(){
+        document.getElementById('failure').innerHTML = QueryString.failure
+      }
+    </script>
   </head>
 
   <body>
     <h1>Not Supported.</h1>
-    <p>Unfortunately, your browser is not supported.</p>
-</body>
+    <p>Unfortunately, your browser does not support <span id="failure"></span>.</p>
+    <form id="controls">
+      <div id="controls_satellite">
+        <span>
+          <label>Satellite Group:
+            <select id="select_satellite_group">
+              <option value="SMD">NASA Science</option>
+              <option value="iss">ISS</option>
+              <option value="space-stations">Space Stations</option>
+              <option value="science">Science</option>
+              <option value="geo">Geosynchronous</option>
+            </select>
+          </label>
+        </span>
+      </div>
+    </form>
+    <div id="statistics">
+      <div id="date">Date</div>
+      <table id="positions">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>X Km</th>
+            <th>Y Km</th>
+            <th>Z Km</th>
+            <th>Velocity (BUG)</th>
+            <th>Latitude</th>
+            <th>Longitude (BUG)</th>
+            <th>Height Km/? (BUG)</th>
+          </tr>
+        </thead>
+        <!-- tbody destroyed and recreated by javascript -->
+      </table>
+    </div>
+    <script src="index_crippled.js" type="text/javascript"></script>
+  </body>
+</html>
