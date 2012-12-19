@@ -481,13 +481,13 @@
         var transitioner = new Cesium.SceneTransitioner(scene);
         switch (this.value.toUpperCase()) {
         case '2D':
-            transitioner.to2D();//morphTo2D();
+            transitioner.morphTo2D();
             break;
         case '2.5D':
-            transitioner.toColumbusView(); // morphToColumbusView();
+            transitioner.morphToColumbusView();
             break;
         case '3D':
-            transitioner.to3D();//morphTo3D();
+            transitioner.morphTo3D();
             break;
         default:
             break;
