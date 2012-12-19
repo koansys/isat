@@ -242,7 +242,7 @@
                 scene.getPrimitives().add(billboards);
             };
             // Point the camera at us and position it directly above us
-            scene.getCamera().lookAt(eye, target, up);
+            scene.getCamera().controller.lookAt(eye, target, up);
         }
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(showGeo);
@@ -307,9 +307,9 @@
     // TODO: scene and ellipsoid are global so why pass them in?
 
     function satelliteHoverDisplay(scene) {
-        var handler = new Cesium.EventHandler(scene.getCanvas());
+        var handler = new Cesium.ScreenSpaceEventHandler(scene.getCanvas());
 
-        handler.setMouseAction( // actionFunction, mouseEventType, eventModifierKey
+        handler.setInputAction( // actionFunction, mouseEventType, eventModifierKey
             function (movement) {
                 var pickedObject = scene.pick(movement.endPosition);
                 var satDiv = document.getElementById('satellite_popup');
@@ -329,16 +329,16 @@
                     satDiv.style.display = 'none';
                 }
             },
-            Cesium.MouseEventType.MOVE // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
+            Cesium.ScreenSpaceEventType.MOUSE_MOVE // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
         );
     }
 
     // Clicking a satellite opens a page to Sciencce and NSSDC details
 
     function satelliteClickDetails(scene) {
-        var handler = new Cesium.EventHandler(scene.getCanvas());
+        var handler = new Cesium.ScreenSpaceEventHandler(scene.getCanvas());
 
-        handler.setMouseAction( // actionFunction, mouseEventType, eventModifierKey
+        handler.setInputAction( // actionFunction, mouseEventType, eventModifierKey
             function (click) {
                 var pickedObject = scene.pick(click.position);
                 var scienceUrl = 'http://science.nasa.gov/missions/';
@@ -363,7 +363,7 @@
                     }
                 }
             },
-            Cesium.MouseEventType.LEFT_CLICK // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
+            Cesium.ScreenSpaceEventType.LEFT_CLICK // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
         );
     }
 
@@ -520,10 +520,8 @@
     });
     scene.getPrimitives().add(orbitTraces);
 
-
-    scene.getCamera().getControllers().addCentralBody();
-    scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
-    scene.getCamera().lookAt(new Cesium.Cartesian3(4000000.0, -15000000.0,  10000000.0), // eye
+    //scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
+    scene.getCamera().controller.lookAt(new Cesium.Cartesian3(4000000.0, -15000000.0,  10000000.0), // eye
                              Cesium.Cartesian3.ZERO, // target
                              new Cesium.Cartesian3(-0.1642824655609347, 0.5596076102188919, 0.8123118822806428)); // up
 
@@ -549,18 +547,19 @@
             displayPositions(sats);
         }
     }, CALC_INTERVAL_MS);
-    
-        
-    // Code here updates primitives based on time, camera position, etc
-    // We're updating positions and date with an interval timer,
-    // and those are global, so the animation renderer gets them automatically.
-    
-    scene.setAnimation(function () {
-    });
+
+
+    function animate() {
+        // Code here updates primitives based on time, camera position, etc
+        // We're updating positions and date with an interval timer,
+        // and those are global, so the animation renderer gets them automatically.
+    };
 
     // Loop the clock
 
     (function tick() {
+        scene.initializeFrame(); // takes optional 'time' argument
+        //animate();
         scene.render();
         Cesium.requestAnimationFrame(tick);
     }());
