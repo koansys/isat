@@ -405,7 +405,7 @@
             Cesium.Cartesian3.ZERO);
         eye =  new Cesium.Cartesian3.clone(pos);
         eye = eye.multiplyByScalar(1.5); // Zoom out a bit from the satellite
-        scene.getCamera().lookAt(eye, target, up);
+        scene.getCamera().controller.lookAt(eye, target, up);
 
         // TODO TMP: draw orbit, since we have the satIdx (not just a BB as we get in hover)
         showOrbit(satIdx);
