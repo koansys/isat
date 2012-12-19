@@ -38,9 +38,8 @@
   <body>
     <h1>SOT: Satellite Orbit Tracker</h1>
     <span id='basic-modal1'><input type='button' name='basic' value='Instructions' class='modal'/></span>
-      or
+    or
     <span id='basic-modal2'><input type='button' name='basic' value='Statistics' class='modal'/></span>
-    </div>
     <form id="controls">
       <div id="controls_visual">
         <span>
@@ -67,8 +66,8 @@
           <label>Satellite Group:
             <select id="select_satellite_group">
               <option value="SMD">NASA Science</option>
-              <option value="iss">ISS</option>
               <optgroup label="From Celestrak">
+                <!-- nested optgroups not indented by browsers; use CSS? -->
                 <optgroup label="Special Interest">
                   <option value="visual"> 100 (or so) Brightest</option>
                   <option value="cosmos-2251-debris"> COSMOS 2251 Debris</option>
@@ -120,7 +119,7 @@
                   <option value="other"> Other</option>
                   <option value="radar"> Radar Calibration</option>
                 </optgroup>
-              </optgroup>
+              </optgroup> <!-- Celestrak -->
             </select>
           </label>
         </span>
