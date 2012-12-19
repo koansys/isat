@@ -11,6 +11,8 @@
     var satrecs         = [];   // populated from onclick file load
     var satPositions    = [];   // calculated by updateSatrecsPosVel()
     var satData         = [];   // list of satellite data and metadata
+    // Constants
+    var skyboxBase      = "static/images/skybox";
     var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
     var CALC_INTERVAL_MS  = 1000;
     // HACK: force globals for SGP4
@@ -508,6 +510,14 @@
     cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
 
     scene.getPrimitives().setCentralBody(cb);
+    scene.skyBox = new Cesium.SkyBox({
+        positiveX: skyboxBase + '/tycho8_px_80.jpg',
+        negativeX: skyboxBase + '/tycho8_mx_80.jpg',
+        positiveY: skyboxBase + '/tycho8_py_80.jpg',
+        negativeY: skyboxBase + '/tycho8_my_80.jpg',
+        positiveZ: skyboxBase + '/tycho8_pz_80.jpg',
+        negativeZ: skyboxBase + '/tycho8_mz_80.jpg'
+    });
     scene.getPrimitives().add(orbitTraces);
 
 
@@ -529,7 +539,7 @@
     // Run the timeclock, drive the animations
 
     var satelliteTimer = setInterval(function () {
-        var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
+        var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
 
         document.getElementById('date').textContent = clock.tick().toDate();
         if (satrecs.length > 0) {
