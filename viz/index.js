@@ -275,16 +275,49 @@
     // In <canvas> tag our height and width can only be in pixels, not percent.
     // So wrap it in a div whose height/width we can query.
 
+    function getScrollBarWidth () {
+        // getScrollBarWidth
+        // http://www.alexandre-gomes.com/?p=115
+        //
+        // Gives me scrollbar width for multi-browser support.
+        //
+        var inner = document.createElement('p');
+        inner.style.width = "100%";
+        inner.style.height = "200px";
+
+        var outer = document.createElement('div');
+        outer.style.position = "absolute";
+        outer.style.top = "0px";
+        outer.style.left = "0px";
+        outer.style.visibility = "hidden";
+        outer.style.width = "200px";
+        outer.style.height = "150px";
+        outer.style.overflow = "hidden";
+        outer.appendChild (inner);
+
+        document.body.appendChild (outer);
+        var w1 = inner.offsetWidth;
+        outer.style.overflow = 'scroll';
+        var w2 = inner.offsetWidth;
+        if (w1 == w2) w2 = outer.clientWidth;
+
+        document.body.removeChild (outer);
+
+        return (w1 - w2);
+    }
+
     function onResize() {
-        var cc = document.getElementById('cesiumContainer');
-        var width = cc.scrollWidth - 15;
-        var height = width * 0.75 - 250;     // 800x600 minus header
+        var nav_width = document.getElementById('nav').scrollWidth;
+        var width = window.innerWidth - nav_width - getScrollBarWidth();
+        var height = window.innerHeight;     // 800x600 minus header
         // var height = cc.scrollHeight;
         if (canvas.width === width && canvas.height === height) {
             return;
         }
         canvas.width = width;
         canvas.height = height;
+        var cc = document.getElementById('cesiumContainer');
+        cc.width = width;
         cc.height = height;
         scene.getCamera().frustum.aspectRatio = width / height;
     }
@@ -459,31 +492,66 @@
     // TODO .removeAll() doesn't seem optimal but .remove(0) doesn't seem to work.
     // Should we toggle the Provider's .show attr? how then to add new ones sanely?
     // and not exhaust resources by having a bunch of providers and their tiles?
-    document.getElementById('select_tile_provider').onchange = function () {
-        var ilNew = TILE_PROVIDERS[this.value];
+    function switchTileProviders (provider) {
+        var ilNew = TILE_PROVIDERS[provider];
         if (ilNew) {
             cb.getImageryLayers().removeAll();
             cb.getImageryLayers().addImageryProvider(ilNew);
         }
+    }
+    document.getElementById("bing").onclick = function () {
+        switchTileProviders("bing");
     };
 
-    // Transition between views
-    document.getElementById('select_view').onchange = function () {
-        var transitioner = new Cesium.SceneTransitioner(scene);
-        switch (this.value.toUpperCase()) {
-        case '2D':
-            transitioner.to2D();//morphTo2D();
-            break;
-        case '2.5D':
-            transitioner.toColumbusView(); // morphToColumbusView();
-            break;
-        case '3D':
-            transitioner.to3D();//morphTo3D();
-            break;
-        default:
-            break;
-        }
+    document.getElementById('osm').onclick = function () {
+        switchTileProviders("osm");
     };
+
+    document.getElementById('static').onclick = function () {
+        switchTileProviders("static");
+    };
+
+    // document.getElementById('select_tile_provider').onchange = function () {
+    //     var ilNew = TILE_PROVIDERS[this.value];
+    //     if (ilNew) {
+    //         cb.getImageryLayers().removeAll();
+    //         cb.getImageryLayers().addImageryProvider(ilNew);
+    //     }
+    // };
+
+    // Transition between views
+
+    document.getElementById("3D_view").onclick = function () {
+        var transitioner = new Cesium.SceneTransitioner(scene);
+        transitioner.to3D();
+    };
+
+    document.getElementById('Columbus_view').onclick = function () {
+        var transitioner = new Cesium.SceneTransitioner(scene);
+        transitioner.toColumbusView();
+    };
+
+    document.getElementById('2D_view').onclick = function () {
+        var transitioner = new Cesium.SceneTransitioner(scene);
+        transitioner.to2D();
+    };
+
+    // document.getElementById('select_view').onchange = function () {
+    //     var transitioner = new Cesium.SceneTransitioner(scene);
+    //     switch (this.value.toUpperCase()) {
+    //     case '2D':
+    //         transitioner.to2D();//morphTo2D();
+    //         break;
+    //     case '2.5D':
+    //         transitioner.toColumbusView(); // morphToColumbusView();
+    //         break;
+    //     case '3D':
+    //         transitioner.to3D();//morphTo3D();
+    //         break;
+    //     default:
+    //         break;
+    //     }
+    // };
 
     // Switch which satellites are displayed.
     document.getElementById('select_satellite_group').onchange = function () {
@@ -532,12 +600,12 @@
             displayPositions(sats);
         }
     }, CALC_INTERVAL_MS);
-    
-        
+
+
     // Code here updates primitives based on time, camera position, etc
     // We're updating positions and date with an interval timer,
     // and those are global, so the animation renderer gets them automatically.
-    
+
     scene.setAnimation(function () {
     });
 

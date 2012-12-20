@@ -34,7 +34,6 @@
     <script type="text/javascript">
       window.onload = function() {
         if(window.externalHost){
-          console.log('with chrome frame')
           var s = document.createElement('script');
           s.type = 'text/javascript';
           s.src = 'static/js/modernizr_load_ie.js';
@@ -42,7 +41,6 @@
           x.parentNode.insertBefore(s, x);
         }
         else{
-          console.log('without chrome frame')
           var s = document.createElement('script');
           s.type = 'text/javascript';
           s.src = 'static/js/modernizr_load.js';
@@ -51,101 +49,104 @@
         }
       }
     </script>
-
   </head>
 
   <body>
-    <h1>SOT: Satellite Orbit Tracker</h1>
-    <span id='basic-modal1'><input type='button' name='basic' value='Instructions' class='modal'/></span>
-      or
-    <span id='basic-modal2'><input type='button' name='basic' value='Statistics' class='modal'/></span>
-    </div>
-    <form id="controls">
-      <div id="controls_visual">
-        <span>
-          <label>Earth View:
-            <select id="select_view"> <!-- handler attached by JS -->
-              <option value="3D">3D</option>
-              <option value="2.5D">2.5D</option>
-              <option value="2D">2D</option>
-            </select>
-          </label>
-        </span>
-        <span>
-          <label>Map Provider:
-            <select id="select_tile_provider">
-              <option value="bing">Bing maps</option>
-              <option value="osm">OpenStreetMap</option>
-              <option value="static">static file (no net)</option>
-            </select>
-          </label>
-        </span>
+    <div id="wrapper">
+      <div id="nav">
+        <h1>SOT: Satellite Orbit Tracker</h1>
+<!--         <div id="modals">
+          <span id='basic-modal1'><input type='button' name='basic' value='Instructions' class='modal'/></span>
+          or
+          <span id='basic-modal2'><input type='button' name='basic' value='Statistics' class='modal'/></span>
+        </div> -->
+        <div id="instructions">
+          <input type="button" id="hide_instructions" value="&times;" />
+          <h2>Instructions</h2>
+          <p>
+            The satellites are displayed based on calculated position; you
+            can watch them move but it helps to zoom in a bit. You may have
+            to zoon out quite a bit to see satellites with very large
+            orbits. You can rotate the Earth and zoom in or out. If you've
+            allowed geolocation in your browser, a marker will show your
+            current position.</p>
+          <p>Hover over a satelite icon to show its name. Click it to bring
+            up pages/tabs that provide details
+            from <a href="http://science.nasa.gov/">Science.nasa.gov</a>
+            and <a href="http://nssdc.gsfc.nasa.gov/">NSSDC</a>. Select a
+            specific satellite from a group to highlight it and move the
+            camera to its position.</p>
+        </div>
+        <div id="nav_buttons">
+          <input type="button" id="show_instructions" value="Instructions" />
+          <form id="controls">
+            <div id="controls_visual">
+              <div id="earth_view">
+                <label>Earth View:</label><br />
+                <input type="button" id="3D_view" value="3D View" />
+                <input type="button" id="Columbus_view" value="2.5 View" />
+                <input type="button" id="2D_view" value="2D View" />
+              </div>
+              <div id="map_provider">
+                <label>Map Provider:</label><br />
+                <input type="button" id="bing" value="Bing Maps" />
+                <input type="button" id="osm" value="Open Street Map" />
+                <input type="button" id="static" value="Static File" />
+              </div>
+            </div>
+            <div id="controls_satellite">
+              <span>
+                <label>Satellite Group:<br />
+                  <select id="select_satellite_group">
+                    <option value="SMD">NASA Science</option>
+                    <option value="iss">ISS</option>
+                    <option value="space-stations">Space Stations</option>
+                    <option value="science">Science</option>
+                    <option value="geo">Geosynchronous</option>
+                  </select>
+                </label>
+              </span><br />
+              <span>
+                <label>Select Satellite:
+                  <select id="select_satellite">
+                  </select>
+                </label>
+              </span>
+            </div>
+          </form>
+        </div>
+        <div class="popup" id="satellite_popup" style="display:none;"></div>
       </div>
-      <div id="controls_satellite">
-        <span>
-          <label>Satellite Group:
-            <select id="select_satellite_group">
-              <option value="SMD">NASA Science</option>
-              <option value="iss">ISS</option>
-              <option value="space-stations">Space Stations</option>
-              <option value="science">Science</option>
-              <option value="geo">Geosynchronous</option>
-            </select>
-          </label>
-        </span>
-        <span>
-          <label>Select Satellite:
-            <select id="select_satellite">
-            </select>
-          </label>
-        </span>
+      <div id="main">
+        <div id="cesiumContainer">
+          <!-- Cesium jQuery updates this with onResize at startup -->
+          <canvas id="glCanvas" width="300" height="300" tabindex="1"></canvas>
+        </div>
+
+
+        <div id="statistics">
+          <div id="date">Date</div>
+          <table id="positions">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>X Km</th>
+                <th>Y Km</th>
+                <th>Z Km</th>
+                <th>Velocity (BUG)</th>
+                <th>Latitude</th>
+                <th>Longitude (BUG)</th>
+                <th>Height Km/? (BUG)</th>
+              </tr>
+            </thead>
+            <!-- tbody destroyed and recreated by javascript -->
+          </table>
+        </div>
+
+        <!-- Need a place at the top for this but then pushes interesting bits too low.
+             Maybe use a (dreaded) pop-up? -->
       </div>
-    </form>
-
-    <div class="popup" id="satellite_popup" style="display:none;"></div>
-
-    <div id="cesiumContainer">
-      <!-- Cesium jQuery updates this with onResize at startup -->
-      <canvas id="glCanvas" width="300" height="300" tabindex="1"></canvas>
-    </div>
-
-
-    <div id="statistics">
-      <div id="date">Date</div>
-      <table id="positions">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>ID</th>
-            <th>X Km</th>
-            <th>Y Km</th>
-            <th>Z Km</th>
-            <th>Velocity (BUG)</th>
-            <th>Latitude</th>
-            <th>Longitude (BUG)</th>
-            <th>Height Km/? (BUG)</th>
-          </tr>
-        </thead>
-        <!-- tbody destroyed and recreated by javascript -->
-      </table>
-    </div>
-
-    <!-- Need a place at the top for this but then pushes interesting bits too low.
-         Maybe use a (dreaded) pop-up? -->
-    <div id="instructions">
-      <p>
-        The satellites are displayed based on calculated position; you
-        can watch them move but it helps to zoom in a bit. You may have
-        to zoon out quite a bit to see satellites with very large
-        orbits. You can rotate the Earth and zoom in or out. If you've
-        allowed geolocation in your browser, a marker will show your
-        current position.</p>
-      <p>Hover over a satelite icon to show its name. Click it to bring
-        up pages/tabs that provide details
-        from <a href="http://science.nasa.gov/">Science.nasa.gov</a>
-        and <a href="http://nssdc.gsfc.nasa.gov/">NSSDC</a>. Select a
-        specific satellite from a group to highlight it and move the
-        camera to its position.</p>
     </div>
   </body>
 </html>
