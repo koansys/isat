@@ -57,9 +57,8 @@
   <body>
     <h1>SOT: Satellite Orbit Tracker</h1>
     <span id='basic-modal1'><input type='button' name='basic' value='Instructions' class='modal'/></span>
-      or
+    or
     <span id='basic-modal2'><input type='button' name='basic' value='Statistics' class='modal'/></span>
-    </div>
     <form id="controls">
       <div id="controls_visual">
         <span>
@@ -86,10 +85,60 @@
           <label>Satellite Group:
             <select id="select_satellite_group">
               <option value="SMD">NASA Science</option>
-              <option value="iss">ISS</option>
-              <option value="space-stations">Space Stations</option>
-              <option value="science">Science</option>
-              <option value="geo">Geosynchronous</option>
+              <optgroup label="From Celestrak">
+                <!-- nested optgroups not indented by browsers; use CSS? -->
+                <optgroup label="Special Interest">
+                  <option value="visual"> 100 (or so) Brightest</option>
+                  <option value="cosmos-2251-debris"> COSMOS 2251 Debris</option>
+                  <option value="1999-025"> FENGYUN 1C Debris</option>
+                  <option value="iridium-33-debris"> IRIDIUM 33 Debris</option>
+                  <option value="tle-new"> Last 30 Days' Launches</option>
+                  <option value="stations"> Space Stations</option>
+                  <!-- breeze-m r/b breakup (2012-044c) -->
+                </optgroup>
+                <optgroup label="Weather &amp; Earth Resources">
+                  <option value="dmc"> Disaster Monitoring</option>
+                  <option value="resource"> Earth Resources</option>
+                  <option value="goes"> GOES</option>
+                  <option value="noaa"> NOAA</option>
+                  <option value="sarsat"> Search &amp; Rescue (SARSAT)</option>
+                  <option value="tdrss"> Tracking and Data Relay Satellite</option>
+                  <option value="weather"> Weather</option>
+                </optgroup>
+                <optgroup label="Communications">
+                  <option value="amateur"> Amateur Radio</option>
+                  <option value="x-comm"> Experimental</option>
+                  <option value="geo"> Geostationary</option>
+                  <option value="globalstar"> Globalstar</option>
+                  <option value="gorizont"> Gorizont</option>
+                  <option value="intelsat"> Intelsat</option>
+                  <option value="iridium"> Iridium</option>
+                  <option value="molniya"> Molniya</option>
+                  <option value="other-comm"> Other</option>
+                  <option value="orbcomm"> Orbcomm</option>
+                  <option value="raduga"> Raduga</option>
+                </optgroup>
+                <optgroup label="Navigation">
+                  <option value="gps-ops"> GPS Operational</option>
+                  <option value="galileo"> Galileo</option>
+                  <option value="glo-ops"> Glonass Operational</option>
+                  <option value="nnss"> Navy Navigation Satellite System</option>
+                  <option value="musson"> Russian LEO Navigation</option>
+                  <option value="sbas"> Satellite-Based Augmentation System</option>
+                </optgroup>
+                <optgroup label="Scientific">
+                  <option value="education"> Education</option>
+                  <option value="engineering"> Engineering</option>
+                  <option value="geodetic"> Geodetic</option>
+                  <option value="science"> Space &amp; Earth Science</option>
+                </optgroup>
+                <optgroup label="Miscellaneous">
+                  <option value="cubesat"> CubeSats</option>
+                  <option value="military"> Miscellaneous Military</option>
+                  <option value="other"> Other</option>
+                  <option value="radar"> Radar Calibration</option>
+                </optgroup>
+              </optgroup> <!-- Celestrak -->
             </select>
           </label>
         </span>

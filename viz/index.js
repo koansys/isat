@@ -7,17 +7,18 @@
     var satBillboards   = new Cesium.BillboardCollection();
     var cb              = new Cesium.CentralBody(ellipsoid);
     var clock           = new Cesium.Clock();
-    var orbitTraces       = new Cesium.PolylineCollection(); // currently only one at a time
+    var orbitTraces     = new Cesium.PolylineCollection(); // currently only one at a time
     var satrecs         = [];   // populated from onclick file load
-    var satdesigs       = [];   // populated from onclick file load
-    var satnames        = [];   // populated from onclick file load
-    var satids          = [];   // populated from onclick file load
     var satPositions    = [];   // calculated by updateSatrecsPosVel()
+    var satData         = [];   // list of satellite data and metadata
+    // Constants
+    var skyboxBase      = "static/images/skybox";
+    var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
+    var CALC_INTERVAL_MS  = 1000;
+    // HACK: force globals for SGP4
     var WHICHCONST      = 84;   //
     var TYPERUN         = 'm';  // 'm'anual, 'c'atalog, 'v'erification
     var TYPEINPUT       = 'n';  // HACK: 'now'
-    var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
-    var CALC_INTERVAL_MS  = 1000;
 
     ///////////////////////////////////////////////////////////////////////////
     // Tile Providers
@@ -43,7 +44,7 @@
     ///////////////////////////////////////////////////////////////////////////
     // Satellite records and calculation
 
-    // Read TLEs from file and set GLOBAL satrecs, satnames, satids.
+    // Read TLEs from file and set GLOBAL satrecs, names, noradId and intlDesig.
     // We can then run the SGP4 propagator over it and render as billboards.
 
     function getSatrecsFromTLEFile(fileName) {
@@ -52,14 +53,20 @@
 
         // Reset the globals
         satrecs = [];
-        satnames = [];
-        satdesigs = [];
-        satids = [];
-
+        satData = [];
+        
         for (satnum = 0, max = tles.length; satnum < max; satnum += 1) {
-            satnames[satnum] = tles[satnum][0].trim();        // Name: (ISS (ZARYA))
-            satdesigs[satnum] = tles[satnum][1].slice(9, 17); // Intl Designator YYNNNPPP (98067A)
-            satids[satnum]   = tles[satnum][2].split(' ')[1]; // NORAD ID (25544)
+            satData[satnum] = {
+                name:      tles[satnum][0].trim(), // Name: (ISS (ZARYA))
+                intlDesig: tles[satnum][1].slice(9, 17), // Intl Designator YYNNNPPP (98067A)
+                noradId:   tles[satnum][2].split(' ')[1], // NORAD ID (25544)
+                // should parse and store the bits we want, but save string for now
+                tle0: tles[satnum][0],
+                tle1: tles[satnum][1],
+                tle2: tles[satnum][2],
+
+                };
+                
             rets = twoline2rv(WHICHCONST, tles[satnum][1], tles[satnum][2], TYPERUN, TYPEINPUT);
             satrec   = rets.shift();
             startmfe = rets.shift();
@@ -67,7 +74,7 @@
             deltamin = rets.shift();
             satrecs.push(satrec); // Don't need to sgp4(satrec, 0.0) to initialize state vector
         }
-        // Returns nothing, sets globals: satrecs, satnames, satids
+        // Returns nothing, sets globals: satrecs, satData
     }
 
     // Calculate new Satrecs based on time given as fractional Julian Date
@@ -147,8 +154,9 @@
             // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
             carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
             newRow = tbody.insertRow(-1);
-            newRow.insertCell(-1).appendChild(document.createTextNode(satnames[satnum]));
-            newRow.insertCell(-1).appendChild(document.createTextNode(satids[satnum]));
+            newRow.insertCell(-1).appendChild(document.createTextNode(satData[satnum].name));
+            newRow.insertCell(-1).appendChild(document.createTextNode(satData[satnum].noradId));
+            //newRow.insertCell(-1).appendChild(document.createTextNode(satData[satnum].intlDesig));
             newRow.insertCell(-1).appendChild(document.createTextNode(carte.x.toFixed(0)));
             newRow.insertCell(-1).appendChild(document.createTextNode(carte.y.toFixed(0)));
             newRow.insertCell(-1).appendChild(document.createTextNode(carte.z.toFixed(0)));
@@ -167,7 +175,7 @@
         var satnum, max, option, satkeys;
 
         for (satnum = 0, max = satrecs.length; satnum < max; satnum += 1) {
-            nameIdx[satnames[satnum]] = satnum;
+            nameIdx[satData[satnum].name] = satnum;
         }
         satkeys = Object.keys(nameIdx);
         satkeys.sort();
@@ -193,13 +201,14 @@
         var image = new Image();
 
         satBillboards.removeAll(); // clear out the old ones
-        for (satnum = 0, max = satnames.length; satnum < max; satnum += 1) {
+        for (satnum = 0, max = satData.length; satnum < max; satnum += 1) {
             billboard = satBillboards.add({imageIndex: 0,
                                            position:  new Cesium.Cartesian3(0, 0, 0)}); // BOGUS position
             // attach names for mouse interaction
-            billboard.satelliteName       = satnames[satnum];
-            billboard.satelliteNoradId    = satids[satnum];
-            billboard.satelliteDesignator = satdesigs[satnum];
+            // TODO: just attach satData[satnum] and let JS display the attrs it wants?
+            billboard.satelliteName       = satData[satnum].name;
+            billboard.satelliteNoradId    = satData[satnum].noradId;
+            billboard.satelliteDesignator = satData[satnum].intlDesig;
         }
         scene.getPrimitives().add(satBillboards);
 
@@ -222,7 +231,7 @@
             var up     = new Cesium.Cartesian3(0, 0, 1);
             // Put a cross where we are
             var image = new Image();
-            image.src = 'Images/cross_yellow_16.png';
+            image.src = 'Images/icon_geolocation.png';
             image.onload = function () {
                 var billboards = new Cesium.BillboardCollection(); // how to make single?
                 var textureAtlas = scene.getContext().createTextureAtlas({image: image});
@@ -233,7 +242,7 @@
                 scene.getPrimitives().add(billboards);
             };
             // Point the camera at us and position it directly above us
-            scene.getCamera().lookAt(eye, target, up);
+            scene.getCamera().controller.lookAt(eye, target, up);
         }
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(showGeo);
@@ -298,9 +307,9 @@
     // TODO: scene and ellipsoid are global so why pass them in?
 
     function satelliteHoverDisplay(scene) {
-        var handler = new Cesium.EventHandler(scene.getCanvas());
+        var handler = new Cesium.ScreenSpaceEventHandler(scene.getCanvas());
 
-        handler.setMouseAction( // actionFunction, mouseEventType, eventModifierKey
+        handler.setInputAction( // actionFunction, mouseEventType, eventModifierKey
             function (movement) {
                 var pickedObject = scene.pick(movement.endPosition);
                 var satDiv = document.getElementById('satellite_popup');
@@ -320,16 +329,16 @@
                     satDiv.style.display = 'none';
                 }
             },
-            Cesium.MouseEventType.MOVE // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
+            Cesium.ScreenSpaceEventType.MOUSE_MOVE // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
         );
     }
 
     // Clicking a satellite opens a page to Sciencce and NSSDC details
 
     function satelliteClickDetails(scene) {
-        var handler = new Cesium.EventHandler(scene.getCanvas());
+        var handler = new Cesium.ScreenSpaceEventHandler(scene.getCanvas());
 
-        handler.setMouseAction( // actionFunction, mouseEventType, eventModifierKey
+        handler.setInputAction( // actionFunction, mouseEventType, eventModifierKey
             function (click) {
                 var pickedObject = scene.pick(click.position);
                 var scienceUrl = 'http://science.nasa.gov/missions/';
@@ -354,7 +363,7 @@
                     }
                 }
             },
-            Cesium.MouseEventType.LEFT_CLICK // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
+            Cesium.ScreenSpaceEventType.LEFT_CLICK // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
         );
     }
 
@@ -396,7 +405,7 @@
             Cesium.Cartesian3.ZERO);
         eye =  new Cesium.Cartesian3.clone(pos);
         eye = eye.multiplyByScalar(1.5); // Zoom out a bit from the satellite
-        scene.getCamera().lookAt(eye, target, up);
+        scene.getCamera().controller.lookAt(eye, target, up);
 
         // TODO TMP: draw orbit, since we have the satIdx (not just a BB as we get in hover)
         showOrbit(satIdx);
@@ -407,7 +416,7 @@
     // and create a polyline to visualize it.
     // It does this by copying the satrec then looping over it through time.
     //
-    // TODO: How to prevent dupes? Remove Old? Every one we select gets a new trace
+    // TODO: How to find the satIdx on a CLICK event?
     // TODO: the position loop repeats much of updateSatrecsPosVel()
     //
     // The TLE.slice(52, 63) is Mean Motion, Revs per day, e.g., ISS=15.72125391
@@ -472,13 +481,13 @@
         var transitioner = new Cesium.SceneTransitioner(scene);
         switch (this.value.toUpperCase()) {
         case '2D':
-            transitioner.to2D();//morphTo2D();
+            transitioner.morphTo2D();
             break;
         case '2.5D':
-            transitioner.toColumbusView(); // morphToColumbusView();
+            transitioner.morphToColumbusView();
             break;
         case '3D':
-            transitioner.to3D();//morphTo3D();
+            transitioner.morphTo3D();
             break;
         default:
             break;
@@ -501,12 +510,18 @@
     cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
 
     scene.getPrimitives().setCentralBody(cb);
+    scene.skyBox = new Cesium.SkyBox({
+        positiveX: skyboxBase + '/tycho8_px_80.jpg',
+        negativeX: skyboxBase + '/tycho8_mx_80.jpg',
+        positiveY: skyboxBase + '/tycho8_py_80.jpg',
+        negativeY: skyboxBase + '/tycho8_my_80.jpg',
+        positiveZ: skyboxBase + '/tycho8_pz_80.jpg',
+        negativeZ: skyboxBase + '/tycho8_mz_80.jpg'
+    });
     scene.getPrimitives().add(orbitTraces);
 
-
-    scene.getCamera().getControllers().addCentralBody();
-    scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
-    scene.getCamera().lookAt(new Cesium.Cartesian3(4000000.0, -15000000.0,  10000000.0), // eye
+    //scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
+    scene.getCamera().controller.lookAt(new Cesium.Cartesian3(4000000.0, -15000000.0,  10000000.0), // eye
                              Cesium.Cartesian3.ZERO, // target
                              new Cesium.Cartesian3(-0.1642824655609347, 0.5596076102188919, 0.8123118822806428)); // up
 
@@ -522,7 +537,7 @@
     // Run the timeclock, drive the animations
 
     var satelliteTimer = setInterval(function () {
-        var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
+        var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
 
         document.getElementById('date').textContent = clock.tick().toDate();
         if (satrecs.length > 0) {
@@ -532,18 +547,19 @@
             displayPositions(sats);
         }
     }, CALC_INTERVAL_MS);
-    
-        
-    // Code here updates primitives based on time, camera position, etc
-    // We're updating positions and date with an interval timer,
-    // and those are global, so the animation renderer gets them automatically.
-    
-    scene.setAnimation(function () {
-    });
+
+
+    function animate() {
+        // Code here updates primitives based on time, camera position, etc
+        // We're updating positions and date with an interval timer,
+        // and those are global, so the animation renderer gets them automatically.
+    };
 
     // Loop the clock
 
     (function tick() {
+        scene.initializeFrame(); // takes optional 'time' argument
+        //animate();
         scene.render();
         Cesium.requestAnimationFrame(tick);
     }());

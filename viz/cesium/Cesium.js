@@ -768,44 +768,6 @@ define('Core/Event',[
     return Event;
 });
 /*global define*/
-define('Core/EventModifier',['./Enumeration'], function(Enumeration) {
-    
-
-    /**
-     * This enumerated type is for representing keyboard modifiers. These are keys
-     * that are held down in addition to other event types.
-     *
-     * @exports EventModifier
-     */
-    var EventModifier = {
-        /**
-         * Represents the shift key being held down.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        SHIFT : new Enumeration(0, 'SHIFT'),
-
-        /**
-         * Represents the control key being held down.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        CTRL : new Enumeration(1, 'CTRL'),
-
-        /**
-         * Represents the alt key being held down.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        ALT : new Enumeration(2, 'ALT')
-    };
-
-    return EventModifier;
-});
-/*global define*/
 define('Core/FAR',[],function() {
     
 
@@ -1250,6 +1212,44 @@ define('Core/Intersect',['./Enumeration'], function(Enumeration) {
 });
 
 /*global define*/
+define('Core/KeyboardEventModifier',['./Enumeration'], function(Enumeration) {
+    
+
+    /**
+     * This enumerated type is for representing keyboard modifiers. These are keys
+     * that are held down in addition to other event types.
+     *
+     * @exports KeyboardEventModifier
+     */
+    var KeyboardEventModifier = {
+        /**
+         * Represents the shift key being held down.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        SHIFT : new Enumeration(0, 'SHIFT'),
+
+        /**
+         * Represents the control key being held down.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        CTRL : new Enumeration(1, 'CTRL'),
+
+        /**
+         * Represents the alt key being held down.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        ALT : new Enumeration(2, 'ALT')
+    };
+
+    return KeyboardEventModifier;
+});
+/*global define*/
 define('Core/LagrangePolynomialApproximation',[],function() {
     
 
@@ -1602,131 +1602,6 @@ define('Core/LinearApproximation',[
     return LinearApproximation;
 });
 /*global define*/
-define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
-    
-
-    /**
-     * This enumerated type is for classifying mouse events: down, up, click, double click, move and move while a button is held down.
-     *
-     * @exports MouseEventType
-     */
-    var MouseEventType = {
-        /**
-         * Represents a mouse left button down event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        LEFT_DOWN : new Enumeration(0, 'LEFT_DOWN'),
-
-        /**
-         * Represents a mouse left button up event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        LEFT_UP : new Enumeration(1, 'LEFT_UP'),
-
-        /**
-         * Represents a mouse left click event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        LEFT_CLICK : new Enumeration(2, 'LEFT_CLICK'),
-
-        /**
-         * Represents a mouse left double click event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        LEFT_DOUBLE_CLICK : new Enumeration(3, 'LEFT_DOUBLE_CLICK'),
-
-        /**
-         * Represents a mouse left button down event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        RIGHT_DOWN : new Enumeration(5, 'RIGHT_DOWN'),
-
-        /**
-         * Represents a mouse right button up event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        RIGHT_UP : new Enumeration(6, 'RIGHT_UP'),
-
-        /**
-         * Represents a mouse right click event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        RIGHT_CLICK : new Enumeration(7, 'RIGHT_CLICK'),
-
-        /**
-         * Represents a mouse right double click event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        RIGHT_DOUBLE_CLICK : new Enumeration(8, 'RIGHT_DOUBLE_CLICK'),
-
-        /**
-         * Represents a mouse middle button down event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        MIDDLE_DOWN : new Enumeration(10, 'MIDDLE_DOWN'),
-
-        /**
-         * Represents a mouse middle button up event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        MIDDLE_UP : new Enumeration(11, 'MIDDLE_UP'),
-
-        /**
-         * Represents a mouse middle click event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        MIDDLE_CLICK : new Enumeration(12, 'MIDDLE_CLICK'),
-
-        /**
-         * Represents a mouse middle double click event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        MIDDLE_DOUBLE_CLICK : new Enumeration(13, 'MIDDLE_DOUBLE_CLICK'),
-
-        /**
-         * Represents a mouse move event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        MOVE : new Enumeration(15, 'MOVE'),
-
-        /**
-         * Represents a mouse wheel event.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        WHEEL : new Enumeration(16, 'WHEEL')
-    };
-
-    return MouseEventType;
-});
-/*global define*/
 define('Core/PrimitiveType',['./Enumeration'], function(Enumeration) {
     
 
@@ -1962,6 +1837,155 @@ define('Core/RuntimeError',[],function() {
     return RuntimeError;
 });
 
+/*global define*/
+define('Core/ScreenSpaceEventType',['./Enumeration'], function(Enumeration) {
+    
+
+    /**
+     * This enumerated type is for classifying mouse events: down, up, click, double click, move and move while a button is held down.
+     *
+     * @exports ScreenSpaceEventType
+     */
+    var ScreenSpaceEventType = {
+        /**
+         * Represents a mouse left button down event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        LEFT_DOWN : new Enumeration(0, 'LEFT_DOWN'),
+
+        /**
+         * Represents a mouse left button up event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        LEFT_UP : new Enumeration(1, 'LEFT_UP'),
+
+        /**
+         * Represents a mouse left click event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        LEFT_CLICK : new Enumeration(2, 'LEFT_CLICK'),
+
+        /**
+         * Represents a mouse left double click event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        LEFT_DOUBLE_CLICK : new Enumeration(3, 'LEFT_DOUBLE_CLICK'),
+
+        /**
+         * Represents a mouse left button down event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        RIGHT_DOWN : new Enumeration(5, 'RIGHT_DOWN'),
+
+        /**
+         * Represents a mouse right button up event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        RIGHT_UP : new Enumeration(6, 'RIGHT_UP'),
+
+        /**
+         * Represents a mouse right click event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        RIGHT_CLICK : new Enumeration(7, 'RIGHT_CLICK'),
+
+        /**
+         * Represents a mouse right double click event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        RIGHT_DOUBLE_CLICK : new Enumeration(8, 'RIGHT_DOUBLE_CLICK'),
+
+        /**
+         * Represents a mouse middle button down event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        MIDDLE_DOWN : new Enumeration(10, 'MIDDLE_DOWN'),
+
+        /**
+         * Represents a mouse middle button up event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        MIDDLE_UP : new Enumeration(11, 'MIDDLE_UP'),
+
+        /**
+         * Represents a mouse middle click event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        MIDDLE_CLICK : new Enumeration(12, 'MIDDLE_CLICK'),
+
+        /**
+         * Represents a mouse middle double click event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        MIDDLE_DOUBLE_CLICK : new Enumeration(13, 'MIDDLE_DOUBLE_CLICK'),
+
+        /**
+         * Represents a mouse move event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        MOUSE_MOVE : new Enumeration(15, 'MOUSE_MOVE'),
+
+        /**
+         * Represents a mouse wheel event.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        WHEEL : new Enumeration(16, 'WHEEL'),
+
+        /**
+         * Represents the start of a two-finger event on a touch surface.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        PINCH_START : new Enumeration(17, 'PINCH_START'),
+
+        /**
+         * Represents the end of a two-finger event on a touch surface.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        PINCH_END : new Enumeration(18, 'PINCH_END'),
+
+        /**
+         * Represents a change of a two-finger event on a touch surface.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        PINCH_MOVE : new Enumeration(19, 'PINCH_MOVE')
+    };
+
+    return ScreenSpaceEventType;
+});
 /*global define*/
 define('Core/Spherical',[],function() {
     
@@ -17014,10 +17038,15 @@ define('Core/Transforms',[
          *
          * @example
          * //Set the view to in the inertial frame.
-         * scene.setAnimation(function() {
-         *     var time = new JulianDate();
-         *     scene.getCamera().transform = Matrix4.fromRotationTranslation(Transforms.computeTemeToPseudoFixedMatrix(time), Cartesian3.ZERO)});;
-         * });
+         * function updateAndRender() {
+         *     var now = new JulianDate();
+         *     scene.initializeFrame();
+         *     scene.setSunPosition(computeSunPosition(now));
+         *     scene.getCamera().transform = Matrix4.fromRotationTranslation(Transforms.computeTemeToPseudoFixedMatrix(now), Cartesian3.ZERO);
+         *     scene.render();
+         *     requestAnimationFrame(updateAndRender);
+         * }
+         * updateAndRender();
          */
         computeTemeToPseudoFixedMatrix : function (date, result) {
             if (typeof date === 'undefined') {
@@ -19204,14 +19233,14 @@ define('Core/JulianDate',[
         }
 
         while (day < 1) {
-            tmp = (inLeapYear && month === 2) ? daysInLeapFeburary : daysInMonth[month - 1];
-            day += tmp;
             month--;
-
             if (month < 1) {
                 month += 12;
                 year--;
             }
+
+            tmp = (inLeapYear && month === 2) ? daysInLeapFeburary : daysInMonth[month - 1];
+            day += tmp;
         }
 
         //Now create the JulianDate components from the Gregorian date and actually create our instance.
@@ -19963,45 +19992,45 @@ define('Core/Clock',[
     return Clock;
 });
 /*global define*/
-define('Core/EventHandler',[
+define('Core/ScreenSpaceEventHandler',[
         './DeveloperError',
         './destroyObject',
         './Cartesian2',
         './JulianDate',
-        './MouseEventType',
-        './EventModifier'
+        './ScreenSpaceEventType',
+        './KeyboardEventModifier'
     ], function(
         DeveloperError,
         destroyObject,
         Cartesian2,
         JulianDate,
-        MouseEventType,
-        EventModifier) {
+        ScreenSpaceEventType,
+        KeyboardEventModifier) {
     
 
     /**
      * Handles user input events. Custom functions can be added to be executed on
      * when the user enters input.
      *
-     * @alias EventHandler
+     * @alias ScreenSpaceEventHandler
      *
      * @param {DOC_TBA} element The element to add events to. Defaults to document.
      * @constructor
      */
-    var EventHandler = function(element) {
+    var ScreenSpaceEventHandler = function(element) {
         this._mouseEvents = {};
-        for ( var button in MouseEventType) {
-            if (MouseEventType.hasOwnProperty(button)) {
+        for ( var button in ScreenSpaceEventType) {
+            if (ScreenSpaceEventType.hasOwnProperty(button)) {
                 this._mouseEvents[button] = 0;
             }
         }
 
         this._modifiedMouseEvents = {};
-        for ( var modifier in EventModifier) {
-            if (EventModifier.hasOwnProperty(modifier)) {
+        for ( var modifier in KeyboardEventModifier) {
+            if (KeyboardEventModifier.hasOwnProperty(modifier)) {
                 this._modifiedMouseEvents[modifier] = {};
-                for (button in MouseEventType) {
-                    if (MouseEventType.hasOwnProperty(button)) {
+                for (button in ScreenSpaceEventType) {
+                    if (ScreenSpaceEventType.hasOwnProperty(button)) {
                         this._modifiedMouseEvents[modifier][button] = 0;
                     }
                 }
@@ -20011,10 +20040,15 @@ define('Core/EventHandler',[
         this._leftMouseButtonDown = false;
         this._middleMouseButtonDown = false;
         this._rightMouseButtonDown = false;
+        this._isPinching = false;
         this._seenAnyTouchEvents = false;
         this._lastMouseX = 0;
         this._lastMouseY = 0;
+        this._lastTouch2X = 0;
+        this._lastTouch2Y = 0;
         this._totalPixels = 0;
+        this._touchID1 = 0;
+        this._touchID2 = 0;
 
         // TODO: Revisit when doing mobile development. May need to be configurable
         // or determined based on the platform?
@@ -20025,7 +20059,7 @@ define('Core/EventHandler',[
         this._register();
     };
 
-    EventHandler.prototype._getPosition = function(event) {
+    ScreenSpaceEventHandler.prototype._getPosition = function(event) {
         if (this._element === document) {
             return {
                 x : event.clientX,
@@ -20041,22 +20075,22 @@ define('Core/EventHandler',[
     };
 
     /**
-     * Set a function to be executed on a mouse event.
+     * Set a function to be executed on an input event.
      *
-     * @memberof EventHandler
+     * @memberof ScreenSpaceEventHandler
      *
-     * @param {Function} action Function to be executed when the mouse event occurs.
-     * @param {Enumeration} type The MouseEventType of mouse event.
-     * @param {Enumeration} modifier A EventModifier key that is held when a <code>type</code>
+     * @param {Function} action Function to be executed when the input event occurs.
+     * @param {Enumeration} type The ScreenSpaceEventType of input event.
+     * @param {Enumeration} modifier A KeyboardEventModifier key that is held when a <code>type</code>
      * event occurs.
      *
      * @exception {DeveloperError} action is required.
      * @exception {DeveloperError} type is required.
      *
-     * @see EventHandler#getMouseAction
-     * @see EventHandler#removeMouseAction
+     * @see ScreenSpaceEventHandler#getInputAction
+     * @see ScreenSpaceEventHandler#removeInputAction
      */
-    EventHandler.prototype.setMouseAction = function(action, type, modifier) {
+    ScreenSpaceEventHandler.prototype.setInputAction = function(action, type, modifier) {
         if (!action) {
             throw new DeveloperError('action is required.');
         }
@@ -20078,20 +20112,20 @@ define('Core/EventHandler',[
     };
 
     /**
-     * Returns the function to be executed on a mouse event.
+     * Returns the function to be executed on an input event.
      *
-     * @memberof EventHandler
+     * @memberof ScreenSpaceEventHandler
      *
-     * @param {Enumeration} type The MouseEventType of mouse event.
-     * @param {Enumeration} modifier A EventModifier key that is held when a <code>type</code>
+     * @param {Enumeration} type The ScreenSpaceEventType of input event.
+     * @param {Enumeration} modifier A KeyboardEventModifier key that is held when a <code>type</code>
      * event occurs.
      *
      * @exception {DeveloperError} type is required.
      *
-     * @see EventHandler#setMouseAction
-     * @see EventHandler#removeMouseAction
+     * @see ScreenSpaceEventHandler#setInputAction
+     * @see ScreenSpaceEventHandler#removeInputAction
      */
-    EventHandler.prototype.getMouseAction = function(type, modifier) {
+    ScreenSpaceEventHandler.prototype.getInputAction = function(type, modifier) {
         if (!type) {
             throw new DeveloperError('type is required.');
         }
@@ -20111,20 +20145,20 @@ define('Core/EventHandler',[
     };
 
     /**
-     * Removes the function to be executed on a mouse event.
+     * Removes the function to be executed on an input event.
      *
-     * @memberof EventHandler
+     * @memberof ScreenSpaceEventHandler
      *
-     * @param {Enumeration} type The MouseEventType of mouse event.
-     * @param {Enumeration} modifier A EventModifier key that is held when a <code>type</code>
+     * @param {Enumeration} type The ScreenSpaceEventType of input event.
+     * @param {Enumeration} modifier A KeyboardEventModifier key that is held when a <code>type</code>
      * event occurs.
      *
      * @exception {DeveloperError} type is required.
      *
-     * @see EventHandler#getMouseAction
-     * @see EventHandler#setMouseAction
+     * @see ScreenSpaceEventHandler#getInputAction
+     * @see ScreenSpaceEventHandler#setInputAction
      */
-    EventHandler.prototype.removeMouseAction = function(type, modifier) {
+    ScreenSpaceEventHandler.prototype.removeInputAction = function(type, modifier) {
         if (!type) {
             throw new DeveloperError('type is required.');
         }
@@ -20141,19 +20175,19 @@ define('Core/EventHandler',[
         }
     };
 
-    EventHandler.prototype._getModifier = function(event) {
+    ScreenSpaceEventHandler.prototype._getModifier = function(event) {
         if (event.shiftKey) {
-            return EventModifier.SHIFT;
+            return KeyboardEventModifier.SHIFT;
         } else if (event.ctrlKey) {
-            return EventModifier.CTRL;
+            return KeyboardEventModifier.CTRL;
         } else if (event.altKey) {
-            return EventModifier.ALT;
+            return KeyboardEventModifier.ALT;
         }
 
         return undefined;
     };
 
-    EventHandler.prototype._handleMouseDown = function(event) {
+    ScreenSpaceEventHandler.prototype._handleMouseDown = function(event) {
         var pos = this._getPosition(event);
         this._lastMouseX = pos.x;
         this._lastMouseY = pos.y;
@@ -20171,13 +20205,13 @@ define('Core/EventHandler',[
         // constants somewhere?
         if (event.button === 0) {
             this._leftMouseButtonDown = true;
-            action = this.getMouseAction(MouseEventType.LEFT_DOWN, modifier);
+            action = this.getInputAction(ScreenSpaceEventType.LEFT_DOWN, modifier);
         } else if (event.button === 1) {
             this._middleMouseButtonDown = true;
-            action = this.getMouseAction(MouseEventType.MIDDLE_DOWN, modifier);
+            action = this.getInputAction(ScreenSpaceEventType.MIDDLE_DOWN, modifier);
         } else if (event.button === 2) {
             this._rightMouseButtonDown = true;
-            action = this.getMouseAction(MouseEventType.RIGHT_DOWN, modifier);
+            action = this.getInputAction(ScreenSpaceEventType.RIGHT_DOWN, modifier);
         }
 
         if (action) {
@@ -20188,7 +20222,7 @@ define('Core/EventHandler',[
         event.preventDefault();
     };
 
-    EventHandler.prototype._handleMouseUp = function(event) {
+    ScreenSpaceEventHandler.prototype._handleMouseUp = function(event) {
         var modifier = this._getModifier(event);
         var action, clickAction;
         if (this._seenAnyTouchEvents) {
@@ -20201,16 +20235,16 @@ define('Core/EventHandler',[
         // constants somewhere?
         if (event.button === 0) {
             this._leftMouseButtonDown = false;
-            action = this.getMouseAction(MouseEventType.LEFT_UP, modifier);
-            clickAction = this.getMouseAction(MouseEventType.LEFT_CLICK, modifier);
+            action = this.getInputAction(ScreenSpaceEventType.LEFT_UP, modifier);
+            clickAction = this.getInputAction(ScreenSpaceEventType.LEFT_CLICK, modifier);
         } else if (event.button === 1) {
             this._middleMouseButtonDown = false;
-            action = this.getMouseAction(MouseEventType.MIDDLE_UP, modifier);
-            clickAction = this.getMouseAction(MouseEventType.MIDDLE_CLICK, modifier);
+            action = this.getInputAction(ScreenSpaceEventType.MIDDLE_UP, modifier);
+            clickAction = this.getInputAction(ScreenSpaceEventType.MIDDLE_CLICK, modifier);
         } else if (event.button === 2) {
             this._rightMouseButtonDown = false;
-            action = this.getMouseAction(MouseEventType.RIGHT_UP, modifier);
-            clickAction = this.getMouseAction(MouseEventType.RIGHT_CLICK, modifier);
+            action = this.getInputAction(ScreenSpaceEventType.RIGHT_UP, modifier);
+            clickAction = this.getInputAction(ScreenSpaceEventType.RIGHT_CLICK, modifier);
         }
 
         var pos = this._getPosition(event);
@@ -20232,7 +20266,7 @@ define('Core/EventHandler',[
         }
     };
 
-    EventHandler.prototype._handleMouseMove = function(event) {
+    ScreenSpaceEventHandler.prototype._handleMouseMove = function(event) {
         var pos = this._getPosition(event);
         if (this._seenAnyTouchEvents) {
             return;
@@ -20249,7 +20283,7 @@ define('Core/EventHandler',[
         };
 
         var modifier = this._getModifier(event);
-        var action = this.getMouseAction(MouseEventType.MOVE, modifier);
+        var action = this.getInputAction(ScreenSpaceEventType.MOUSE_MOVE, modifier);
         if (action) {
             action(movement);
         }
@@ -20262,21 +20296,21 @@ define('Core/EventHandler',[
         }
     };
 
-    EventHandler.prototype._handleTouchStart = function(event) {
-        var pos, numberOfTouches = event.touches.length;
+    ScreenSpaceEventHandler.prototype._handleTouchStart = function(event) {
+        var pos, pos2, numberOfTouches = event.touches.length;
         this._seenAnyTouchEvents = true;
+        var modifier = this._getModifier(event);
+        var action;
+
+        pos = this._getPosition(event.touches[0]);
 
         if (numberOfTouches === 1) {
-            pos = this._getPosition(event.touches[0]);
             this._lastMouseX = pos.x;
             this._lastMouseY = pos.y;
             this._totalPixels = 0;
 
-            var modifier = this._getModifier(event);
-            var action;
-
             this._leftMouseButtonDown = true;
-            action = this.getMouseAction(MouseEventType.LEFT_DOWN, modifier);
+            action = this.getInputAction(ScreenSpaceEventType.LEFT_DOWN, modifier);
 
             if (action) {
                 action({
@@ -20285,63 +20319,104 @@ define('Core/EventHandler',[
             }
             event.preventDefault();
         } else if (this._leftMouseButtonDown) {
-            this._handleTouchEnd(event);
-        }
-    };
-
-    EventHandler.prototype._handleTouchEnd = function(event) {
-        var numberOfTouches = event.touches.length;
-        var numberOfTargetTouches = event.targetTouches.length;
-        var modifier = this._getModifier(event);
-        var action, clickAction;
-
-        if (this._leftMouseButtonDown) {
+            // Release "mouse" without clicking, because we are adding more touches.
             this._leftMouseButtonDown = false;
-            action = this.getMouseAction(MouseEventType.LEFT_UP, modifier);
-            clickAction = this.getMouseAction(MouseEventType.LEFT_CLICK, modifier);
-        }
-
-        if (numberOfTargetTouches > 0) {
-            var pos = this._getPosition(event.targetTouches[0]);
-
-            var xDiff = this._lastMouseX - pos.x;
-            var yDiff = this._lastMouseY - pos.y;
-            this._totalPixels += Math.sqrt(xDiff * xDiff + yDiff * yDiff);
-
+            action = this.getInputAction(ScreenSpaceEventType.LEFT_UP, modifier);
             if (action) {
                 action({
                     position : new Cartesian2(pos.x, pos.y)
                 });
             }
+        }
 
-            if (clickAction && this._totalPixels < this._clickPixelTolerance) {
-                clickAction({
-                    position : new Cartesian2(pos.x, pos.y)
+        if (numberOfTouches === 2) {
+            this._isPinching = true;
+            pos2 = this._getPosition(event.touches[1]);
+            this._touchID1 = event.touches[0].identifier;
+            this._touchID2 = event.touches[1].identifier;
+            this._lastMouseX = pos.x;
+            this._lastMouseY = pos.y;
+            this._lastTouch2X = pos2.x;
+            this._lastTouch2Y = pos2.y;
+            action = this.getInputAction(ScreenSpaceEventType.PINCH_START, modifier);
+            if (action) {
+                action({
+                    position1 : new Cartesian2(pos.x, pos.y),
+                    position2 : new Cartesian2(pos2.x, pos2.y)
                 });
+            }
+        } else if (this._isPinching) {
+            this._isPinching = false;
+            action = this.getInputAction(ScreenSpaceEventType.PINCH_END, modifier);
+            if (action) {
+                action();
+            }
+        }
+    };
+
+    ScreenSpaceEventHandler.prototype._handleTouchEnd = function(event) {
+        var numberOfTouches = event.touches.length;
+        var numberOfChangedTouches = event.changedTouches.length;
+        var modifier = this._getModifier(event);
+        var action, clickAction;
+
+        if (this._leftMouseButtonDown) {
+            this._leftMouseButtonDown = false;
+            action = this.getInputAction(ScreenSpaceEventType.LEFT_UP, modifier);
+            clickAction = this.getInputAction(ScreenSpaceEventType.LEFT_CLICK, modifier);
+
+            if (numberOfChangedTouches > 0) {
+                var pos = this._getPosition(event.changedTouches[0]);
+
+                var xDiff = this._lastMouseX - pos.x;
+                var yDiff = this._lastMouseY - pos.y;
+                this._totalPixels += Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+
+                if (action) {
+                    action({
+                        position : new Cartesian2(pos.x, pos.y)
+                    });
+                }
+
+                if (clickAction && this._totalPixels < this._clickPixelTolerance) {
+                    clickAction({
+                        position : new Cartesian2(pos.x, pos.y)
+                    });
+                }
             }
         }
 
-        if (numberOfTouches === 1) {
+        if (this._isPinching) {
+            this._isPinching = false;
+            action = this.getInputAction(ScreenSpaceEventType.PINCH_END, modifier);
+            if (action) {
+                action();
+            }
+        }
+
+        if (numberOfTouches === 1 || numberOfTouches === 2) {
             this._handleTouchStart(event);
         }
     };
 
-    EventHandler.prototype._handleTouchMove = function(event) {
+    ScreenSpaceEventHandler.prototype._handleTouchMove = function(event) {
+        var modifier = this._getModifier(event);
+        var pos, pos2, action, movement;
+
         if (this._leftMouseButtonDown && (event.touches.length === 1)) {
-            var pos = this._getPosition(event.touches[0]);
+            pos = this._getPosition(event.touches[0]);
 
             var xDiff = this._lastMouseX - pos.x;
             var yDiff = this._lastMouseY - pos.y;
             this._totalPixels += Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 
-            var movement = {
+            movement = {
                 startPosition : new Cartesian2(this._lastMouseX, this._lastMouseY),
                 endPosition : new Cartesian2(pos.x, pos.y),
                 motion : new Cartesian2(0.0, 0.0)
             };
 
-            var modifier = this._getModifier(event);
-            var action = this.getMouseAction(MouseEventType.MOVE, modifier);
+            action = this.getInputAction(ScreenSpaceEventType.MOUSE_MOVE, modifier);
             if (action) {
                 action(movement);
             }
@@ -20353,17 +20428,60 @@ define('Core/EventHandler',[
                 event.preventDefault();
             }
         }
+
+        if (this._isPinching && (event.touches.length === 2)) {
+            // Check the touch identifier to make sure the order is correct.
+            if (event.touches[0].identifier === this._touchID2) {
+                pos = this._getPosition(event.touches[1]);
+                pos2 = this._getPosition(event.touches[0]);
+            } else {
+                pos = this._getPosition(event.touches[0]);
+                pos2 = this._getPosition(event.touches[1]);
+            }
+
+            action = this.getInputAction(ScreenSpaceEventType.PINCH_MOVE, modifier);
+            if (action) {
+                var dX = pos2.x - pos.x;
+                var dY = pos2.y - pos.y;
+                var dist = Math.sqrt(dX * dX + dY * dY) * 0.25;
+                var prevDX = this._lastTouch2X - this._lastMouseX;
+                var prevDY = this._lastTouch2Y - this._lastMouseY;
+                var prevDist = Math.sqrt(prevDX * prevDX + prevDY * prevDY) * 0.25;
+                var cY = (pos2.y + pos.y) * 0.125;
+                var prevCY = (this._lastTouch2Y + this._lastMouseY) * 0.125;
+                var angle = Math.atan2(dY, dX);
+                var prevAngle = Math.atan2(prevDY, prevDX);
+                movement = {
+                    'distance' : {
+                        startPosition : new Cartesian2(0, prevDist),
+                        endPosition : new Cartesian2(0, dist),
+                        motion : new Cartesian2(0.0, 0.0)
+                    },
+                    'angleAndHeight' : {
+                        startPosition : new Cartesian2(prevAngle, prevCY),
+                        endPosition : new Cartesian2(angle, cY),
+                        motion : new Cartesian2(0.0, 0.0)
+                    }
+                };
+                action(movement);
+            }
+
+            this._lastMouseX = pos.x;
+            this._lastMouseY = pos.y;
+            this._lastTouch2X = pos2.x;
+            this._lastTouch2Y = pos2.y;
+        }
     };
 
-    EventHandler.prototype._handleMouseWheel = function(event) {
+    ScreenSpaceEventHandler.prototype._handleMouseWheel = function(event) {
         // Some browsers use event.detail to count the number of clicks. The sign
         // of the integer is the direction the wheel is scrolled. In that case, convert
         // to the angle it was rotated in degrees.
         var delta = event.detail ? event.detail * -120 : event.wheelDelta;
 
         var modifier = this._getModifier(event);
-        var type = MouseEventType.WHEEL;
-        var action = this.getMouseAction(type, modifier);
+        var type = ScreenSpaceEventType.WHEEL;
+        var action = this.getInputAction(type, modifier);
 
         if (action) {
             event.preventDefault();
@@ -20371,7 +20489,7 @@ define('Core/EventHandler',[
         }
     };
 
-    EventHandler.prototype._handleMouseDblClick = function(event) {
+    ScreenSpaceEventHandler.prototype._handleMouseDblClick = function(event) {
         var modifier = this._getModifier(event);
         var action;
         var pos = this._getPosition(event);
@@ -20381,11 +20499,11 @@ define('Core/EventHandler',[
         // This is not the case in Chrome Frame, so we are OK for now, but are there
         // constants somewhere?
         if (event.button === 0) {
-            action = this.getMouseAction(MouseEventType.LEFT_DOUBLE_CLICK, modifier);
+            action = this.getInputAction(ScreenSpaceEventType.LEFT_DOUBLE_CLICK, modifier);
         } else if (event.button === 1) {
-            action = this.getMouseAction(MouseEventType.MIDDLE_DOUBLE_CLICK, modifier);
+            action = this.getInputAction(ScreenSpaceEventType.MIDDLE_DOUBLE_CLICK, modifier);
         } else if (event.button === 2) {
-            action = this.getMouseAction(MouseEventType.RIGHT_DOUBLE_CLICK, modifier);
+            action = this.getInputAction(ScreenSpaceEventType.RIGHT_DOUBLE_CLICK, modifier);
         }
 
         if (action) {
@@ -20395,7 +20513,7 @@ define('Core/EventHandler',[
         }
     };
 
-    EventHandler.prototype._register = function() {
+    ScreenSpaceEventHandler.prototype._register = function() {
         var that = this, useDoc = true;
 
         this._callbacks = [];
@@ -20479,7 +20597,7 @@ define('Core/EventHandler',[
         }
     };
 
-    EventHandler.prototype._unregister = function() {
+    ScreenSpaceEventHandler.prototype._unregister = function() {
         for ( var i = 0; i < this._callbacks.length; i++) {
             var cback = this._callbacks[i];
             if (cback.onDoc) {
@@ -20496,40 +20614,40 @@ define('Core/EventHandler',[
      * If this object was destroyed, it should not be used; calling any function other than
      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
      *
-     * @memberof EventHandler
+     * @memberof ScreenSpaceEventHandler
      *
      * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
      *
-     * @see EventHandler#destroy
+     * @see ScreenSpaceEventHandler#destroy
      */
-    EventHandler.prototype.isDestroyed = function() {
+    ScreenSpaceEventHandler.prototype.isDestroyed = function() {
         return false;
     };
 
     /**
-     * Removes mouse listeners held by this object.
+     * Removes listeners held by this object.
      * <br /><br />
      * Once an object is destroyed, it should not be used; calling any function other than
      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
      * assign the return value (<code>undefined</code>) to the object as done in the example.
      *
-     * @memberof EventHandler
+     * @memberof ScreenSpaceEventHandler
      *
      * @return {undefined}
      *
      * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
      *
-     * @see EventHandler#isDestroyed
+     * @see ScreenSpaceEventHandler#isDestroyed
      *
      * @example
      * handler = handler && handler.destroy();
      */
-    EventHandler.prototype.destroy = function() {
+    ScreenSpaceEventHandler.prototype.destroy = function() {
         this._unregister();
         return destroyObject(this);
     };
 
-    return EventHandler;
+    return ScreenSpaceEventHandler;
 });
 
 /*global define*/
@@ -30685,6 +30803,36 @@ define('Scene/BingMapsStyle',['../Core/Enumeration'], function(Enumeration) {
     return BingMapsStyle;
 });
 /*global define*/
+define('Scene/CameraColumbusViewMode',['../Core/Enumeration'], function(Enumeration) {
+    
+
+    /**
+     * Specifies how to handle mouse events in columbus view mode.
+     *
+     * @exports CameraColumbusViewMode
+     * @see ScreenSpaceCameraController
+     */
+    var CameraColumbusViewMode = {
+        /**
+         * The camera is free to move about anywhere.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        FREE : new Enumeration(0, 'FREE'),
+
+        /**
+         * The camera is locked looking at a location, but is free to rotate about that single point.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        LOCKED : new Enumeration(1, 'LOCKED')
+    };
+
+    return CameraColumbusViewMode;
+});
+/*global define*/
 define('Scene/CameraEventType',['../Core/Enumeration'], function(Enumeration) {
     
 
@@ -30724,26 +30872,34 @@ define('Scene/CameraEventType',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        WHEEL : new Enumeration(3, 'WHEEL')
+        WHEEL : new Enumeration(3, 'WHEEL'),
+
+        /**
+         * A two-finger touch on a touch surface.
+         *
+         * @constant
+         * @type {Enumeration}
+         */
+        PINCH : new Enumeration(4, 'PINCH')
     };
 
     return CameraEventType;
 });
 /*global define*/
-define('Scene/CameraEventHandler',[
+define('Scene/CameraEventAggregator',[
         '../Core/DeveloperError',
         '../Core/destroyObject',
         '../Core/Math',
-        '../Core/EventHandler',
-        '../Core/MouseEventType',
+        '../Core/ScreenSpaceEventHandler',
+        '../Core/ScreenSpaceEventType',
         '../Core/Cartesian2',
         './CameraEventType'
     ], function(
         DeveloperError,
         destroyObject,
         CesiumMath,
-        EventHandler,
-        MouseEventType,
+        ScreenSpaceEventHandler,
+        ScreenSpaceEventType,
         Cartesian2,
         CameraEventType) {
     
@@ -30751,20 +30907,20 @@ define('Scene/CameraEventHandler',[
     /**
      * DOC_TBA
      *
-     * @alias CameraEventHandler
+     * @alias CameraEventAggregator
      *
      * @param {HTMLCanvasElement} canvas DOC_TBA
      * @param {CameraEventType} moveType DOC_TBA
-     * @param {EventModifier} moveModifier DOC_TBA
+     * @param {KeyboardEventModifier} moveModifier DOC_TBA
      *
      * @exception {DeveloperError} canvas is required.
      * @exception {DeveloperError} moveType is required.
      *
      * @constructor
      *
-     * @see EventHandler
+     * @see ScreenSpaceEventHandler
      */
-    var CameraEventHandler = function(canvas, moveType, moveModifier) {
+    var CameraEventAggregator = function(canvas, moveType, moveModifier) {
         if (typeof canvas === 'undefined') {
             throw new DeveloperError('description.canvas is required.');
         }
@@ -30773,7 +30929,7 @@ define('Scene/CameraEventHandler',[
             throw new DeveloperError('moveType is required.');
         }
 
-        this._eventHandler = new EventHandler(canvas);
+        this._eventHandler = new ScreenSpaceEventHandler(canvas);
 
         this._update = true;
         this._movement = undefined;
@@ -30784,47 +30940,49 @@ define('Scene/CameraEventHandler',[
 
         var that = this;
 
-        if (moveType !== CameraEventType.WHEEL) {
-            var down;
-            var up;
-            if (moveType === CameraEventType.LEFT_DRAG) {
-                down = MouseEventType.LEFT_DOWN;
-                up = MouseEventType.LEFT_UP;
-            } else if (moveType === CameraEventType.RIGHT_DRAG) {
-                down = MouseEventType.RIGHT_DOWN;
-                up = MouseEventType.RIGHT_UP;
-            } else if (moveType === CameraEventType.MIDDLE_DRAG) {
-                down = MouseEventType.MIDDLE_DOWN;
-                up = MouseEventType.MIDDLE_UP;
-            } else {
-                this._eventHandler = this._eventHandler && this._eventHandler.destroy();
-                throw new DeveloperError('moveType must be of type CameraEventType.');
-            }
+        if (moveType === CameraEventType.PINCH) {
 
-            this._eventHandler.setMouseAction(function(movement) {
-                that._lastMovement = null;
+            this._eventHandler.setInputAction(function(movement) {
+                //that._lastMovement = null;
                 that._isDown = true;
                 that._pressTime = new Date();
-            }, down, moveModifier);
+            }, ScreenSpaceEventType.PINCH_START, moveModifier);
 
-            this._eventHandler.setMouseAction(function(movement) {
+            this._eventHandler.setInputAction(function(movement) {
                 that._isDown = false;
                 that._releaseTime = new Date();
-            }, up, moveModifier);
+            }, ScreenSpaceEventType.PINCH_END, moveModifier);
 
-            this._eventHandler.setMouseAction(function(movement) {
+            this._eventHandler.setInputAction(function(movement) {
                 if (that._isDown) {
+                    // Aggregate several input events into a single animation frame.
                     if (!that._update) {
-                        that._movement.endPosition = movement.endPosition.clone();
+                        that._movement.distance.endPosition = movement.distance.endPosition.clone();
+                        that._movement.angleAndHeight.endPosition = movement.angleAndHeight.endPosition.clone();
                     } else {
-                        that._lastMovement = that._movement;
+                        //that._lastMovement = that._movement;
                         that._movement = movement;
                         that._update = false;
+                        that._movement.prevAngle = that._movement.angleAndHeight.startPosition.x;
                     }
+                    // Make sure our aggregation of angles does not "flip" over 360 degrees.
+                    var angle = that._movement.angleAndHeight.endPosition.x;
+                    var prevAngle = that._movement.prevAngle;
+                    var TwoPI = Math.PI * 2;
+                    while (angle >= (prevAngle + Math.PI)) {
+                        angle -= TwoPI;
+                    }
+                    while (angle < (prevAngle - Math.PI)) {
+                        angle += TwoPI;
+                    }
+                    that._movement.angleAndHeight.endPosition.x = -angle * canvas.clientWidth / 12;
+                    that._movement.angleAndHeight.startPosition.x = -prevAngle * canvas.clientWidth / 12;
                 }
-            }, MouseEventType.MOVE, moveModifier);
-        } else {
-            this._eventHandler.setMouseAction(function(delta) {
+            }, ScreenSpaceEventType.PINCH_MOVE, moveModifier);
+
+        } else if (moveType === CameraEventType.WHEEL) {
+
+            this._eventHandler.setInputAction(function(delta) {
                 // TODO: magic numbers
                 var arcLength = 2 * CesiumMath.toRadians(delta);
                 if (!that._update) {
@@ -30840,29 +30998,70 @@ define('Scene/CameraEventHandler',[
                 }
                 that._pressTime = new Date();
                 that._releaseTime = new Date(that._pressTime.getTime() + Math.abs(arcLength) * 5.0);
-            }, MouseEventType.WHEEL, moveModifier);
+            }, ScreenSpaceEventType.WHEEL, moveModifier);
+
+        } else {  // General mouse buttons
+
+            var down;
+            var up;
+            if (moveType === CameraEventType.LEFT_DRAG) {
+                down = ScreenSpaceEventType.LEFT_DOWN;
+                up = ScreenSpaceEventType.LEFT_UP;
+            } else if (moveType === CameraEventType.RIGHT_DRAG) {
+                down = ScreenSpaceEventType.RIGHT_DOWN;
+                up = ScreenSpaceEventType.RIGHT_UP;
+            } else if (moveType === CameraEventType.MIDDLE_DRAG) {
+                down = ScreenSpaceEventType.MIDDLE_DOWN;
+                up = ScreenSpaceEventType.MIDDLE_UP;
+            } else {
+                this._eventHandler = this._eventHandler && this._eventHandler.destroy();
+                throw new DeveloperError('moveType must be of type CameraEventType.');
+            }
+
+            this._eventHandler.setInputAction(function(movement) {
+                that._lastMovement = null;
+                that._isDown = true;
+                that._pressTime = new Date();
+            }, down, moveModifier);
+
+            this._eventHandler.setInputAction(function(movement) {
+                that._isDown = false;
+                that._releaseTime = new Date();
+            }, up, moveModifier);
+
+            this._eventHandler.setInputAction(function(movement) {
+                if (that._isDown) {
+                    if (!that._update) {
+                        that._movement.endPosition = movement.endPosition.clone();
+                    } else {
+                        that._lastMovement = that._movement;
+                        that._movement = movement;
+                        that._update = false;
+                    }
+                }
+            }, ScreenSpaceEventType.MOUSE_MOVE, moveModifier);
         }
     };
 
     /**
      * DOC_TBA
      *
-     * @memberof CameraEventHandler
+     * @memberof CameraEventAggregator
      *
      * @return {Boolean} DOC_TBA
      */
-    CameraEventHandler.prototype.isMoving = function() {
+    CameraEventAggregator.prototype.isMoving = function() {
         return !this._update;
     };
 
     /**
      * DOC_TBA
      *
-     * @memberof CameraEventHandler
+     * @memberof CameraEventAggregator
      *
      * @return {Object} DOC_TBA
      */
-    CameraEventHandler.prototype.getMovement = function() {
+    CameraEventAggregator.prototype.getMovement = function() {
         var movement = this._movement;
         this._update = true;
         return movement;
@@ -30871,47 +31070,47 @@ define('Scene/CameraEventHandler',[
     /**
      * DOC_TBA
      *
-     * @memberof CameraEventHandler
+     * @memberof CameraEventAggregator
      *
      * @return {Object} DOC_TBA
      */
-    CameraEventHandler.prototype.getLastMovement = function() {
+    CameraEventAggregator.prototype.getLastMovement = function() {
         return this._lastMovement;
     };
 
     /**
      * DOC_TBA
      *
-     * @memberof CameraEventHandler
+     * @memberof CameraEventAggregator
      *
      * @return {Boolean} DOC_TBA
      *
      */
-    CameraEventHandler.prototype.isButtonDown = function() {
+    CameraEventAggregator.prototype.isButtonDown = function() {
         return this._isDown;
     };
 
     /**
      * DOC_TBA
      *
-     * @memberof CameraEventHandler
+     * @memberof CameraEventAggregator
      *
      * @return {Date} DOC_TBA
      *
      */
-    CameraEventHandler.prototype.getButtonPressTime = function() {
+    CameraEventAggregator.prototype.getButtonPressTime = function() {
         return this._pressTime;
     };
 
     /**
      * DOC_TBA
      *
-     * @memberof CameraEventHandler
+     * @memberof CameraEventAggregator
      *
      * @return {Date} DOC_TBA
      *
      */
-    CameraEventHandler.prototype.getButtonReleaseTime = function() {
+    CameraEventAggregator.prototype.getButtonReleaseTime = function() {
         return this._releaseTime;
     };
 
@@ -30921,13 +31120,13 @@ define('Scene/CameraEventHandler',[
      * If this object was destroyed, it should not be used; calling any function other than
      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
      *
-     * @memberof CameraEventHandler
+     * @memberof CameraEventAggregator
      *
      * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
      *
-     * @see CameraEventHandler#destroy
+     * @see CameraEventAggregator#destroy
      */
-    CameraEventHandler.prototype.isDestroyed = function() {
+    CameraEventAggregator.prototype.isDestroyed = function() {
         return false;
     };
 
@@ -30938,1424 +31137,23 @@ define('Scene/CameraEventHandler',[
      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
      * assign the return value (<code>undefined</code>) to the object as done in the example.
      *
-     * @memberof CameraEventHandler
+     * @memberof CameraEventAggregator
      *
      * @return {undefined}
      *
      * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
      *
-     * @see CameraEventHandler#isDestroyed
+     * @see CameraEventAggregator#isDestroyed
      *
      * @example
      * handler = handler && handler.destroy();
      */
-    CameraEventHandler.prototype.destroy = function() {
+    CameraEventAggregator.prototype.destroy = function() {
         this._eventHandler = this._eventHandler && this._eventHandler.destroy();
         return destroyObject(this);
     };
 
-    return CameraEventHandler;
-});
-/*global define*/
-define('Scene/CameraFlightController',[
-        '../Core/destroyObject',
-        '../Core/EventHandler',
-        '../Core/MouseEventType',
-        '../Core/Quaternion',
-        '../Core/Matrix3',
-        '../Core/Cartesian3',
-        '../Core/HermiteSpline'
-    ], function(
-        destroyObject,
-        EventHandler,
-        MouseEventType,
-        Quaternion,
-        Matrix3,
-        Cartesian3,
-        HermiteSpline) {
-    
-
-    /**
-     * A type that defines camera behavior: the camera will follow a path from the
-     * current position of the camera to an end point around an ellipsoid.
-     *
-     * @alias CameraFlightController
-     * @internalConstructor
-     *
-     * @param {HTMLCanvasElement} canvas An HTML canvas element used to listen for user events.
-     * @param {Camera} camera The camera to use.
-     * @param {Ellipsoid} ellipsoid The ellipsoid to move the camera around.
-     * @param {Cartesian} destination The Cartesian point that is the end of the path.
-     * @param {Number} duration The time, in seconds, to travel along the path.
-     *
-     * @see CameraControllerCollection#addFlight
-     */
-    var CameraFlightController = function(canvas, camera, ellipsoid, destination, duration, complete) {
-        // get minimum altitude from which the whole ellipsoid is visible
-        var radius = ellipsoid.getMaximumRadius();
-
-        var frustum = camera.frustum;
-        var near = frustum.near;
-        var top = frustum.near * Math.tan(0.5 * frustum.fovy);
-        var right = frustum.aspectRatio * top;
-
-        var dx = radius * near / right;
-        var dy = radius * near / top;
-        var dm = Math.max(dx, dy);
-        var altitude = dm - radius;
-
-        this._camera = camera;
-        this._start = new Date();
-        this._end = new Date(this._start.getTime() + duration * 1000);
-        this._path = this._createPath(ellipsoid, altitude, destination, duration);
-        this._canceled = false;
-        this._complete = complete;
-
-        var that = this;
-        var cancelFlight = function() {
-            that._canceled = true;
-        };
-
-        this._handler = new EventHandler(canvas);
-        this._handler.setMouseAction(cancelFlight, MouseEventType.LEFT_DOWN);
-        this._handler.setMouseAction(cancelFlight, MouseEventType.RIGHT_DOWN);
-        this._handler.setMouseAction(cancelFlight, MouseEventType.MIDDLE_DOWN);
-    };
-
-    CameraFlightController.prototype._createPath = function(ellipsoid, altitude, endPoint, duration) {
-        var start = this._camera.position;
-
-        var maxStartAlt = ellipsoid.getMaximumRadius() + altitude;
-        var dot = start.normalize().dot(endPoint.normalize());
-
-        var abovePercentage, incrementPercentage;
-        var startAboveMaxAlt = (start.magnitude() > maxStartAlt);
-        if (startAboveMaxAlt) {
-            abovePercentage = 0.6;
-            incrementPercentage = 0.35;
-        } else {
-            // TODO: revisit when hi-res imagery is implemented.
-            abovePercentage = Math.max(0.1, 1.0 - Math.abs(dot));
-            incrementPercentage = 0.5;
-        }
-
-        maxStartAlt = ellipsoid.getMaximumRadius() + abovePercentage * altitude;
-
-        var aboveEnd = endPoint.normalize().multiplyByScalar(maxStartAlt);
-        var afterStart = start.normalize().multiplyByScalar(maxStartAlt);
-
-        var points, axis, angle, rotation;
-        if (start.magnitude() > maxStartAlt && dot > 0) {
-            var middle = start.subtract(aboveEnd).multiplyByScalar(0.5).add(aboveEnd);
-
-            points = [{
-                point : start
-            }, {
-                point : middle
-            }, {
-                point : aboveEnd
-            }, {
-                point : endPoint
-            }];
-        } else {
-            points = [{
-                point : start
-            }];
-
-            angle = Math.acos(afterStart.normalize().dot(aboveEnd.normalize()));
-            axis = afterStart.cross(aboveEnd);
-
-            var increment = incrementPercentage * angle;
-            var startCondition = (startAboveMaxAlt) ? angle - increment : angle;
-            for ( var i = startCondition; i > 0.0; i = i - increment) {
-                rotation = Matrix3.fromQuaternion(Quaternion.fromAxisAngle(axis, i));
-                points.push({
-                    point : rotation.multiplyByVector(aboveEnd)
-                });
-            }
-
-            points.push({
-                point : aboveEnd
-            }, {
-                point : endPoint
-            });
-        }
-
-        var scalar = duration / (points.length - 1);
-        for ( var k = 0; k < points.length; ++k) {
-            points[k].time = k * scalar;
-        }
-
-        return new HermiteSpline(points);
-    };
-
-    /**
-     * @private
-     */
-    CameraFlightController.prototype.update = function() {
-        var time = new Date(),
-            diff,
-            position,
-            normal,
-            tangent,
-            target;
-
-        var now = (time.getTime() > this._end.getTime()) ? this._end : time;
-
-        diff = ( now.getTime() - this._start.getTime()) / 1000.0;
-        position = this._path.evaluate(diff);
-        normal = Cartesian3.UNIT_Z.cross(position).normalize();
-        tangent = position.cross(normal).normalize();
-        target = Cartesian3.ZERO;
-        this._camera.lookAt(position, target, tangent);
-
-        var isComplete = (now === this._end) || this._canceled;
-        if(isComplete && !this._canceled && (typeof this._complete !== 'undefined')){
-            this._complete();
-        }
-        return !isComplete;
-    };
-
-    /**
-      * Returns true if this object was destroyed; otherwise, false.
-      * <br /><br />
-      * If this object was destroyed, it should not be used; calling any function other than
-      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-      *
-      * @memberof CameraFlightController
-      *
-      * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
-      *
-      * @see CameraFlightController#destroy
-      */
-    CameraFlightController.prototype.isDestroyed = function() {
-        return false;
-    };
-
-    /**
-     * Removes mouse listeners held by this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
-     *
-     * @memberof CameraFlightController
-     *
-     * @return {undefined}
-     *
-     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
-     *
-     * @see CameraFlightControllerController#isDestroyed
-     *
-     * @example
-     * controller = controller && controller.destroy();
-     */
-    CameraFlightController.prototype.destroy = function() {
-        this._handler.destroy();
-        return destroyObject(this);
-    };
-
-    return CameraFlightController;
-});
-/*global define*/
-define('Scene/CameraHelpers',[
-        '../Core/Math',
-        '../Core/Cartesian2'
-    ], function(
-        CesiumMath,
-        Cartesian2) {
-    
-
-    function move(camera, direction, rate) {
-        var position = camera.position;
-        var newPosition = position.add(direction.multiplyByScalar(rate));
-        camera.position = newPosition;
-    }
-
-    function decay(time, coefficient) {
-        if (time < 0) {
-            return 0.0;
-        }
-
-        var tau = (1.0 - coefficient) * 25.0;
-        return Math.exp(-tau * time);
-    }
-
-    function sameMousePosition(movement) {
-        return movement.startPosition.equalsEpsilon(movement.endPosition, CesiumMath.EPSILON14);
-    }
-
-    // If the time between mouse down and mouse up is not between
-    // these thresholds, the camera will not move with inertia.
-    // This value is probably dependent on the browser and/or the
-    // hardware. Should be investigated further.
-    var inertiaMaxClickTimeThreshold = 0.4;
-    var inertiaMaxTimeThreshold = 2.0;
-
-    function maintainInertia(handler, decayCoef, action, object, lastMovementName) {
-        var ts = handler.getButtonPressTime();
-        var tr = handler.getButtonReleaseTime();
-        var threshold = ts && tr && ((tr.getTime() - ts.getTime()) / 1000.0);
-        var now = new Date();
-        var fromNow = tr && ((now.getTime() - tr.getTime()) / 1000.0);
-        if (ts && tr && threshold < inertiaMaxClickTimeThreshold && fromNow <= inertiaMaxTimeThreshold) {
-            var d = decay(fromNow, decayCoef);
-
-            if (!object[lastMovementName]) {
-                var lastMovement = handler.getLastMovement();
-                if (!lastMovement || sameMousePosition(lastMovement)) {
-                    return;
-                }
-
-                var motionX = (lastMovement.endPosition.x - lastMovement.startPosition.x) * 0.5;
-                var motionY = (lastMovement.endPosition.y - lastMovement.startPosition.y) * 0.5;
-                object[lastMovementName] = {
-                    startPosition : new Cartesian2(lastMovement.startPosition.x, lastMovement.startPosition.y),
-                    endPosition : new Cartesian2(lastMovement.startPosition.x + motionX * d, lastMovement.startPosition.y + motionY * d),
-                    motion : new Cartesian2(motionX, motionY)
-                };
-            } else {
-                object[lastMovementName] = {
-                    startPosition : object[lastMovementName].endPosition.clone(),
-                    endPosition : new Cartesian2(
-                            object[lastMovementName].endPosition.x + object[lastMovementName].motion.x * d,
-                            object[lastMovementName].endPosition.y + object[lastMovementName].motion.y * d),
-                    motion : new Cartesian2(0.0, 0.0)
-                };
-            }
-
-            // If value from the decreasing exponential function is close to zero,
-            // the end coordinates may be NaN.
-            if (isNaN(object[lastMovementName].endPosition.x) || isNaN(object[lastMovementName].endPosition.y) || sameMousePosition(object[lastMovementName])) {
-                object[lastMovementName] = undefined;
-                return;
-            }
-
-            if (!handler.isButtonDown()) {
-                action.apply(object, [object[lastMovementName]]);
-            }
-        } else {
-            object[lastMovementName] = undefined;
-        }
-    }
-
-    var maxHeight = 20.0;
-
-    function handleZoom(object, movement, distanceMeasure) {
-        // distanceMeasure should be the height above the ellipsoid.
-        // The zoomRate slows as it approaches the surface and stops maxHeight above it.
-        var zoomRate = object._zoomFactor * (distanceMeasure - maxHeight);
-
-        if (zoomRate > object._maximumZoomRate) {
-            zoomRate = object._maximumZoomRate;
-        }
-
-        var diff = movement.endPosition.y - movement.startPosition.y;
-        if (diff === 0) {
-            return;
-        }
-
-        var rangeWindowRatio = diff / object._canvas.clientHeight;
-        var dist = zoomRate * rangeWindowRatio;
-
-        if (dist > 0.0 && Math.abs(distanceMeasure - maxHeight) < 1.0) {
-            return;
-        }
-
-        if (distanceMeasure - dist < maxHeight) {
-            dist = distanceMeasure - maxHeight - 1.0;
-        }
-
-        if (dist > 0.0) {
-            object.zoomIn(dist);
-        } else {
-            object.zoomOut(-dist);
-        }
-    }
-
-    function zoom(camera, rate) {
-        move(camera, camera.direction, rate);
-    }
-
-    return {
-        move : move,
-        maxHeight : maxHeight,
-        handleZoom : handleZoom,
-        maintainInertia : maintainInertia,
-        zoom : zoom
-    };
-});
-/*global define*/
-define('Scene/CameraFreeLookController',[
-        '../Core/destroyObject',
-        '../Core/Math',
-        '../Core/EventModifier',
-        '../Core/Quaternion',
-        '../Core/Cartesian2',
-        '../Core/Cartesian3',
-        '../Core/Matrix3',
-        './CameraEventHandler',
-        './CameraEventType',
-        './CameraHelpers'
-    ], function(
-        destroyObject,
-        CesiumMath,
-        EventModifier,
-        Quaternion,
-        Cartesian2,
-        Cartesian3,
-        Matrix3,
-        CameraEventHandler,
-        CameraEventType,
-        CameraHelpers) {
-    
-
-    var move = CameraHelpers.move;
-
-    /**
-     * A type that defines camera behavior: movement of the position in the direction
-     * of the camera's axes and rotation of the axes keeping the position stationary.
-     *
-     * @alias CameraFreeLookController
-     *
-     * @param {HTMLCanvasElement} canvas An HTML canvas element used for its dimensions
-     * and for listening on user events.
-     * @param {Camera} camera The camera to use.
-     *
-     * @internalConstructor
-     */
-    var CameraFreeLookController = function(canvas, camera) {
-        this._canvas = canvas;
-        this._camera = camera;
-        this._handler = new CameraEventHandler(canvas, CameraEventType.LEFT_DRAG, EventModifier.SHIFT);
-
-        this._maximumMoveRate = 2000000.0;
-        this._minimumMoveRate = 1.0 / 5000.0;
-        this._maximumTurnRate = Math.PI / 8.0;
-        this._minimumTurnRate = Math.PI / 120.0;
-
-        this._moveRate = 100000.0;
-        this._turnRate = Math.PI / 60.0;
-
-        /**
-         * DOC_TBD
-         */
-        this.horizontalRotationAxis = undefined;
-    };
-
-    /**
-     * Translates the camera's position by <code>rate</code> along the camera's view vector.
-     *
-     * @memberof CameraFreeLookController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see CameraFreeLookController#moveBackward
-     */
-    CameraFreeLookController.prototype.moveForward = function(rate) {
-        move(this._camera, this._camera.direction, rate || this._moveRate);
-    };
-
-    /**
-     * Translates the camera's position by <code>rate</code> along the opposite direction
-     * of the camera's view vector.
-     *
-     * @memberof CameraFreeLookController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see CameraFreeLookController#moveForward
-     */
-    CameraFreeLookController.prototype.moveBackward = function(rate) {
-        move(this._camera, this._camera.direction, -rate || -this._moveRate);
-    };
-
-    /**
-     * Translates the camera's position by <code>rate</code> along the camera's up vector.
-     *
-     * @memberof CameraFreeLookController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see CameraFreeLookController#moveDown
-     */
-    CameraFreeLookController.prototype.moveUp = function(rate) {
-        move(this._camera, this._camera.up, rate || this._moveRate);
-    };
-
-    /**
-     * Translates the camera's position by <code>rate</code> along the opposite direction
-     * of the camera's up vector.
-     *
-     * @memberof CameraFreeLookController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see CameraFreeLookController#moveUp
-     */
-    CameraFreeLookController.prototype.moveDown = function(rate) {
-        move(this._camera, this._camera.up, -rate || -this._moveRate);
-    };
-
-    /**
-     * Translates the camera's position by <code>rate</code> along the camera's right vector.
-     *
-     * @memberof CameraFreeLookController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see CameraFreeLookController#moveLeft
-     */
-    CameraFreeLookController.prototype.moveRight = function(rate) {
-        move(this._camera, this._camera.right, rate || this._moveRate);
-    };
-
-    /**
-     * Translates the camera's position by <code>rate</code> along the opposite direction
-     * of the camera's right vector.
-     *
-     * @memberof CameraFreeLookController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see CameraFreeLookController#moveRight
-     */
-    CameraFreeLookController.prototype.moveLeft = function(rate) {
-        move(this._camera, this._camera.right, -rate || -this._moveRate);
-    };
-
-    /**
-     * Rotates the camera around its up vector by rate, in radians, in the opposite direction
-     * of its right vector.
-     *
-     * @memberof CameraFreeLookController
-     *
-     * @param {Number} rate The rate, in radians, to rotate by.
-     *
-     * @see CameraFreeLookController#lookRight
-     */
-    CameraFreeLookController.prototype.lookLeft = function(rate) {
-        this.lookRight(-rate || -this._turnRate);
-    };
-
-    /**
-     * Rotates the camera around its up vector by rate, in radians, in the direction
-     * of its right vector.
-     *
-     * @memberof CameraFreeLookController
-     *
-     * @param {Number} rate The rate, in radians, to rotate by.
-     *
-     * @see CameraFreeLookController#lookLeft
-     */
-    CameraFreeLookController.prototype.lookRight = function(rate) {
-        var turnRate = rate || this._turnRate;
-        var rotated = this._rotateTwoAxes(this._camera.direction, this._camera.right, this._camera.up, turnRate);
-        this._camera.direction = rotated[0];
-        this._camera.right = rotated[1];
-    };
-
-    /**
-     * Rotates the camera around its right vector by rate, in radians, in the direction
-     * of its up vector.
-     *
-     * @memberof CameraFreeLookController
-     *
-     * @param {Number} rate The rate, in radians, to rotate by.
-     *
-     * @see CameraFreeLookController#lookDown
-     */
-    CameraFreeLookController.prototype.lookUp = function(rate) {
-        this.lookDown(-rate || -this._turnRate);
-    };
-
-    /**
-     * Rotates the camera around its right vector by rate, in radians, in the opposite direction
-     * of its up vector.
-     *
-     * @memberof CameraFreeLookController
-     *
-     * @param {Number} rate The rate, in radians, to rotate by.
-     *
-     * @see CameraFreeLookController#lookUp
-     */
-    CameraFreeLookController.prototype.lookDown = function(rate) {
-        var turnRate = rate || this._turnRate;
-        var rotated = this._rotateTwoAxes(this._camera.direction, this._camera.up, this._camera.right, turnRate);
-        this._camera.direction = rotated[0];
-        this._camera.up = rotated[1];
-    };
-
-    CameraFreeLookController.prototype._rotateTwoAxes = function(v0, v1, axis, angle) {
-        var rotation = Matrix3.fromQuaternion(Quaternion.fromAxisAngle(axis, angle));
-        var u0 = rotation.multiplyByVector(v0);
-        var u1 = rotation.multiplyByVector(v1);
-        return [u0, u1];
-    };
-
-    /**
-     * Rotate each of the camera's orientation vectors around <code>axis</code> by <code>angle</code>
-     *
-     * @memberof CameraFreeLookController
-     *
-     * @param {Cartesian3} axis The axis to rotate around.
-     * @param {Number} angle The angle, in radians, to rotate by.
-     *
-     * @see CameraFreeLookController#lookUp
-     * @see CameraFreeLookController#lookDown
-     * @see CameraFreeLookController#lookLeft
-     * @see CameraFreeLookController#lookRight
-     */
-    CameraFreeLookController.prototype.rotate = function(axis, angle) {
-        var a = Cartesian3.clone(axis);
-        var turnAngle = angle || this._moveRate;
-        var rotation = Matrix3.fromQuaternion(Quaternion.fromAxisAngle(a, turnAngle));
-        var direction = rotation.multiplyByVector(this._camera.direction);
-        var up = rotation.multiplyByVector(this._camera.up);
-        var right = rotation.multiplyByVector(this._camera.right);
-        this._camera.direction = direction;
-        this._camera.up = up;
-        this._camera.right = right;
-    };
-
-    /**
-     * @private
-     */
-    CameraFreeLookController.prototype.update = function(time) {
-        if (this._handler.isMoving()) {
-            this._look(this._handler.getMovement());
-        }
-
-        return true;
-    };
-
-    CameraFreeLookController.prototype._look = function(movement) {
-        var camera = this._camera;
-
-        var width = this._canvas.clientWidth;
-        var height = this._canvas.clientHeight;
-
-        var tanPhi = Math.tan(camera.frustum.fovy * 0.5);
-        var tanTheta = camera.frustum.aspectRatio * tanPhi;
-        var near = camera.frustum.near;
-
-        var startNDC = new Cartesian2((2.0 / width) * movement.startPosition.x - 1.0, (2.0 / height) * (height - movement.startPosition.y) - 1.0);
-        var endNDC = new Cartesian2((2.0 / width) * movement.endPosition.x - 1.0, (2.0 / height) * (height - movement.endPosition.y) - 1.0);
-
-        var nearCenter = camera.position.add(camera.direction.multiplyByScalar(near));
-
-        var startX = camera.right.multiplyByScalar(startNDC.x * near * tanTheta);
-        startX = nearCenter.add(startX).subtract(camera.position).normalize();
-        var endX = camera.right.multiplyByScalar(endNDC.x * near * tanTheta);
-        endX = nearCenter.add(endX).subtract(camera.position).normalize();
-
-        var dot = startX.dot(endX);
-        var angle = 0.0;
-        var axis = (typeof this.horizontalRotationAxis !== 'undefined') ? this.horizontalRotationAxis : camera.up;
-        axis = (movement.startPosition.x > movement.endPosition.x) ? axis : axis.negate();
-        axis = axis.normalize();
-        if (dot < 1.0) { // dot is in [0, 1]
-            angle = Math.acos(dot);
-        }
-        var rotation = Matrix3.fromQuaternion(Quaternion.fromAxisAngle(axis, angle));
-
-        if (1.0 - Math.abs(camera.direction.dot(axis)) > CesiumMath.EPSILON6) {
-            camera.direction = rotation.multiplyByVector(camera.direction);
-        }
-
-        if (1.0 - Math.abs(camera.up.dot(axis)) > CesiumMath.EPSILON6) {
-            camera.up = rotation.multiplyByVector(camera.up);
-        }
-
-        var startY = camera.up.multiplyByScalar(startNDC.y * near * tanPhi);
-        startY = nearCenter.add(startY).subtract(camera.position).normalize();
-        var endY = camera.up.multiplyByScalar(endNDC.y * near * tanPhi);
-        endY = nearCenter.add(endY).subtract(camera.position).normalize();
-
-        dot = startY.dot(endY);
-        angle = 0.0;
-        axis = startY.cross(endY);
-        if (dot < 1.0 && !axis.equalsEpsilon(Cartesian3.ZERO, CesiumMath.EPSILON14)) { // dot is in [0, 1]
-            angle = Math.acos(dot);
-        } else { // no rotation
-            axis = Cartesian3.UNIT_X;
-        }
-        rotation = Matrix3.fromQuaternion(Quaternion.fromAxisAngle(axis, angle));
-
-        if (1.0 - Math.abs(camera.direction.dot(axis)) > CesiumMath.EPSILON6) {
-            camera.direction = rotation.multiplyByVector(camera.direction);
-        }
-
-        if (1.0 - Math.abs(camera.up.dot(axis)) > CesiumMath.EPSILON6) {
-            camera.up = rotation.multiplyByVector(camera.up);
-        }
-
-        camera.right = camera.direction.cross(camera.up);
-    };
-
-    /**
-      * Returns true if this object was destroyed; otherwise, false.
-      * <br /><br />
-      * If this object was destroyed, it should not be used; calling any function other than
-      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-      *
-      * @memberof CameraFreeLookController
-      *
-      * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
-      *
-      * @see CameraFreeLookController#destroy
-      */
-    CameraFreeLookController.prototype.isDestroyed = function() {
-        return false;
-    };
-
-    /**
-     * Removes mouse listeners held by this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
-     *
-     * @memberof CameraFreeLookController
-     *
-     * @return {undefined}
-     *
-     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
-     *
-     * @see CameraFreeLookController#isDestroyed
-     *
-     * @example
-     * controller = controller && controller.destroy();
-     */
-    CameraFreeLookController.prototype.destroy = function() {
-        this._handler = this._handler && this._handler.destroy();
-        return destroyObject(this);
-    };
-
-    return CameraFreeLookController;
-});
-/*global define*/
-define('Scene/CameraSpindleControllerMode',['../Core/Enumeration'], function(Enumeration) {
-    
-
-    /**
-     * This enumerated type is for describing how the <code>CameraSpindleController</code>
-     * will handle mouse events.
-     *
-     * @exports CameraSpindleControllerMode
-     *
-     * @see {CameraSpindleController#mode}
-     */
-    var CameraSpindleControllerMode = {
-        /**
-         * This mode is useful for rotating around arbitrary ellipsoids.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        ROTATE : new Enumeration(0, 'ROTATE'),
-
-        /**
-         * This mode will cause the controller to rotate around an ellipsoid such that
-         * the point under the mouse cursor will remain there when dragged. This mode can only
-         * be used for larger ellipsoids like the WGS84 ellipsoid.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        PAN : new Enumeration(1, 'PAN'),
-
-        /**
-         * This mode will choose the best mode for the mouse input.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        AUTO : new Enumeration(2, 'AUTO')
-    };
-
-    return CameraSpindleControllerMode;
-});
-/*global define*/
-define('Scene/CameraSpindleController',[
-        '../Core/destroyObject',
-        '../Core/FAR',
-        '../Core/Math',
-        '../Core/Quaternion',
-        '../Core/Matrix3',
-        '../Core/Ellipsoid',
-        '../Core/Cartesian3',
-        '../Core/Cartesian4',
-        './CameraEventHandler',
-        './CameraEventType',
-        './CameraSpindleControllerMode',
-        './CameraHelpers'
-    ], function(
-        destroyObject,
-        FAR,
-        CesiumMath,
-        Quaternion,
-        Matrix3,
-        Ellipsoid,
-        Cartesian3,
-        Cartesian4,
-        CameraEventHandler,
-        CameraEventType,
-        CameraSpindleControllerMode,
-        CameraHelpers) {
-    
-
-    var handleZoom = CameraHelpers.handleZoom;
-    var maintainInertia = CameraHelpers.maintainInertia;
-    var zoom = CameraHelpers.zoom;
-
-    /**
-     * A type that defines camera behavior: the camera's position and axes will be rotated around the center
-     * of the camera's reference frame.
-     *
-     * @alias CameraSpindleController
-     *
-     * @param {HTMLCanvasElement} canvas An HTML canvas element used for its dimensions
-     * and for listening on user events.
-     * @param {Camera} camera The camera to use.
-     * @param {Ellipsoid} [ellipsoid=WGS84 Ellipsoid] The ellipsoid to move around.
-     *
-     * @internalConstructor
-     */
-    var CameraSpindleController = function(canvas, camera, ellipsoid) {
-        ellipsoid = ellipsoid || Ellipsoid.WGS84;
-
-        this._canvas = canvas;
-        this._camera = camera;
-        this._ellipsoid = ellipsoid;
-        this._zoomRate = 100000.0;
-        this._moveRate = Math.PI / 3600.0;
-
-        /**
-         * A parameter in the range <code>[0, 1]</code> used to determine how long
-         * the camera will continue to spin because of inertia.
-         * With a value of one, the camera will spin forever and
-         * with value of zero, the camera will have no inertia.
-         *
-         * @type Number
-         */
-        this.inertiaSpin = 0.9;
-
-        /**
-         * A parameter in the range <code>[0, 1)</code> used to determine how long
-         * the camera will continue to zoom because of inertia.
-         * With value of zero, the camera will have no inertia.
-         *
-         * @type Number
-         */
-        this.inertiaZoom = 0.8;
-
-        /**
-         * If set, the camera will not be able to rotate past this axis in either direction.
-         * If this is set while in pan mode, the position clicked on the ellipsoid
-         * will not always map directly to the cursor.
-         *
-         * @type Cartesian3
-         *
-         * @see CameraSpindleController#mode
-         */
-        this.constrainedAxis = undefined;
-
-        /**
-         * Determines the rotation behavior on mouse events.
-         *
-         * @type CameraSpindleControllerMode
-         */
-        this.mode = CameraSpindleControllerMode.AUTO;
-
-        var radius = this._ellipsoid.getMaximumRadius();
-        this._zoomFactor = 5.0;
-        this._minimumZoomRate = 20.0;
-        this._maximumZoomRate = FAR;
-        this._rotateFactor = 1.0 / radius;
-        this._rotateRateRangeAdjustment = radius;
-        this._maximumRotateRate = 1.77;
-        this._minimumRotateRate = 1.0 / 5000.0;
-
-        this._spinHandler = new CameraEventHandler(canvas, CameraEventType.LEFT_DRAG);
-        this._zoomHandler = new CameraEventHandler(canvas, CameraEventType.RIGHT_DRAG);
-        this._zoomWheel = new CameraEventHandler(canvas, CameraEventType.WHEEL);
-
-        this._lastInertiaSpinMovement = undefined;
-        this._lastInertiaZoomMovement = undefined;
-        this._lastInertiaWheelZoomMovement = undefined;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Matrix4} transform DOC_TBA
-     * @param {Ellipsoid} [ellipsoid=WGS84 Ellipsoid] DOC_TBA
-     *
-     * @example
-     * // Example 1.
-     * // Change the reference frame to one centered at a point on the ellipsoid's surface.
-     * // Set the spindle controller's ellipsoid to a unit sphere for easy rotation around that point.
-     * var center = ellipsoid.cartographicToCartesian(Cartographic.fromDegrees(-75.59777, 40.03883));
-     * var transform = Transforms.eastNorthUpToFixedFrame(center);
-     * scene.getCamera().getControllers().get(0).setReferenceFrame(transform, Ellipsoid.UNIT_SPHERE);
-     *
-     * // Example 2.
-     * // Reset to the defaults.
-     * scene.getCamera().getControllers().get(0).setReferenceFrame(Matrix4.IDENTITY);
-     *
-     */
-    CameraSpindleController.prototype.setReferenceFrame = function (transform, ellipsoid) {
-        this._camera.transform = transform;
-        this.setEllipsoid(ellipsoid);
-    };
-
-    /**
-     * Returns the ellipsoid that the camera is moving around.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @returns {Ellipsoid} The ellipsoid that the camera is moving around.
-     *
-     * @see CameraSpindleController#setEllipsoid
-     */
-    CameraSpindleController.prototype.getEllipsoid = function() {
-        return this._ellipsoid;
-    };
-
-    /**
-     * Sets the ellipsoid that the camera is moving around.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Ellipsoid} [ellipsoid=WGS84 Ellipsoid] The ellipsoid that the camera is moving around.
-     *
-     * @see CameraSpindleController#getEllipsoid
-     */
-    CameraSpindleController.prototype.setEllipsoid = function(ellipsoid) {
-        ellipsoid = ellipsoid || Ellipsoid.WGS84;
-
-        var radius = ellipsoid.getMaximumRadius();
-        this._ellipsoid = ellipsoid;
-        this._rotateFactor = 1.0 / radius;
-        this._rotateRateRangeAdjustment = radius;
-    };
-
-    /**
-     * Rotates the camera around <code>axis</code> by <code>angle</code>. The distance
-     * of the camera's position to the center of the camera's reference frame remains the same.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Cartesian3} axis The axis to rotate around given in world coordinates.
-     * @param {Number} angle The angle, in radians, to rotate by. The direction of rotation is
-     * determined by the sign of the angle.
-     *
-     * @see CameraSpindleController#moveUp
-     * @see CameraSpindleController#moveDown
-     * @see CameraSpindleController#moveLeft
-     * @see CameraSpindleController#moveRight
-    */
-    CameraSpindleController.prototype.rotate = function(axis, angle) {
-        var a = Cartesian3.clone(axis);
-        var turnAngle = (typeof angle !== 'undefined') ? angle : this._moveRate;
-        var rotation = Matrix3.fromQuaternion(Quaternion.fromAxisAngle(a, turnAngle));
-
-        var camera = this._camera;
-        camera.position = rotation.multiplyByVector(camera.position);
-        camera.direction = rotation.multiplyByVector(camera.direction);
-        camera.up = rotation.multiplyByVector(camera.up);
-        camera.right = camera.direction.cross(camera.up);
-    };
-
-    /**
-     * Rotates the camera around the center of the camera's reference frame by angle downwards.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Number} angle The angle to rotate in radians.
-     *
-     * @see CameraSpindleController#moveUp
-     * @see CameraSpindleController#rotate
-     */
-    CameraSpindleController.prototype.moveDown = function(angle) {
-        angle = (typeof angle !== 'undefined') ? angle : this._moveRate;
-        this._moveVertical(angle);
-    };
-
-    /**
-     * Rotates the camera around the center of the camera's reference frame by angle upwards.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Number} angle The angle to rotate in radians.
-     *
-     * @see CameraSpindleController#moveDown
-     * @see CameraSpindleController#rotate
-     */
-    CameraSpindleController.prototype.moveUp = function(angle) {
-        angle = (typeof angle !== 'undefined') ? -angle : -this._moveRate;
-        this._moveVertical(angle);
-    };
-
-    CameraSpindleController.prototype._moveVertical = function(angle) {
-        var camera = this._camera;
-        var position = camera.position;
-        var p = Cartesian3.normalize(position);
-        if (typeof this.constrainedAxis !== 'undefined') {
-            var northParallel = p.equalsEpsilon(this.constrainedAxis, CesiumMath.EPSILON2);
-            var southParallel = p.equalsEpsilon(this.constrainedAxis.negate(), CesiumMath.EPSILON2);
-            if ((!northParallel && !southParallel)) {
-                var constrainedAxis = Cartesian3.normalize(this.constrainedAxis);
-
-                var dot = p.dot(constrainedAxis);
-                var angleToAxis = Math.acos(dot);
-                if (angle > 0 && angle > angleToAxis) {
-                    angle = angleToAxis;
-                }
-
-                dot = p.dot(constrainedAxis.negate());
-                angleToAxis = Math.acos(dot);
-                if (angle < 0 && -angle > angleToAxis) {
-                    angle = -angleToAxis;
-                }
-
-                var tangent = Cartesian3.cross(constrainedAxis, p);
-                this.rotate(tangent, angle);
-            } else if ((northParallel && angle < 0) || (southParallel && angle > 0)) {
-                this.rotate(camera.right, angle);
-            }
-        } else {
-            this.rotate(camera.right, angle);
-        }
-    };
-
-    /**
-     * Rotates the camera around the center of the camera's reference frame by angle to the right.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Number} angle The angle to rotate in radians.
-     *
-     * @see CameraSpindleController#moveLeft
-     * @see CameraSpindleController#rotate
-     */
-    CameraSpindleController.prototype.moveRight = function(angle) {
-        angle = (typeof angle !== 'undefined') ? -angle : -this._moveRate;
-        this._moveHorizontal(angle);
-    };
-
-    /**
-     * Rotates the camera around the center of the camera's reference frame by angle to the left.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Number} angle The angle to rotate in radians.
-     *
-     * @see CameraSpindleController#moveRight
-     * @see CameraSpindleController#rotate
-     */
-    CameraSpindleController.prototype.moveLeft = function(angle) {
-        angle = (typeof angle !== 'undefined') ? angle : this._moveRate;
-        this._moveHorizontal(angle);
-    };
-
-    CameraSpindleController.prototype._moveHorizontal = function(angle) {
-        if (typeof this.constrainedAxis !== 'undefined') {
-            this.rotate(this.constrainedAxis.normalize(), angle);
-        } else {
-            this.rotate(this._camera.up, angle);
-        }
-    };
-
-    /**
-     * Translates the camera's position by <code>rate</code> along the camera's view vector.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see CameraSpindleController#zoomOut
-     */
-    CameraSpindleController.prototype.zoomIn = function(rate) {
-        zoom(this._camera, (typeof rate !== 'undefined') ? rate : this._zoomRate);
-    };
-
-    /**
-     * Translates the camera's position by <code>rate</code> along the opposite direction of
-     * the camera's view vector.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see CameraSpindleController#zoomIn
-     */
-    CameraSpindleController.prototype.zoomOut = function(rate) {
-        zoom(this._camera, (typeof rate !== 'undefined') ? -rate : -this._zoomRate);
-    };
-
-    /**
-     * @private
-     */
-    CameraSpindleController.prototype.update = function() {
-        var spin = this._spinHandler;
-        var rightZoom = this._zoomHandler;
-        var wheelZoom = this._zoomWheel;
-        var rotating = spin && spin.isMoving() && spin.getMovement();
-        var rightZooming = rightZoom && rightZoom.isMoving();
-        var wheelZooming = wheelZoom && wheelZoom.isMoving();
-
-        if (rotating) {
-            this._spin(spin.getMovement());
-        }
-
-        if (spin && !rotating && this.inertiaSpin < 1.0) {
-            maintainInertia(spin, this.inertiaSpin, this._spin, this, '_lastInertiaSpinMovement');
-        }
-
-        if (rightZooming) {
-            this._zoom(rightZoom.getMovement());
-        } else if (wheelZooming) {
-            this._zoom(wheelZoom.getMovement());
-        }
-
-        if (rightZoom && !rightZooming && this.inertiaZoom < 1.0) {
-            maintainInertia(rightZoom, this.inertiaZoom, this._zoom, this, '_lastInertiaZoomMovement');
-        }
-
-        if (wheelZoom && !wheelZooming && this.inertiaZoom < 1.0) {
-            maintainInertia(wheelZoom, this.inertiaZoom, this._zoom, this, '_lastInertiaWheelZoomMovement');
-        }
-
-        return true;
-    };
-
-    CameraSpindleController.prototype._spin = function(movement) {
-        if (this.mode === CameraSpindleControllerMode.AUTO) {
-            if (typeof this._camera.pickEllipsoid(movement.startPosition, this._ellipsoid) !== 'undefined') {
-                this._pan(movement);
-            } else {
-                this._rotate(movement);
-            }
-        } else if (this.mode === CameraSpindleControllerMode.ROTATE) {
-            this._rotate(movement);
-        } else {
-            this._pan(movement);
-        }
-    };
-
-    CameraSpindleController.prototype._rotate = function(movement) {
-        var position = this._camera.position;
-        var rho = position.magnitude();
-        var rotateRate = this._rotateFactor * (rho - this._rotateRateRangeAdjustment);
-
-        if (rotateRate > this._maximumRotateRate) {
-            rotateRate = this._maximumRotateRate;
-        }
-
-        if (rotateRate < this._minimumRotateRate) {
-            rotateRate = this._minimumRotateRate;
-        }
-
-        var phiWindowRatio = (movement.endPosition.x - movement.startPosition.x) / this._canvas.clientWidth;
-        var thetaWindowRatio = (movement.endPosition.y - movement.startPosition.y) / this._canvas.clientHeight;
-
-        var deltaPhi = rotateRate * phiWindowRatio * Math.PI * 2.0;
-        var deltaTheta = rotateRate * thetaWindowRatio * Math.PI;
-
-        this._moveHorizontal(deltaPhi);
-        this._moveVertical(deltaTheta);
-    };
-
-    CameraSpindleController.prototype._pan = function(movement) {
-        var camera = this._camera;
-        var p0 = camera.pickEllipsoid(movement.startPosition, this._ellipsoid);
-        var p1 = camera.pickEllipsoid(movement.endPosition, this._ellipsoid);
-
-        if (typeof p0 === 'undefined' || typeof p1 === 'undefined') {
-            return;
-        }
-
-        var transform = camera.getInverseTransform();
-        p0 = Cartesian3.fromCartesian4(transform.multiplyByPoint(p0));
-        p1 = Cartesian3.fromCartesian4(transform.multiplyByPoint(p1));
-
-        if (typeof this.constrainedAxis === 'undefined') {
-            p0 = p0.normalize();
-            p1 = p1.normalize();
-            var dot = p0.dot(p1);
-            var axis = p0.cross(p1);
-
-            if (dot < 1.0 && !axis.equalsEpsilon(Cartesian3.ZERO, CesiumMath.EPSILON14)) { // dot is in [0, 1]
-                var angle = Math.acos(dot);
-                this.rotate(axis, angle);
-            }
-        } else {
-            var startRho = p0.magnitude();
-            var startPhi = Math.atan2(p0.y, p0.x);
-            var startTheta = Math.acos(p0.z / startRho);
-
-            var endRho = p1.magnitude();
-            var endPhi = Math.atan2(p1.y, p1.x);
-            var endTheta = Math.acos(p1.z / endRho);
-
-            var deltaPhi = endPhi - startPhi;
-            var deltaTheta = endTheta - startTheta;
-
-            var theta = Math.acos(camera.position.z / camera.position.magnitude()) + deltaTheta;
-            if (theta < 0 || theta > Math.PI) {
-                deltaTheta = 0;
-            }
-
-            this._moveHorizontal(deltaPhi);
-            this._moveVertical(deltaTheta);
-        }
-    };
-
-    CameraSpindleController.prototype._zoom = function(movement) {
-        handleZoom(this, movement, this._ellipsoid.cartesianToCartographic(this._camera.position).height);
-    };
-
-   /**
-     * Returns true if this object was destroyed; otherwise, false.
-     * <br /><br />
-     * If this object was destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
-     *
-     * @see CameraSpindleController#destroy
-     */
-    CameraSpindleController.prototype.isDestroyed = function() {
-        return false;
-    };
-
-    /**
-     * Removes mouse and keyboard listeners held by this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @return {undefined}
-     *
-     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
-     *
-     * @see CameraSpindleController#isDestroyed
-     *
-     * @example
-     * controller = controller && controller.destroy();
-     */
-    CameraSpindleController.prototype.destroy = function() {
-        this._spinHandler = this._spinHandler && this._spinHandler.destroy();
-        this._zoomHandler = this._zoomHandler && this._zoomHandler.destroy();
-        this._zoomWheel = this._zoomWheel && this._zoomWheel.destroy();
-        return destroyObject(this);
-    };
-
-    return CameraSpindleController;
-});
-/*global define*/
-define('Scene/CameraCentralBodyController',[
-        '../Core/destroyObject',
-        '../Core/Ellipsoid',
-        '../Core/Cartesian3',
-        '../Core/Cartesian4',
-        '../Core/IntersectionTests',
-        '../Core/Math',
-        '../Core/Matrix4',
-        '../Core/Ray',
-        '../Core/Transforms',
-        './CameraEventHandler',
-        './CameraEventType',
-        './CameraSpindleController',
-        './CameraFreeLookController',
-        './CameraHelpers'
-    ], function(
-        destroyObject,
-        Ellipsoid,
-        Cartesian3,
-        Cartesian4,
-        IntersectionTests,
-        CesiumMath,
-        Matrix4,
-        Ray,
-        Transforms,
-        CameraEventHandler,
-        CameraEventType,
-        CameraSpindleController,
-        CameraFreeLookController,
-        CameraHelpers) {
-    
-
-    var maxHeight = CameraHelpers.maxHeight;
-
-    /**
-     * Defines camera movement and handles mouse events that move the camera. Moves the camera
-     * position around the center of an ellipsoid or a point on the surface. Also, moves the camera viewing
-     * direction.
-     *
-     * @alias CameraCentralBodyController
-     *
-     * @param {HTMLCanvasElement} canvas An HTML canvas element used for its dimensions
-     * and for listening on user events.
-     * @param {Camera} camera The camera to use.
-     * @param {Ellipsoid} ellipsoid The ellipsoid to move around.
-     *
-     * @internalConstructor
-     *
-     * @see CameraSpindleController
-     * @see CameraFreeLookController
-     */
-    var CameraCentralBodyController = function(canvas, camera, ellipsoid) {
-        this._canvas = canvas;
-        this._camera = camera;
-        this._rotateHandler = new CameraEventHandler(canvas, CameraEventType.MIDDLE_DRAG);
-
-        /**
-         * Rotates the camera's position and axes around the center of the ellipsoid.
-         *
-         * @type {CameraSpindleController}
-         */
-        this.spindleController = new CameraSpindleController(canvas, camera, ellipsoid);
-
-        /**
-         * Rotates the view direction about the camera's other axes. The camera's position is stationary.
-         *
-         * @type {CameraFreeLookController}
-         */
-        this.freeLookController = new CameraFreeLookController(canvas, camera);
-    };
-
-    /**
-     * @private
-     */
-    CameraCentralBodyController.prototype.update = function() {
-        var rotate = this._rotateHandler;
-        var rotating = rotate.isMoving() && rotate.getMovement();
-
-        if (rotating) {
-            this._rotate(rotate.getMovement());
-        }
-
-        this.spindleController.update();
-        this.freeLookController.update();
-
-        return true;
-    };
-
-    CameraCentralBodyController.prototype._rotate = function(movement) {
-        var camera = this._camera;
-
-        var ellipsoid = this.spindleController.getEllipsoid();
-        var position = camera.position;
-        if (ellipsoid.cartesianToCartographic(position).height - maxHeight - 1.0 < CesiumMath.EPSILON3 &&
-                movement.endPosition.y - movement.startPosition.y < 0) {
-            return;
-        }
-
-        var up = camera.up;
-        var right = camera.right;
-        var direction = camera.direction;
-
-        var oldTransform = camera.transform;
-        var oldEllipsoid = this.spindleController.getEllipsoid();
-        var oldConstrainedZ = this.spindleController.constrainedAxis;
-
-        var ray = new Ray(this._camera.getPositionWC(), this._camera.getDirectionWC());
-        var intersection = IntersectionTests.rayEllipsoid(ray, this.spindleController.getEllipsoid());
-        if (typeof intersection === 'undefined') {
-            return;
-        }
-
-        var center = ray.getPoint(intersection.start);
-        center = Cartesian3.fromCartesian4(camera.getInverseTransform().multiplyByPoint(center));
-        var localTransform = Transforms.eastNorthUpToFixedFrame(center);
-        var transform = localTransform.multiply(oldTransform);
-
-        this.spindleController.constrainedAxis = Cartesian3.UNIT_Z;
-        this.spindleController.setReferenceFrame(transform, Ellipsoid.UNIT_SPHERE);
-
-        var invTransform = camera.getInverseTransform();
-        camera.position = Cartesian3.fromCartesian4(invTransform.multiplyByPoint(position));
-        camera.up = Cartesian3.fromCartesian4(invTransform.multiplyByVector(new Cartesian4(up.x, up.y, up.z, 0.0)));
-        camera.right = Cartesian3.fromCartesian4(invTransform.multiplyByVector(new Cartesian4(right.x, right.y, right.z, 0.0)));
-        camera.direction = Cartesian3.fromCartesian4(invTransform.multiplyByVector(new Cartesian4(direction.x, direction.y, direction.z, 0.0)));
-
-        this.spindleController._rotate(movement);
-
-        position = camera.position;
-        up = camera.up;
-        right = camera.right;
-        direction = camera.direction;
-
-        this.spindleController.constrainedAxis = oldConstrainedZ;
-        this.spindleController.setReferenceFrame(oldTransform, oldEllipsoid);
-
-        camera.position = Cartesian3.fromCartesian4(transform.multiplyByPoint(position));
-        camera.up = Cartesian3.fromCartesian4(transform.multiplyByVector(new Cartesian4(up.x, up.y, up.z, 0.0)));
-        camera.right = Cartesian3.fromCartesian4(transform.multiplyByVector(new Cartesian4(right.x, right.y, right.z, 0.0)));
-        camera.direction = Cartesian3.fromCartesian4(transform.multiplyByVector(new Cartesian4(direction.x, direction.y, direction.z, 0.0)));
-
-        position = ellipsoid.cartesianToCartographic(camera.position);
-        if (position.height < maxHeight + 1.0) {
-            position.height = maxHeight + 1.0;
-            camera.position = ellipsoid.cartographicToCartesian(position);
-            camera.direction = Cartesian3.fromCartesian4(transform.getColumn(3).subtract(camera.position)).normalize();
-            camera.right = camera.position.negate().cross(camera.direction).normalize();
-            camera.up = camera.right.cross(camera.direction);
-        }
-    };
-
-    /**
-      * Returns true if this object was destroyed; otherwise, false.
-      * <br /><br />
-      * If this object was destroyed, it should not be used; calling any function other than
-      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-      *
-      * @memberof CameraCentralBodyController
-      *
-      * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
-      *
-      * @see CameraCentralBodyController#destroy
-      */
-    CameraCentralBodyController.prototype.isDestroyed = function() {
-        return false;
-    };
-
-    /**
-     * Removes mouse and keyboard listeners held by this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
-     *
-     * @memberof CameraCentralBodyController
-     *
-     * @return {undefined}
-     *
-     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
-     *
-     * @see CameraCentralBodyController#isDestroyed
-     *
-     * @example
-     * controller = controller && controller.destroy();
-     */
-    CameraCentralBodyController.prototype.destroy = function() {
-        this._rotateHandler = this._rotateHandler && this._rotateHandler.destroy();
-        this.spindleController = this.spindleController && this.spindleController.destroy();
-        this.freeLookController = this.freeLookController && this.freeLookController.destroy();
-        return destroyObject(this);
-    };
-
-    return CameraCentralBodyController;
+    return CameraEventAggregator;
 });
 /*global define*/
 define('Scene/CentralBodySurfaceShaderSet',[
@@ -34987,6 +33785,7 @@ define('DynamicScene/DynamicObjectView',[
         '../Core/Matrix3',
         '../Core/Ellipsoid',
         '../Core/Transforms',
+        '../Scene/CameraColumbusViewMode',
         '../Scene/SceneMode'
        ], function(
          defaultValue,
@@ -35000,20 +33799,18 @@ define('DynamicScene/DynamicObjectView',[
          Matrix3,
          Ellipsoid,
          Transforms,
+         CameraColumbusViewMode,
          SceneMode) {
     
 
     function update2D(that, camera, objectChanged, offset, positionProperty, time, projection) {
         var viewDistance;
-        var controller = that._controller2d;
-        var controllerChanged = typeof controller === 'undefined' || controller !== that._lastController || controller.isDestroyed();
+        var scene = that.scene;
+        var modeChanged = scene.mode !== that._mode;
 
-        //Handle case where controller was modified without our knowledge.
-        if (controllerChanged) {
-            var controllers = camera.getControllers();
-            controllers.removeAll();
-            that._lastController = that._controller2d = controller = controllers.add2D(projection);
-            controller.enableTranslate = false;
+        if (modeChanged) {
+            that._mode = scene.mode;
+            that._screenSpaceCameraController.enableTranslate = false;
             viewDistance = offset.magnitude();
         } else if (objectChanged) {
             viewDistance = offset.magnitude();
@@ -35024,8 +33821,8 @@ define('DynamicScene/DynamicObjectView',[
         var cartographic = positionProperty.getValueCartographic(time, that._lastCartographic);
         //We are assigning the position of the camera, not of the object, so modify the height appropriately.
         cartographic.height = viewDistance;
-        if (objectChanged || controllerChanged) {
-            controller.setPositionCartographic(cartographic);
+        if (objectChanged || modeChanged) {
+            camera.controller.setPositionCartographic(cartographic);
 
             //Set rotation to match offset.
             Cartesian3.normalize(offset, camera.up);
@@ -35052,11 +33849,11 @@ define('DynamicScene/DynamicObjectView',[
 
     var update3DTransform;
     function update3D(that, camera, objectChanged, offset, positionProperty, time, ellipsoid) {
-        var controller = update3DController(that, camera, objectChanged, offset);
+        update3DController(that, camera, objectChanged, offset);
 
         var cartesian = positionProperty.getValueCartesian(time, that._lastCartesian);
-        update3DTransform = Transforms.eastNorthUpToFixedFrame(cartesian, ellipsoid, update3DTransform);
-        controller.setReferenceFrame(update3DTransform, Ellipsoid.UNIT_SPHERE);
+        camera.transform = Transforms.eastNorthUpToFixedFrame(cartesian, ellipsoid, update3DTransform);
+        that._screenSpaceCameraController.setEllipsoid(Ellipsoid.UNIT_SPHERE);
 
         var position = camera.position;
         Cartesian3.clone(position, that._lastOffset);
@@ -35065,7 +33862,7 @@ define('DynamicScene/DynamicObjectView',[
 
     var updateColumbusCartesian4 = new Cartesian4(0.0, 0.0, 0.0, 1.0);
     function updateColumbus(that, camera, objectChanged, offset, positionProperty, time, ellipsoid, projection) {
-        var controller = update3DController(that, camera, objectChanged, offset);
+        update3DController(that, camera, objectChanged, offset);
 
         //The swizzling here is intentional because ColumbusView uses a different coordinate system.
         var cartographic = positionProperty.getValueCartographic(time, that._lastCartographic);
@@ -35076,7 +33873,13 @@ define('DynamicScene/DynamicObjectView',[
 
         var tranform = camera.transform;
         tranform.setColumn(3, updateColumbusCartesian4, tranform);
-        controller.setReferenceFrame(tranform, Ellipsoid.UNIT_SPHERE);
+
+        var controller = that._screenSpaceCameraController;
+        controller.enableTranslate = false;
+        controller.setEllipsoid(Ellipsoid.UNIT_SPHERE);
+        controller.columbusViewMode = CameraColumbusViewMode.LOCKED;
+
+        camera.controller.constrainedAxis = Cartesian3.UNIT_Z;
 
         var position = camera.position;
         Cartesian3.clone(position, that._lastOffset);
@@ -35087,19 +33890,15 @@ define('DynamicScene/DynamicObjectView',[
     var update3DControllerMatrix3 = new Matrix3();
 
     function update3DController(that, camera, objectChanged, offset) {
-        var controller = that._controller3d;
-        var controllerChanged = typeof controller === 'undefined' || controller !== that._lastController || controller.isDestroyed();
-
-        if (controllerChanged) {
-            var controllers = camera.getControllers();
-            controllers.removeAll();
-            that._lastController = that._controller3d = controller = controllers.addSpindle();
-            controller.constrainedAxis = Cartesian3.UNIT_Z;
-        }
+        var scene = that.scene;
+        that._screenSpaceCameraController.enableTilt = false;
+        camera.controller.constrainedAxis = Cartesian3.UNIT_Z;
 
         if (objectChanged) {
-            camera.lookAt(offset, Cartesian3.ZERO, Cartesian3.UNIT_Z);
-        } else if (controllerChanged) {
+            camera.controller.lookAt(offset, Cartesian3.ZERO, Cartesian3.UNIT_Z);
+        } else if (scene.mode !== that._mode) {
+            that._mode = scene.mode;
+
             //If we're switching from 2D and any rotation was applied to the camera,
             //apply that same rotation to the last offset used in 3D or Columbus view.
             var first2dUp = that._first2dUp;
@@ -35123,10 +33922,8 @@ define('DynamicScene/DynamicObjectView',[
                 Matrix3.fromQuaternion(rotation, update3DControllerMatrix3).multiplyByVector(offset, offset);
             }
             offset.normalize(offset).multiplyByScalar(that._lastDistance, offset);
-            camera.lookAt(offset, Cartesian3.ZERO, Cartesian3.UNIT_Z);
+            camera.controller.lookAt(offset, Cartesian3.ZERO, Cartesian3.UNIT_Z);
         }
-
-        return controller;
     }
 
     var dynamicObjectViewDefaultOffset = new Cartesian3(10000, -10000, 10000);
@@ -35153,6 +33950,7 @@ define('DynamicScene/DynamicObjectView',[
          * @type Scene
          */
         this.scene = scene;
+        this._lastScene = undefined;
 
         /**
          * The ellipsoid to use for orienting the camera.
@@ -35161,16 +33959,8 @@ define('DynamicScene/DynamicObjectView',[
         this.ellipsoid = defaultValue(ellipsoid, Ellipsoid.WGS84);
 
         //Shadow copies of the objects so we can detect changes.
-        this._lastScene = undefined;
         this._lastDynamicObject = undefined;
-
-        //Currently camera controllers are very transient,
-        //We maintain a reference to each one we create as
-        //well as the last one we used in order to detect
-        //when we need to re-initialize the view.
-        this._lastController = undefined;
-        this._controller2d = undefined;
-        this._controller3d = undefined;
+        this._mode = undefined;
 
         //Re-usable objects to be used for retrieving position.
         this._lastCartesian = new Cartesian3();
@@ -35209,6 +33999,11 @@ define('DynamicScene/DynamicObjectView',[
         var scene = this.scene;
         if (typeof scene === 'undefined') {
             throw new DeveloperError('DynamicObjectView.scene is required.');
+        }
+
+        if (scene !== this._lastScene) {
+            this._lastScene = scene;
+            this._screenSpaceCameraController = scene.getScreenSpaceCameraController();
         }
 
         var dynamicObject = this.dynamicObject;
@@ -35258,22 +34053,13 @@ define('DynamicScene/DynamicObjectView',[
             Cartesian3.clone(dynamicObjectViewDefaultOffset, offset);
         }
 
-        var sceneChanged = scene !== this._lastScene;
-        if (sceneChanged) {
-            //When the scene changes, we'll need to retrieve new controllers, so just wipe out our cached values.
-            this._lastController = undefined;
-            this._controller2d = undefined;
-            this._controller3d = undefined;
-            this._lastScene = scene;
-        }
-
         var mode = scene.mode;
         if (mode === SceneMode.SCENE2D) {
-            update2D(this, this.scene.getCamera(), objectChanged, offset, positionProperty, time, scene.scene2D.projection);
+            update2D(this, scene.getCamera(), objectChanged, offset, positionProperty, time, scene.scene2D.projection);
         } else if (mode === SceneMode.SCENE3D) {
-            update3D(this, this.scene.getCamera(), objectChanged, offset, positionProperty, time, ellipsoid);
+            update3D(this, scene.getCamera(), objectChanged, offset, positionProperty, time, ellipsoid);
         } else if (mode === SceneMode.COLUMBUS_VIEW) {
-            updateColumbus(this, this.scene.getCamera(), objectChanged, offset, positionProperty, time, ellipsoid, scene.scene2D.projection);
+            updateColumbus(this, scene.getCamera(), objectChanged, offset, positionProperty, time, ellipsoid, scene.scene2D.projection);
         }
     };
 
@@ -53897,10 +52683,16 @@ define('Scene/AnimationCollection',[
     /**
      * DOC_TBA
      * @memberof AnimationCollection
+     *
+     * @exception {DeveloperError} duration is required.
      */
     AnimationCollection.prototype.add = function(template) {
         var t = template || {};
-        t.duration = (typeof t.duration === 'undefined') ? 3000 : t.duration;
+
+        if (typeof t.duration === 'undefined') {
+            throw new DeveloperError('duration is required.');
+        }
+
         t.delayDuration = (typeof t.delayDuration === 'undefined') ? 0 : t.delayDuration;
         t.easingFunction = (typeof t.easingFunction === 'undefined') ? Tween.Easing.Linear.None : t.easingFunction;
 
@@ -53983,6 +52775,10 @@ define('Scene/AnimationCollection',[
     /**
      * DOC_TBA
      * @memberof AnimationCollection
+     *
+     * @exception {DeveloperError} object is required.
+     * @exception {DeveloperError} property is required.
+     * @exception {DeveloperError} pbject must have the specified property.
      */
     AnimationCollection.prototype.addProperty = function(object, property, start, stop, template) {
         if (typeof object === 'undefined') {
@@ -54098,7 +52894,7 @@ define('Scene/AnimationCollection',[
      */
     AnimationCollection.prototype.contains = function(animation) {
         if (typeof animation !== 'undefined') {
-            return Tween.getAll().indexOf(animation) !== -1;
+            return Tween.getAll().indexOf(animation._tween) !== -1;
         }
         return false;
     };
@@ -54114,514 +52910,327 @@ define('Scene/AnimationCollection',[
     return AnimationCollection;
 });
 /*global define*/
-define('Scene/Camera2DController',[
-        '../Core/DeveloperError',
+define('Scene/ScreenSpaceCameraController',[
         '../Core/destroyObject',
-        '../Core/FAR',
-        '../Core/Math',
-        '../Core/Quaternion',
-        '../Core/Matrix3',
         '../Core/Cartesian2',
+        '../Core/Cartesian3',
+        '../Core/Cartesian4',
         '../Core/Cartographic',
-        './CameraEventHandler',
-        './CameraEventType',
-        './CameraHelpers',
+        '../Core/DeveloperError',
+        '../Core/Ellipsoid',
+        '../Core/KeyboardEventModifier',
+        '../Core/FAR',
+        '../Core/IntersectionTests',
+        '../Core/Math',
+        '../Core/Matrix3',
+        '../Core/Matrix4',
+        '../Core/Quaternion',
+        '../Core/Ray',
+        '../Core/Transforms',
         './AnimationCollection',
-        '../ThirdParty/Tween'
+        './CameraEventAggregator',
+        './CameraEventType',
+        './CameraColumbusViewMode',
+        './SceneMode'
     ], function(
-        DeveloperError,
         destroyObject,
-        FAR,
-        CesiumMath,
-        Quaternion,
-        Matrix3,
         Cartesian2,
+        Cartesian3,
+        Cartesian4,
         Cartographic,
-        CameraEventHandler,
-        CameraEventType,
-        CameraHelpers,
+        DeveloperError,
+        Ellipsoid,
+        KeyboardEventModifier,
+        FAR,
+        IntersectionTests,
+        CesiumMath,
+        Matrix3,
+        Matrix4,
+        Quaternion,
+        Ray,
+        Transforms,
         AnimationCollection,
-        Tween) {
+        CameraEventAggregator,
+        CameraEventType,
+        CameraColumbusViewMode,
+        SceneMode) {
     
 
-    var move = CameraHelpers.move;
-    var maintainInertia = CameraHelpers.maintainInertia;
-    var handleZoom = CameraHelpers.handleZoom;
-
     /**
-     * A type that defines camera behavior: movement of the position in the direction
-     * of the camera's axes and manipulating a camera's orthographic frustum for a zooming effect.
+     * Modifies the camera position and orientation based on mouse input to a canvas.
+     * @alias ScreenSpaceCameraController
+     * @constructor
      *
-     * @alias Camera2DController
-     *
-     * @param {HTMLCanvasElement} canvas An HTML canvas element used for its dimensions
-     * and for listening on user events.
-     * @param {Camera} camera The camera to use.
-     * @param {DOC_TBA} projection The projection of the map the camera is moving around..
+     * @param {HTMLCanvasElement} canvas The canvas to listen for events.
+     * @param {CameraController} cameraController The camera controller used to modify the camera.
      *
      * @exception {DeveloperError} canvas is required.
-     * @exception {DeveloperError} camera is required.
-     * @exception {DeveloperError} projection is required.
-     *
-     * @internalConstructor
+     * @exception {DeveloperError} cameraController is required.
      */
-    var Camera2DController = function(canvas, camera, projection) {
+    var ScreenSpaceCameraController = function(canvas, cameraController) {
         if (typeof canvas === 'undefined') {
             throw new DeveloperError('canvas is required.');
         }
 
-        if (typeof camera === 'undefined') {
-            throw new DeveloperError('camera is required.');
-        }
-
-        if (typeof projection === 'undefined') {
-            throw new DeveloperError('projection is required.');
+        if (typeof cameraController === 'undefined') {
+            throw new DeveloperError('cameraController is required.');
         }
 
         /**
          * If true, allows the user to pan around the map.  If false, the camera stays locked at the current position.
+         * This flag only applies in 2D and Columbus view modes.
          * @type Boolean
          */
         this.enableTranslate = true;
-
         /**
          * If true, allows the user to zoom in and out.  If false, the camera is locked to the current distance from the ellipsoid.
          * @type Boolean
          */
         this.enableZoom = true;
-
         /**
          * If true, allows the user to rotate the camera.  If false, the camera is locked to the current heading.
+         * This flag only applies in 2D and 3D.
          * @type Boolean
          */
         this.enableRotate = true;
-
-        this._canvas = canvas;
-        this._camera = camera;
-        this._projection = projection;
-        this._zoomRate = 100000.0;
-        this._moveRate = 100000.0;
-
+        /**
+         * If true, allows the user to tilt the camera.  If false, the camera is locked to the current heading.
+         * This flag only applies in 3D and Columbus view.
+         * @type Boolean
+         */
+        this.enableTilt = true;
+        /**
+         * If true, allows the user to use free-look. If false, the camera view direction can only be changed through translating
+         * or rotating. This flag only applies in 3D and Columbus view modes.
+         */
+        this.enableLook = true;
+        /**
+         * A parameter in the range <code>[0, 1)</code> used to determine how long
+         * the camera will continue to spin because of inertia.
+         * With value of zero, the camera will have no inertia.
+         * @type Number
+         */
+        this.inertiaSpin = 0.9;
         /**
          * A parameter in the range <code>[0, 1)</code> used to determine how long
          * the camera will continue to translate because of inertia.
          * With value of zero, the camera will have no inertia.
-         *
          * @type Number
          */
         this.inertiaTranslate = 0.9;
-
         /**
          * A parameter in the range <code>[0, 1)</code> used to determine how long
          * the camera will continue to zoom because of inertia.
          * With value of zero, the camera will have no inertia.
-         *
          * @type Number
          */
         this.inertiaZoom = 0.8;
+        /**
+         * A parameter in the range <code>[0, 1)</code> used to limit the range
+         * of various user inputs to a percentage of the window width/height per animation frame.
+         * This helps keep the camera under control in low-frame-rate situations.
+         * @type Number
+         */
+        this.maximumMovementRatio = 0.1;
+        /**
+         * Sets the behavior in Columbus view.
+         * @type CameraColumbusViewMode
+         */
+        this.columbusViewMode = CameraColumbusViewMode.FREE;
+        /**
+         * Sets the duration, in milliseconds, of the bounce back animations in 2D and Columbus view. The default value is 3000.
+         * @type Number
+         */
+        this.bounceAnimationTime = 3000.0;
 
-        this._zoomFactor = 1.5;
-        this._translateFactor = 1.0;
-        this._minimumZoomRate = 20.0;
-        this._maximumZoomRate = FAR;
+        this._canvas = canvas;
+        this._cameraController = cameraController;
+        this._ellipsoid = Ellipsoid.WGS84;
 
-        this._translateHandler = new CameraEventHandler(canvas, CameraEventType.LEFT_DRAG);
-        this._zoomHandler = new CameraEventHandler(canvas, CameraEventType.RIGHT_DRAG);
-        this._zoomWheel = new CameraEventHandler(canvas, CameraEventType.WHEEL);
-        this._twistHandler = new CameraEventHandler(canvas, CameraEventType.MIDDLE_DRAG);
+        this._spinHandler = new CameraEventAggregator(canvas, CameraEventType.LEFT_DRAG);
+        this._translateHandler = new CameraEventAggregator(canvas, CameraEventType.LEFT_DRAG);
+        this._lookHandler = new CameraEventAggregator(canvas, CameraEventType.LEFT_DRAG, KeyboardEventModifier.SHIFT);
+        this._rotateHandler = new CameraEventAggregator(canvas, CameraEventType.MIDDLE_DRAG);
+        this._zoomHandler = new CameraEventAggregator(canvas, CameraEventType.RIGHT_DRAG);
+        this._zoomWheelHandler = new CameraEventAggregator(canvas, CameraEventType.WHEEL);
+        this._pinchHandler = new CameraEventAggregator(canvas, CameraEventType.PINCH);
 
+        this._lastInertiaSpinMovement = undefined;
         this._lastInertiaZoomMovement = undefined;
         this._lastInertiaTranslateMovement = undefined;
         this._lastInertiaWheelZoomMovement = undefined;
+        this._lastInertiaTiltMovement = undefined;
 
-        this._frustum = this._camera.frustum.clone();
         this._animationCollection = new AnimationCollection();
-        this._zoomAnimation = undefined;
-        this._translateAnimation = undefined;
+        this._animation = undefined;
 
-        this._frustum = this._camera.frustum.clone();
-        this._maxCoord = projection.project(new Cartographic(Math.PI, CesiumMath.PI_OVER_TWO, 0.0));
+        this._horizontalRotationAxis = undefined;
 
-        var maxZoomOut = 2.0;
-        var ratio = this._frustum.top / this._frustum.right;
-        this._frustum.right = this._maxCoord.x * maxZoomOut;
-        this._frustum.left = -this._frustum.right;
-        this._frustum.top = ratio * this._frustum.right;
-        this._frustum.bottom = -this._frustum.top;
-
-        this._maxZoomFactor = 2.5;
-        this._maxTranslateFactor = 1.5;
+        // Constants, Make any of these public?
+        var radius = this._ellipsoid.getMaximumRadius();
+        this._zoomFactor = 5.0;
+        this._rotateFactor = 1.0 / radius;
+        this._rotateRateRangeAdjustment = radius;
+        this._maximumRotateRate = 1.77;
+        this._minimumRotateRate = 1.0 / 5000.0;
+        this._zoomFactor2D = 1.5;
+        this._translateFactor = 1.0;
+        this._minimumZoomRate = 20.0;
+        this._maximumZoomRate = FAR;
     };
 
     /**
-     * Returns the projection of the map that the camera is moving around.
-     *
-     * @memberof Camera2DController
-     *
-     * @returns {DOC_TBA} The projection of the map that the camera is moving around.
-     *
-     * @see Camera2DController#setProjection
+     * Gets the ellipsoid. The ellipsoid is used to determine the size of the map in 2D and Columbus view
+     * as well as how fast to rotate the camera based on the distance to its surface.
+     * @returns {Ellipsoid} The ellipsoid.
      */
-    Camera2DController.prototype.getProjection = function() {
-        return this._projection;
+    ScreenSpaceCameraController.prototype.getEllipsoid = function() {
+        return this._ellipsoid;
     };
 
     /**
-     * Sets the projection of the map that the camera is moving around.
-     *
-     * @memberof Camera2DController
-     *
-     * @param {DOC_TBA} projection The projection of the map that the camera is moving around.
-     *
-     * @exception {DeveloperError} projection is required.
-     *
-     * @see Camera2DController#getProjection
+     * Sets the ellipsoid. The ellipsoid is used to determine the size of the map in 2D and Columbus view
+     * as well as how fast to rotate the camera based on the distance to its surface.
+     * @param {Ellipsoid} [ellipsoid=WGS84] The ellipsoid.
      */
-    Camera2DController.prototype.setProjection = function(projection) {
-        if (typeof projection === 'undefined') {
-            throw new DeveloperError('projection is required.');
+    ScreenSpaceCameraController.prototype.setEllipsoid = function(ellipsoid) {
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
+        var radius = ellipsoid.getMaximumRadius();
+        this._ellipsoid = ellipsoid;
+        this._rotateFactor = 1.0 / radius;
+        this._rotateRateRangeAdjustment = radius;
+    };
+
+    function decay(time, coefficient) {
+        if (time < 0) {
+            return 0.0;
         }
 
-        this._projection = projection;
-        this._maxCoord = projection.project(new Cartographic(Math.PI, CesiumMath.toRadians(85.05112878)));
-    };
+        var tau = (1.0 - coefficient) * 25.0;
+        return Math.exp(-tau * time);
+    }
 
-    /**
-     * Translates the camera's position by <code>rate</code> along the camera's up vector.
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see Camera2DController#moveDown
-     */
-    Camera2DController.prototype.moveUp = function(rate) {
-        move(this._camera, this._camera.up, rate || this._moveRate);
-    };
+    function sameMousePosition(movement) {
+        return movement.startPosition.equalsEpsilon(movement.endPosition, CesiumMath.EPSILON14);
+    }
 
-    /**
-     * Translates the camera's position by <code>rate</code> along the opposite direction
-     * of the camera's up vector.
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see Camera2DController#moveUp
-     */
-    Camera2DController.prototype.moveDown = function(rate) {
-        move(this._camera, this._camera.up, -rate || -this._moveRate);
-    };
+    // If the time between mouse down and mouse up is not between
+    // these thresholds, the camera will not move with inertia.
+    // This value is probably dependent on the browser and/or the
+    // hardware. Should be investigated further.
+    var inertiaMaxClickTimeThreshold = 0.4;
 
-    /**
-     * Translates the camera's position by <code>rate</code> along the camera's right vector.
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see Camera2DController#moveLeft
-     */
-    Camera2DController.prototype.moveRight = function(rate) {
-        move(this._camera, this._camera.right, rate || this._moveRate);
-    };
+    function maintainInertia(handler, decayCoef, action, object, lastMovementName) {
+        var ts = handler.getButtonPressTime();
+        var tr = handler.getButtonReleaseTime();
+        var threshold = ts && tr && ((tr.getTime() - ts.getTime()) / 1000.0);
+        var now = new Date();
+        var fromNow = tr && ((now.getTime() - tr.getTime()) / 1000.0);
+        if (ts && tr && threshold < inertiaMaxClickTimeThreshold) {
+            var d = decay(fromNow, decayCoef);
 
-    /**
-     * Translates the camera's position by <code>rate</code> along the opposite direction
-     * of the camera's right vector.
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see Camera2DController#moveRight
-     */
-    Camera2DController.prototype.moveLeft = function(rate) {
-        move(this._camera, this._camera.right, -rate || -this._moveRate);
-    };
+            if (typeof object[lastMovementName] === 'undefined') {
+                var lastMovement = handler.getLastMovement();
+                if (!lastMovement || sameMousePosition(lastMovement)) {
+                    return;
+                }
 
-    /**
-     * DOC_TBA
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see Camera2DController#zoomOut
-     */
-    Camera2DController.prototype.zoomIn = function(rate) {
-        var moveRate = rate || this._zoomRate;
-        var frustum = this._camera.frustum;
-
-        if (typeof frustum.left === 'undefined' || typeof frustum.right === 'undefined' ||
-            typeof frustum.top === 'undefined' || typeof frustum.bottom === 'undefined') {
-            throw new DeveloperError('The camera frustum is expected to be orthographic for 2D camera control.');
-        }
-
-        var newRight = frustum.right - moveRate;
-        var newLeft = frustum.left + moveRate;
-
-        var maxRight = this._maxCoord.x * this._maxZoomFactor;
-        if (newRight > maxRight) {
-            newRight = maxRight;
-            newLeft = -newRight;
-        }
-
-        if (newRight > newLeft) {
-            var ratio = frustum.top / frustum.right;
-            frustum.right = newRight;
-            frustum.left = newLeft;
-            frustum.top = frustum.right * ratio;
-            frustum.bottom = -frustum.top;
-        }
-    };
-
-    /**
-     * Moves the camera to the provided cartographic position.
-     * @memberof Camera2DController
-     *
-     * @param {Cartographic} cartographic The new camera position.
-     *
-     * @exception {DeveloperError} cartographic is required.
-     */
-    Camera2DController.prototype.setPositionCartographic = function(cartographic) {
-        if (typeof cartographic === 'undefined') {
-            throw new DeveloperError('cartographic is required.');
-        }
-
-        var newLeft = -cartographic.height * 0.5;
-        var newRight = -newLeft;
-
-        var frustum = this._camera.frustum;
-        if (newRight > newLeft) {
-            var ratio = frustum.top / frustum.right;
-            frustum.right = newRight;
-            frustum.left = newLeft;
-            frustum.top = frustum.right * ratio;
-            frustum.bottom = -frustum.top;
-        }
-
-        //We use Cartesian2 instead of 3 here because Z must be constant in 2D mode.
-        Cartesian2.clone(this._projection.project(cartographic), this._camera.position);
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see Camera2DController#zoomIn
-     */
-    Camera2DController.prototype.zoomOut = function(rate) {
-        this.zoomIn(-rate || -this._zoomRate);
-    };
-
-    Camera2DController.prototype._addCorrectZoomAnimation = function() {
-        var camera = this._camera;
-        var frustum = camera.frustum;
-        var top = frustum.top;
-        var bottom = frustum.bottom;
-        var right = frustum.right;
-        var left = frustum.left;
-
-        var startFrustum = this._frustum;
-
-        var update2D = function(value) {
-            camera.frustum.top = CesiumMath.lerp(top, startFrustum.top, value.time);
-            camera.frustum.bottom = CesiumMath.lerp(bottom, startFrustum.bottom, value.time);
-            camera.frustum.right = CesiumMath.lerp(right, startFrustum.right, value.time);
-            camera.frustum.left = CesiumMath.lerp(left, startFrustum.left, value.time);
-        };
-
-        this._zoomAnimation = this._animationCollection.add({
-            easingFunction : Tween.Easing.Exponential.Out,
-            startValue : {
-                time : 0.0
-            },
-            stopValue : {
-                time : 1.0
-            },
-            onUpdate : update2D
-        });
-    };
-
-    Camera2DController.prototype._addCorrectTranslateAnimation = function() {
-        var camera = this._camera;
-        var currentPosition = camera.position;
-        var translatedPosition = currentPosition.clone();
-
-        if (translatedPosition.x > this._maxCoord.x) {
-            translatedPosition.x = this._maxCoord.x;
-        } else if (translatedPosition.x < -this._maxCoord.x) {
-            translatedPosition.x = -this._maxCoord.x;
-        }
-
-        if (translatedPosition.y > this._maxCoord.y) {
-            translatedPosition.y = this._maxCoord.y;
-        } else if (translatedPosition.y < -this._maxCoord.y) {
-            translatedPosition.y = -this._maxCoord.y;
-        }
-
-        var update2D = function(value) {
-            camera.position = currentPosition.lerp(translatedPosition, value.time);
-        };
-
-        this._translateAnimation = this._animationCollection.add({
-            easingFunction : Tween.Easing.Exponential.Out,
-            startValue : {
-                time : 0.0
-            },
-            stopValue : {
-                time : 1.0
-            },
-            onUpdate : update2D
-        });
-    };
-
-    /**
-     * @private
-     */
-    Camera2DController.prototype.update = function() {
-        var translate = this._translateHandler;
-        var rightZoom = this._zoomHandler;
-        var wheelZoom = this._zoomWheel;
-        var translating = translate.isMoving() && translate.getMovement();
-        var rightZooming = rightZoom.isMoving();
-        var wheelZooming = wheelZoom.isMoving();
-
-        if (translate.isButtonDown() || rightZoom.isButtonDown() || wheelZooming) {
-            this._animationCollection.removeAll();
-        }
-
-        if (this.enableTranslate) {
-            if (translating) {
-                this._translate(translate.getMovement());
+                var motionX = (lastMovement.endPosition.x - lastMovement.startPosition.x) * 0.5;
+                var motionY = (lastMovement.endPosition.y - lastMovement.startPosition.y) * 0.5;
+                object[lastMovementName] = {
+                    startPosition : new Cartesian2(lastMovement.startPosition.x, lastMovement.startPosition.y),
+                    endPosition : new Cartesian2(lastMovement.startPosition.x + motionX * d, lastMovement.startPosition.y + motionY * d),
+                    motion : new Cartesian2(motionX, motionY)
+                };
+            } else {
+                object[lastMovementName] = {
+                    startPosition : object[lastMovementName].endPosition.clone(),
+                    endPosition : new Cartesian2(
+                            object[lastMovementName].endPosition.x + object[lastMovementName].motion.x * d,
+                            object[lastMovementName].endPosition.y + object[lastMovementName].motion.y * d),
+                    motion : new Cartesian2(0.0, 0.0)
+                };
             }
 
-            if (!translating && this.inertiaTranslate < 1.0) {
-                maintainInertia(translate, this.inertiaTranslate, this._translate, this, '_lastInertiaTranslateMovement');
+            // If value from the decreasing exponential function is close to zero,
+            // the end coordinates may be NaN.
+            if (isNaN(object[lastMovementName].endPosition.x) || isNaN(object[lastMovementName].endPosition.y) || sameMousePosition(object[lastMovementName])) {
+                object[lastMovementName] = undefined;
+                return;
             }
+
+            if (!handler.isButtonDown()) {
+                action(object, object[lastMovementName]);
+            }
+        } else {
+            object[lastMovementName] = undefined;
+        }
+    }
+
+    function handleZoom(object, movement, zoomFactor, distanceMeasure) {
+        // distanceMeasure should be the height above the ellipsoid.
+        // The zoomRate slows as it approaches the surface and stops minHeight above it.
+        var minHeight = object._cameraController.minimumZoomDistance;
+        var zoomRate = zoomFactor * (distanceMeasure - minHeight);
+
+        if (zoomRate > object._maximumZoomRate) {
+            zoomRate = object._maximumZoomRate;
         }
 
-        if (this.enableZoom) {
-            if (rightZooming) {
-                this._zoom(rightZoom.getMovement());
-            } else if (wheelZooming) {
-                this._zoom(wheelZoom.getMovement());
-            }
-
-            if (!rightZooming && this.inertiaZoom < 1.0) {
-                maintainInertia(rightZoom, this.inertiaZoom, this._zoom, this, '_lastInertiaZoomMovement');
-            }
-
-            if (!wheelZooming && this.inertiaZoom < 1.0) {
-                maintainInertia(wheelZoom, this.inertiaZoom, this._zoom, this, '_lastInertiaWheelZoomMovement');
-            }
+        var diff = movement.endPosition.y - movement.startPosition.y;
+        if (diff === 0) {
+            return;
         }
 
-        if (this.enableRotate) {
-            if (this._twistHandler.isMoving()) {
-                this._twist(this._twistHandler.getMovement());
-            }
+        var rangeWindowRatio = diff / object._canvas.clientHeight;
+        rangeWindowRatio = Math.min(rangeWindowRatio, object.maximumMovementRatio);
+        var dist = zoomRate * rangeWindowRatio;
+
+        if (dist > 0.0 && Math.abs(distanceMeasure - minHeight) < 1.0) {
+            return;
         }
 
-        if (!translate.isButtonDown() && !rightZoom.isButtonDown()) {
-            if (this._camera.frustum.right > this._frustum.right &&
-                !this._lastInertiaZoomMovement && !this._animationCollection.contains(this._zoomAnimation)) {
-                this._addCorrectZoomAnimation();
-            }
-
-            var position = this._camera.position;
-            var translateX = position.x < -this._maxCoord.x || position.x > this._maxCoord.x;
-            var translateY = position.y < -this._maxCoord.y || position.y > this._maxCoord.y;
-            if ((translateX || translateY) && !this._lastInertiaTranslateMovement &&
-                 !this._animationCollection.contains(this._translateAnimation)) {
-                this._addCorrectTranslateAnimation();
-            }
+        if (distanceMeasure - dist < minHeight) {
+            dist = distanceMeasure - minHeight - 1.0;
         }
 
-        this._animationCollection.update();
-
-        return true;
-    };
-
-    Camera2DController.prototype._translate = function(movement) {
-        var frustum = this._camera.frustum;
-
-        if (frustum.left === null || frustum.right === null ||
-           frustum.top === null || frustum.bottom === null) {
-            throw new DeveloperError('The camera frustum is expected to be orthographic for 2D camera control.');
+        if (dist > 0.0) {
+            object._cameraController.zoomIn(dist);
+        } else {
+            object._cameraController.zoomOut(-dist);
         }
+    }
 
-        var width = this._canvas.clientWidth;
-        var height = this._canvas.clientHeight;
+    var translate2DStart = new Ray();
+    var translate2DEnd = new Ray();
+    function translate2D(controller, movement) {
+        var cameraController = controller._cameraController;
+        var start = cameraController.getPickRay(movement.startPosition, translate2DStart).origin;
+        var end = cameraController.getPickRay(movement.endPosition, translate2DEnd).origin;
 
-        var start = new Cartesian2();
-        start.x = (movement.startPosition.x / width) * (frustum.right - frustum.left) + frustum.left;
-        start.y = ((height - movement.startPosition.y) / height) * (frustum.top - frustum.bottom) + frustum.bottom;
+        cameraController.moveRight(start.x - end.x);
+        cameraController.moveUp(start.y - end.y);
+    }
 
-        var end = new Cartesian2();
-        end.x = (movement.endPosition.x / width) * (frustum.right - frustum.left) + frustum.left;
-        end.y = ((height - movement.endPosition.y) / height) * (frustum.top - frustum.bottom) + frustum.bottom;
+    function zoom2D(controller, movement) {
+        handleZoom(controller, movement, controller._zoomFactor2D, controller._cameraController.getMagnitude());
+    }
 
-        var camera = this._camera;
-        var right = camera.right;
-        var up = camera.up;
-        var position;
-        var newPosition;
+    var twist2DStart = new Cartesian2();
+    var twist2DEnd = new Cartesian2();
+    function twist2D(controller, movement) {
+        var width = controller._canvas.clientWidth;
+        var height = controller._canvas.clientHeight;
 
-        var distance = start.subtract(end);
-        if (distance.x !== 0) {
-            position = camera.position;
-            newPosition = position.add(right.multiplyByScalar(distance.x));
-
-            var maxX = this._maxCoord.x * this._maxTranslateFactor;
-            if (newPosition.x > maxX) {
-                newPosition.x = maxX;
-            }
-            if (newPosition.x < -maxX) {
-                newPosition.x = -maxX;
-            }
-
-            camera.position = newPosition;
-        }
-        if (distance.y !== 0) {
-            position = camera.position;
-            newPosition = position.add(up.multiplyByScalar(distance.y));
-
-            var maxY = this._maxCoord.y * this._maxTranslateFactor;
-            if (newPosition.y > maxY) {
-                newPosition.y = maxY;
-            }
-            if (newPosition.y < -maxY) {
-                newPosition.y = -maxY;
-            }
-
-            camera.position = newPosition;
-        }
-    };
-
-    Camera2DController.prototype._zoom = function(movement) {
-        var camera = this._camera;
-        var mag = Math.max(camera.frustum.right - camera.frustum.left, camera.frustum.top - camera.frustum.bottom);
-        handleZoom(this, movement, mag);
-    };
-
-    Camera2DController.prototype._twist = function(movement) {
-        var width = this._canvas.clientWidth;
-        var height = this._canvas.clientHeight;
-
-        var start = new Cartesian2();
+        var start = twist2DStart;
         start.x = (2.0 / width) * movement.startPosition.x - 1.0;
         start.y = (2.0 / height) * (height - movement.startPosition.y) - 1.0;
-        start = start.normalize();
+        Cartesian2.normalize(start, start);
 
-        var end = new Cartesian2();
+        var end = twist2DEnd;
         end.x = (2.0 / width) * movement.endPosition.x - 1.0;
         end.y = (2.0 / height) * (height - movement.endPosition.y) - 1.0;
-        end = end.normalize();
+        Cartesian2.normalize(end, end);
 
         var startTheta = Math.acos(start.x);
         if (start.y < 0) {
@@ -54631,27 +53240,583 @@ define('Scene/Camera2DController',[
         if (end.y < 0) {
             endTheta = CesiumMath.TWO_PI - endTheta;
         }
-        var theta = startTheta - endTheta;
+        var theta = endTheta - startTheta;
 
-        var camera = this._camera;
-        var rotation = Matrix3.fromQuaternion(Quaternion.fromAxisAngle(camera.direction, theta));
-        camera.up = rotation.multiplyByVector(camera.up);
-        camera.right = camera.direction.cross(camera.up);
+        controller._cameraController.twistRight(theta);
+    }
+
+    function singleAxisTwist2D(controller, movement) {
+        var rotateRate = controller._rotateFactor * controller._rotateRateRangeAdjustment;
+
+        if (rotateRate > controller._maximumRotateRate) {
+            rotateRate = controller._maximumRotateRate;
+        }
+
+        if (rotateRate < controller._minimumRotateRate) {
+            rotateRate = controller._minimumRotateRate;
+        }
+
+        var phiWindowRatio = (movement.endPosition.x - movement.startPosition.x) / controller._canvas.clientWidth;
+        phiWindowRatio = Math.min(phiWindowRatio, controller.maximumMovementRatio);
+
+        var deltaPhi = rotateRate * phiWindowRatio * Math.PI * 4.0;
+
+        controller._cameraController.twistRight(deltaPhi);
+    }
+
+    function update2D(controller) {
+        var translate = controller._translateHandler;
+        var rightZoom = controller._zoomHandler;
+        var wheelZoom = controller._zoomWheelHandler;
+        var pinch = controller._pinchHandler;
+        var translating = translate.isMoving() && translate.getMovement();
+        var rightZooming = rightZoom.isMoving();
+        var wheelZooming = wheelZoom.isMoving();
+        var pinching = pinch.isMoving();
+
+        if (translate.isButtonDown() || rightZoom.isButtonDown() || wheelZooming) {
+            controller._animationCollection.removeAll();
+        }
+
+        if (controller.enableTranslate) {
+            if (translating) {
+                translate2D(controller, translate.getMovement());
+            }
+
+            if (!translating && controller.inertiaTranslate < 1.0) {
+                maintainInertia(translate, controller.inertiaTranslate, translate2D, controller, '_lastInertiaTranslateMovement');
+            }
+        }
+
+        if (controller.enableZoom) {
+            if (rightZooming) {
+                zoom2D(controller, rightZoom.getMovement());
+            } else if (wheelZooming) {
+                zoom2D(controller, wheelZoom.getMovement());
+            } else if (pinching) {
+                zoom2D(controller, pinch.getMovement().distance);
+            }
+
+            if (!rightZooming && controller.inertiaZoom < 1.0) {
+                maintainInertia(rightZoom, controller.inertiaZoom, zoom2D, controller, '_lastInertiaZoomMovement');
+            }
+
+            if (!wheelZooming && controller.inertiaZoom < 1.0) {
+                maintainInertia(wheelZoom, controller.inertiaZoom, zoom2D, controller, '_lastInertiaWheelZoomMovement');
+            }
+
+            if (!pinching && controller.inertiaZoom < 1.0) {
+                maintainInertia(pinch, controller.inertiaZoom, zoom2D, controller, '_lastInertiaZoomMovement');
+            }
+        }
+
+        if (controller.enableRotate) {
+            if (controller._rotateHandler.isMoving()) {
+                twist2D(controller, controller._rotateHandler.getMovement());
+                //singleAxisTwist2D(controller, controller._rotateHandler.getMovement());
+            }
+            if (pinching) {
+                singleAxisTwist2D(controller, pinch.getMovement().angleAndHeight);
+            }
+        }
+
+        if (!translate.isButtonDown() && !rightZoom.isButtonDown() &&
+                !controller._lastInertiaZoomMovement && !controller._lastInertiaTranslateMovement &&
+                !controller._animationCollection.contains(controller._animation)) {
+            var animation = controller._cameraController.createCorrectPositionAnimation(controller.bounceAnimationTime);
+            if (typeof animation !== 'undefined') {
+                controller._animation = controller._animationCollection.add(animation);
+            }
+        }
+
+        controller._animationCollection.update();
+
+        return true;
+    }
+
+    var translateCVStartRay = new Ray();
+    var translateCVEndRay = new Ray();
+    var translateCVStartPos = new Cartesian3();
+    var translateCVEndPos = new Cartesian3();
+    var translatCVDifference = new Cartesian3();
+    function translateCV(controller, movement) {
+        var cameraController = controller._cameraController;
+        var startRay = cameraController.getPickRay(movement.startPosition, translateCVStartRay);
+        var endRay = cameraController.getPickRay(movement.endPosition, translateCVEndRay);
+        var normal = Cartesian3.UNIT_X;
+
+        var position = startRay.origin;
+        var direction = startRay.direction;
+        var scalar = -normal.dot(position) / normal.dot(direction);
+        var startPlanePos = Cartesian3.multiplyByScalar(direction, scalar, translateCVStartPos);
+        Cartesian3.add(position, startPlanePos, startPlanePos);
+
+        position = endRay.origin;
+        direction = endRay.direction;
+        scalar = -normal.dot(position) / normal.dot(direction);
+        var endPlanePos = Cartesian3.multiplyByScalar(direction, scalar, translateCVEndPos);
+        Cartesian3.add(position, endPlanePos, endPlanePos);
+
+        var diff = Cartesian3.subtract(startPlanePos, endPlanePos, translatCVDifference);
+        var temp = diff.x;
+        diff.x = diff.y;
+        diff.y = diff.z;
+        diff.z = temp;
+        var mag = diff.magnitude();
+        if (mag > CesiumMath.EPSILON6) {
+            Cartesian3.normalize(diff, diff);
+            cameraController.move(diff, mag);
+        }
+    }
+
+    var rotateCVWindowPos = new Cartesian2();
+    var rotateCVWindowRay = new Ray();
+    var rotateCVCenter = new Cartesian3();
+    var rotateTransform = new Matrix4();
+    function rotateCV(controller, movement) {
+        var windowPosition = rotateCVWindowPos;
+        windowPosition.x = controller._canvas.clientWidth / 2;
+        windowPosition.y = controller._canvas.clientHeight / 2;
+        var ray = controller._cameraController.getPickRay(windowPosition, rotateCVWindowRay);
+        var normal = Cartesian3.UNIT_X;
+
+        var position = ray.origin;
+        var direction = ray.direction;
+        var scalar = -normal.dot(position) / normal.dot(direction);
+        var center = Cartesian3.multiplyByScalar(direction, scalar, rotateCVCenter);
+        Cartesian3.add(position, center, center);
+        var transform = Matrix4.fromTranslation(center, rotateTransform);
+
+        var oldEllipsoid = controller._ellipsoid;
+        controller.setEllipsoid(Ellipsoid.UNIT_SPHERE);
+
+        rotate3D(controller, movement, transform, Cartesian3.UNIT_Z);
+
+        controller.setEllipsoid(oldEllipsoid);
+    }
+
+    function zoomCV(controller, movement) {
+        handleZoom(controller, movement, controller._zoomFactor, controller._cameraController.getMagnitude());
+    }
+
+    function updateCV(controller) {
+        var zoom = controller._zoomHandler;
+        var zoomimg = zoom && zoom.isMoving();
+        var wheelZoom = controller._zoomWheelHandler;
+        var wheelZooming = wheelZoom.isMoving();
+        var pinch = controller._pinchHandler;
+        var pinching = pinch.isMoving();
+        var translate = controller._translateHandler;
+        var translating = translate.isMoving() && translate.getMovement();
+        var rotate = controller._rotateHandler;
+        var rotating = rotate.isMoving() && rotate.getMovement();
+        var spin = controller._spinHandler;
+        var spinning = spin.isMoving() && spin.getMovement();
+
+        if (controller.columbusViewMode === CameraColumbusViewMode.LOCKED) {
+            if (controller.enableRotate) {
+                if (spinning) {
+                    rotate3D(controller, spin.getMovement());
+                }
+
+                if (spin && !spinning && controller.inertiaSpin >= 0.0 && controller.inertiaSpin < 1.0) {
+                    maintainInertia(spin, controller.inertiaSpin, rotate3D, controller, '_lastInertiaSpinMovement');
+                }
+            }
+
+            if (controller.enableZoom) {
+                if (zoomimg) {
+                    zoom3D(controller, zoom.getMovement());
+                } else if (wheelZooming) {
+                    zoom3D(controller, wheelZoom.getMovement());
+                } else if (pinching) {
+                    zoom3D(controller, pinch.getMovement().distance);
+                }
+
+                if (zoom && !zoomimg && controller.inertiaZoom >= 0.0 && controller.inertiaZoom < 1.0) {
+                    maintainInertia(zoom, controller.inertiaZoom, zoom3D, controller, '_lastInertiaZoomMovement');
+                }
+
+                if (wheelZoom && !wheelZooming && controller.inertiaZoom >= 0.0 && controller.inertiaZoom < 1.0) {
+                    maintainInertia(wheelZoom, controller.inertiaZoom, zoom3D, controller, '_lastInertiaWheelZoomMovement');
+                }
+
+                if (pinch && !pinching && controller.inertiaZoom >= 0.0 && controller.inertiaZoom < 1.0) {
+                    maintainInertia(pinch, controller.inertiaZoom, zoom3D, controller, '_lastInertiaZoomMovement');
+                }
+            }
+        } else {
+            var buttonDown = translate.isButtonDown() || zoom.isButtonDown() || wheelZooming || pinching || rotate.isButtonDown() || controller._lookHandler.isButtonDown();
+            if (buttonDown) {
+                controller._animationCollection.removeAll();
+            }
+
+            if (controller.enableTilt) {
+                if (rotating) {
+                    rotateCV(controller, rotate.getMovement());
+                }
+
+                if (pinching) {
+                    rotateCV(controller, pinch.getMovement().angleAndHeight);
+                }
+
+                if (rotate && !rotating && controller.inertiaSpin >= 0.0 && controller.inertiaSpin < 1.0) {
+                    maintainInertia(rotate, controller.inertiaSpin, rotateCV, controller, '_lastInertiaTiltMovement');
+                }
+
+                if (pinch && !pinching && controller.inertiaZoom >= 0.0 && controller.inertiaZoom < 1.0) {
+                    maintainInertia(pinch, controller.inertiaZoom, zoomCV, controller, '_lastInertiaZoomMovement');
+                }
+            }
+
+            if (controller.enableTranslate) {
+                if (translating) {
+                    translateCV(controller, translate.getMovement());
+                }
+
+                if (!translating && controller.inertiaTranslate >= 0.0 && controller.inertiaTranslate < 1.0) {
+                    maintainInertia(translate, controller.inertiaTranslate, translateCV, controller, '_lastInertiaTranslateMovement');
+                }
+            }
+
+            if (controller.enableZoom) {
+                if (zoomimg) {
+                    zoomCV(controller, zoom.getMovement());
+                } else if (wheelZooming) {
+                    zoomCV(controller, wheelZoom.getMovement());
+                } else if (pinching) {
+                    zoomCV(controller, pinch.getMovement().distance);
+                }
+
+                if (zoom && !zoomimg && controller.inertiaZoom >= 0.0 && controller.inertiaZoom < 1.0) {
+                    maintainInertia(zoom, controller.inertiaZoom, zoomCV, controller, '_lastInertiaZoomMovement');
+                }
+
+                if (!wheelZooming && controller.inertiaZoom >= 0.0 && controller.inertiaZoom < 1.0) {
+                    maintainInertia(wheelZoom, controller.inertiaZoom, zoomCV, controller, '_lastInertiaWheelZoomMovement');
+                }
+
+                if (pinch && !pinching && controller.inertiaZoom >= 0.0 && controller.inertiaZoom < 1.0) {
+                    maintainInertia(pinch, controller.inertiaZoom, zoomCV, controller, '_lastInertiaZoomMovement');
+                }
+            }
+
+            if (controller.enableLook && controller._lookHandler.isMoving()) {
+                look3D(controller, controller._lookHandler.getMovement());
+            }
+
+            if (!buttonDown && !controller._lastInertiaZoomMovement && !controller._lastInertiaTranslateMovement &&
+                    !controller._animationCollection.contains(controller._animation)) {
+                var animation = controller._cameraController.createCorrectPositionAnimation(controller.bounceAnimationTime);
+                if (typeof animation !== 'undefined') {
+                    controller._animation = controller._animationCollection.add(animation);
+                }
+            }
+
+            controller._animationCollection.update();
+        }
+
+        return true;
+    }
+
+    var spin3DPick = new Cartesian3();
+    function spin3D(controller, movement) {
+        if (typeof controller._cameraController.pickEllipsoid(movement.startPosition, controller._ellipsoid, spin3DPick) !== 'undefined') {
+            pan3D(controller, movement);
+        } else {
+            rotate3D(controller, movement);
+        }
+    }
+
+    var rotate3DRestrictedDirection = Cartesian4.ZERO.clone();
+    function rotate3D(controller, movement, transform, constrainedAxis, restrictedAngle) {
+        var cameraController = controller._cameraController;
+        var oldAxis = cameraController.constrainedAxis;
+        if (typeof constrainedAxis !== 'undefined') {
+            cameraController.constrainedAxis = constrainedAxis;
+        }
+
+        // CAMERA TODO: remove access to camera, fixes a problem in Columbus view
+        //var rho = cameraController.getMagnitude();
+        var rho = controller._cameraController._camera.position.magnitude();
+        var rotateRate = controller._rotateFactor * (rho - controller._rotateRateRangeAdjustment);
+
+        if (rotateRate > controller._maximumRotateRate) {
+            rotateRate = controller._maximumRotateRate;
+        }
+
+        if (rotateRate < controller._minimumRotateRate) {
+            rotateRate = controller._minimumRotateRate;
+        }
+
+        var phiWindowRatio = (movement.endPosition.x - movement.startPosition.x) / controller._canvas.clientWidth;
+        var thetaWindowRatio = (movement.endPosition.y - movement.startPosition.y) / controller._canvas.clientHeight;
+        phiWindowRatio = Math.min(phiWindowRatio, controller.maximumMovementRatio);
+        thetaWindowRatio = Math.min(thetaWindowRatio, controller.maximumMovementRatio);
+
+        var deltaPhi = rotateRate * phiWindowRatio * Math.PI * 2.0;
+        var deltaTheta = rotateRate * thetaWindowRatio * Math.PI;
+
+        cameraController.rotateLeft(deltaPhi, transform);
+        cameraController.rotateDown(deltaTheta, transform);
+
+        if (typeof restrictedAngle !== 'undefined') {
+            var direction = Cartesian3.clone(cameraController._camera.getDirectionWC(), rotate3DRestrictedDirection);
+            var invTransform = transform.inverseTransformation();
+            Matrix4.multiplyByVector(invTransform, direction, direction);
+
+            var dot = -Cartesian3.dot(direction, constrainedAxis);
+            var angle = Math.acos(dot);
+            if (angle > restrictedAngle) {
+                angle -= restrictedAngle;
+                cameraController.rotateUp(-angle, transform);
+            }
+        }
+
+        cameraController.constrainedAxis = oldAxis;
+    }
+
+    var pan3DP0 = Cartesian4.UNIT_W.clone();
+    var pan3DP1 = Cartesian4.UNIT_W.clone();
+    var pan3DAxis = new Cartesian3();
+    function pan3D(controller, movement) {
+        var cameraController = controller._cameraController;
+        var p0 = cameraController.pickEllipsoid(movement.startPosition, controller._ellipsoid, pan3DP0);
+        var p1 = cameraController.pickEllipsoid(movement.endPosition, controller._ellipsoid, pan3DP1);
+
+        if (typeof p0 === 'undefined' || typeof p1 === 'undefined') {
+            return;
+        }
+
+        // CAMERA TODO: remove access to camera
+        p0 = cameraController._camera.worldToCameraCoordinates(p0, p0);
+        p1 = cameraController._camera.worldToCameraCoordinates(p1, p1);
+
+        if (typeof cameraController.constrainedAxis === 'undefined') {
+            Cartesian3.normalize(p0, p0);
+            Cartesian3.normalize(p1, p1);
+            var dot = Cartesian3.dot(p0, p1);
+            var axis = Cartesian3.cross(p0, p1, pan3DAxis);
+
+            if (dot < 1.0 && !axis.equalsEpsilon(Cartesian3.ZERO, CesiumMath.EPSILON14)) { // dot is in [0, 1]
+                var angle = Math.acos(dot);
+                cameraController.rotate(axis, angle);
+            }
+        } else {
+            var startRho = Cartesian3.magnitude(p0);
+            var startPhi = Math.atan2(p0.y, p0.x);
+            var startTheta = Math.acos(p0.z / startRho);
+
+            var endRho = Cartesian3.magnitude(p1);
+            var endPhi = Math.atan2(p1.y, p1.x);
+            var endTheta = Math.acos(p1.z / endRho);
+
+            var deltaPhi = startPhi - endPhi;
+            var deltaTheta = startTheta - endTheta;
+
+            cameraController.rotateRight(deltaPhi);
+            cameraController.rotateUp(deltaTheta);
+        }
+    }
+
+    function zoom3D(controller, movement) {
+        // CAMERA TODO: remove access to camera
+        var ellipsoid = controller._ellipsoid;
+        var height = ellipsoid.cartesianToCartographic(controller._cameraController._camera.position).height;
+        handleZoom(controller, movement, controller._zoomFactor, height);
+    }
+
+    var tilt3DWindowPos = new Cartesian2();
+    var tilt3DRay = new Ray();
+    var tilt3DCart = new Cartographic();
+    var tilt3DCenter = Cartesian4.UNIT_W.clone();
+    var tilt3DTransform = new Matrix4();
+    function tilt3D(controller, movement) {
+        var cameraController = controller._cameraController;
+
+        var ellipsoid = controller._ellipsoid;
+        var minHeight = cameraController.minimumHeightAboveSurface;
+        var height = ellipsoid.cartesianToCartographic(controller._cameraController._camera.position).height;
+        if (height - minHeight - 1.0 < CesiumMath.EPSILON3 &&
+                movement.endPosition.y - movement.startPosition.y < 0) {
+            return;
+        }
+
+        var windowPosition = tilt3DWindowPos;
+        windowPosition.x = controller._canvas.clientWidth / 2;
+        windowPosition.y = controller._canvas.clientHeight / 2;
+        var ray = cameraController.getPickRay(windowPosition, tilt3DRay);
+
+        var center;
+        var intersection = IntersectionTests.rayEllipsoid(ray, ellipsoid);
+        if (typeof intersection !== 'undefined') {
+            center = ray.getPoint(intersection.start, tilt3DCenter);
+        } else {
+            var grazingAltitudeLocation = IntersectionTests.grazingAltitudeLocation(ray, ellipsoid);
+            if (typeof grazingAltitudeLocation === 'undefined') {
+                return;
+            }
+            var grazingAltitudeCart = ellipsoid.cartesianToCartographic(grazingAltitudeLocation, tilt3DCart);
+            grazingAltitudeCart.height = 0.0;
+            center = ellipsoid.cartographicToCartesian(grazingAltitudeCart, tilt3DCenter);
+        }
+
+        // CAMERA TODO: Remove the need for camera access
+        center = cameraController._camera.worldToCameraCoordinates(center, center);
+        var transform = Transforms.eastNorthUpToFixedFrame(center, ellipsoid, tilt3DTransform);
+
+        var oldEllipsoid = controller._ellipsoid;
+        controller.setEllipsoid(Ellipsoid.UNIT_SPHERE);
+
+        rotate3D(controller, movement, transform, Cartesian3.UNIT_Z, CesiumMath.PI_OVER_TWO);
+
+        controller.setEllipsoid(oldEllipsoid);
+    }
+
+    var look3DStartPos = new Cartesian2();
+    var look3DEndPos = new Cartesian2();
+    var look3DStartRay = new Ray();
+    var look3DEndRay = new Ray();
+    function look3D(controller, movement) {
+        var cameraController = controller._cameraController;
+
+        var startPos = look3DStartPos;
+        startPos.x = movement.startPosition.x;
+        startPos.y = 0.0;
+        var endPos = look3DEndPos;
+        endPos.x = movement.endPosition.x;
+        endPos.y = 0.0;
+        var start = cameraController.getPickRay(startPos, look3DStartRay).direction;
+        var end = cameraController.getPickRay(endPos, look3DEndRay).direction;
+
+        var angle = 0.0;
+        var dot = start.dot(end);
+        if (dot < 1.0) { // dot is in [0, 1]
+            angle = Math.acos(dot);
+        }
+        angle = (movement.startPosition.x > movement.endPosition.x) ? -angle : angle;
+        var rotationAxis = controller._horizontalRotationAxis;
+        if (typeof rotationAxis !== 'undefined') {
+            cameraController.look(rotationAxis, angle);
+        } else {
+            cameraController.lookLeft(angle);
+        }
+
+        startPos.x = 0.0;
+        startPos.y = movement.startPosition.y;
+        endPos.x = 0.0;
+        endPos.y = movement.endPosition.y;
+        start = cameraController.getPickRay(startPos, look3DStartRay).direction;
+        end = cameraController.getPickRay(endPos, look3DEndRay).direction;
+
+        angle = 0.0;
+        dot = start.dot(end);
+        if (dot < 1.0) { // dot is in [0, 1]
+            angle = Math.acos(dot);
+        }
+        angle = (movement.startPosition.y > movement.endPosition.y) ? -angle : angle;
+        cameraController.lookUp(angle);
+    }
+
+    function update3D(controller) {
+        var spin = controller._spinHandler;
+        var rightZoom = controller._zoomHandler;
+        var wheelZoom = controller._zoomWheelHandler;
+        var pinch = controller._pinchHandler;
+        var spinning = spin && spin.isMoving();
+        var rightZooming = rightZoom && rightZoom.isMoving();
+        var wheelZooming = wheelZoom && wheelZoom.isMoving();
+        var pinching = pinch && pinch.isMoving();
+        var rotate = controller._rotateHandler;
+        var rotating = rotate.isMoving() && rotate.getMovement();
+
+        if (controller.enableRotate) {
+            if (spinning) {
+                spin3D(controller, spin.getMovement());
+            }
+
+            if (spin && !spinning && controller.inertiaSpin >= 0.0 && controller.inertiaSpin < 1.0) {
+                maintainInertia(spin, controller.inertiaSpin, spin3D, controller, '_lastInertiaSpinMovement');
+            }
+
+        }
+
+        if (controller.enableTilt) {
+            if (rotating) {
+                tilt3D(controller, rotate.getMovement());
+            }
+            if (pinching) {
+                tilt3D(controller, pinch.getMovement().angleAndHeight);
+            }
+
+            if (rotate && !rotating && controller.inertiaSpin >= 0.0 && controller.inertiaSpin < 1.0) {
+                maintainInertia(rotate, controller.inertiaSpin, tilt3D, controller, '_lastInertiaTiltMovement');
+            }
+
+            if (pinch && !pinch && controller.inertiaSpin >= 0.0 && controller.inertiaSpin < 1.0) {
+                maintainInertia(pinch, controller.inertiaSpin, tilt3D, controller, '_lastInertiaTiltMovement');
+            }
+        }
+
+        if (controller.enableZoom) {
+            if (rightZooming) {
+                zoom3D(controller, rightZoom.getMovement());
+            } else if (wheelZooming) {
+                zoom3D(controller, wheelZoom.getMovement());
+            } else if (pinching) {
+                zoom3D(controller, pinch.getMovement().distance);
+            }
+
+            if (rightZoom && !rightZooming && controller.inertiaZoom >= 0.0 && controller.inertiaZoom < 1.0) {
+                maintainInertia(rightZoom, controller.inertiaZoom, zoom3D, controller, '_lastInertiaZoomMovement');
+            }
+
+            if (wheelZoom && !wheelZooming && controller.inertiaZoom >= 0.0 && controller.inertiaZoom < 1.0) {
+                maintainInertia(wheelZoom, controller.inertiaZoom, zoom3D, controller, '_lastInertiaWheelZoomMovement');
+            }
+
+            if (pinch && !pinching && controller.inertiaZoom >= 0.0 && controller.inertiaZoom < 1.0) {
+                maintainInertia(pinch, controller.inertiaZoom, zoom3D, controller, '_lastInertiaZoomMovement');
+            }
+        }
+
+        if (controller.enableLook) {
+            if (controller._lookHandler.isMoving()) {
+                look3D(controller, controller._lookHandler.getMovement());
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @private
+     */
+    ScreenSpaceCameraController.prototype.update = function(mode) {
+        if (mode === SceneMode.SCENE2D) {
+            update2D(this);
+        } else if (mode === SceneMode.COLUMBUS_VIEW) {
+            this._horizontalRotationAxis = Cartesian3.UNIT_Z;
+            updateCV(this);
+        } else if (mode === SceneMode.SCENE3D) {
+            this._horizontalRotationAxis = undefined;
+            update3D(this);
+        }
     };
 
     /**
-      * Returns true if this object was destroyed; otherwise, false.
-      * <br /><br />
-      * If this object was destroyed, it should not be used; calling any function other than
-      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-      *
-      * @memberof Camera2DController
-      *
-      * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
-      *
-      * @see Camera2DController#destroy
-      */
-    Camera2DController.prototype.isDestroyed = function() {
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     *
+     * @memberof ScreenSpaceCameraController
+     *
+     * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
+     *
+     * @see ScreenSpaceCameraController#destroy
+     */
+    ScreenSpaceCameraController.prototype.isDestroyed = function() {
         return false;
     };
 
@@ -54662,161 +53827,1236 @@ define('Scene/Camera2DController',[
      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
      * assign the return value (<code>undefined</code>) to the object as done in the example.
      *
-     * @memberof Camera2DController
+     * @memberof ScreenSpaceCameraController
      *
      * @return {undefined}
      *
      * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
      *
-     * @see Camera2DController#isDestroyed
+     * @see ScreenSpaceCameraController#isDestroyed
      *
      * @example
      * controller = controller && controller.destroy();
      */
-    Camera2DController.prototype.destroy = function() {
+    ScreenSpaceCameraController.prototype.destroy = function() {
+        this._spinHandler = this._spinHandler && this._spinHandler.destroy();
         this._translateHandler = this._translateHandler && this._translateHandler.destroy();
+        this._lookHandler = this._lookHandler && this._lookHandler.destroy();
+        this._rotateHandler = this._rotateHandler && this._rotateHandler.destroy();
         this._zoomHandler = this._zoomHandler && this._zoomHandler.destroy();
-        this._zoomWheel = this._zoomWheel && this._zoomWheel.destroy();
-        this._twistHandler = this._twistHandler && this._twistHandler.destroy();
+        this._zoomWheelHandler = this._zoomWheelHandler && this._zoomWheelHandler.destroy();
+        this._pinchHandler = this._pinchHandler && this._pinchHandler.destroy();
         return destroyObject(this);
     };
 
-    return Camera2DController;
+    return ScreenSpaceCameraController;
 });
 /*global define*/
-define('Scene/CameraColumbusViewController',[
-        '../Core/destroyObject',
-        '../Core/Ellipsoid',
+define('Scene/CameraController',[
+        '../Core/defaultValue',
         '../Core/Cartesian2',
         '../Core/Cartesian3',
         '../Core/Cartesian4',
+        '../Core/Cartographic',
+        '../Core/DeveloperError',
+        '../Core/Ellipsoid',
+        '../Core/GeographicProjection',
+        '../Core/IntersectionTests',
         '../Core/Math',
+        '../Core/Matrix3',
         '../Core/Matrix4',
-        './CameraEventHandler',
-        './CameraEventType',
-        './CameraSpindleController',
-        './CameraFreeLookController',
-        './CameraHelpers',
-        './AnimationCollection',
+        '../Core/Quaternion',
+        '../Core/Ray',
+        './SceneMode',
         '../ThirdParty/Tween'
     ], function(
-        destroyObject,
-        Ellipsoid,
+        defaultValue,
         Cartesian2,
         Cartesian3,
         Cartesian4,
+        Cartographic,
+        DeveloperError,
+        Ellipsoid,
+        GeographicProjection,
+        IntersectionTests,
         CesiumMath,
+        Matrix3,
         Matrix4,
-        CameraEventHandler,
-        CameraEventType,
-        CameraSpindleController,
-        CameraFreeLookController,
-        CameraHelpers,
-        AnimationCollection,
+        Quaternion,
+        Ray,
+        SceneMode,
         Tween) {
     
 
-    var maintainInertia = CameraHelpers.maintainInertia;
-    var handleZoom = CameraHelpers.handleZoom;
-
     /**
-     * DOC_TBD
-     * @alias CameraColumbusViewController
+     * Provides methods for common camera manipulations.
+     *
+     * @alias CameraController
      * @constructor
+     *
+     * @exception {DeveloperError} camera is required.
      */
-    var CameraColumbusViewController = function(canvas, camera, ellipsoid) {
-        this._canvas = canvas;
+    var CameraController = function(camera) {
+        if (typeof camera === 'undefined') {
+            throw new DeveloperError('camera is required.');
+        }
+
         this._camera = camera;
-        this._ellipsoid = ellipsoid || Ellipsoid.WGS84;
+        this._mode = SceneMode.SCENE3D;
+        this._projection = new GeographicProjection();
 
         /**
-         * A parameter in the range <code>[0, 1]</code> used to determine how long
-         * the camera will continue to translate because of inertia.
-         * With a value of zero, the camera will have no inertia.
-         *
-         * @type Number
+         * The default amount to move the camera when an argument is not
+         * provided to the move methods.
+         * @type {Number}
          */
-        this.inertiaTranslate = 0.9;
-
+        this.defaultMoveAmount = 100000.0;
         /**
-         * A parameter in the range <code>[0, 1)</code> used to determine how long
-         * the camera will continue to zoom because of inertia.
-         * With value of zero, the camera will have no inertia.
-         *
+         * The default amount to rotate the camera when an argument is not
+         * provided to the look methods.
+         * @type {Number}
+         */
+        this.defaultLookAmount = Math.PI / 60.0;
+        /**
+         * The default amount to rotate the camera when an argument is not
+         * provided to the rotate methods.
+         * @type {Number}
+         */
+        this.defaultRotateAmount = Math.PI / 3600.0;
+        /**
+         * The default amount to move the camera when an argument is not
+         * provided to the zoom methods.
+         * @type {Number}
+         */
+        this.defaultZoomAmount = 100000.0;
+        /**
+         * If set, the camera will not be able to rotate past this axis in either direction.
+         * @type Cartesian3
+         */
+        this.constrainedAxis = undefined;
+        /**
+         * The factor multiplied by the the map size used to determine where to clamp the camera position
+         * when translating across the surface. The default is 1.5. Only valid for 2D and Columbus view.
          * @type Number
          */
-        this.inertiaZoom = 0.8;
+        this.maximumTranslateFactor = 1.5;
+        /**
+         * The factor multiplied by the the map size used to determine where to clamp the camera position
+         * when zooming out from the surface. The default is 2.5. Only valid for 2D.
+         * @type Number
+         */
+        this.maximumZoomFactor = 2.5;
+        /**
+         * The minimum magnitude, in meters, of the camera position when zooming. Defaults to 20.0.
+         * @type Number
+         */
+        this.minimumZoomDistance = 20.0;
+        /**
+         * The maximum magnitude, in meters, of the camera position when zooming. Defaults to positive infinity.
+         * @type Number
+         */
+        this.maximumZoomDistance = Number.POSITIVE_INFINITY;
 
-        this._translateHandler = new CameraEventHandler(canvas, CameraEventType.LEFT_DRAG);
-        this._rotateHandler = new CameraEventHandler(canvas, CameraEventType.MIDDLE_DRAG);
-        this._zoomHandler = new CameraEventHandler(canvas, CameraEventType.RIGHT_DRAG);
-
-        // TODO: Separate mouse behaviour from mouse handling.
-        this._spindleController = new CameraSpindleController(canvas, camera, Ellipsoid.UNIT_SPHERE);
-        this._spindleController.constrainedAxis = Cartesian3.UNIT_Z;
-
-        this._freeLookController = new CameraFreeLookController(canvas, camera);
-        this._freeLookController.horizontalRotationAxis = Cartesian3.UNIT_Z;
-
-        this._transform = this._camera.transform.clone();
-        this._lastInertiaTranslateMovement = undefined;
-
-        this._animationCollection = new AnimationCollection();
-        this._translateAnimation = undefined;
-
-        this._mapWidth = this._ellipsoid.getRadii().x * Math.PI;
-        this._mapHeight = this._ellipsoid.getRadii().y * CesiumMath.PI_OVER_TWO;
+        this._maxCoord = undefined;
+        this._frustum = undefined;
     };
 
     /**
      * @private
      */
-    CameraColumbusViewController.prototype.update = function() {
-        var translate = this._translateHandler;
-        var translating = translate.isMoving() && translate.getMovement();
-        var rotate = this._rotateHandler;
-        var rotating = rotate.isMoving() && rotate.getMovement();
-        var zoom = this._zoomHandler;
-        var zoomimg = zoom && zoom.isMoving();
-
-        if (rotating) {
-            this._rotate(rotate.getMovement());
+    CameraController.prototype.update = function(mode, scene2D) {
+        var updateFrustum = false;
+        if (mode !== this._mode) {
+            this._mode = mode;
+            updateFrustum = this._mode === SceneMode.SCENE2D;
         }
 
-        var buttonDown = translate.isButtonDown() || rotate.isButtonDown() ||
-            rotate.isButtonDown() || this._freeLookController._handler.isButtonDown();
-        if (buttonDown) {
-            this._animationCollection.removeAll();
+        var projection = scene2D.projection;
+        if (typeof projection !== 'undefined' && projection !== this._projection) {
+            this._projection = projection;
+            this._maxCoord = projection.project(new Cartographic(Math.PI, CesiumMath.PI_OVER_TWO));
         }
 
-        if (translating) {
-            this._translate(translate.getMovement());
+        if (updateFrustum) {
+            var frustum = this._frustum = this._camera.frustum.clone();
+            if (typeof frustum.left === 'undefined' || typeof frustum.right === 'undefined' ||
+               typeof frustum.top === 'undefined' || typeof frustum.bottom === 'undefined') {
+                throw new DeveloperError('The camera frustum is expected to be orthographic for 2D camera control.');
+            }
+
+            var maxZoomOut = 2.0;
+            var ratio = frustum.top / frustum.right;
+            frustum.right = this._maxCoord.x * maxZoomOut;
+            frustum.left = -frustum.right;
+            frustum.top = ratio * frustum.right;
+            frustum.bottom = -frustum.top;
         }
-
-        if (!translating && this.inertiaTranslate < 1.0) {
-            maintainInertia(translate, this.inertiaTranslate, this._translate, this, '_lastInertiaTranslateMovement');
-        }
-
-        if (zoomimg) {
-            this._zoom(zoom.getMovement());
-        }
-
-        if (zoom && !zoomimg && this.inertiaZoom < 1.0) {
-            maintainInertia(zoom, this.inertiaZoom, this._zoom, this, '_lastInertiaZoomMovement');
-        }
-
-        this._freeLookController.update();
-
-        if (!buttonDown) {
-            this._correctPosition();
-        }
-
-        this._animationCollection.update();
-
-        return true;
     };
 
-    CameraColumbusViewController.prototype._addCorrectTranslateAnimation = function(position, center, maxX, maxY) {
+    function clampMove2D(controller, position) {
+        var maxX = controller._maxCoord.x * controller.maximumTranslateFactor;
+        if (position.x > maxX) {
+            position.x = maxX;
+        }
+        if (position.x < -maxX) {
+            position.x = -maxX;
+        }
+
+        var maxY = controller._maxCoord.y * controller.maximumTranslateFactor;
+        if (position.y > maxY) {
+            position.y = maxY;
+        }
+        if (position.y < -maxY) {
+            position.y = -maxY;
+        }
+    }
+
+    var moveScratch = new Cartesian3();
+    /**
+     * Translates the camera's position by <code>amount</code> along <code>direction</code>.
+     *
+     * @memberof CameraController
+     *
+     * @param {Cartesian3} direction The direction to move.
+     * @param {Number} [amount] The amount, in meters, to move. Defaults to <code>defaultMoveAmount</code>.
+     *
+     * @exception {DeveloperError} direction is required.
+     *
+     * @see CameraController#moveBackward
+     * @see CameraController#moveForward
+     * @see CameraController#moveLeft
+     * @see CameraController#moveRight
+     * @see CameraController#moveUp
+     * @see CameraController#moveDown
+     */
+    CameraController.prototype.move = function(direction, amount) {
+        if (typeof direction === 'undefined') {
+            throw new DeveloperError('direction is required.');
+        }
+
+        var cameraPosition = this._camera.position;
+        Cartesian3.multiplyByScalar(direction, amount, moveScratch);
+        Cartesian3.add(cameraPosition, moveScratch, cameraPosition);
+
+        if (this._mode === SceneMode.SCENE2D) {
+            clampMove2D(this, cameraPosition);
+        }
+    };
+
+    /**
+     * Translates the camera's position by <code>amount</code> along the camera's view vector.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount, in meters, to move. Defaults to <code>defaultMoveAmount</code>.
+     *
+     * @see CameraController#moveBackward
+     */
+    CameraController.prototype.moveForward = function(amount) {
+        amount = defaultValue(amount, this.defaultMoveAmount);
+        this.move(this._camera.direction, amount);
+    };
+
+    /**
+     * Translates the camera's position by <code>amount</code> along the opposite direction
+     * of the camera's view vector.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount, in meters, to move. Defaults to <code>defaultMoveAmount</code>.
+     *
+     * @see CameraController#moveForward
+     */
+    CameraController.prototype.moveBackward = function(amount) {
+        amount = defaultValue(amount, this.defaultMoveAmount);
+        this.move(this._camera.direction, -amount);
+    };
+
+    /**
+     * Translates the camera's position by <code>amount</code> along the camera's up vector.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount, in meters, to move. Defaults to <code>defaultMoveAmount</code>.
+     *
+     * @see CameraController#moveDown
+     */
+    CameraController.prototype.moveUp = function(amount) {
+        amount = defaultValue(amount, this.defaultMoveAmount);
+        this.move(this._camera.up, amount);
+    };
+
+    /**
+     * Translates the camera's position by <code>amount</code> along the opposite direction
+     * of the camera's up vector.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount, in meters, to move. Defaults to <code>defaultMoveAmount</code>.
+     *
+     * @see CameraController#moveUp
+     */
+    CameraController.prototype.moveDown = function(amount) {
+        amount = defaultValue(amount, this.defaultMoveAmount);
+        this.move(this._camera.up, -amount);
+    };
+
+    /**
+     * Translates the camera's position by <code>amount</code> along the camera's right vector.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount, in meters, to move. Defaults to <code>defaultMoveAmount</code>.
+     *
+     * @see CameraController#moveLeft
+     */
+    CameraController.prototype.moveRight = function(amount) {
+        amount = defaultValue(amount, this.defaultMoveAmount);
+        this.move(this._camera.right, amount);
+    };
+
+    /**
+     * Translates the camera's position by <code>amount</code> along the opposite direction
+     * of the camera's right vector.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount, in meters, to move. Defaults to <code>defaultMoveAmount</code>.
+     *
+     * @see CameraController#moveRight
+     */
+    CameraController.prototype.moveLeft = function(amount) {
+        amount = defaultValue(amount, this.defaultMoveAmount);
+        this.move(this._camera.right, -amount);
+    };
+
+    /**
+     * Rotates the camera around its up vector by amount, in radians, in the opposite direction
+     * of its right vector.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount, in radians, to rotate by. Defaults to <code>defaultLookAmount</code>.
+     *
+     * @see CameraController#lookRight
+     */
+    CameraController.prototype.lookLeft = function(amount) {
+        amount = defaultValue(amount, this.defaultLookAmount);
+        this.look(this._camera.up, -amount);
+    };
+
+    /**
+     * Rotates the camera around its up vector by amount, in radians, in the direction
+     * of its right vector.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount, in radians, to rotate by. Defaults to <code>defaultLookAmount</code>.
+     *
+     * @see CameraController#lookLeft
+     */
+    CameraController.prototype.lookRight = function(amount) {
+        amount = defaultValue(amount, this.defaultLookAmount);
+        this.look(this._camera.up, amount);
+    };
+
+    /**
+     * Rotates the camera around its right vector by amount, in radians, in the direction
+     * of its up vector.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount, in radians, to rotate by. Defaults to <code>defaultLookAmount</code>.
+     *
+     * @see CameraController#lookDown
+     */
+    CameraController.prototype.lookUp = function(amount) {
+        amount = defaultValue(amount, this.defaultLookAmount);
+        this.look(this._camera.right, -amount);
+    };
+
+    /**
+     * Rotates the camera around its right vector by amount, in radians, in the opposite direction
+     * of its up vector.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount, in radians, to rotate by. Defaults to <code>defaultLookAmount</code>.
+     *
+     * @see CameraController#lookUp
+     */
+    CameraController.prototype.lookDown = function(amount) {
+        amount = defaultValue(amount, this.defaultLookAmount);
+        this.look(this._camera.right, amount);
+    };
+
+    var lookScratchQuaternion = new Quaternion();
+    var lookScratchMatrix = new Matrix3();
+    /**
+     * Rotate each of the camera's orientation vectors around <code>axis</code> by <code>angle</code>
+     *
+     * @memberof CameraController
+     *
+     * @param {Cartesian3} axis The axis to rotate around.
+     * @param {Number} [angle] The angle, in radians, to rotate by. Defaults to <code>defaultLookAmount</code>.
+     *
+     * @exception {DeveloperError} axis is required.
+     *
+     * @see CameraController#lookUp
+     * @see CameraController#lookDown
+     * @see CameraController#lookLeft
+     * @see CameraController#lookRight
+     */
+    CameraController.prototype.look = function(axis, angle) {
+        if (typeof axis === 'undefined') {
+            throw new DeveloperError('axis is required.');
+        }
+
+        var turnAngle = defaultValue(angle, this.defaultLookAmount);
+        var rotation = Matrix3.fromQuaternion(Quaternion.fromAxisAngle(axis, turnAngle, lookScratchQuaternion), lookScratchMatrix);
+
+        var direction = this._camera.direction;
+        var up = this._camera.up;
+        var right = this._camera.right;
+
+        Matrix3.multiplyByVector(rotation, direction, direction);
+        Matrix3.multiplyByVector(rotation, up, up);
+        Matrix3.multiplyByVector(rotation, right, right);
+    };
+
+    /**
+     * Rotate the camera counter-clockwise around its direction vector by amount, in radians.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount, in radians, to rotate by. Defaults to <code>defaultLookAmount</code>.
+     *
+     * @see CameraController#twistRight
+     */
+    CameraController.prototype.twistLeft = function(amount) {
+        amount = defaultValue(amount, this.defaultLookAmount);
+        this.look(this._camera.direction, amount);
+    };
+
+    /**
+     * Rotate the camera clockwise around its direction vector by amount, in radians.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount, in radians, to rotate by. Defaults to <code>defaultLookAmount</code>.
+     *
+     * @see CameraController#twistLeft
+     */
+    CameraController.prototype.twistRight = function(amount) {
+        amount = defaultValue(amount, this.defaultLookAmount);
+        this.look(this._camera.direction, -amount);
+    };
+
+    var appendTransformPosition = Cartesian4.UNIT_W.clone();
+    var appendTransformUp = Cartesian4.ZERO.clone();
+    var appendTransformRight = Cartesian4.ZERO.clone();
+    var appendTransformDirection = Cartesian4.ZERO.clone();
+    function appendTransform(controller, transform) {
+        var camera = controller._camera;
+        var oldTransform;
+        if (typeof transform !== 'undefined') {
+            var position = Cartesian3.clone(camera.getPositionWC(), appendTransformPosition);
+            var up = Cartesian3.clone(camera.getUpWC(), appendTransformUp);
+            var right = Cartesian3.clone(camera.getRightWC(), appendTransformRight);
+            var direction = Cartesian3.clone(camera.getDirectionWC(), appendTransformDirection);
+
+            oldTransform = camera.transform;
+            camera.transform = transform.multiply(oldTransform);
+
+            var invTransform = camera.getInverseTransform();
+            Cartesian3.clone(Matrix4.multiplyByVector(invTransform, position, position), camera.position);
+            Cartesian3.clone(Matrix4.multiplyByVector(invTransform, up, up), camera.up);
+            Cartesian3.clone(Matrix4.multiplyByVector(invTransform, right, right), camera.right);
+            Cartesian3.clone(Matrix4.multiplyByVector(invTransform, direction, direction), camera.direction);
+        }
+        return oldTransform;
+    }
+
+    var revertTransformPosition = Cartesian4.UNIT_W.clone();
+    var revertTransformUp = Cartesian4.ZERO.clone();
+    var revertTransformRight = Cartesian4.ZERO.clone();
+    var revertTransformDirection = Cartesian4.ZERO.clone();
+    function revertTransform(controller, transform) {
+        if (typeof transform !== 'undefined') {
+            var camera = controller._camera;
+            var position = Cartesian3.clone(camera.getPositionWC(), revertTransformPosition);
+            var up = Cartesian3.clone(camera.getUpWC(), revertTransformUp);
+            var right = Cartesian3.clone(camera.getRightWC(), revertTransformRight);
+            var direction = Cartesian3.clone(camera.getDirectionWC(), revertTransformDirection);
+
+            camera.transform = transform;
+            transform = camera.getInverseTransform();
+
+            position = Cartesian3.clone(Matrix4.multiplyByVector(transform, position, position), camera.position);
+            up = Cartesian3.clone(Matrix4.multiplyByVector(transform, up, up), camera.up);
+            right = Cartesian3.clone(Matrix4.multiplyByVector(transform, right, right), camera.right);
+            direction = Cartesian3.clone(Matrix4.multiplyByVector(transform, direction, direction), camera.direction);
+        }
+    }
+
+    var rotateScratchQuaternion = new Quaternion();
+    var rotateScratchMatrix = new Matrix3();
+    /**
+     * Rotates the camera around <code>axis</code> by <code>angle</code>. The distance
+     * of the camera's position to the center of the camera's reference frame remains the same.
+     *
+     * @memberof CameraController
+     *
+     * @param {Cartesian3} axis The axis to rotate around given in world coordinates.
+     * @param {Number} [angle] The angle, in radians, to rotate by. Defaults to <code>defaultRotateAmount</code>.
+     * @param {Matrix4} [transform] A transform to append to the camera transform before the rotation. Does not alter the camera's transform.
+     *
+     * @exception {DeveloperError} axis is required.
+     *
+     * @see CameraController#rotateUp
+     * @see CameraController#rotateDown
+     * @see CameraController#rotateLeft
+     * @see CameraController#rotateRight
+     *
+     * @example
+     * // Rotate about a point on the earth.
+     * var center = ellipsoid.cartographicToCartesian(cartographic);
+     * var transform = Matrix4.fromTranslation(center);
+     * controller.rotate(axis, angle, transform);
+    */
+    CameraController.prototype.rotate = function(axis, angle, transform) {
+        if (typeof axis === 'undefined') {
+            throw new DeveloperError('axis is required.');
+        }
+
+        var camera = this._camera;
+
+        var turnAngle = defaultValue(angle, this.defaultRotateAmount);
+        var rotation = Matrix3.fromQuaternion(Quaternion.fromAxisAngle(axis, turnAngle, rotateScratchQuaternion), rotateScratchMatrix);
+
+        var oldTransform = appendTransform(this, transform);
+        Matrix3.multiplyByVector(rotation, camera.position, camera.position);
+        Matrix3.multiplyByVector(rotation, camera.direction, camera.direction);
+        Matrix3.multiplyByVector(rotation, camera.up, camera.up);
+        Cartesian3.cross(camera.direction, camera.up, camera.right);
+        Cartesian3.cross(camera.right, camera.direction, camera.up);
+        revertTransform(this, oldTransform);
+    };
+
+    /**
+     * Rotates the camera around the center of the camera's reference frame by angle downwards.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [angle] The angle, in radians, to rotate by. Defaults to <code>defaultRotateAmount</code>.
+     * @param {Matrix4} [transform] A transform to append to the camera transform before the rotation. Does not alter the camera's transform.
+     *
+     * @see CameraController#rotateUp
+     * @see CameraController#rotate
+     */
+    CameraController.prototype.rotateDown = function(angle, transform) {
+        angle = defaultValue(angle, this.defaultRotateAmount);
+        rotateVertical(this, angle, transform);
+    };
+
+    /**
+     * Rotates the camera around the center of the camera's reference frame by angle upwards.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [angle] The angle, in radians, to rotate by. Defaults to <code>defaultRotateAmount</code>.
+     * @param {Matrix4} [transform] A transform to append to the camera transform before the rotation. Does not alter the camera's transform.
+     *
+     * @see CameraController#rotateDown
+     * @see CameraController#rotate
+     */
+    CameraController.prototype.rotateUp = function(angle, transform) {
+        angle = defaultValue(angle, this.defaultRotateAmount);
+        rotateVertical(this, -angle, transform);
+    };
+
+    var rotateVertScratchP = new Cartesian3();
+    var rotateVertScratchA = new Cartesian3();
+    var rotateVertScratchTan = new Cartesian3();
+    function rotateVertical(controller, angle, transform) {
+        var camera = controller._camera;
+        var oldTransform = appendTransform(controller, transform);
+
+        var position = camera.position;
+        var p = Cartesian3.normalize(position, rotateVertScratchP);
+        if (typeof controller.constrainedAxis !== 'undefined') {
+            var northParallel = p.equalsEpsilon(controller.constrainedAxis, CesiumMath.EPSILON2);
+            var southParallel = p.equalsEpsilon(controller.constrainedAxis.negate(), CesiumMath.EPSILON2);
+            if ((!northParallel && !southParallel)) {
+                var constrainedAxis = Cartesian3.normalize(controller.constrainedAxis, rotateVertScratchA);
+
+                var dot = p.dot(constrainedAxis);
+                var angleToAxis = Math.acos(dot);
+                if (angle > 0 && angle > angleToAxis) {
+                    angle = angleToAxis;
+                }
+
+                dot = p.dot(constrainedAxis.negate());
+                angleToAxis = Math.acos(dot);
+                if (angle < 0 && -angle > angleToAxis) {
+                    angle = -angleToAxis;
+                }
+
+                var tangent = Cartesian3.cross(constrainedAxis, p, rotateVertScratchTan);
+                controller.rotate(tangent, angle);
+            } else if ((northParallel && angle < 0) || (southParallel && angle > 0)) {
+                controller.rotate(camera.right, angle);
+            }
+        } else {
+            controller.rotate(camera.right, angle);
+        }
+
+        revertTransform(controller, oldTransform);
+    }
+
+    /**
+     * Rotates the camera around the center of the camera's reference frame by angle to the right.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [angle] The angle, in radians, to rotate by. Defaults to <code>defaultRotateAmount</code>.
+     * @param {Matrix4} [transform] A transform to append to the camera transform before the rotation. Does not alter the camera's transform.
+     *
+     * @see CameraController#rotateLeft
+     * @see CameraController#rotate
+     */
+    CameraController.prototype.rotateRight = function(angle, transform) {
+        angle = defaultValue(angle, this.defaultRotateAmount);
+        rotateHorizontal(this, -angle, transform);
+    };
+
+    /**
+     * Rotates the camera around the center of the camera's reference frame by angle to the left.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [angle] The angle, in radians, to rotate by. Defaults to <code>defaultRotateAmount</code>.
+     * @param {Matrix4} [transform] A transform to append to the camera transform before the rotation. Does not alter the camera's transform.
+     *
+     * @see CameraController#rotateRight
+     * @see CameraController#rotate
+     */
+    CameraController.prototype.rotateLeft = function(angle, transform) {
+        angle = defaultValue(angle, this.defaultRotateAmount);
+        rotateHorizontal(this, angle, transform);
+    };
+
+    function rotateHorizontal(controller, angle, transform) {
+        if (typeof controller.constrainedAxis !== 'undefined') {
+            controller.rotate(controller.constrainedAxis, angle, transform);
+        } else {
+            controller.rotate(controller._camera.up, angle, transform);
+        }
+    }
+
+    function zoom2D(controller, amount) {
+        var frustum = controller._camera.frustum;
+
+        if (typeof frustum.left === 'undefined' || typeof frustum.right === 'undefined' ||
+            typeof frustum.top === 'undefined' || typeof frustum.bottom === 'undefined') {
+            throw new DeveloperError('The camera frustum is expected to be orthographic for 2D camera control.');
+        }
+
+        var newRight = frustum.right - amount;
+        var newLeft = frustum.left + amount;
+
+        var maxRight = controller._maxCoord.x * controller.maximumZoomFactor;
+        if (newRight > maxRight) {
+            newRight = maxRight;
+            newLeft = -maxRight;
+        }
+
+        var height = newRight - newLeft;
+        var diff;
+
+        var minHeight = controller.minimumZoomDistance;
+        if (height < minHeight) {
+            diff = (minHeight - height) * 0.5;
+            newRight -= diff;
+            newLeft += diff;
+        }
+
+        var maxHeight = controller.maximumZoomDistance;
+        if (height > maxHeight) {
+            diff = (height - maxHeight) * 0.5;
+            newRight -= diff;
+            newLeft += diff;
+        }
+
+        var ratio = frustum.top / frustum.right;
+        frustum.right = newRight;
+        frustum.left = newLeft;
+        frustum.top = frustum.right * ratio;
+        frustum.bottom = -frustum.top;
+    }
+
+    function zoom3D(controller, amount) {
+        var camera = controller._camera;
+        controller.move(camera.direction, amount);
+
+        var height;
+        if (controller._mode === SceneMode.SCENE3D) {
+            height = camera.position.magnitude();
+        } else {
+            height = Math.abs(camera.position.z);
+        }
+
+        var min = controller.minimumZoomDistance;
+        if (height < min) {
+            controller.move(camera.direction, -(min - height));
+        }
+
+        var max = controller.maximumZoomDistance;
+        if (height > max) {
+            controller.move(camera.direction, height - max);
+        }
+    }
+
+    /**
+     * Zooms <code>amount</code> along the camera's view vector.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount to move. Defaults to <code>defaultZoomAmount</code>.
+     *
+     * @see CameraController#zoomOut
+     */
+    CameraController.prototype.zoomIn = function(amount) {
+        amount = defaultValue(amount, this.defaultZoomAmount);
+        if (this._mode === SceneMode.SCENE2D) {
+            zoom2D(this, amount);
+        } else {
+            zoom3D(this, amount);
+        }
+    };
+
+    /**
+     * Zooms <code>amount</code> along the opposite direction of
+     * the camera's view vector.
+     *
+     * @memberof CameraController
+     *
+     * @param {Number} [amount] The amount to move. Defaults to <code>defaultZoomAmount</code>.
+     *
+     * @see CameraController#zoomIn
+     */
+    CameraController.prototype.zoomOut = function(amount) {
+        amount = defaultValue(amount, this.defaultZoomAmount);
+        if (this._mode === SceneMode.SCENE2D) {
+            zoom2D(this, -amount);
+        } else {
+            zoom3D(this, -amount);
+        }
+    };
+
+    /**
+     * Gets the magnitude of the camera position. In 3D, this is the vector magnitude. In 2D and
+     * Columbus view, this is the distance to the map.
+     * @memberof CameraController
+     * @returns {Number} The magnitude of the position.
+     */
+    CameraController.prototype.getMagnitude = function() {
+        var camera = this._camera;
+        if (this._mode === SceneMode.SCENE3D) {
+            return camera.position.magnitude();
+        } else if (this._mode === SceneMode.COLUMBUS_VIEW) {
+            return Math.abs(camera.position.z);
+        } else if (this._mode === SceneMode.SCENE2D) {
+            return  Math.max(camera.frustum.right - camera.frustum.left, camera.frustum.top - camera.frustum.bottom);
+        }
+    };
+
+    function setPositionCartographic2D(controller, cartographic) {
+        var camera = controller._camera;
+        var newLeft = -cartographic.height * 0.5;
+        var newRight = -newLeft;
+
+        var frustum = camera.frustum;
+        if (newRight > newLeft) {
+            var ratio = frustum.top / frustum.right;
+            frustum.right = newRight;
+            frustum.left = newLeft;
+            frustum.top = frustum.right * ratio;
+            frustum.bottom = -frustum.top;
+        }
+
+        //We use Cartesian2 instead of 3 here because Z must be constant in 2D mode.
+        Cartesian2.clone(controller._projection.project(cartographic), camera.position);
+        Cartesian3.negate(Cartesian3.UNIT_Z, camera.direction);
+        Cartesian3.clone(Cartesian3.UNIT_Y, camera.up);
+        Cartesian3.clone(Cartesian3.UNIT_X, camera.right);
+    }
+
+    function setPositionCartographicCV(controller, cartographic) {
+        var camera = controller._camera;
+        var projection = controller._projection;
+        camera.position = projection.project(cartographic);
+        Cartesian3.negate(Cartesian3.UNIT_Z, camera.direction);
+        Cartesian3.clone(Cartesian3.UNIT_Y, camera.up);
+        Cartesian3.clone(Cartesian3.UNIT_X, camera.right);
+    }
+
+    function setPositionCartographic3D(controller, cartographic) {
+        var camera = controller._camera;
+        var ellipsoid = controller._projection.getEllipsoid();
+
+        ellipsoid.cartographicToCartesian(cartographic, camera.position);
+        Cartesian3.negate(camera.position, camera.direction);
+        Cartesian3.normalize(camera.direction, camera.direction);
+        Cartesian3.cross(camera.direction, Cartesian3.UNIT_Z, camera.right);
+        Cartesian3.cross(camera.right, camera.direction, camera.up);
+        Cartesian3.cross(camera.direction, camera.up, camera.right);
+    }
+
+    /**
+     * Moves the camera to the provided cartographic position.
+     * @memberof CameraController
+     *
+     * @param {Cartographic} cartographic The new camera position.
+     *
+     * @exception {DeveloperError} cartographic is required.
+     */
+    CameraController.prototype.setPositionCartographic = function(cartographic) {
+        if (typeof cartographic === 'undefined') {
+            throw new DeveloperError('cartographic is required.');
+        }
+
+        if (this._mode === SceneMode.SCENE2D) {
+            setPositionCartographic2D(this, cartographic);
+        } else if (this._mode === SceneMode.COLUMBUS_VIEW) {
+            setPositionCartographicCV(this, cartographic);
+        } else if (this._mode === SceneMode.SCENE3D) {
+            setPositionCartographic3D(this, cartographic);
+        }
+    };
+
+    /**
+     * Sets the camera position and orientation with an eye position, target, and up vector.
+     * This method is not supported in 2D mode because there is only one direction to look.
+     *
+     * @memberof CameraController
+     *
+     * @param {Cartesian3} eye The position of the camera.
+     * @param {Cartesian3} target The position to look at.
+     * @param {Cartesian3} up The up vector.
+     *
+     * @exception {DeveloperError} eye is required.
+     * @exception {DeveloperError} target is required.
+     * @exception {DeveloperError} up is required.
+     * @exception {DeveloperError} lookAt is not supported in 2D mode because there is only one direction to look.
+     * @exception {DeveloperError} lookAt is not supported while morphing.
+     */
+    CameraController.prototype.lookAt = function(eye, target, up) {
+        if (typeof eye === 'undefined') {
+            throw new DeveloperError('eye is required');
+        }
+        if (typeof target === 'undefined') {
+            throw new DeveloperError('target is required');
+        }
+        if (typeof up === 'undefined') {
+            throw new DeveloperError('up is required');
+        }
+        if (this._mode === SceneMode.SCENE2D) {
+            throw new DeveloperError('lookAt is not supported in 2D mode because there is only one direction to look.');
+        }
+        if (this._mode === SceneMode.MORPHING) {
+            throw new DeveloperError('lookAt is not supported while morphing.');
+        }
+
+        var camera = this._camera;
+        camera.position = Cartesian3.clone(eye, camera.position);
+        camera.direction = Cartesian3.subtract(target, eye, camera.direction).normalize(camera.direction);
+        camera.right = Cartesian3.cross(camera.direction, up, camera.right).normalize(camera.right);
+        camera.up = Cartesian3.cross(camera.right, camera.direction, camera.up);
+    };
+
+    var viewExtent3DCartographic = new Cartographic();
+    var viewExtent3DNorthEast = new Cartesian3();
+    var viewExtent3DSouthWest = new Cartesian3();
+    var viewExtent3DNorthWest = new Cartesian3();
+    var viewExtent3DSouthEast = new Cartesian3();
+    var viewExtent3DCenter = new Cartesian3();
+    function viewExtent3D(camera, extent, ellipsoid) {
+        var north = extent.north;
+        var south = extent.south;
+        var east = extent.east;
+        var west = extent.west;
+
+        // If we go across the International Date Line
+        if (west > east) {
+            east += CesiumMath.TWO_PI;
+        }
+
+        var cart = viewExtent3DCartographic;
+        cart.longitude = east;
+        cart.latitude = north;
+        var northEast = ellipsoid.cartographicToCartesian(cart, viewExtent3DNorthEast);
+        cart.latitude = south;
+        var southEast = ellipsoid.cartographicToCartesian(cart, viewExtent3DSouthEast);
+        cart.longitude = west;
+        var southWest = ellipsoid.cartographicToCartesian(cart, viewExtent3DSouthWest);
+        cart.latitude = north;
+        var northWest = ellipsoid.cartographicToCartesian(cart, viewExtent3DNorthWest);
+
+        var center = Cartesian3.subtract(northEast, southWest, viewExtent3DCenter);
+        Cartesian3.multiplyByScalar(center, 0.5, center);
+        Cartesian3.add(southWest, center, center);
+
+        Cartesian3.subtract(northWest, center, northWest);
+        Cartesian3.subtract(southEast, center, southEast);
+        Cartesian3.subtract(northEast, center, northEast);
+        Cartesian3.subtract(southWest, center, southWest);
+
+        var direction = ellipsoid.geodeticSurfaceNormal(center, camera.direction);
+        Cartesian3.negate(direction, direction);
+        Cartesian3.normalize(direction, direction);
+        var right = Cartesian3.cross(direction, Cartesian3.UNIT_Z, camera.right);
+        Cartesian3.normalize(right, right);
+        var up = Cartesian3.cross(right, direction, camera.up);
+
+        var height = Math.max(Math.abs(up.dot(northWest)), Math.abs(up.dot(southEast)), Math.abs(up.dot(northEast)), Math.abs(up.dot(southWest)));
+        var width = Math.max(Math.abs(right.dot(northWest)), Math.abs(right.dot(southEast)), Math.abs(right.dot(northEast)), Math.abs(right.dot(southWest)));
+
+        var tanPhi = Math.tan(camera.frustum.fovy * 0.5);
+        var tanTheta = camera.frustum.aspectRatio * tanPhi;
+        var d = Math.max(width / tanTheta, height / tanPhi);
+
+        var scalar = center.magnitude() + d;
+        Cartesian3.normalize(center, center);
+        Cartesian3.multiplyByScalar(center, scalar, camera.position);
+    }
+
+    var viewExtentCVCartographic = new Cartographic();
+    var viewExtentCVNorthEast = Cartesian4.UNIT_W.clone();
+    var viewExtentCVSouthWest = Cartesian4.UNIT_W.clone();
+    var viewExtentCVTransform = new Matrix4();
+    function viewExtentColumbusView(camera, extent, projection) {
+        var north = extent.north;
+        var south = extent.south;
+        var east = extent.east;
+        var west = extent.west;
+
+        var transform = Matrix4.clone(camera.transform, viewExtentCVTransform);
+        transform.setColumn(3, Cartesian4.UNIT_W);
+        var invTransform = camera.getInverseTransform();
+
+        var cart = viewExtentCVCartographic;
+        cart.longitude = east;
+        cart.latitude = north;
+        var position = projection.project(cart);
+        var northEast = Cartesian3.clone(position, viewExtentCVNorthEast);
+        Matrix4.multiplyByVector(transform, northEast, northEast);
+        Matrix4.multiplyByVector(invTransform, northEast, northEast);
+
+        cart.longitude = west;
+        cart.latitude = south;
+        position = projection.project(cart);
+        var southWest = Cartesian3.clone(position, viewExtentCVSouthWest);
+        Matrix4.multiplyByVector(transform, southWest, southWest);
+        Matrix4.multiplyByVector(invTransform, southWest, southWest);
+
+        var tanPhi = Math.tan(camera.frustum.fovy * 0.5);
+        var tanTheta = camera.frustum.aspectRatio * tanPhi;
+
+        position = camera.position;
+        position.x = (northEast.x - southWest.x) * 0.5 + southWest.x;
+        position.y = (northEast.y - southWest.y) * 0.5 + southWest.y;
+        position.z = Math.max((northEast.x - southWest.x) / tanTheta, (northEast.y - southWest.y) / tanPhi) * 0.5;
+
+        var direction = Cartesian3.clone(Cartesian3.UNIT_Z, camera.direction);
+        Cartesian3.negate(direction, direction);
+        var right = Cartesian3.clone(Cartesian3.UNIT_X, camera.right);
+        Cartesian3.cross(right, direction, camera.up);
+    }
+
+    var viewExtent2DCartographic = new Cartographic();
+    function viewExtent2D(camera, extent, projection) {
+        var north = extent.north;
+        var south = extent.south;
+        var east = extent.east;
+        var west = extent.west;
+
+        var cart = viewExtent2DCartographic;
+        cart.longitude = east;
+        cart.latitude = north;
+        var northEast = projection.project(cart);
+        cart.longitude = west;
+        cart.latitude = south;
+        var southWest = projection.project(cart);
+
+        var width = Math.abs(northEast.x - southWest.x) * 0.5;
+        var height = Math.abs(northEast.y - southWest.y) * 0.5;
+
+        var right, top;
+        var ratio = camera.frustum.right / camera.frustum.top;
+        var heightRatio = height * ratio;
+        if (width > heightRatio) {
+            right = width;
+            top = right / ratio;
+        } else {
+            top = height;
+            right = heightRatio;
+        }
+
+        camera.frustum.right = right;
+        camera.frustum.left = -right;
+        camera.frustum.top = top;
+        camera.frustum.bottom = -top;
+
+        camera.position.x = (northEast.x - southWest.x) * 0.5 + southWest.x;
+        camera.position.y = (northEast.y - southWest.y) * 0.5 + southWest.y;
+
+        //Orient the camera north.
+        var cameraRight = Cartesian3.clone(Cartesian3.UNIT_X, camera.right);
+        Cartesian3.cross(cameraRight, camera.direction, camera.up);
+    }
+
+    /**
+     * View an extent on an ellipsoid or map.
+     * @memberof CameraController
+     *
+     * @param {Extent} extent The extent to view.
+     * @param {Ellipsoid} [ellipsoid=Ellipsoid.WGS84] The ellipsoid to view.
+     *
+     * @exception {DeveloperError} extent is required.
+     */
+    CameraController.prototype.viewExtent = function(extent, ellipsoid) {
+        if (typeof extent === 'undefined') {
+            throw new DeveloperError('extent is required.');
+        }
+        ellipsoid = (typeof ellipsoid === 'undefined') ? Ellipsoid.WGS84 : ellipsoid;
+
+        if (this._mode === SceneMode.SCENE3D) {
+            viewExtent3D(this._camera, extent, ellipsoid);
+        } else if (this._mode === SceneMode.COLUMBUS_VIEW) {
+            viewExtentColumbusView(this._camera, extent, this._projection);
+        } else if (this._mode === SceneMode.SCENE2D) {
+            viewExtent2D(this._camera, extent, this._projection);
+        }
+    };
+
+    var pickEllipsoid3DRay = new Ray();
+    function pickEllipsoid3D(controller, windowPosition, ellipsoid, result) {
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
+        var ray = controller.getPickRay(windowPosition, pickEllipsoid3DRay);
+        var intersection = IntersectionTests.rayEllipsoid(ray, ellipsoid);
+        if (!intersection) {
+            return undefined;
+        }
+
+        return ray.getPoint(intersection.start, result);
+    }
+
+    var pickEllipsoid2DRay = new Ray();
+    function pickMap2D(controller, windowPosition, projection, result) {
+        var ray = controller.getPickRay(windowPosition, pickEllipsoid2DRay);
+        var position = ray.origin;
+        position.z = 0.0;
+        var cart = projection.unproject(position);
+
+        if (cart.latitude < -CesiumMath.PI_OVER_TWO || cart.latitude > CesiumMath.PI_OVER_TWO ||
+                cart.longitude < - Math.PI || cart.longitude > Math.PI) {
+            return undefined;
+        }
+
+        return projection.getEllipsoid().cartographicToCartesian(cart, result);
+    }
+
+    var pickEllipsoidCVRay = new Ray();
+    function pickMapColumbusView(controller, windowPosition, projection, result) {
+        var ray = controller.getPickRay(windowPosition, pickEllipsoidCVRay);
+        var scalar = -ray.origin.x / ray.direction.x;
+        ray.getPoint(scalar, result);
+
+        var cart = projection.unproject(new Cartesian3(result.y, result.z, 0.0));
+
+        if (cart.latitude < -CesiumMath.PI_OVER_TWO || cart.latitude > CesiumMath.PI_OVER_TWO ||
+                cart.longitude < - Math.PI || cart.longitude > Math.PI) {
+            return undefined;
+        }
+
+        return projection.getEllipsoid().cartographicToCartesian(cart, result);
+    }
+
+    /**
+     * Pick an ellipsoid or map.
+     * @memberof CameraController
+     *
+     * @param {Cartesian2} windowPosition The x and y coordinates of a pixel.
+     * @param {Ellipsoid} [ellipsoid=Ellipsoid.WGS84] The ellipsoid to pick.
+     * @param {Cartesian3} [result] The object onto which to store the result.
+     *
+     * @exception {DeveloperError} windowPosition is required.
+     *
+     * @return {Cartesian3} If the ellipsoid or map was picked, returns the point on the surface of the ellipsoid or map
+     * in world coordinates. If the ellipsoid or map was not picked, returns undefined.
+     */
+    CameraController.prototype.pickEllipsoid = function(windowPosition, ellipsoid, result) {
+        if (typeof windowPosition === 'undefined') {
+            throw new DeveloperError('windowPosition is required.');
+        }
+
+        if (typeof result === 'undefined') {
+            result = new Cartesian3();
+        }
+
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
+
+        if (this._mode === SceneMode.SCENE3D) {
+            result = pickEllipsoid3D(this, windowPosition, ellipsoid, result);
+        } else if (this._mode === SceneMode.SCENE2D) {
+            result = pickMap2D(this, windowPosition, this._projection, result);
+        } else if (this._mode === SceneMode.COLUMBUS_VIEW) {
+            result = pickMapColumbusView(this, windowPosition, this._projection, result);
+        }
+
+        return result;
+    };
+
+    var pickPerspCenter = new Cartesian3();
+    var pickPerspXDir = new Cartesian3();
+    var pickPerspYDir = new Cartesian3();
+    function getPickRayPerspective(camera, windowPosition, result) {
+        var width = camera._canvas.clientWidth;
+        var height = camera._canvas.clientHeight;
+
+        var tanPhi = Math.tan(camera.frustum.fovy * 0.5);
+        var tanTheta = camera.frustum.aspectRatio * tanPhi;
+        var near = camera.frustum.near;
+
+        var x = (2.0 / width) * windowPosition.x - 1.0;
+        var y = (2.0 / height) * (height - windowPosition.y) - 1.0;
+
+        var position = camera.getPositionWC();
+        Cartesian3.clone(position, result.origin);
+
+        var nearCenter = Cartesian3.multiplyByScalar(camera.getDirectionWC(), near, pickPerspCenter);
+        Cartesian3.add(position, nearCenter, nearCenter);
+        var xDir = Cartesian3.multiplyByScalar(camera.getRightWC(), x * near * tanTheta, pickPerspXDir);
+        var yDir = Cartesian3.multiplyByScalar(camera.getUpWC(), y * near * tanPhi, pickPerspYDir);
+        var direction = Cartesian3.add(nearCenter, xDir, result.direction);
+        Cartesian3.add(direction, yDir, direction);
+        Cartesian3.subtract(direction, position, direction);
+        Cartesian3.normalize(direction, direction);
+
+        return result;
+    }
+
+    function getPickRayOrthographic(camera, windowPosition, result) {
+        var width = camera._canvas.clientWidth;
+        var height = camera._canvas.clientHeight;
+
+        var x = (2.0 / width) * windowPosition.x - 1.0;
+        x *= (camera.frustum.right - camera.frustum.left) * 0.5;
+        var y = (2.0 / height) * (height - windowPosition.y) - 1.0;
+        y *= (camera.frustum.top - camera.frustum.bottom) * 0.5;
+
+        var origin = result.origin;
+        Cartesian3.clone(camera.position, origin);
+        origin.x += x;
+        origin.y += y;
+
+        Cartesian3.clone(camera.getDirectionWC(), result.direction);
+
+        return result;
+    }
+
+    /**
+     * Create a ray from the camera position through the pixel at <code>windowPosition</code>
+     * in world coordinates.
+     *
+     * @memberof CameraController
+     *
+     * @param {Cartesian2} windowPosition The x and y coordinates of a pixel.
+     * @param {Ray} [result] The object onto which to store the result.
+     *
+     * @exception {DeveloperError} windowPosition is required.
+     *
+     * @return {Object} Returns the {@link Cartesian3} position and direction of the ray.
+     */
+    CameraController.prototype.getPickRay = function(windowPosition, result) {
+        if (typeof windowPosition === 'undefined') {
+            throw new DeveloperError('windowPosition is required.');
+        }
+
+        if (typeof result === 'undefined') {
+            result = new Ray();
+        }
+
+        var camera = this._camera;
+        var frustum = camera.frustum;
+        if (typeof frustum.aspectRatio !== 'undefined' && typeof frustum.fovy !== 'undefined' && typeof frustum.near !== 'undefined') {
+            return getPickRayPerspective(camera, windowPosition, result);
+        }
+
+        return getPickRayOrthographic(camera, windowPosition, result);
+    };
+
+    function createAnimation2D(controller, duration) {
+        var camera = controller._camera;
+
+        var position = camera.position;
+        var translateX = position.x < -controller._maxCoord.x || position.x > controller._maxCoord.x;
+        var translateY = position.y < -controller._maxCoord.y || position.y > controller._maxCoord.y;
+        var animatePosition = translateX || translateY;
+
+        var frustum = camera.frustum;
+        var top = frustum.top;
+        var bottom = frustum.bottom;
+        var right = frustum.right;
+        var left = frustum.left;
+        var startFrustum = controller._frustum;
+        var animateFrustum = right > controller._frustum.right;
+
+        if (animatePosition || animateFrustum) {
+            var translatedPosition = position.clone();
+
+            if (translatedPosition.x > controller._maxCoord.x) {
+                translatedPosition.x = controller._maxCoord.x;
+            } else if (translatedPosition.x < -controller._maxCoord.x) {
+                translatedPosition.x = -controller._maxCoord.x;
+            }
+
+            if (translatedPosition.y > controller._maxCoord.y) {
+                translatedPosition.y = controller._maxCoord.y;
+            } else if (translatedPosition.y < -controller._maxCoord.y) {
+                translatedPosition.y = -controller._maxCoord.y;
+            }
+
+            var update2D = function(value) {
+                if (animatePosition) {
+                    camera.position = position.lerp(translatedPosition, value.time);
+                }
+                if (animateFrustum) {
+                    camera.frustum.top = CesiumMath.lerp(top, startFrustum.top, value.time);
+                    camera.frustum.bottom = CesiumMath.lerp(bottom, startFrustum.bottom, value.time);
+                    camera.frustum.right = CesiumMath.lerp(right, startFrustum.right, value.time);
+                    camera.frustum.left = CesiumMath.lerp(left, startFrustum.left, value.time);
+                }
+            };
+
+            return {
+                easingFunction : Tween.Easing.Exponential.Out,
+                startValue : {
+                    time : 0.0
+                },
+                stopValue : {
+                    time : 1.0
+                },
+                duration : duration,
+                onUpdate : update2D
+            };
+        }
+
+        return undefined;
+    }
+
+    function createAnimationTemplateCV(controller, position, center, maxX, maxY, duration) {
         var newPosition = position.clone();
 
         if (center.y > maxX) {
@@ -54831,14 +55071,14 @@ define('Scene/CameraColumbusViewController',[
             newPosition.z += -maxY - center.z;
         }
 
-        var camera = this._camera;
+        var camera = controller._camera;
         var updateCV = function(value) {
             var interp = position.lerp(newPosition, value.time);
             var pos = new Cartesian4(interp.x, interp.y, interp.z, 1.0);
             camera.position = Cartesian3.fromCartesian4(camera.getInverseTransform().multiplyByVector(pos));
         };
 
-        this._translateAnimation = this._animationCollection.add({
+        return {
             easingFunction : Tween.Easing.Exponential.Out,
             startValue : {
                 time : 0.0
@@ -54846,40 +55086,14 @@ define('Scene/CameraColumbusViewController',[
             stopValue : {
                 time : 1.0
             },
+            duration : duration,
             onUpdate : updateCV
-        });
-    };
+        };
+    }
 
-    CameraColumbusViewController.prototype._translate = function(movement) {
-        var camera = this._camera;
-        var sign = (camera.direction.dot(Cartesian3.UNIT_Z) >= 0) ? 1.0 : -1.0;
-
-        var startRay = camera.getPickRay(movement.startPosition);
-        var endRay = camera.getPickRay(movement.endPosition);
-
-        var normal = Cartesian3.fromCartesian4(camera.getInverseTransform().multiplyByVector(Cartesian4.UNIT_X));
-
-        var position = new Cartesian4(startRay.origin.x, startRay.origin.y, startRay.origin.z, 1.0);
-        position = Cartesian3.fromCartesian4(camera.getInverseTransform().multiplyByVector(position));
-        var direction = new Cartesian4(startRay.direction.x, startRay.direction.y, startRay.direction.z, 0.0);
-        direction = Cartesian3.fromCartesian4(camera.getInverseTransform().multiplyByVector(direction));
-        var scalar = sign * normal.dot(position) / normal.dot(direction);
-        var startPlanePos = position.add(direction.multiplyByScalar(scalar));
-
-        position = new Cartesian4(endRay.origin.x, endRay.origin.y, endRay.origin.z, 1.0);
-        position = Cartesian3.fromCartesian4(camera.getInverseTransform().multiplyByVector(position));
-        direction = new Cartesian4(endRay.direction.x, endRay.direction.y, endRay.direction.z, 0.0);
-        direction = Cartesian3.fromCartesian4(camera.getInverseTransform().multiplyByVector(direction));
-        scalar = sign * normal.dot(position) / normal.dot(direction);
-        var endPlanePos = position.add(direction.multiplyByScalar(scalar));
-
-        var diff = startPlanePos.subtract(endPlanePos);
-        camera.position = camera.position.add(diff);
-    };
-
-    CameraColumbusViewController.prototype._correctPosition = function()
-    {
-        var camera = this._camera;
+    function createAnimationCV(controller, duration) {
+        var camera = controller._camera;
+        var ellipsoid = controller._projection.getEllipsoid();
         var position = camera.position;
         var direction = camera.direction;
 
@@ -54888,407 +55102,76 @@ define('Scene/CameraColumbusViewController',[
         var center = position.add(direction.multiplyByScalar(scalar));
         center = new Cartesian4(center.x, center.y, center.z, 1.0);
         var centerWC = camera.transform.multiplyByVector(center);
-        this._transform.setColumn(3, centerWC, this._transform);
 
         var cameraPosition = new Cartesian4(camera.position.x, camera.position.y, camera.position.z, 1.0);
         var positionWC = camera.transform.multiplyByVector(cameraPosition);
 
-        var tanPhi = Math.tan(this._camera.frustum.fovy * 0.5);
-        var tanTheta = this._camera.frustum.aspectRatio * tanPhi;
+        var tanPhi = Math.tan(controller._camera.frustum.fovy * 0.5);
+        var tanTheta = controller._camera.frustum.aspectRatio * tanPhi;
         var distToC = positionWC.subtract(centerWC).magnitude();
         var dWidth = tanTheta * distToC;
         var dHeight = tanPhi * distToC;
 
-        var maxX = Math.max(dWidth - this._mapWidth, this._mapWidth);
-        var maxY = Math.max(dHeight - this._mapHeight, this._mapHeight);
+        var mapWidth = ellipsoid.getRadii().x * Math.PI;
+        var mapHeight = ellipsoid.getRadii().y * CesiumMath.PI_OVER_TWO;
+
+        var maxX = Math.max(dWidth - mapWidth, mapWidth);
+        var maxY = Math.max(dHeight - mapHeight, mapHeight);
 
         if (positionWC.x < -maxX || positionWC.x > maxX || positionWC.y < -maxY || positionWC.y > maxY) {
-            if (!this._translateHandler.isButtonDown()) {
-                var translateX = centerWC.y < -maxX || centerWC.y > maxX;
-                var translateY = centerWC.z < -maxY || centerWC.z > maxY;
-                if ((translateX || translateY) && !this._lastInertiaTranslateMovement &&
-                        !this._animationCollection.contains(this._translateAnimation)) {
-                    this._addCorrectTranslateAnimation(Cartesian3.fromCartesian4(positionWC), Cartesian3.fromCartesian4(centerWC), maxX, maxY);
-                }
-            }
-
-            maxX = maxX + this._mapWidth * 0.5;
-            if (centerWC.y > maxX) {
-                positionWC.y -= centerWC.y - maxX;
-            } else if (centerWC.y < -maxX) {
-                positionWC.y += -maxX - centerWC.y;
-            }
-
-            maxY = maxY + this._mapHeight * 0.5;
-            if (centerWC.z > maxY) {
-                positionWC.z -= centerWC.z - maxY;
-            } else if (centerWC.z < -maxY) {
-                positionWC.z += -maxY - centerWC.z;
+            var translateX = centerWC.y < -maxX || centerWC.y > maxX;
+            var translateY = centerWC.z < -maxY || centerWC.z > maxY;
+            if (translateX || translateY) {
+                return createAnimationTemplateCV(controller, Cartesian3.fromCartesian4(positionWC), Cartesian3.fromCartesian4(centerWC), maxX, maxY, duration);
             }
         }
 
-        camera.position = Cartesian3.fromCartesian4(camera.getInverseTransform().multiplyByVector(positionWC));
-    };
-
-    CameraColumbusViewController.prototype._rotate = function(movement) {
-        var camera = this._camera;
-
-        var position = camera.getPositionWC();
-        var up = camera.getUpWC();
-        var right = camera.getRightWC();
-        var direction = camera.getDirectionWC();
-
-        var oldTransform = camera.transform;
-        camera.transform = this._transform;
-
-        var invTransform = camera.getInverseTransform();
-        camera.position = Cartesian3.fromCartesian4(invTransform.multiplyByPoint(position));
-        camera.up = Cartesian3.fromCartesian4(invTransform.multiplyByVector(new Cartesian4(up.x, up.y, up.z, 0.0)));
-        camera.right = Cartesian3.fromCartesian4(invTransform.multiplyByVector(new Cartesian4(right.x, right.y, right.z, 0.0)));
-        camera.direction = Cartesian3.fromCartesian4(invTransform.multiplyByVector(new Cartesian4(direction.x, direction.y, direction.z, 0.0)));
-
-        this._spindleController._rotate(movement);
-
-        position = camera.getPositionWC();
-        up = camera.getUpWC();
-        right = camera.getRightWC();
-        direction = camera.getDirectionWC();
-
-        camera.transform = oldTransform;
-        var transform = camera.getInverseTransform();
-
-        camera.position = Cartesian3.fromCartesian4(transform.multiplyByPoint(position));
-        camera.up = Cartesian3.fromCartesian4(transform.multiplyByVector(new Cartesian4(up.x, up.y, up.z, 0.0)));
-        camera.right = Cartesian3.fromCartesian4(transform.multiplyByVector(new Cartesian4(right.x, right.y, right.z, 0.0)));
-        camera.direction = Cartesian3.fromCartesian4(transform.multiplyByVector(new Cartesian4(direction.x, direction.y, direction.z, 0.0)));
-    };
-
-    CameraColumbusViewController.prototype._zoom = function(movement) {
-        handleZoom(this._spindleController, movement, this._camera.position.z);
-    };
+        return undefined;
+    }
 
     /**
-      * Returns true if this object was destroyed; otherwise, false.
-      * <br /><br />
-      * If this object was destroyed, it should not be used; calling any function other than
-      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-      *
-      * @memberof CameraColumbusViewController
-      *
-      * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
-      *
-      * @see CameraSpindleController#destroy
-      */
-    CameraColumbusViewController.prototype.isDestroyed = function() {
-        return false;
-    };
-
-    /**
-     * Removes mouse listeners held by this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
-     *
-     * @memberof CameraColumbusViewController
-     *
-     * @return {undefined}
-     *
-     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
-     *
-     * @see CameraColumbusViewController#isDestroyed
-     *
-     * @example
-     * controller = controller && controller.destroy();
+     * Create an animation to move the map into view. This method is only valid for 2D and Columbus modes.
+     * @memberof CameraController
+     * @param {Number} duration The duration, in milliseconds, of the animation.
+     * @exception {DeveloperException} duration is required.
+     * @returns {Object} The animation or undefined if the scene mode is 3D or the map is already ion view.
      */
-    CameraColumbusViewController.prototype.destroy = function() {
-        this._rotateHandler = this._rotateHandler && this._rotateHandler.destroy();
-        this._translateHandler = this._translateHandler && this._translateHandler.destroy();
-        this._zoomHandler = this._zoomHandle && this._zoomHandler.destroy();
-        this._spindleController = this._spindleController && this._spindleController.destroy();
-        this._freeLookController = this._freeLookController && this._freeLookController.destroy();
-        return destroyObject(this);
+    CameraController.prototype.createCorrectPositionAnimation = function(duration) {
+        if (typeof duration === 'undefined') {
+            throw new DeveloperError('duration is required.');
+        }
+
+        if (this._mode === SceneMode.SCENE2D) {
+            return createAnimation2D(this, duration);
+        } else if (this._mode === SceneMode.COLUMBUS_VIEW) {
+            return createAnimationCV(this, duration);
+        }
+
+        return undefined;
     };
 
-    return CameraColumbusViewController;
+    return CameraController;
 });
-/*global define*/
-define('Scene/CameraControllerCollection',[
-        '../Core/DeveloperError',
-        '../Core/destroyObject',
-        '../Core/Ellipsoid',
-        '../Core/Cartographic',
-        './Camera2DController',
-        './CameraFlightController',
-        './CameraSpindleController',
-        './CameraFreeLookController',
-        './CameraColumbusViewController',
-        './CameraCentralBodyController'
-    ], function(
-        DeveloperError,
-        destroyObject,
-        Ellipsoid,
-        Cartographic,
-        Camera2DController,
-        CameraFlightController,
-        CameraSpindleController,
-        CameraFreeLookController,
-        CameraColumbusViewController,
-        CameraCentralBodyController) {
-    
-
-    /**
-     * DOC_TBA
-     *
-     * @alias CameraControllerCollection
-     * @internalConstructor
-     *
-     * @see Camera#getControllers
-     */
-    var CameraControllerCollection = function(camera, canvas) {
-        this._controllers = [];
-        this._canvas = canvas;
-        this._camera = camera;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#addFreeLook
-     * @see CameraControllerCollection#addFlight
-     * @see CameraControllerCollection#addSpindle
-     * @see CameraControllerCollection#addColumbusView
-     */
-    CameraControllerCollection.prototype.add2D = function(projection) {
-        var twoD = new Camera2DController(this._canvas, this._camera, projection);
-        this._controllers.push(twoD);
-        return twoD;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#addFreeLook
-     * @see CameraControllerCollection#addFlight
-     * @see CameraControllerCollection#add2D
-     * @see CameraControllerCollection#addColumbusView
-     */
-    CameraControllerCollection.prototype.addSpindle = function(ellipsoid) {
-        var spindle = new CameraSpindleController(this._canvas, this._camera, ellipsoid);
-        this._controllers.push(spindle);
-        return spindle;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#addSpindle
-     * @see CameraControllerCollection#addFlight
-     * @see CameraControllerCollection#add2D
-     * @see CameraControllerCollection#addColumbusView
-     */
-    CameraControllerCollection.prototype.addFreeLook = function(ellipsoid) {
-        var freeLook = new CameraFreeLookController(this._canvas, this._camera);
-        this._controllers.push(freeLook);
-        return freeLook;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#addSpindle
-     * @see CameraControllerCollection#addFlight
-     * @see CameraControllerCollection#add2D
-     * @see CameraControllerCollection#addFreeLook
-     */
-    CameraControllerCollection.prototype.addColumbusView = function() {
-        var cv = new CameraColumbusViewController(this._canvas, this._camera);
-        this._controllers.push(cv);
-        return cv;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#addSpindle
-     * @see CameraControllerCollection#addFreeLook
-     * @see CameraControllerCollection#add2D
-     * @see CameraControllerCollection#addColumbusView
-     */
-    CameraControllerCollection.prototype.addFlight = function(template) {
-        var t = template || {};
-        var ellipsoid = t.ellipsoid || Ellipsoid.WGS84;
-        var destination = t.destination || ellipsoid.cartographicToCartesian(new Cartographic(0.0, 0.0, 0.0));
-        var duration = t.duration || 4.0;
-        var complete = template.complete;
-		var flightController = new CameraFlightController(this._canvas, this._camera, ellipsoid, destination, duration, complete);
-		this._controllers.push(flightController);
-		return flightController;
-    };
-
-    CameraControllerCollection.prototype.addCentralBody = function() {
-        var cb = new CameraCentralBodyController(this._canvas, this._camera);
-        this._controllers.push(cb);
-        return cb;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#removeAll
-     */
-    CameraControllerCollection.prototype.remove = function(controller) {
-        if (controller) {
-            var controllers = this._controllers;
-            var i = controllers.indexOf(controller);
-            if (i !== -1) {
-                controllers[i].destroy();
-                controllers.splice(i, 1);
-                return true;
-            }
-        }
-
-        return false;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#remove
-     */
-    CameraControllerCollection.prototype.removeAll = function() {
-        var controllers = this._controllers;
-        var length = controllers.length;
-        for ( var i = 0; i < length; ++i) {
-            controllers[i].destroy();
-        }
-
-        this._controllers = [];
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     */
-    CameraControllerCollection.prototype.contains = function(controller) {
-        if (controller) {
-            return (this._controllers.indexOf(controller) !== -1);
-        }
-
-        return false;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#getLength
-     */
-    CameraControllerCollection.prototype.get = function(index) {
-        if (typeof index === 'undefined') {
-            throw new DeveloperError('index is required.');
-        }
-
-        return this._controllers[index];
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#get
-     */
-    CameraControllerCollection.prototype.getLength = function() {
-        return this._controllers.length;
-    };
-
-    /**
-     * @private
-     */
-    CameraControllerCollection.prototype.update = function() {
-        var toRemove = [];
-
-        var controllers = this._controllers;
-        var length = controllers.length;
-        for ( var i = 0; i < length; ++i) {
-            if (!controllers[i].update()) {
-                toRemove.push(i);
-            }
-        }
-
-        // Automatically remove expired controllers
-        for ( var j = 0; j < toRemove.length; ++j) {
-            var index = toRemove[j];
-            controllers[index].destroy();
-            controllers.splice(index, 1);
-        }
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     */
-    CameraControllerCollection.prototype.isDestroyed = function() {
-        return false;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     */
-    CameraControllerCollection.prototype.destroy = function() {
-        this.removeAll();
-        return destroyObject(this);
-    };
-
-    return CameraControllerCollection;
-});
-
 /*global define*/
 define('Scene/Camera',[
         '../Core/DeveloperError',
-        '../Core/destroyObject',
         '../Core/Math',
         '../Core/Ellipsoid',
-        '../Core/IntersectionTests',
         '../Core/Cartesian3',
         '../Core/Cartesian4',
-        '../Core/Cartographic',
         '../Core/Matrix4',
         '../Core/Ray',
-        './CameraControllerCollection',
+        './CameraController',
         './PerspectiveFrustum'
     ], function(
         DeveloperError,
-        destroyObject,
         CesiumMath,
         Ellipsoid,
-        IntersectionTests,
         Cartesian3,
         Cartesian4,
-        Cartographic,
         Matrix4,
         Ray,
-        CameraControllerCollection,
+        CameraController,
         PerspectiveFrustum) {
     
 
@@ -55325,9 +55208,11 @@ define('Scene/Camera',[
         }
 
         /**
-         * DOC_TBA
+         * Modifies the camera's reference frame. The inverse of this transformation is appended to the view matrix.
          *
          * @type {Matrix4}
+         *
+         * @see Transforms
          */
         this.transform = Matrix4.IDENTITY.clone();
         this._transform = this.transform.clone();
@@ -55357,16 +55242,6 @@ define('Scene/Camera',[
         this._directionWC = direction;
 
         var right = direction.cross(Cartesian3.UNIT_Z).normalize();
-
-        /**
-         * The right direction of the camera.
-         *
-         * @type {Cartesian3}
-         */
-        this.right = right.clone();
-        this._right = right;
-        this._rightWC = right;
-
         var up = right.cross(direction);
 
         /**
@@ -55378,224 +55253,42 @@ define('Scene/Camera',[
         this._up = up;
         this._upWC = up;
 
+        right = direction.cross(up);
+
         /**
-         * DOC_TBA
+         * The right direction of the camera.
+         *
+         * @type {Cartesian3}
+         */
+        this.right = right.clone();
+        this._right = right;
+        this._rightWC = right;
+
+        /**
+         * The region of space in view.
          *
          * @type {Frustum}
+         *
+         * @see PerspectiveFrustum
+         * @see PerspectiveOffCenterFrustum
+         * @see OrthographicFrustum
          */
         this.frustum = new PerspectiveFrustum();
         this.frustum.fovy = CesiumMath.toRadians(60.0);
         this.frustum.aspectRatio = canvas.clientWidth / canvas.clientHeight;
+
+        /**
+         * Defines camera behavior. The controller can be used to perform common camera manipulations.
+         *
+         * @type {CameraController}
+         */
+        this.controller = new CameraController(this);
 
         this._viewMatrix = undefined;
         this._invViewMatrix = undefined;
         updateViewMatrix(this);
 
         this._canvas = canvas;
-        this._controllers = new CameraControllerCollection(this, canvas);
-    };
-
-    /**
-     * DOC_TBA
-     * @memberof Camera
-     */
-    Camera.prototype.getControllers = function() {
-        return this._controllers;
-    };
-
-    /**
-     * DOC_TBA
-     * @memberof Camera
-     */
-    Camera.prototype.update = function() {
-        this._controllers.update();
-    };
-
-    /**
-     * Sets the camera position and orientation with an eye position, target, and up vector.
-     *
-     * @memberof Camera
-     *
-     * @param {Cartesian3} eye The position of the camera.
-     * @param {Cartesian3} target The position to look at.
-     * @param {Cartesian3} up The up vector.
-     *
-     * @exception {DeveloperError} eye is required.
-     * @exception {DeveloperError} target is required.
-     * @exception {DeveloperError} up is required.
-     */
-    Camera.prototype.lookAt = function(eye, target, up) {
-        if (typeof eye === 'undefined') {
-            throw new DeveloperError('eye is required');
-        }
-        if (typeof target === 'undefined') {
-            throw new DeveloperError('target is required');
-        }
-        if (typeof up === 'undefined') {
-            throw new DeveloperError('up is required');
-        }
-
-        this.position = Cartesian3.clone(eye, this.position);
-        this.direction = Cartesian3.subtract(target, eye, this.direction).normalize(this.direction);
-        this.right = Cartesian3.cross(this.direction, up, this.right).normalize(this.right);
-        this.up = Cartesian3.cross(this.right, this.direction, this.up);
-    };
-
-    /**
-     * Zooms to a cartographic extent on the central body. The camera will be looking straight down at the extent,
-     * with the up vector pointing toward local north.
-     *
-     * @memberof Camera
-     * @param {Ellipsoid} ellipsoid The ellipsoid to view.
-     * @param {Extent} extent The extent to view.
-     *
-     * @exception {DeveloperError} extent is required.
-     */
-    Camera.prototype.viewExtent = function(extent, ellipsoid) {
-        if (typeof extent === 'undefined') {
-            throw new DeveloperError('extent is required.');
-        }
-
-        ellipsoid = (typeof ellipsoid === 'undefined') ? Ellipsoid.WGS84 : ellipsoid;
-
-        var north = extent.north;
-        var south = extent.south;
-        var east = extent.east;
-        var west = extent.west;
-
-        // If we go across the International Date Line
-        if (west > east) {
-            east += CesiumMath.TWO_PI;
-        }
-
-        var northEast = ellipsoid.cartographicToCartesian(new Cartographic(east, north));
-        var southWest = ellipsoid.cartographicToCartesian(new Cartographic(west, south));
-        var diagonal = northEast.subtract(southWest);
-        var center = southWest.add(diagonal.normalize().multiplyByScalar(diagonal.magnitude() * 0.5));
-
-        var northWest = ellipsoid.cartographicToCartesian(new Cartographic(west, north)).subtract(center);
-        var southEast = ellipsoid.cartographicToCartesian(new Cartographic(east, south)).subtract(center);
-        northEast = northEast.subtract(center);
-        southWest = southWest.subtract(center);
-
-        this.direction = center.negate().normalize();
-        this.right = this.direction.cross(Cartesian3.UNIT_Z).normalize();
-        this.up = this.right.cross(this.direction);
-
-        var height = Math.max(Math.abs(this.up.dot(northWest)), Math.abs(this.up.dot(southEast)), Math.abs(this.up.dot(northEast)), Math.abs(this.up.dot(southWest)));
-        var width = Math.max(Math.abs(this.right.dot(northWest)), Math.abs(this.right.dot(southEast)), Math.abs(this.right.dot(northEast)), Math.abs(this.right.dot(southWest)));
-
-        var tanPhi = Math.tan(this.frustum.fovy * 0.5);
-        var tanTheta = this.frustum.aspectRatio * tanPhi;
-        var d = Math.max(width / tanTheta, height / tanPhi);
-
-        this.position = center.normalize().multiplyByScalar(center.magnitude() + d);
-    };
-
-    /**
-     * Zooms to a cartographic extent on the Columbus view map. The camera will be looking straight down at the extent,
-     * with the up vector pointing toward local north.
-     *
-     * @memberof Camera
-     * @param {Ellipsoid} ellipsoid The ellipsoid to view.
-     * @param {Extent} extent The extent to view.
-     *
-     * @exception {DeveloperError} extent is required.
-     * @exception {DeveloperError} projection is required.
-     */
-    Camera.prototype.viewExtentColumbusView = function(extent, projection) {
-        if (typeof extent === 'undefined') {
-            throw new DeveloperError('extent is required.');
-        }
-
-        if (typeof projection === 'undefined') {
-            throw new DeveloperError('projection is required.');
-        }
-
-        var north = extent.north;
-        var south = extent.south;
-        var east = extent.east;
-        var west = extent.west;
-
-        var transform = this.transform.setColumn(3, Cartesian4.UNIT_W);
-
-        var northEast = projection.project(new Cartographic(east, north));
-        northEast = transform.multiplyByPoint(northEast);
-        northEast = Cartesian3.fromCartesian4(this.getInverseTransform().multiplyByVector(northEast));
-
-        var southWest = projection.project(new Cartographic(west, south));
-        southWest = transform.multiplyByPoint(southWest);
-        southWest = Cartesian3.fromCartesian4(this.getInverseTransform().multiplyByVector(southWest));
-
-        var tanPhi = Math.tan(this.frustum.fovy * 0.5);
-        var tanTheta = this.frustum.aspectRatio * tanPhi;
-        var d = Math.max((northEast.x - southWest.x) / tanTheta, (northEast.y - southWest.y) / tanPhi) * 0.5;
-
-        var position = projection.project(new Cartographic(0.5 * (west + east), 0.5 * (north + south), d));
-        position = transform.multiplyByPoint(position);
-        this.position = Cartesian3.fromCartesian4(this.getInverseTransform().multiplyByVector(position));
-
-        // Not exactly -z direction because that would lock the camera in place with a constrained z axis.
-        this.direction = new Cartesian3(0.0, 0.0001, -0.999);
-        Cartesian3.UNIT_X.clone(this.right);
-        this.up = this.right.cross(this.direction);
-    };
-
-    /**
-     * Zooms to a cartographic extent on the 2D map. The camera will be looking straight down at the extent,
-     * with the up vector pointing toward local north.
-     *
-     * @memberof Camera
-     * @param {Ellipsoid} ellipsoid The ellipsoid to view.
-     * @param {Extent} extent The extent to view.
-     *
-     * @exception {DeveloperError} extent is required.
-     * @exception {DeveloperError} projection is required.
-     */
-    Camera.prototype.viewExtent2D = function(extent, projection) {
-        if (typeof extent === 'undefined') {
-            throw new DeveloperError('extent is required.');
-        }
-
-        if (typeof projection === 'undefined') {
-            throw new DeveloperError('projection is required.');
-        }
-
-        var north = extent.north;
-        var south = extent.south;
-        var east = extent.east;
-        var west = extent.west;
-        var lla = new Cartographic(0.5 * (west + east), 0.5 * (north + south));
-
-        var northEast = projection.project(new Cartographic(east, north));
-        var southWest = projection.project(new Cartographic(west, south));
-
-        var width = Math.abs(northEast.x - southWest.x) * 0.5;
-        var height = Math.abs(northEast.y - southWest.y) * 0.5;
-
-        var position = projection.project(lla);
-        this.position.x = position.x;
-        this.position.y = position.y;
-
-        var right, top;
-        var ratio = this.frustum.right / this.frustum.top;
-        var heightRatio = height * ratio;
-        if (width > heightRatio) {
-            right = width;
-            top = right / ratio;
-        } else {
-            top = height;
-            right = heightRatio;
-        }
-
-        this.frustum.right = right;
-        this.frustum.left = -right;
-        this.frustum.top = top;
-        this.frustum.bottom = -top;
-
-        //Orient the camera north.
-        Cartesian3.UNIT_X.clone(this.right);
-        this.up = this.right.cross(this.direction);
     };
 
     function updateViewMatrix(camera) {
@@ -55609,7 +55302,6 @@ define('Scene/Camera',[
                                      -d.x, -d.y, -d.z,  d.dot(e),
                                       0.0,  0.0,  0.0,      1.0);
         camera._viewMatrix = viewMatrix.multiply(camera._invTransform);
-
         camera._invViewMatrix = camera._viewMatrix.inverseTransformation();
     }
 
@@ -55650,18 +55342,6 @@ define('Scene/Camera',[
             camera._positionWC = Cartesian3.fromCartesian4(transform.multiplyByPoint(position));
         }
 
-        if (directionChanged || transformChanged) {
-            camera._directionWC = Cartesian3.fromCartesian4(transform.multiplyByVector(new Cartesian4(direction.x, direction.y, direction.z, 0.0)));
-        }
-
-        if (upChanged || transformChanged) {
-            camera._upWC = Cartesian3.fromCartesian4(transform.multiplyByVector(new Cartesian4(up.x, up.y, up.z, 0.0)));
-        }
-
-        if (rightChanged || transformChanged) {
-            camera._rightWC = Cartesian3.fromCartesian4(transform.multiplyByVector(new Cartesian4(right.x, right.y, right.z, 0.0)));
-        }
-
         if (directionChanged || upChanged || rightChanged) {
             var det = direction.dot(up.cross(right));
             if (Math.abs(1.0 - det) > CesiumMath.EPSILON2) {
@@ -55678,6 +55358,18 @@ define('Scene/Camera',[
                 right = camera._right = direction.cross(up);
                 camera.right = right.clone();
             }
+        }
+
+        if (directionChanged || transformChanged) {
+            camera._directionWC = Cartesian3.fromCartesian4(transform.multiplyByVector(new Cartesian4(direction.x, direction.y, direction.z, 0.0)));
+        }
+
+        if (upChanged || transformChanged) {
+            camera._upWC = Cartesian3.fromCartesian4(transform.multiplyByVector(new Cartesian4(up.x, up.y, up.z, 0.0)));
+        }
+
+        if (rightChanged || transformChanged) {
+            camera._rightWC = Cartesian3.fromCartesian4(transform.multiplyByVector(new Cartesian4(right.x, right.y, right.z, 0.0)));
         }
 
         if (positionChanged || directionChanged || upChanged || rightChanged || transformChanged) {
@@ -55762,166 +55454,6 @@ define('Scene/Camera',[
         return this._rightWC;
     };
 
-    function getPickRayPerspective(camera, windowPosition) {
-        var width = camera._canvas.clientWidth;
-        var height = camera._canvas.clientHeight;
-
-        var tanPhi = Math.tan(camera.frustum.fovy * 0.5);
-        var tanTheta = camera.frustum.aspectRatio * tanPhi;
-        var near = camera.frustum.near;
-
-        var x = (2.0 / width) * windowPosition.x - 1.0;
-        var y = (2.0 / height) * (height - windowPosition.y) - 1.0;
-
-        var position = camera.getPositionWC();
-        var nearCenter = position.add(camera.getDirectionWC().multiplyByScalar(near));
-        var xDir = camera.getRightWC().multiplyByScalar(x * near * tanTheta);
-        var yDir = camera.getUpWC().multiplyByScalar(y * near * tanPhi);
-        var direction = nearCenter.add(xDir).add(yDir).subtract(position).normalize();
-
-        return new Ray(position, direction);
-    }
-
-    function getPickRayOrthographic(camera, windowPosition) {
-        var width = camera._canvas.clientWidth;
-        var height = camera._canvas.clientHeight;
-
-        var x = (2.0 / width) * windowPosition.x - 1.0;
-        x *= (camera.frustum.right - camera.frustum.left) * 0.5;
-        var y = (2.0 / height) * (height - windowPosition.y) - 1.0;
-        y *= (camera.frustum.top - camera.frustum.bottom) * 0.5;
-
-        var position = camera.position.clone();
-        position.x += x;
-        position.y += y;
-
-        return new Ray(position, camera.getDirectionWC());
-    }
-
-    /**
-     * Create a ray from the camera position through the pixel at <code>windowPosition</code>
-     * in world coordinates.
-     *
-     * @memberof Camera
-     *
-     * @param {Cartesian2} windowPosition The x and y coordinates of a pixel.
-     *
-     * @exception {DeveloperError} windowPosition is required.
-     *
-     * @return {Object} Returns the {@link Cartesian3} position and direction of the ray.
-     */
-    Camera.prototype.getPickRay = function(windowPosition) {
-        if (typeof windowPosition === 'undefined') {
-            throw new DeveloperError('windowPosition is required.');
-        }
-
-        var frustum = this.frustum;
-        if (typeof frustum.aspectRatio !== 'undefined' && typeof frustum.fovy !== 'undefined' && typeof frustum.near !== 'undefined') {
-            return getPickRayPerspective(this, windowPosition);
-        }
-
-        return getPickRayOrthographic(this, windowPosition);
-    };
-
-    /**
-     * Pick an ellipsoid in 3D mode.
-     *
-     * @memberof Camera
-     *
-     * @param {Cartesian2} windowPosition The x and y coordinates of a pixel.
-     * @param {Ellipsoid} [ellipsoid=Ellipsoid.WGS84] The ellipsoid to pick.
-     *
-     * @exception {DeveloperError} windowPosition is required.
-     *
-     * @return {Cartesian3} If the ellipsoid was picked, returns the point on the surface of the ellipsoid.
-     * If the ellipsoid was not picked, returns undefined.
-     */
-    Camera.prototype.pickEllipsoid = function(windowPosition, ellipsoid) {
-        if (typeof windowPosition === 'undefined') {
-            throw new DeveloperError('windowPosition is required.');
-        }
-
-        ellipsoid = ellipsoid || Ellipsoid.WGS84;
-        var ray = getPickRayPerspective(this, windowPosition);
-        var intersection = IntersectionTests.rayEllipsoid(ray, ellipsoid);
-        if (!intersection) {
-            return undefined;
-        }
-
-        var iPt = ray.getPoint(intersection.start);
-        return iPt;
-    };
-
-    /**
-     * Pick the map in 2D mode.
-     *
-     * @param {Cartesian2} windowPosition The x and y coordinates of a pixel.
-     * @param {DOC_TBA} projection DOC_TBA
-     *
-     * @exception {DeveloperError} windowPosition is required.
-     * @exception {DeveloperError} projection is required.
-     *
-     * @return {Cartesian3} If the map was picked, returns the point on the surface of the map.
-     * If the map was not picked, returns undefined.
-     */
-    Camera.prototype.pickMap2D = function(windowPosition, projection) {
-        if (typeof windowPosition === 'undefined') {
-            throw new DeveloperError('windowPosition is required.');
-        }
-
-        if (typeof projection === 'undefined') {
-            throw new DeveloperError('projection is required.');
-        }
-
-        var ray = getPickRayOrthographic(this, windowPosition);
-        var position = ray.origin;
-        position.z = 0.0;
-        var cart = projection.unproject(position);
-
-        if (cart.latitude < -CesiumMath.PI_OVER_TWO || cart.latitude > CesiumMath.PI_OVER_TWO ||
-                cart.longitude < - Math.PI || cart.longitude > Math.PI) {
-            return undefined;
-        }
-
-        return projection.getEllipsoid().cartographicToCartesian(cart);
-    };
-
-    /**
-     * Pick the map in Columbus View mode.
-     *
-     * @param {Cartesian2} windowPosition The x and y coordinates of a pixel.
-     * @param {DOC_TBA} projection DOC_TBA
-     *
-     * @exception {DeveloperError} windowPosition is required.
-     * @exception {DeveloperError} projection is required.
-     *
-     * @return {Cartesian3} If the map was picked, returns the point on the surface of the map.
-     * If the map was not picked, returns undefined.
-     */
-    Camera.prototype.pickMapColumbusView = function(windowPosition, projection) {
-        if (typeof windowPosition === 'undefined') {
-            throw new DeveloperError('windowPosition is required.');
-        }
-
-        if (typeof projection === 'undefined') {
-            throw new DeveloperError('projection is required.');
-        }
-
-        var ray = getPickRayPerspective(this, windowPosition);
-        var scalar = -ray.origin.x / ray.direction.x;
-        var position = ray.getPoint(scalar);
-
-        var cart = projection.unproject(new Cartesian3(position.y, position.z, 0.0));
-
-        if (cart.latitude < -CesiumMath.PI_OVER_TWO || cart.latitude > CesiumMath.PI_OVER_TWO ||
-                cart.longitude < - Math.PI || cart.longitude > Math.PI) {
-            return undefined;
-        }
-
-        position = projection.getEllipsoid().cartographicToCartesian(cart);
-        return position;
-    };
-
     /**
      * Returns a duplicate of a Camera instance.
      *
@@ -55941,42 +55473,39 @@ define('Scene/Camera',[
     };
 
     /**
-     * Returns true if this object was destroyed; otherwise, false.
-     * <br /><br />
-     * If this object was destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-     *
+     * Transform a vector or point from world coordinates to the camera's reference frame.
      * @memberof Camera
      *
-     * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
+     * @param {Cartesian4} cartesian The vector or point to transform.
+     * @param {Cartesian4} [result] The object onto which to store the result.
      *
-     * @see Camera#destroy
+     * @exception {DeveloperError} cartesian is required.
+     *
+     * @returns {Cartesian4} The transformed vector or point.
      */
-    Camera.prototype.isDestroyed = function() {
-        return false;
+    Camera.prototype.worldToCameraCoordinates = function(cartesian, result) {
+        if (typeof cartesian === 'undefined') {
+            throw new DeveloperError('cartesian is required.');
+        }
+        return Matrix4.multiplyByVector(this.getInverseTransform(), cartesian, result);
     };
 
     /**
-     * Removes keyboard listeners held by this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
-     *
+     * Transform a vector or point from the camera's reference frame to world coordinates.
      * @memberof Camera
      *
-     * @return {undefined}
+     * @param {Cartesian4} vector The vector or point to transform.
+     * @param {Cartesian4} [result] The object onto which to store the result.
      *
-     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     * @exception {DeveloperError} cartesian is required.
      *
-     * @see Camera#isDestroyed
-     *
-     * @example
-     * camera = camera && camera.destroy();
+     * @returns {Cartesian4} The transformed vector or point.
      */
-    Camera.prototype.destroy = function() {
-        this._controllers.destroy();
-        return destroyObject(this);
+    Camera.prototype.cameraToWorldCoordinates = function(cartesian, result) {
+        if (typeof cartesian === 'undefined') {
+            throw new DeveloperError('cartesian is required.');
+        }
+        return Matrix4.multiplyByVector(this.transform, cartesian, result);
     };
 
     return Camera;
@@ -56005,6 +55534,7 @@ define('Scene/Scene',[
         '../Renderer/Context',
         '../Renderer/ClearCommand',
         './Camera',
+        './ScreenSpaceCameraController',
         './CompositePrimitive',
         './CullingVolume',
         './AnimationCollection',
@@ -56035,6 +55565,7 @@ define('Scene/Scene',[
         Context,
         ClearCommand,
         Camera,
+        ScreenSpaceCameraController,
         CompositePrimitive,
         CullingVolume,
         AnimationCollection,
@@ -56060,8 +55591,8 @@ define('Scene/Scene',[
         this._primitives = new CompositePrimitive();
         this._pickFramebuffer = undefined;
         this._camera = new Camera(canvas);
+        this._screenSpaceCameraController = new ScreenSpaceCameraController(canvas, this._camera.controller);
 
-        this._animate = undefined; // Animation callback
         this._animations = new AnimationCollection();
 
         this._shaderFrameCount = 0;
@@ -56170,6 +55701,14 @@ define('Scene/Scene',[
      * DOC_TBA
      * @memberof Scene
      */
+    Scene.prototype.getScreenSpaceCameraController = function() {
+        return this._screenSpaceCameraController;
+    };
+
+    /**
+     * DOC_TBA
+     * @memberof Scene
+     */
     Scene.prototype.getUniformState = function() {
         return this._context.getUniformState();
     };
@@ -56195,18 +55734,6 @@ define('Scene/Scene',[
      * DOC_TBA
      * @memberof Scene
      */
-    Scene.prototype.setAnimation = function(animationCallback) {
-        this._animate = animationCallback;
-    };
-
-    /**
-     * DOC_TBA
-     * @memberof Scene
-     */
-    Scene.prototype.getAnimation = function() {
-        return this._animate;
-    };
-
     function clearPasses(passes) {
         passes.color = false;
         passes.pick = false;
@@ -56236,34 +55763,6 @@ define('Scene/Scene',[
         }
 
         clearPasses(frameState.passes);
-    }
-
-    function update(scene, time) {
-        var us = scene.getUniformState();
-        var camera = scene._camera;
-
-        // Destroy released shaders once every 120 frames to avoid thrashing the cache
-        if (scene._shaderFrameCount++ === 120) {
-            scene._shaderFrameCount = 0;
-            scene._context.getShaderCache().destroyReleasedShaderPrograms();
-        }
-
-        scene._animations.update();
-        camera.update();
-
-        var frameNumber = CesiumMath.incrementWrap(us.getFrameNumber(), 15000000.0, 1.0);
-        updateFrameState(scene, frameNumber, time);
-        scene._frameState.passes.color = true;
-        scene._frameState.passes.overlay = true;
-
-        us.update(scene._frameState);
-
-        if (scene._animate) {
-            scene._animate();
-        }
-
-        scene._commandList.length = 0;
-        scene._primitives.update(scene._context, scene._frameState, scene._commandList);
     }
 
     function updateFrustums(near, far, farToNearRatio, numFrustums, frustumCommandsList) {
@@ -56372,18 +55871,19 @@ define('Scene/Scene',[
             near = camera.frustum.near;
             far = camera.frustum.far;
         } else {
-            near = Math.max(near, camera.frustum.near);
-            far = Math.min(far, camera.frustum.far);
+            // The computed near plane must be between the user defined near and far planes.
+            // The computed far plane must between the user defined far and computed near.
+            // This will handle the case where the computed near plane is further than the user defined far plane.
+            near = Math.min(Math.max(near, camera.frustum.near), camera.frustum.far);
+            far = Math.max(Math.min(far, camera.frustum.far), near);
         }
 
         // Exploit temporal coherence. If the frustums haven't changed much, use the frustums computed
         // last frame, else compute the new frustums and sort them by frustum again.
         var farToNearRatio = scene.farToNearRatio;
         var numFrustums = Math.ceil(Math.log(far / near) / Math.log(farToNearRatio));
-        if (near !== Number.MAX_VALUE &&
-            (numFrustums !== frustumsLength ||
-             (frustumCommandsList.length !== 0 &&
-              (near < frustumCommandsList[0].near || far > frustumCommandsList[frustumsLength - 1].far)))) {
+        if (near !== Number.MAX_VALUE && (numFrustums !== frustumsLength || (frustumCommandsList.length !== 0 &&
+                (near < frustumCommandsList[0].near || far > frustumCommandsList[frustumsLength - 1].far)))) {
             updateFrustums(near, far, farToNearRatio, numFrustums, frustumCommandsList);
             createPotentiallyVisibleSet(scene, listName);
         }
@@ -56452,12 +55952,49 @@ define('Scene/Scene',[
      * DOC_TBA
      * @memberof Scene
      */
-    Scene.prototype.render = function(time) {
+    Scene.prototype.initializeFrame = function(time) {
         if (typeof time === 'undefined') {
             time = new JulianDate();
         }
 
-        update(this, time);
+        // Destroy released shaders once every 120 frames to avoid thrashing the cache
+        if (this._shaderFrameCount++ === 120) {
+            this._shaderFrameCount = 0;
+            this._context.getShaderCache().destroyReleasedShaderPrograms();
+        }
+
+        this._animations.update();
+
+        var us = this.getUniformState();
+        var frameState = this._frameState;
+
+        this._camera.controller.update(this.mode, this.scene2D);
+        this._screenSpaceCameraController.update(this.mode);
+
+        var frameNumber = CesiumMath.incrementWrap(us.getFrameNumber(), 15000000.0, 1.0);
+        updateFrameState(this, frameNumber, time);
+        frameState.passes.color = true;
+        frameState.passes.overlay = true;
+    };
+
+    /**
+     * DOC_TBA
+     * @memberof Scene
+     */
+    Scene.prototype.render = function() {
+        // Destroy released shaders once every 120 frames to avoid thrashing the cache
+        if (this._shaderFrameCount++ === 120) {
+            this._shaderFrameCount = 0;
+            this._context.getShaderCache().destroyReleasedShaderPrograms();
+        }
+
+        var us = this.getUniformState();
+        var frameState = this._frameState;
+        us.update(frameState);
+
+        this._commandList.length = 0;
+        this._primitives.update(this._context, this._frameState, this._commandList);
+
         createPotentiallyVisibleSet(this, 'colorList');
         executeCommands(this);
         executeOverlayCommands(this);
@@ -56554,7 +56091,8 @@ define('Scene/Scene',[
         this._pickFramebuffer = this._pickFramebuffer || context.createPickFramebuffer();
         var fb = this._pickFramebuffer.begin();
 
-        updateFrameState(this);
+        // Update with previous frame's number aqnd time, assuming that render is called before picking.
+        updateFrameState(this, frameState.frameNumber, frameState.time);
         frameState.cullingVolume = getPickCullingVolume(this, windowPosition, rectangleWidth, rectangleHeight);
         frameState.passes.pick = true;
 
@@ -56571,64 +56109,6 @@ define('Scene/Scene',[
     };
 
     /**
-     * Pick an ellipsoid or map.
-     *
-     * @memberof Scene
-     *
-     * @param {Cartesian2} windowPosition The x and y coordinates of a pixel.
-     * @param {Ellipsoid} [ellipsoid=Ellipsoid.WGS84] The ellipsoid to pick.
-     *
-     * @exception {DeveloperError} windowPosition is required.
-     *
-     * @return {Cartesian3} If the ellipsoid or map was picked, returns the point on the surface of the ellipsoid or map
-     * in world coordinates. If the ellipsoid or map was not picked, returns undefined.
-     */
-    Scene.prototype.pickEllipsoid = function(windowPosition, ellipsoid) {
-        if (typeof windowPosition === 'undefined') {
-            throw new DeveloperError('windowPosition is required.');
-        }
-
-        ellipsoid = ellipsoid || Ellipsoid.WGS84;
-
-        var p;
-        if (this.mode === SceneMode.SCENE3D) {
-            p = this._camera.pickEllipsoid(windowPosition, ellipsoid);
-        } else if (this.mode === SceneMode.SCENE2D) {
-            p = this._camera.pickMap2D(windowPosition, this.scene2D.projection);
-        } else if (this.mode === SceneMode.COLUMBUS_VIEW) {
-            p = this._camera.pickMapColumbusView(windowPosition, this.scene2D.projection);
-        }
-
-        return p;
-    };
-
-    /**
-     * View an extent on an ellipsoid or map.
-     *
-     * @memberof Scene
-     *
-     * @param {Extent} extent The extent to view.
-     * @param {Ellipsoid} [ellipsoid=Ellipsoid.WGS84] The ellipsoid to view.
-     *
-     * @exception {DeveloperError} extent is required.
-     */
-    Scene.prototype.viewExtent = function(extent, ellipsoid) {
-        if (typeof extent === 'undefined') {
-            throw new DeveloperError('extent is required.');
-        }
-
-        ellipsoid = ellipsoid || Ellipsoid.WGS84;
-
-        if (this.mode === SceneMode.SCENE3D) {
-            this._camera.viewExtent(extent, ellipsoid);
-        } else if (this.mode === SceneMode.SCENE2D) {
-            this._camera.viewExtent2D(extent, this.scene2D.projection);
-        } else if (this.mode === SceneMode.COLUMBUS_VIEW) {
-            this._camera.viewExtentColumbusView(extent, this.scene2D.projection);
-        }
-    };
-
-    /**
      * DOC_TBA
      * @memberof Scene
      */
@@ -56641,7 +56121,7 @@ define('Scene/Scene',[
      * @memberof Scene
      */
     Scene.prototype.destroy = function() {
-        this._camera = this._camera && this._camera.destroy();
+        this._screenSpaceCameraController = this._screenSpaceCameraController && this._screenSpaceCameraController.destroy();
         this._pickFramebuffer = this._pickFramebuffer && this._pickFramebuffer.destroy();
         this._primitives = this._primitives && this._primitives.destroy();
         this.skyBox = this.skyBox && this.skyBox.destroy();
@@ -56654,11 +56134,506 @@ define('Scene/Scene',[
 });
 
 /*global define*/
+define('Scene/CameraFlightPath',[
+        '../Core/defaultValue',
+        '../Core/Cartesian3',
+        '../Core/Cartographic',
+        '../Core/DeveloperError',
+        '../Core/Ellipsoid',
+        '../Core/HermiteSpline',
+        '../Core/IntersectionTests',
+        '../Core/Math',
+        '../Core/Matrix3',
+        '../Core/OrientationInterpolator',
+        '../Core/Quaternion',
+        '../Core/Ray',
+        '../Scene/PerspectiveFrustum',
+        '../Scene/PerspectiveOffCenterFrustum',
+        '../Scene/SceneMode',
+        '../ThirdParty/Tween'
+    ], function(
+        defaultValue,
+        Cartesian3,
+        Cartographic,
+        DeveloperError,
+        Ellipsoid,
+        HermiteSpline,
+        IntersectionTests,
+        CesiumMath,
+        Matrix3,
+        OrientationInterpolator,
+        Quaternion,
+        Ray,
+        PerspectiveFrustum,
+        PerspectiveOffCenterFrustum,
+        SceneMode,
+        Tween) {
+    
+
+    /**
+     * Creates animations for camera flights.
+     * @exports CameraFlightPath
+     */
+    var CameraFlightPath = {
+    };
+
+    function createQuaternion(direction, up) {
+        var right = direction.cross(up);
+        up = right.cross(direction);
+        var viewMat = new Matrix3( right.x,      right.y,      right.z,
+                                   up.x,         up.y,         up.z,
+                                  -direction.x, -direction.y, -direction.z);
+        return Quaternion.fromRotationMatrix(viewMat);
+    }
+
+    function getAltitude(frustum, dx, dy) {
+        var near;
+        var top;
+        var right;
+        if (frustum instanceof PerspectiveFrustum) {
+            var tanTheta = Math.tan(0.5 * frustum.fovy);
+            near = frustum.near;
+            top = frustum.near * tanTheta;
+            right = frustum.aspectRatio * top;
+            return Math.max(dx * near / right, dy * near / top);
+        } else if (frustum instanceof PerspectiveOffCenterFrustum) {
+            near = frustum.near;
+            top = frustum.top;
+            right = frustum.right;
+            return Math.max(dx * near / right, dy * near / top);
+        }
+
+        return Math.max(dx, dy);
+    }
+
+    function createSpline(points) {
+        if (points.length > 2) {
+            return new HermiteSpline(points);
+        }
+
+        // only two points, use linear interpolation
+        var p = points[0];
+        var q = points[1];
+
+        return {
+            getControlPoints : function() {
+                return points;
+            },
+
+            evaluate : function(time) {
+                time = CesiumMath.clamp(time, p.time, q.time);
+                var t = (time - p.time) / (q.time - p.time);
+                return Cartesian3.lerp(p.point, q.point, t);
+            }
+        };
+    }
+
+    function createPath3D(camera, ellipsoid, start, end, duration) {
+        // get minimum altitude from which the whole ellipsoid is visible
+        var radius = ellipsoid.getMaximumRadius();
+        var frustum = camera.frustum;
+        var maxStartAlt = getAltitude(frustum, radius, radius);
+
+        var dot = start.normalize().dot(end.normalize());
+
+        var points;
+        var altitude;
+        var incrementPercentage;
+        if (start.magnitude() > maxStartAlt) {
+            altitude = radius + 0.6 * (maxStartAlt - radius);
+            incrementPercentage = 0.35;
+        } else {
+            var diff = start.subtract(end);
+            altitude = diff.multiplyByScalar(0.5).add(end).magnitude();
+            var verticalDistance = camera.up.multiplyByScalar(diff.dot(camera.up)).magnitude();
+            var horizontalDistance = camera.right.multiplyByScalar(diff.dot(camera.right)).magnitude();
+            altitude += getAltitude(frustum, verticalDistance, horizontalDistance);
+            incrementPercentage = CesiumMath.clamp(dot + 1.0, 0.25, 0.5);
+        }
+
+        var aboveEnd = end.normalize().multiplyByScalar(altitude);
+        var afterStart = start.normalize().multiplyByScalar(altitude);
+
+        var axis, angle, rotation, middle;
+        if (end.magnitude() > maxStartAlt && dot > 0.75) {
+            middle = start.subtract(end).multiplyByScalar(0.5).add(end);
+
+            points = [{
+                point : start
+            }, {
+                point : middle
+            }, {
+                point : end
+            }];
+        } else if (start.magnitude() > maxStartAlt && dot > 0) {
+            middle = start.subtract(aboveEnd).multiplyByScalar(0.5).add(aboveEnd);
+
+            points = [{
+                point : start
+            }, {
+                point : middle
+            }, {
+                point : end
+            }];
+        } else {
+            points = [{
+                point : start
+            }];
+
+            angle = Math.acos(afterStart.normalize().dot(aboveEnd.normalize()));
+            axis = afterStart.cross(aboveEnd);
+            if (axis.equalsEpsilon(Cartesian3.ZERO, CesiumMath.EPSILON6)) {
+                axis = Cartesian3.UNIT_Z;
+            }
+
+            var increment = incrementPercentage * angle;
+            var startCondition = angle - increment;
+            for ( var i = startCondition; i > 0.0; i = i - increment) {
+                rotation = Matrix3.fromQuaternion(Quaternion.fromAxisAngle(axis, i));
+                points.push({
+                    point : rotation.multiplyByVector(aboveEnd)
+                });
+            }
+
+            points.push({
+                point : end
+            });
+        }
+
+        var scalar = duration / (points.length - 1);
+        for ( var k = 0; k < points.length; ++k) {
+            points[k].time = k * scalar;
+        }
+
+        return createSpline(points);
+    }
+
+    function createOrientations3D(camera, points, endDirection, endUp) {
+        points[0].orientation = createQuaternion(camera.direction, camera.up);
+
+        var point;
+        var direction;
+        var right;
+        var up;
+
+        var length = points.length - 1;
+        for (var i = 1; i < length; ++i) {
+            point = points[i];
+            direction = point.point.negate().normalize();
+            right = direction.cross(Cartesian3.UNIT_Z).normalize();
+            up = right.cross(direction);
+            point.orientation = createQuaternion(direction, up);
+        }
+
+        point = points[length];
+        if (typeof endDirection !== 'undefined' && typeof endUp !== 'undefined') {
+            point.orientation = createQuaternion(endDirection, endUp);
+        } else {
+            direction = point.point.negate().normalize();
+            right = direction.cross(Cartesian3.UNIT_Z).normalize();
+            up = right.cross(direction);
+            point.orientation = createQuaternion(direction, up);
+        }
+
+        return new OrientationInterpolator(points);
+    }
+
+    function createUpdate3D(frameState, destination, duration, direction, up) {
+        var camera = frameState.camera;
+        var ellipsoid = frameState.scene2D.projection.getEllipsoid();
+
+        var path = createPath3D(camera, ellipsoid, camera.position, destination, duration);
+        var orientations = createOrientations3D(camera, path.getControlPoints(), direction, up);
+
+        var update = function(value) {
+            var time = value.time;
+            var orientation = orientations.evaluate(time);
+            var rotationMatrix = Matrix3.fromQuaternion(orientation);
+
+            camera.position = path.evaluate(time);
+            camera.right = rotationMatrix.getRow(0);
+            camera.up = rotationMatrix.getRow(1);
+            camera.direction = rotationMatrix.getRow(2).negate();
+        };
+
+        return update;
+    }
+
+    function createPath2D(camera, ellipsoid, start, end, duration) {
+        // get minimum altitude from which the whole map is visible
+        var radius = ellipsoid.getMaximumRadius();
+        var frustum = camera.frustum;
+        var maxStartAlt = getAltitude(frustum, Math.PI * radius,  CesiumMath.PI_OVER_TWO * radius);
+
+        var points;
+        var altitude;
+        var incrementPercentage = 0.5;
+        if (start.z > maxStartAlt) {
+            altitude = 0.6 * maxStartAlt;
+        } else {
+            var diff = start.subtract(end);
+            altitude = getAltitude(frustum, Math.abs(diff.y), Math.abs(diff.x));
+        }
+
+        var aboveEnd = end.clone();
+        aboveEnd.z = altitude;
+        var afterStart = start.clone();
+        afterStart.z = altitude;
+
+        var middle;
+        if (end.z > maxStartAlt) {
+            middle = start.subtract(end).multiplyByScalar(0.5).add(end);
+
+            points = [{
+                point : start
+            }, {
+                point : middle
+            }, {
+                point : end
+            }];
+        } else if (start.z > maxStartAlt) {
+            middle = start.subtract(aboveEnd).multiplyByScalar(0.5).add(aboveEnd);
+
+            points = [{
+                point : start
+            }, {
+                point : middle
+            }, {
+                point : end
+            }];
+        } else {
+            points = [{
+                point : start
+            }];
+
+            var v = afterStart.subtract(aboveEnd);
+            var distance = v.magnitude();
+            Cartesian3.normalize(v, v);
+
+            var increment = incrementPercentage * distance;
+            var startCondition = distance - increment;
+            for ( var i = startCondition; i > 0.0; i = i - increment) {
+                points.push({
+                    point : v.multiplyByScalar(i).add(aboveEnd)
+                });
+            }
+
+            points.push({
+                point : end
+            });
+        }
+
+        var scalar = duration / (points.length - 1);
+        for ( var k = 0; k < points.length; ++k) {
+            points[k].time = k * scalar;
+        }
+
+        return createSpline(points);
+    }
+
+    function createOrientations2D(camera, points, endDirection, endUp) {
+        points[0].orientation = createQuaternion(camera.direction, camera.up);
+
+        var point;
+        var direction;
+        var right;
+        var up;
+
+        var length = points.length - 1;
+        for (var i = 1; i < length; ++i) {
+            point = points[i];
+            direction = Cartesian3.UNIT_Z.negate();
+            right = direction.cross(Cartesian3.UNIT_Y).normalize();
+            up = right.cross(direction);
+            point.orientation = createQuaternion(direction, up);
+        }
+
+        point = points[length];
+        if (typeof endDirection !== 'undefined' && typeof endUp !== 'undefined') {
+            point.orientation = createQuaternion(endDirection, endUp);
+        } else {
+            direction = Cartesian3.UNIT_Z.negate();
+            right = direction.cross(Cartesian3.UNIT_Y).normalize();
+            up = right.cross(direction);
+            point.orientation = createQuaternion(direction, up);
+        }
+
+        return new OrientationInterpolator(points);
+    }
+
+    function createUpdateCV(frameState, destination, duration, direction, up) {
+        var camera = frameState.camera;
+        var ellipsoid = frameState.scene2D.projection.getEllipsoid();
+
+        var path = createPath2D(camera, ellipsoid, camera.position.clone(), destination, duration);
+        var orientations = createOrientations2D(camera, path.getControlPoints(), direction, up);
+
+        var update = function(value) {
+            var time = value.time;
+            var orientation = orientations.evaluate(time);
+            var rotationMatrix = Matrix3.fromQuaternion(orientation);
+
+            camera.position = path.evaluate(time);
+            camera.right = rotationMatrix.getRow(0);
+            camera.up = rotationMatrix.getRow(1);
+            camera.direction = rotationMatrix.getRow(2).negate();
+        };
+
+        return update;
+    }
+
+    function createUpdate2D(frameState, destination, duration, direction, up) {
+        var camera = frameState.camera;
+        var ellipsoid = frameState.scene2D.projection.getEllipsoid();
+
+        var start = camera.position.clone();
+        start.z = camera.frustum.right - camera.frustum.left;
+
+        var path = createPath2D(camera, ellipsoid, start, destination, duration);
+        var points = path.getControlPoints();
+        var orientations = createOrientations2D(camera, points, Cartesian3.UNIT_Z.negate(), up);
+
+        var height = camera.position.z;
+
+        var update = function(value) {
+            var time = value.time;
+            var orientation = orientations.evaluate(time);
+            var rotationMatrix = Matrix3.fromQuaternion(orientation);
+
+            camera.position = path.evaluate(time);
+            var zoom = camera.position.z;
+            camera.position.z = height;
+
+            camera.right = rotationMatrix.getRow(0);
+            camera.up = rotationMatrix.getRow(1);
+            camera.direction = rotationMatrix.getRow(2).negate();
+
+            var frustum = camera.frustum;
+            var ratio = frustum.top / frustum.right;
+
+            var incrementAmount = (zoom - (frustum.right - frustum.left)) * 0.5;
+            frustum.right += incrementAmount;
+            frustum.left -= incrementAmount;
+            frustum.top = ratio * frustum.right;
+            frustum.bottom = -frustum.top;
+        };
+
+        return update;
+    }
+
+    /**
+     * Creates an animation to fly the camera from it's current position to a position given by a Cartesian. All arguments should
+     * be in the current camera reference frame.
+     *
+     * @param {FrameState} frameState The current frame state.
+     * @param {Cartesian3} description.destination The final position of the camera.
+     * @param {Cartesian3} [description.direction] The final direction of the camera. By default, the direction will point towards the center of the frame in 3D and in the negative z direction in Columbus view or 2D.
+     * @param {Cartesian3} [description.up] The final up direction. By default, the up direction will point towards local north in 3D and in the positive y direction in Columbus view or 2D.
+     * @param {Number} [description.duration=3000] The duration of the animation in milliseconds.
+     * @param {Function} [onComplete] The function to execute when the animation has completed.
+     *
+     * @returns {Object} An Object that can be added to an {@link AnimationCollection} for animation.
+     *
+     * @exception {DeveloperError} frameState is required.
+     * @exception {DeveloperError} description.destination is required.
+     *
+     * @see Scene#getFrameState
+     * @see Scene#getAnimationCollection
+     * @see CameraFlightPath#createAnimationCartographic
+     */
+    CameraFlightPath.createAnimation = function(frameState, description) {
+        description = defaultValue(description, {});
+        var destination = description.destination;
+        var direction = description.direction;
+        var up = description.up;
+
+        if (typeof frameState === 'undefined') {
+            throw new DeveloperError('frameState is required.');
+        }
+
+        if (typeof destination === 'undefined') {
+            throw new DeveloperError('destination is required.');
+        }
+
+        var duration = defaultValue(description.duration, 3000.0);
+        var onComplete = description.onComplete;
+
+        var update;
+        if (frameState.mode === SceneMode.SCENE3D) {
+            update = createUpdate3D(frameState, destination, duration, direction, up);
+        } else if (frameState.mode === SceneMode.SCENE2D) {
+            update = createUpdate2D(frameState, destination, duration, direction, up);
+        } else {
+            update = createUpdateCV(frameState, destination, duration, direction, up);
+        }
+
+        return {
+            duration : duration,
+            easingFunction : Tween.Easing.Sinusoidal.InOut,
+            startValue : {
+                time : 0.0
+            },
+            stopValue : {
+                time : duration
+            },
+            onUpdate : update,
+            onComplete : onComplete
+        };
+    };
+
+    /**
+     * Creates an animation to fly the camera from it's current position to a position given by a Cartographic. Keep in mind that the animation
+     * will happen in the camera's current reference frame.
+     *
+     * @param {FrameState} frameState The current frame state.
+     * @param {Cartesian3} description.destination The final position of the camera.
+     * @param {Cartesian3} [description.direction] The final direction of the camera. By default, the direction will point towards the center of the frame in 3D and in the negative z direction in Columbus view or 2D.
+     * @param {Cartesian3} [description.up] The final up direction. By default, the up direction will point towards local north in 3D and in the positive y direction in Columbus view or 2D.
+     * @param {Number} [description.duration=3000] The duration of the animation in milliseconds.
+     * @param {Function} [onComplete] The function to execute when the animation has completed.
+     *
+     * @returns {Object} An Object that can be added to an {@link AnimationCollection} for animation.
+     *
+     * @exception {DeveloperError} frameState is required.
+     * @exception {DeveloperError} description.destination is required.
+     *
+     * @see Scene#getFrameState
+     * @see Scene#getAnimationCollection
+     * @see CameraFlightPath#createAnimationCartographic
+     */
+    CameraFlightPath.createAnimationCartographic = function(frameState, description) {
+        description = defaultValue(description, {});
+        var destination = description.destination;
+
+        if (typeof frameState === 'undefined') {
+            throw new DeveloperError('frameState is required.');
+        }
+
+        if (typeof destination === 'undefined') {
+            throw new DeveloperError('description.destination is required.');
+        }
+
+        var end;
+        var projection = frameState.scene2D.projection;
+        if (frameState.mode === SceneMode.SCENE3D) {
+            var ellipsoid = projection.getEllipsoid();
+            end = ellipsoid.cartographicToCartesian(destination);
+        } else {
+            end = projection.project(destination);
+        }
+
+        description.destination = end;
+        return this.createAnimation(frameState, description);
+    };
+
+    return CameraFlightPath;
+});
+/*global define*/
 define('Scene/SceneTransitioner',[
         '../Core/destroyObject',
         '../Core/Math',
-        '../Core/EventHandler',
-        '../Core/MouseEventType',
+        '../Core/ScreenSpaceEventHandler',
+        '../Core/ScreenSpaceEventType',
         '../Core/Ellipsoid',
         '../Core/Cartesian2',
         '../Core/Cartesian3',
@@ -56672,8 +56647,8 @@ define('Scene/SceneTransitioner',[
     ], function(
         destroyObject,
         CesiumMath,
-        EventHandler,
-        MouseEventType,
+        ScreenSpaceEventHandler,
+        ScreenSpaceEventType,
         Ellipsoid,
         Cartesian2,
         Cartesian3,
@@ -56896,10 +56871,6 @@ define('Scene/SceneTransitioner',[
             var camera = scene.getCamera();
             camera.transform = this._camera2D.transform.clone();
 
-            var controllers = camera.getControllers();
-            controllers.removeAll();
-            controllers.add2D(scene.scene2D.projection);
-
             // TODO: Match incoming columbus-view or 3D position
             camera.position = this._camera2D.position.clone();
             camera.direction = this._camera2D.direction.clone();
@@ -56924,10 +56895,6 @@ define('Scene/SceneTransitioner',[
             updateFrustums(this);
             var camera = scene.getCamera();
             camera.transform = this._cameraCV.transform.clone();
-
-            var controllers = camera.getControllers();
-            controllers.removeAll();
-            controllers.addColumbusView();
 
             if (previousMode !== SceneMode.MORPHING || this._morphCancelled) {
                 this._morphCancelled = false;
@@ -56955,12 +56922,8 @@ define('Scene/SceneTransitioner',[
 
             this._destroyMorphHandler();
 
-            var camera = scene.getCamera();
-            var controllers = camera.getControllers();
-            controllers.removeAll();
-            controllers.addCentralBody();
-
             updateFrustums(this);
+            var camera = scene.getCamera();
             camera.transform = Matrix4.IDENTITY.clone();
 
             if (previousMode !== SceneMode.MORPHING || this._morphCancelled) {
@@ -56977,20 +56940,17 @@ define('Scene/SceneTransitioner',[
     SceneTransitioner.prototype._createMorphHandler = function(endMorphFunction) {
         var that = this;
 
-        var controllers = this._scene.getCamera().getControllers();
-        controllers.removeAll();
-
         if (this.endMorphOnMouseInput) {
-            this._morphHandler = new EventHandler(this._scene.getCanvas());
+            this._morphHandler = new ScreenSpaceEventHandler(this._scene.getCanvas());
 
             var cancelMorph = function() {
                 that._morphCancelled = true;
                 endMorphFunction.call(that);
             };
-            this._morphHandler.setMouseAction(cancelMorph, MouseEventType.LEFT_DOWN);
-            this._morphHandler.setMouseAction(cancelMorph, MouseEventType.MIDDLE_DOWN);
-            this._morphHandler.setMouseAction(cancelMorph, MouseEventType.RIGHT_DOWN);
-            this._morphHandler.setMouseAction(cancelMorph, MouseEventType.WHEEL);
+            this._morphHandler.setInputAction(cancelMorph, ScreenSpaceEventType.LEFT_DOWN);
+            this._morphHandler.setInputAction(cancelMorph, ScreenSpaceEventType.MIDDLE_DOWN);
+            this._morphHandler.setInputAction(cancelMorph, ScreenSpaceEventType.RIGHT_DOWN);
+            this._morphHandler.setInputAction(cancelMorph, ScreenSpaceEventType.WHEEL);
         }
     };
 
@@ -57162,10 +57122,19 @@ define('Scene/SceneTransitioner',[
         }
 
         var partialDuration = (endTime - startTime) * duration;
-        if (partialDuration === 0 && Cartesian2.magnitude(Cartesian2.subtract(startPos, endPos2D, startPos)) !== 0) {
-            partialDuration = duration;
-            startTime = 0.0;
-            endTime = 1.0;
+        if (partialDuration < CesiumMath.EPSILON6) {
+            if (!startPos.equalsEpsilon(endPos2D, CesiumMath.EPSILON6)) {
+                partialDuration = duration;
+                startTime = 0.0;
+                endTime = 1.0;
+            } else {
+                // If the camera and frustum are already in position for the switch to
+                // a perspective projection, nothing needs to be animated.
+                camera.position = endPos2D;
+                camera.frustum = frustumCV.clone();
+                onComplete.call(that);
+                return;
+            }
         }
 
         var animation = scene.getAnimations().add({
@@ -57435,6 +57404,7 @@ define('Scene/SceneTransitioner',[
 
     return SceneTransitioner;
 });
+
 /**
  * @fileOverview
  *
@@ -60100,33 +60070,33 @@ define('Core/TaskProcessor',[
         delete deferreds[id];
     }
 
-    var cesiumScriptRegex = /(.*\/?)Cesium\w*\.js(?:\W|$)/i;
+    var cesiumScriptRegex = /(.*?)Cesium\w*\.js(?:\W|$)/i;
     var bootstrapperScript = 'cesiumWorkerBootstrapper.js';
     var bootstrapperUrl;
     function getBootstrapperUrl() {
         /*global CESIUM_BASE_URL*/
-        if (typeof bootstrapperUrl === 'undefined') {
-            if (typeof CESIUM_BASE_URL !== 'undefined') {
-                bootstrapperUrl = CESIUM_BASE_URL + '/' + bootstrapperScript;
-            } else if (typeof require.toUrl !== 'undefined') {
-                bootstrapperUrl = require.toUrl('../Workers/' + bootstrapperScript);
-            } else {
-                var scripts = document.getElementsByTagName('script');
-                for ( var i = 0, len = scripts.length; i < len; ++i) {
-                    var src = scripts[i].getAttribute('src');
-                    var result = cesiumScriptRegex.exec(src);
-                    if (result !== null) {
-                        bootstrapperUrl = result[1] + bootstrapperScript;
-                        break;
-                    }
-                }
-                if (typeof bootstrapperUrl === 'undefined') {
-                    throw new DeveloperError('Unable to determine Cesium base URL automatically, try defining a global variable called CESIUM_BASE_URL.');
-                }
+        if (typeof bootstrapperUrl !== 'undefined') {
+            return bootstrapperUrl;
+        }
+
+        if (typeof CESIUM_BASE_URL !== 'undefined') {
+            return (bootstrapperUrl = CESIUM_BASE_URL + '/' + bootstrapperScript);
+        }
+
+        if (typeof require.toUrl !== 'undefined') {
+            return (bootstrapperUrl = require.toUrl('../Workers/' + bootstrapperScript));
+        }
+
+        var scripts = document.getElementsByTagName('script');
+        for ( var i = 0, len = scripts.length; i < len; ++i) {
+            var src = scripts[i].getAttribute('src');
+            var result = cesiumScriptRegex.exec(src);
+            if (result !== null) {
+                return (bootstrapperUrl = result[1] + bootstrapperScript);
             }
         }
 
-        return bootstrapperUrl;
+        throw new DeveloperError('Unable to determine Cesium base URL automatically, try defining a global variable called CESIUM_BASE_URL.');
     }
 
     function createWorker(processor) {
@@ -60230,6 +60200,7 @@ define('Core/TaskProcessor',[
 
     return TaskProcessor;
 });
+
 /*global define*/
 define('Core/jsonp',[
         './defaultValue',
@@ -73921,7 +73892,7 @@ define('Scene/SingleTileImageryProvider',[
     return SingleTileImageryProvider;
 });
 /*global define*/
-define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Core/BoundingRectangle', 'Core/BoundingSphere', 'Core/BoxTessellator', 'Core/Cartesian2', 'Core/Cartesian3', 'Core/Cartesian4', 'Core/Cartographic', 'Core/CatmullRomSpline', 'Core/Clock', 'Core/ClockRange', 'Core/ClockStep', 'Core/Color', 'Core/ComponentDatatype', 'Core/CubeMapEllipsoidTessellator', 'Core/CubicRealPolynomial', 'Core/DefaultProxy', 'Core/DeveloperError', 'Core/Ellipsoid', 'Core/EllipsoidTangentPlane', 'Core/EllipsoidalOccluder', 'Core/EncodedCartesian3', 'Core/Enumeration', 'Core/Event', 'Core/EventHandler', 'Core/EventModifier', 'Core/Extent', 'Core/ExtentTessellator', 'Core/FAR', 'Core/FeatureDetection', 'Core/Fullscreen', 'Core/GeographicProjection', 'Core/HermitePolynomialApproximation', 'Core/HermiteSpline', 'Core/IndexDatatype', 'Core/Intersect', 'Core/IntersectionTests', 'Core/Interval', 'Core/Iso8601', 'Core/JulianDate', 'Core/LagrangePolynomialApproximation', 'Core/LeapSecond', 'Core/LinearApproximation', 'Core/Math', 'Core/Matrix2', 'Core/Matrix3', 'Core/Matrix4', 'Core/MeshFilters', 'Core/MouseEventType', 'Core/Occluder', 'Core/OrientationInterpolator', 'Core/PlaneTessellator', 'Core/PolygonPipeline', 'Core/PolylinePipeline', 'Core/PrimitiveType', 'Core/QuadraticRealPolynomial', 'Core/QuarticRealPolynomial', 'Core/Quaternion', 'Core/Queue', 'Core/Ray', 'Core/RuntimeError', 'Core/Shapes', 'Core/Spherical', 'Core/TaskProcessor', 'Core/TimeConstants', 'Core/TimeInterval', 'Core/TimeIntervalCollection', 'Core/TimeStandard', 'Core/Tipsify', 'Core/Transforms', 'Core/TridiagonalSystemSolver', 'Core/Visibility', 'Core/WebMercatorProjection', 'Core/WindingOrder', 'Core/binarySearch', 'Core/clone', 'Core/combine', 'Core/computeSunPosition', 'Core/createGuid', 'Core/defaultValue', 'Core/destroyObject', 'Core/freezeObject', 'Core/getImagePixels', 'Core/isLeapYear', 'Core/jsonp', 'Core/loadArrayBuffer', 'Core/loadImage', 'Core/loadJson', 'Core/loadText', 'Core/pointInsideTriangle2D', 'Core/requestAnimationFrame', 'Core/throttleRequestByServer', 'Core/writeTextToCanvas', 'DynamicScene/CompositeDynamicObjectCollection', 'DynamicScene/CzmlBoolean', 'DynamicScene/CzmlCartesian2', 'DynamicScene/CzmlCartesian3', 'DynamicScene/CzmlCartographic', 'DynamicScene/CzmlColor', 'DynamicScene/CzmlDefaults', 'DynamicScene/CzmlHorizontalOrigin', 'DynamicScene/CzmlImage', 'DynamicScene/CzmlLabelStyle', 'DynamicScene/CzmlNumber', 'DynamicScene/CzmlString', 'DynamicScene/CzmlUnitCartesian3', 'DynamicScene/CzmlUnitQuaternion', 'DynamicScene/CzmlUnitSpherical', 'DynamicScene/CzmlVerticalOrigin', 'DynamicScene/DynamicBillboard', 'DynamicScene/DynamicBillboardVisualizer', 'DynamicScene/DynamicColorMaterial', 'DynamicScene/DynamicCone', 'DynamicScene/DynamicConeVisualizer', 'DynamicScene/DynamicConeVisualizerUsingCustomSensor', 'DynamicScene/DynamicDirectionsProperty', 'DynamicScene/DynamicEllipsoid', 'DynamicScene/DynamicEllipsoidVisualizer', 'DynamicScene/DynamicImageMaterial', 'DynamicScene/DynamicLabel', 'DynamicScene/DynamicLabelVisualizer', 'DynamicScene/DynamicMaterialProperty', 'DynamicScene/DynamicObject', 'DynamicScene/DynamicObjectCollection', 'DynamicScene/DynamicObjectView', 'DynamicScene/DynamicPath', 'DynamicScene/DynamicPathVisualizer', 'DynamicScene/DynamicPoint', 'DynamicScene/DynamicPointVisualizer', 'DynamicScene/DynamicPolygon', 'DynamicScene/DynamicPolygonVisualizer', 'DynamicScene/DynamicPolyline', 'DynamicScene/DynamicPolylineVisualizer', 'DynamicScene/DynamicPositionProperty', 'DynamicScene/DynamicProperty', 'DynamicScene/DynamicPyramid', 'DynamicScene/DynamicPyramidVisualizer', 'DynamicScene/DynamicVertexPositionsProperty', 'DynamicScene/ReferenceProperty', 'DynamicScene/VisualizerCollection', 'DynamicScene/processCzml', 'Renderer/BlendEquation', 'Renderer/BlendFunction', 'Renderer/BlendingState', 'Renderer/Buffer', 'Renderer/BufferUsage', 'Renderer/ClearCommand', 'Renderer/CommandLists', 'Renderer/Context', 'Renderer/CubeMap', 'Renderer/CubeMapFace', 'Renderer/CullFace', 'Renderer/DepthFunction', 'Renderer/DrawCommand', 'Renderer/Framebuffer', 'Renderer/MipmapHint', 'Renderer/PickFramebuffer', 'Renderer/PixelDatatype', 'Renderer/PixelFormat', 'Renderer/Renderbuffer', 'Renderer/RenderbufferFormat', 'Renderer/ShaderCache', 'Renderer/ShaderProgram', 'Renderer/StencilFunction', 'Renderer/StencilOperation', 'Renderer/Texture', 'Renderer/TextureAtlas', 'Renderer/TextureAtlasBuilder', 'Renderer/TextureMagnificationFilter', 'Renderer/TextureMinificationFilter', 'Renderer/TextureWrap', 'Renderer/UniformDatatype', 'Renderer/UniformState', 'Renderer/VertexArray', 'Renderer/VertexArrayFacade', 'Renderer/VertexLayout', 'Renderer/loadCubeMap', 'Scene/AnimationCollection', 'Scene/ArcGisMapServerImageryProvider', 'Scene/Billboard', 'Scene/BillboardCollection', 'Scene/BingMapsImageryProvider', 'Scene/BingMapsStyle', 'Scene/Camera', 'Scene/Camera2DController', 'Scene/CameraCentralBodyController', 'Scene/CameraColumbusViewController', 'Scene/CameraControllerCollection', 'Scene/CameraEventHandler', 'Scene/CameraEventType', 'Scene/CameraFlightController', 'Scene/CameraFreeLookController', 'Scene/CameraHelpers', 'Scene/CameraSpindleController', 'Scene/CameraSpindleControllerMode', 'Scene/CentralBody', 'Scene/CentralBodySurface', 'Scene/CentralBodySurfaceShaderSet', 'Scene/ComplexConicSensorVolume', 'Scene/CompositePrimitive', 'Scene/CullingVolume', 'Scene/CustomSensorVolume', 'Scene/DiscardMissingTileImagePolicy', 'Scene/EllipsoidPrimitive', 'Scene/EllipsoidTerrainProvider', 'Scene/FrameState', 'Scene/FrustumCommands', 'Scene/GeographicTilingScheme', 'Scene/HorizontalOrigin', 'Scene/Imagery', 'Scene/ImageryLayer', 'Scene/ImageryLayerCollection', 'Scene/ImageryProvider', 'Scene/ImageryProviderError', 'Scene/ImageryState', 'Scene/Label', 'Scene/LabelCollection', 'Scene/LabelStyle', 'Scene/Material', 'Scene/NeverTileDiscardPolicy', 'Scene/OpenStreetMapImageryProvider', 'Scene/OrthographicFrustum', 'Scene/PerformanceDisplay', 'Scene/PerspectiveFrustum', 'Scene/PerspectiveOffCenterFrustum', 'Scene/Polygon', 'Scene/Polyline', 'Scene/PolylineCollection', 'Scene/Projections', 'Scene/RectangularPyramidSensorVolume', 'Scene/Scene', 'Scene/SceneMode', 'Scene/SceneTransitioner', 'Scene/SensorVolumeCollection', 'Scene/SingleTileImageryProvider', 'Scene/SkyAtmosphere', 'Scene/SkyBox', 'Scene/TerrainProvider', 'Scene/TexturePool', 'Scene/Tile', 'Scene/TileDiscardPolicy', 'Scene/TileImagery', 'Scene/TileLoadQueue', 'Scene/TileMapServiceImageryProvider', 'Scene/TileReplacementQueue', 'Scene/TileState', 'Scene/TilingScheme', 'Scene/VerticalOrigin', 'Scene/ViewportQuad', 'Scene/WebMapServiceImageryProvider', 'Scene/WebMercatorTilingScheme', 'Shaders/BillboardCollectionFS', 'Shaders/BillboardCollectionVS', 'Shaders/BuiltinFunctions', 'Shaders/CentralBodyFS', 'Shaders/CentralBodyFSDepth', 'Shaders/CentralBodyFSPole', 'Shaders/CentralBodyVS', 'Shaders/CentralBodyVSDepth', 'Shaders/CentralBodyVSPole', 'Shaders/ComplexConicSensorVolumeFS', 'Shaders/ComplexConicSensorVolumeVS', 'Shaders/ConstructiveSolidGeometry', 'Shaders/CustomSensorVolumeFS', 'Shaders/CustomSensorVolumeVS', 'Shaders/EllipsoidFS', 'Shaders/EllipsoidVS', 'Shaders/Materials/AsphaltMaterial', 'Shaders/Materials/BlobMaterial', 'Shaders/Materials/BrickMaterial', 'Shaders/Materials/BumpMapMaterial', 'Shaders/Materials/CementMaterial', 'Shaders/Materials/CheckerboardMaterial', 'Shaders/Materials/DotMaterial', 'Shaders/Materials/FacetMaterial', 'Shaders/Materials/FresnelMaterial', 'Shaders/Materials/GrassMaterial', 'Shaders/Materials/NormalMapMaterial', 'Shaders/Materials/ReflectionMaterial', 'Shaders/Materials/RefractionMaterial', 'Shaders/Materials/StripeMaterial', 'Shaders/Materials/TieDyeMaterial', 'Shaders/Materials/Water', 'Shaders/Materials/WoodMaterial', 'Shaders/Noise', 'Shaders/PolygonFS', 'Shaders/PolygonFSPick', 'Shaders/PolygonVS', 'Shaders/PolygonVSPick', 'Shaders/PolylineFS', 'Shaders/PolylineVS', 'Shaders/Ray', 'Shaders/ReprojectWebMercatorFS', 'Shaders/ReprojectWebMercatorVS', 'Shaders/SensorVolume', 'Shaders/SkyAtmosphereFS', 'Shaders/SkyAtmosphereVS', 'Shaders/SkyBoxFS', 'Shaders/SkyBoxVS', 'Shaders/ViewportQuadFS', 'Shaders/ViewportQuadVS', 'ThirdParty/Tween', 'ThirdParty/Uri', 'ThirdParty/measureText', 'ThirdParty/when'], function(Core_AnimationController, Core_AxisAlignedBoundingBox, Core_BoundingRectangle, Core_BoundingSphere, Core_BoxTessellator, Core_Cartesian2, Core_Cartesian3, Core_Cartesian4, Core_Cartographic, Core_CatmullRomSpline, Core_Clock, Core_ClockRange, Core_ClockStep, Core_Color, Core_ComponentDatatype, Core_CubeMapEllipsoidTessellator, Core_CubicRealPolynomial, Core_DefaultProxy, Core_DeveloperError, Core_Ellipsoid, Core_EllipsoidTangentPlane, Core_EllipsoidalOccluder, Core_EncodedCartesian3, Core_Enumeration, Core_Event, Core_EventHandler, Core_EventModifier, Core_Extent, Core_ExtentTessellator, Core_FAR, Core_FeatureDetection, Core_Fullscreen, Core_GeographicProjection, Core_HermitePolynomialApproximation, Core_HermiteSpline, Core_IndexDatatype, Core_Intersect, Core_IntersectionTests, Core_Interval, Core_Iso8601, Core_JulianDate, Core_LagrangePolynomialApproximation, Core_LeapSecond, Core_LinearApproximation, Core_Math, Core_Matrix2, Core_Matrix3, Core_Matrix4, Core_MeshFilters, Core_MouseEventType, Core_Occluder, Core_OrientationInterpolator, Core_PlaneTessellator, Core_PolygonPipeline, Core_PolylinePipeline, Core_PrimitiveType, Core_QuadraticRealPolynomial, Core_QuarticRealPolynomial, Core_Quaternion, Core_Queue, Core_Ray, Core_RuntimeError, Core_Shapes, Core_Spherical, Core_TaskProcessor, Core_TimeConstants, Core_TimeInterval, Core_TimeIntervalCollection, Core_TimeStandard, Core_Tipsify, Core_Transforms, Core_TridiagonalSystemSolver, Core_Visibility, Core_WebMercatorProjection, Core_WindingOrder, Core_binarySearch, Core_clone, Core_combine, Core_computeSunPosition, Core_createGuid, Core_defaultValue, Core_destroyObject, Core_freezeObject, Core_getImagePixels, Core_isLeapYear, Core_jsonp, Core_loadArrayBuffer, Core_loadImage, Core_loadJson, Core_loadText, Core_pointInsideTriangle2D, Core_requestAnimationFrame, Core_throttleRequestByServer, Core_writeTextToCanvas, DynamicScene_CompositeDynamicObjectCollection, DynamicScene_CzmlBoolean, DynamicScene_CzmlCartesian2, DynamicScene_CzmlCartesian3, DynamicScene_CzmlCartographic, DynamicScene_CzmlColor, DynamicScene_CzmlDefaults, DynamicScene_CzmlHorizontalOrigin, DynamicScene_CzmlImage, DynamicScene_CzmlLabelStyle, DynamicScene_CzmlNumber, DynamicScene_CzmlString, DynamicScene_CzmlUnitCartesian3, DynamicScene_CzmlUnitQuaternion, DynamicScene_CzmlUnitSpherical, DynamicScene_CzmlVerticalOrigin, DynamicScene_DynamicBillboard, DynamicScene_DynamicBillboardVisualizer, DynamicScene_DynamicColorMaterial, DynamicScene_DynamicCone, DynamicScene_DynamicConeVisualizer, DynamicScene_DynamicConeVisualizerUsingCustomSensor, DynamicScene_DynamicDirectionsProperty, DynamicScene_DynamicEllipsoid, DynamicScene_DynamicEllipsoidVisualizer, DynamicScene_DynamicImageMaterial, DynamicScene_DynamicLabel, DynamicScene_DynamicLabelVisualizer, DynamicScene_DynamicMaterialProperty, DynamicScene_DynamicObject, DynamicScene_DynamicObjectCollection, DynamicScene_DynamicObjectView, DynamicScene_DynamicPath, DynamicScene_DynamicPathVisualizer, DynamicScene_DynamicPoint, DynamicScene_DynamicPointVisualizer, DynamicScene_DynamicPolygon, DynamicScene_DynamicPolygonVisualizer, DynamicScene_DynamicPolyline, DynamicScene_DynamicPolylineVisualizer, DynamicScene_DynamicPositionProperty, DynamicScene_DynamicProperty, DynamicScene_DynamicPyramid, DynamicScene_DynamicPyramidVisualizer, DynamicScene_DynamicVertexPositionsProperty, DynamicScene_ReferenceProperty, DynamicScene_VisualizerCollection, DynamicScene_processCzml, Renderer_BlendEquation, Renderer_BlendFunction, Renderer_BlendingState, Renderer_Buffer, Renderer_BufferUsage, Renderer_ClearCommand, Renderer_CommandLists, Renderer_Context, Renderer_CubeMap, Renderer_CubeMapFace, Renderer_CullFace, Renderer_DepthFunction, Renderer_DrawCommand, Renderer_Framebuffer, Renderer_MipmapHint, Renderer_PickFramebuffer, Renderer_PixelDatatype, Renderer_PixelFormat, Renderer_Renderbuffer, Renderer_RenderbufferFormat, Renderer_ShaderCache, Renderer_ShaderProgram, Renderer_StencilFunction, Renderer_StencilOperation, Renderer_Texture, Renderer_TextureAtlas, Renderer_TextureAtlasBuilder, Renderer_TextureMagnificationFilter, Renderer_TextureMinificationFilter, Renderer_TextureWrap, Renderer_UniformDatatype, Renderer_UniformState, Renderer_VertexArray, Renderer_VertexArrayFacade, Renderer_VertexLayout, Renderer_loadCubeMap, Scene_AnimationCollection, Scene_ArcGisMapServerImageryProvider, Scene_Billboard, Scene_BillboardCollection, Scene_BingMapsImageryProvider, Scene_BingMapsStyle, Scene_Camera, Scene_Camera2DController, Scene_CameraCentralBodyController, Scene_CameraColumbusViewController, Scene_CameraControllerCollection, Scene_CameraEventHandler, Scene_CameraEventType, Scene_CameraFlightController, Scene_CameraFreeLookController, Scene_CameraHelpers, Scene_CameraSpindleController, Scene_CameraSpindleControllerMode, Scene_CentralBody, Scene_CentralBodySurface, Scene_CentralBodySurfaceShaderSet, Scene_ComplexConicSensorVolume, Scene_CompositePrimitive, Scene_CullingVolume, Scene_CustomSensorVolume, Scene_DiscardMissingTileImagePolicy, Scene_EllipsoidPrimitive, Scene_EllipsoidTerrainProvider, Scene_FrameState, Scene_FrustumCommands, Scene_GeographicTilingScheme, Scene_HorizontalOrigin, Scene_Imagery, Scene_ImageryLayer, Scene_ImageryLayerCollection, Scene_ImageryProvider, Scene_ImageryProviderError, Scene_ImageryState, Scene_Label, Scene_LabelCollection, Scene_LabelStyle, Scene_Material, Scene_NeverTileDiscardPolicy, Scene_OpenStreetMapImageryProvider, Scene_OrthographicFrustum, Scene_PerformanceDisplay, Scene_PerspectiveFrustum, Scene_PerspectiveOffCenterFrustum, Scene_Polygon, Scene_Polyline, Scene_PolylineCollection, Scene_Projections, Scene_RectangularPyramidSensorVolume, Scene_Scene, Scene_SceneMode, Scene_SceneTransitioner, Scene_SensorVolumeCollection, Scene_SingleTileImageryProvider, Scene_SkyAtmosphere, Scene_SkyBox, Scene_TerrainProvider, Scene_TexturePool, Scene_Tile, Scene_TileDiscardPolicy, Scene_TileImagery, Scene_TileLoadQueue, Scene_TileMapServiceImageryProvider, Scene_TileReplacementQueue, Scene_TileState, Scene_TilingScheme, Scene_VerticalOrigin, Scene_ViewportQuad, Scene_WebMapServiceImageryProvider, Scene_WebMercatorTilingScheme, Shaders_BillboardCollectionFS, Shaders_BillboardCollectionVS, Shaders_BuiltinFunctions, Shaders_CentralBodyFS, Shaders_CentralBodyFSDepth, Shaders_CentralBodyFSPole, Shaders_CentralBodyVS, Shaders_CentralBodyVSDepth, Shaders_CentralBodyVSPole, Shaders_ComplexConicSensorVolumeFS, Shaders_ComplexConicSensorVolumeVS, Shaders_ConstructiveSolidGeometry, Shaders_CustomSensorVolumeFS, Shaders_CustomSensorVolumeVS, Shaders_EllipsoidFS, Shaders_EllipsoidVS, Shaders_Materials_AsphaltMaterial, Shaders_Materials_BlobMaterial, Shaders_Materials_BrickMaterial, Shaders_Materials_BumpMapMaterial, Shaders_Materials_CementMaterial, Shaders_Materials_CheckerboardMaterial, Shaders_Materials_DotMaterial, Shaders_Materials_FacetMaterial, Shaders_Materials_FresnelMaterial, Shaders_Materials_GrassMaterial, Shaders_Materials_NormalMapMaterial, Shaders_Materials_ReflectionMaterial, Shaders_Materials_RefractionMaterial, Shaders_Materials_StripeMaterial, Shaders_Materials_TieDyeMaterial, Shaders_Materials_Water, Shaders_Materials_WoodMaterial, Shaders_Noise, Shaders_PolygonFS, Shaders_PolygonFSPick, Shaders_PolygonVS, Shaders_PolygonVSPick, Shaders_PolylineFS, Shaders_PolylineVS, Shaders_Ray, Shaders_ReprojectWebMercatorFS, Shaders_ReprojectWebMercatorVS, Shaders_SensorVolume, Shaders_SkyAtmosphereFS, Shaders_SkyAtmosphereVS, Shaders_SkyBoxFS, Shaders_SkyBoxVS, Shaders_ViewportQuadFS, Shaders_ViewportQuadVS, ThirdParty_Tween, ThirdParty_Uri, ThirdParty_measureText, ThirdParty_when) {
+define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Core/BoundingRectangle', 'Core/BoundingSphere', 'Core/BoxTessellator', 'Core/Cartesian2', 'Core/Cartesian3', 'Core/Cartesian4', 'Core/Cartographic', 'Core/CatmullRomSpline', 'Core/Clock', 'Core/ClockRange', 'Core/ClockStep', 'Core/Color', 'Core/ComponentDatatype', 'Core/CubeMapEllipsoidTessellator', 'Core/CubicRealPolynomial', 'Core/DefaultProxy', 'Core/DeveloperError', 'Core/Ellipsoid', 'Core/EllipsoidTangentPlane', 'Core/EllipsoidalOccluder', 'Core/EncodedCartesian3', 'Core/Enumeration', 'Core/Event', 'Core/Extent', 'Core/ExtentTessellator', 'Core/FAR', 'Core/FeatureDetection', 'Core/Fullscreen', 'Core/GeographicProjection', 'Core/HermitePolynomialApproximation', 'Core/HermiteSpline', 'Core/IndexDatatype', 'Core/Intersect', 'Core/IntersectionTests', 'Core/Interval', 'Core/Iso8601', 'Core/JulianDate', 'Core/KeyboardEventModifier', 'Core/LagrangePolynomialApproximation', 'Core/LeapSecond', 'Core/LinearApproximation', 'Core/Math', 'Core/Matrix2', 'Core/Matrix3', 'Core/Matrix4', 'Core/MeshFilters', 'Core/Occluder', 'Core/OrientationInterpolator', 'Core/PlaneTessellator', 'Core/PolygonPipeline', 'Core/PolylinePipeline', 'Core/PrimitiveType', 'Core/QuadraticRealPolynomial', 'Core/QuarticRealPolynomial', 'Core/Quaternion', 'Core/Queue', 'Core/Ray', 'Core/RuntimeError', 'Core/ScreenSpaceEventHandler', 'Core/ScreenSpaceEventType', 'Core/Shapes', 'Core/Spherical', 'Core/TaskProcessor', 'Core/TimeConstants', 'Core/TimeInterval', 'Core/TimeIntervalCollection', 'Core/TimeStandard', 'Core/Tipsify', 'Core/Transforms', 'Core/TridiagonalSystemSolver', 'Core/Visibility', 'Core/WebMercatorProjection', 'Core/WindingOrder', 'Core/binarySearch', 'Core/clone', 'Core/combine', 'Core/computeSunPosition', 'Core/createGuid', 'Core/defaultValue', 'Core/destroyObject', 'Core/freezeObject', 'Core/getImagePixels', 'Core/isLeapYear', 'Core/jsonp', 'Core/loadArrayBuffer', 'Core/loadImage', 'Core/loadJson', 'Core/loadText', 'Core/pointInsideTriangle2D', 'Core/requestAnimationFrame', 'Core/throttleRequestByServer', 'Core/writeTextToCanvas', 'DynamicScene/CompositeDynamicObjectCollection', 'DynamicScene/CzmlBoolean', 'DynamicScene/CzmlCartesian2', 'DynamicScene/CzmlCartesian3', 'DynamicScene/CzmlCartographic', 'DynamicScene/CzmlColor', 'DynamicScene/CzmlDefaults', 'DynamicScene/CzmlHorizontalOrigin', 'DynamicScene/CzmlImage', 'DynamicScene/CzmlLabelStyle', 'DynamicScene/CzmlNumber', 'DynamicScene/CzmlString', 'DynamicScene/CzmlUnitCartesian3', 'DynamicScene/CzmlUnitQuaternion', 'DynamicScene/CzmlUnitSpherical', 'DynamicScene/CzmlVerticalOrigin', 'DynamicScene/DynamicBillboard', 'DynamicScene/DynamicBillboardVisualizer', 'DynamicScene/DynamicColorMaterial', 'DynamicScene/DynamicCone', 'DynamicScene/DynamicConeVisualizer', 'DynamicScene/DynamicConeVisualizerUsingCustomSensor', 'DynamicScene/DynamicDirectionsProperty', 'DynamicScene/DynamicEllipsoid', 'DynamicScene/DynamicEllipsoidVisualizer', 'DynamicScene/DynamicImageMaterial', 'DynamicScene/DynamicLabel', 'DynamicScene/DynamicLabelVisualizer', 'DynamicScene/DynamicMaterialProperty', 'DynamicScene/DynamicObject', 'DynamicScene/DynamicObjectCollection', 'DynamicScene/DynamicObjectView', 'DynamicScene/DynamicPath', 'DynamicScene/DynamicPathVisualizer', 'DynamicScene/DynamicPoint', 'DynamicScene/DynamicPointVisualizer', 'DynamicScene/DynamicPolygon', 'DynamicScene/DynamicPolygonVisualizer', 'DynamicScene/DynamicPolyline', 'DynamicScene/DynamicPolylineVisualizer', 'DynamicScene/DynamicPositionProperty', 'DynamicScene/DynamicProperty', 'DynamicScene/DynamicPyramid', 'DynamicScene/DynamicPyramidVisualizer', 'DynamicScene/DynamicVertexPositionsProperty', 'DynamicScene/ReferenceProperty', 'DynamicScene/VisualizerCollection', 'DynamicScene/processCzml', 'Renderer/BlendEquation', 'Renderer/BlendFunction', 'Renderer/BlendingState', 'Renderer/Buffer', 'Renderer/BufferUsage', 'Renderer/ClearCommand', 'Renderer/CommandLists', 'Renderer/Context', 'Renderer/CubeMap', 'Renderer/CubeMapFace', 'Renderer/CullFace', 'Renderer/DepthFunction', 'Renderer/DrawCommand', 'Renderer/Framebuffer', 'Renderer/MipmapHint', 'Renderer/PickFramebuffer', 'Renderer/PixelDatatype', 'Renderer/PixelFormat', 'Renderer/Renderbuffer', 'Renderer/RenderbufferFormat', 'Renderer/ShaderCache', 'Renderer/ShaderProgram', 'Renderer/StencilFunction', 'Renderer/StencilOperation', 'Renderer/Texture', 'Renderer/TextureAtlas', 'Renderer/TextureAtlasBuilder', 'Renderer/TextureMagnificationFilter', 'Renderer/TextureMinificationFilter', 'Renderer/TextureWrap', 'Renderer/UniformDatatype', 'Renderer/UniformState', 'Renderer/VertexArray', 'Renderer/VertexArrayFacade', 'Renderer/VertexLayout', 'Renderer/loadCubeMap', 'Scene/AnimationCollection', 'Scene/ArcGisMapServerImageryProvider', 'Scene/Billboard', 'Scene/BillboardCollection', 'Scene/BingMapsImageryProvider', 'Scene/BingMapsStyle', 'Scene/Camera', 'Scene/CameraColumbusViewMode', 'Scene/CameraController', 'Scene/CameraEventAggregator', 'Scene/CameraEventType', 'Scene/CameraFlightPath', 'Scene/CentralBody', 'Scene/CentralBodySurface', 'Scene/CentralBodySurfaceShaderSet', 'Scene/ComplexConicSensorVolume', 'Scene/CompositePrimitive', 'Scene/CullingVolume', 'Scene/CustomSensorVolume', 'Scene/DiscardMissingTileImagePolicy', 'Scene/EllipsoidPrimitive', 'Scene/EllipsoidTerrainProvider', 'Scene/FrameState', 'Scene/FrustumCommands', 'Scene/GeographicTilingScheme', 'Scene/HorizontalOrigin', 'Scene/Imagery', 'Scene/ImageryLayer', 'Scene/ImageryLayerCollection', 'Scene/ImageryProvider', 'Scene/ImageryProviderError', 'Scene/ImageryState', 'Scene/Label', 'Scene/LabelCollection', 'Scene/LabelStyle', 'Scene/Material', 'Scene/NeverTileDiscardPolicy', 'Scene/OpenStreetMapImageryProvider', 'Scene/OrthographicFrustum', 'Scene/PerformanceDisplay', 'Scene/PerspectiveFrustum', 'Scene/PerspectiveOffCenterFrustum', 'Scene/Polygon', 'Scene/Polyline', 'Scene/PolylineCollection', 'Scene/Projections', 'Scene/RectangularPyramidSensorVolume', 'Scene/Scene', 'Scene/SceneMode', 'Scene/SceneTransitioner', 'Scene/ScreenSpaceCameraController', 'Scene/SensorVolumeCollection', 'Scene/SingleTileImageryProvider', 'Scene/SkyAtmosphere', 'Scene/SkyBox', 'Scene/TerrainProvider', 'Scene/TexturePool', 'Scene/Tile', 'Scene/TileDiscardPolicy', 'Scene/TileImagery', 'Scene/TileLoadQueue', 'Scene/TileMapServiceImageryProvider', 'Scene/TileReplacementQueue', 'Scene/TileState', 'Scene/TilingScheme', 'Scene/VerticalOrigin', 'Scene/ViewportQuad', 'Scene/WebMapServiceImageryProvider', 'Scene/WebMercatorTilingScheme', 'Shaders/BillboardCollectionFS', 'Shaders/BillboardCollectionVS', 'Shaders/BuiltinFunctions', 'Shaders/CentralBodyFS', 'Shaders/CentralBodyFSDepth', 'Shaders/CentralBodyFSPole', 'Shaders/CentralBodyVS', 'Shaders/CentralBodyVSDepth', 'Shaders/CentralBodyVSPole', 'Shaders/ComplexConicSensorVolumeFS', 'Shaders/ComplexConicSensorVolumeVS', 'Shaders/ConstructiveSolidGeometry', 'Shaders/CustomSensorVolumeFS', 'Shaders/CustomSensorVolumeVS', 'Shaders/EllipsoidFS', 'Shaders/EllipsoidVS', 'Shaders/Materials/AsphaltMaterial', 'Shaders/Materials/BlobMaterial', 'Shaders/Materials/BrickMaterial', 'Shaders/Materials/BumpMapMaterial', 'Shaders/Materials/CementMaterial', 'Shaders/Materials/CheckerboardMaterial', 'Shaders/Materials/DotMaterial', 'Shaders/Materials/FacetMaterial', 'Shaders/Materials/FresnelMaterial', 'Shaders/Materials/GrassMaterial', 'Shaders/Materials/NormalMapMaterial', 'Shaders/Materials/ReflectionMaterial', 'Shaders/Materials/RefractionMaterial', 'Shaders/Materials/StripeMaterial', 'Shaders/Materials/TieDyeMaterial', 'Shaders/Materials/Water', 'Shaders/Materials/WoodMaterial', 'Shaders/Noise', 'Shaders/PolygonFS', 'Shaders/PolygonFSPick', 'Shaders/PolygonVS', 'Shaders/PolygonVSPick', 'Shaders/PolylineFS', 'Shaders/PolylineVS', 'Shaders/Ray', 'Shaders/ReprojectWebMercatorFS', 'Shaders/ReprojectWebMercatorVS', 'Shaders/SensorVolume', 'Shaders/SkyAtmosphereFS', 'Shaders/SkyAtmosphereVS', 'Shaders/SkyBoxFS', 'Shaders/SkyBoxVS', 'Shaders/ViewportQuadFS', 'Shaders/ViewportQuadVS', 'ThirdParty/Tween', 'ThirdParty/Uri', 'ThirdParty/measureText', 'ThirdParty/when'], function(Core_AnimationController, Core_AxisAlignedBoundingBox, Core_BoundingRectangle, Core_BoundingSphere, Core_BoxTessellator, Core_Cartesian2, Core_Cartesian3, Core_Cartesian4, Core_Cartographic, Core_CatmullRomSpline, Core_Clock, Core_ClockRange, Core_ClockStep, Core_Color, Core_ComponentDatatype, Core_CubeMapEllipsoidTessellator, Core_CubicRealPolynomial, Core_DefaultProxy, Core_DeveloperError, Core_Ellipsoid, Core_EllipsoidTangentPlane, Core_EllipsoidalOccluder, Core_EncodedCartesian3, Core_Enumeration, Core_Event, Core_Extent, Core_ExtentTessellator, Core_FAR, Core_FeatureDetection, Core_Fullscreen, Core_GeographicProjection, Core_HermitePolynomialApproximation, Core_HermiteSpline, Core_IndexDatatype, Core_Intersect, Core_IntersectionTests, Core_Interval, Core_Iso8601, Core_JulianDate, Core_KeyboardEventModifier, Core_LagrangePolynomialApproximation, Core_LeapSecond, Core_LinearApproximation, Core_Math, Core_Matrix2, Core_Matrix3, Core_Matrix4, Core_MeshFilters, Core_Occluder, Core_OrientationInterpolator, Core_PlaneTessellator, Core_PolygonPipeline, Core_PolylinePipeline, Core_PrimitiveType, Core_QuadraticRealPolynomial, Core_QuarticRealPolynomial, Core_Quaternion, Core_Queue, Core_Ray, Core_RuntimeError, Core_ScreenSpaceEventHandler, Core_ScreenSpaceEventType, Core_Shapes, Core_Spherical, Core_TaskProcessor, Core_TimeConstants, Core_TimeInterval, Core_TimeIntervalCollection, Core_TimeStandard, Core_Tipsify, Core_Transforms, Core_TridiagonalSystemSolver, Core_Visibility, Core_WebMercatorProjection, Core_WindingOrder, Core_binarySearch, Core_clone, Core_combine, Core_computeSunPosition, Core_createGuid, Core_defaultValue, Core_destroyObject, Core_freezeObject, Core_getImagePixels, Core_isLeapYear, Core_jsonp, Core_loadArrayBuffer, Core_loadImage, Core_loadJson, Core_loadText, Core_pointInsideTriangle2D, Core_requestAnimationFrame, Core_throttleRequestByServer, Core_writeTextToCanvas, DynamicScene_CompositeDynamicObjectCollection, DynamicScene_CzmlBoolean, DynamicScene_CzmlCartesian2, DynamicScene_CzmlCartesian3, DynamicScene_CzmlCartographic, DynamicScene_CzmlColor, DynamicScene_CzmlDefaults, DynamicScene_CzmlHorizontalOrigin, DynamicScene_CzmlImage, DynamicScene_CzmlLabelStyle, DynamicScene_CzmlNumber, DynamicScene_CzmlString, DynamicScene_CzmlUnitCartesian3, DynamicScene_CzmlUnitQuaternion, DynamicScene_CzmlUnitSpherical, DynamicScene_CzmlVerticalOrigin, DynamicScene_DynamicBillboard, DynamicScene_DynamicBillboardVisualizer, DynamicScene_DynamicColorMaterial, DynamicScene_DynamicCone, DynamicScene_DynamicConeVisualizer, DynamicScene_DynamicConeVisualizerUsingCustomSensor, DynamicScene_DynamicDirectionsProperty, DynamicScene_DynamicEllipsoid, DynamicScene_DynamicEllipsoidVisualizer, DynamicScene_DynamicImageMaterial, DynamicScene_DynamicLabel, DynamicScene_DynamicLabelVisualizer, DynamicScene_DynamicMaterialProperty, DynamicScene_DynamicObject, DynamicScene_DynamicObjectCollection, DynamicScene_DynamicObjectView, DynamicScene_DynamicPath, DynamicScene_DynamicPathVisualizer, DynamicScene_DynamicPoint, DynamicScene_DynamicPointVisualizer, DynamicScene_DynamicPolygon, DynamicScene_DynamicPolygonVisualizer, DynamicScene_DynamicPolyline, DynamicScene_DynamicPolylineVisualizer, DynamicScene_DynamicPositionProperty, DynamicScene_DynamicProperty, DynamicScene_DynamicPyramid, DynamicScene_DynamicPyramidVisualizer, DynamicScene_DynamicVertexPositionsProperty, DynamicScene_ReferenceProperty, DynamicScene_VisualizerCollection, DynamicScene_processCzml, Renderer_BlendEquation, Renderer_BlendFunction, Renderer_BlendingState, Renderer_Buffer, Renderer_BufferUsage, Renderer_ClearCommand, Renderer_CommandLists, Renderer_Context, Renderer_CubeMap, Renderer_CubeMapFace, Renderer_CullFace, Renderer_DepthFunction, Renderer_DrawCommand, Renderer_Framebuffer, Renderer_MipmapHint, Renderer_PickFramebuffer, Renderer_PixelDatatype, Renderer_PixelFormat, Renderer_Renderbuffer, Renderer_RenderbufferFormat, Renderer_ShaderCache, Renderer_ShaderProgram, Renderer_StencilFunction, Renderer_StencilOperation, Renderer_Texture, Renderer_TextureAtlas, Renderer_TextureAtlasBuilder, Renderer_TextureMagnificationFilter, Renderer_TextureMinificationFilter, Renderer_TextureWrap, Renderer_UniformDatatype, Renderer_UniformState, Renderer_VertexArray, Renderer_VertexArrayFacade, Renderer_VertexLayout, Renderer_loadCubeMap, Scene_AnimationCollection, Scene_ArcGisMapServerImageryProvider, Scene_Billboard, Scene_BillboardCollection, Scene_BingMapsImageryProvider, Scene_BingMapsStyle, Scene_Camera, Scene_CameraColumbusViewMode, Scene_CameraController, Scene_CameraEventAggregator, Scene_CameraEventType, Scene_CameraFlightPath, Scene_CentralBody, Scene_CentralBodySurface, Scene_CentralBodySurfaceShaderSet, Scene_ComplexConicSensorVolume, Scene_CompositePrimitive, Scene_CullingVolume, Scene_CustomSensorVolume, Scene_DiscardMissingTileImagePolicy, Scene_EllipsoidPrimitive, Scene_EllipsoidTerrainProvider, Scene_FrameState, Scene_FrustumCommands, Scene_GeographicTilingScheme, Scene_HorizontalOrigin, Scene_Imagery, Scene_ImageryLayer, Scene_ImageryLayerCollection, Scene_ImageryProvider, Scene_ImageryProviderError, Scene_ImageryState, Scene_Label, Scene_LabelCollection, Scene_LabelStyle, Scene_Material, Scene_NeverTileDiscardPolicy, Scene_OpenStreetMapImageryProvider, Scene_OrthographicFrustum, Scene_PerformanceDisplay, Scene_PerspectiveFrustum, Scene_PerspectiveOffCenterFrustum, Scene_Polygon, Scene_Polyline, Scene_PolylineCollection, Scene_Projections, Scene_RectangularPyramidSensorVolume, Scene_Scene, Scene_SceneMode, Scene_SceneTransitioner, Scene_ScreenSpaceCameraController, Scene_SensorVolumeCollection, Scene_SingleTileImageryProvider, Scene_SkyAtmosphere, Scene_SkyBox, Scene_TerrainProvider, Scene_TexturePool, Scene_Tile, Scene_TileDiscardPolicy, Scene_TileImagery, Scene_TileLoadQueue, Scene_TileMapServiceImageryProvider, Scene_TileReplacementQueue, Scene_TileState, Scene_TilingScheme, Scene_VerticalOrigin, Scene_ViewportQuad, Scene_WebMapServiceImageryProvider, Scene_WebMercatorTilingScheme, Shaders_BillboardCollectionFS, Shaders_BillboardCollectionVS, Shaders_BuiltinFunctions, Shaders_CentralBodyFS, Shaders_CentralBodyFSDepth, Shaders_CentralBodyFSPole, Shaders_CentralBodyVS, Shaders_CentralBodyVSDepth, Shaders_CentralBodyVSPole, Shaders_ComplexConicSensorVolumeFS, Shaders_ComplexConicSensorVolumeVS, Shaders_ConstructiveSolidGeometry, Shaders_CustomSensorVolumeFS, Shaders_CustomSensorVolumeVS, Shaders_EllipsoidFS, Shaders_EllipsoidVS, Shaders_Materials_AsphaltMaterial, Shaders_Materials_BlobMaterial, Shaders_Materials_BrickMaterial, Shaders_Materials_BumpMapMaterial, Shaders_Materials_CementMaterial, Shaders_Materials_CheckerboardMaterial, Shaders_Materials_DotMaterial, Shaders_Materials_FacetMaterial, Shaders_Materials_FresnelMaterial, Shaders_Materials_GrassMaterial, Shaders_Materials_NormalMapMaterial, Shaders_Materials_ReflectionMaterial, Shaders_Materials_RefractionMaterial, Shaders_Materials_StripeMaterial, Shaders_Materials_TieDyeMaterial, Shaders_Materials_Water, Shaders_Materials_WoodMaterial, Shaders_Noise, Shaders_PolygonFS, Shaders_PolygonFSPick, Shaders_PolygonVS, Shaders_PolygonVSPick, Shaders_PolylineFS, Shaders_PolylineVS, Shaders_Ray, Shaders_ReprojectWebMercatorFS, Shaders_ReprojectWebMercatorVS, Shaders_SensorVolume, Shaders_SkyAtmosphereFS, Shaders_SkyAtmosphereVS, Shaders_SkyBoxFS, Shaders_SkyBoxVS, Shaders_ViewportQuadFS, Shaders_ViewportQuadVS, ThirdParty_Tween, ThirdParty_Uri, ThirdParty_measureText, ThirdParty_when) {
   
   var Cesium = {
     _shaders : {}
@@ -73951,8 +73922,6 @@ define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Cor
   Cesium.EncodedCartesian3 = Core_EncodedCartesian3;
   Cesium.Enumeration = Core_Enumeration;
   Cesium.Event = Core_Event;
-  Cesium.EventHandler = Core_EventHandler;
-  Cesium.EventModifier = Core_EventModifier;
   Cesium.Extent = Core_Extent;
   Cesium.ExtentTessellator = Core_ExtentTessellator;
   Cesium.FAR = Core_FAR;
@@ -73967,6 +73936,7 @@ define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Cor
   Cesium.Interval = Core_Interval;
   Cesium.Iso8601 = Core_Iso8601;
   Cesium.JulianDate = Core_JulianDate;
+  Cesium.KeyboardEventModifier = Core_KeyboardEventModifier;
   Cesium.LagrangePolynomialApproximation = Core_LagrangePolynomialApproximation;
   Cesium.LeapSecond = Core_LeapSecond;
   Cesium.LinearApproximation = Core_LinearApproximation;
@@ -73975,7 +73945,6 @@ define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Cor
   Cesium.Matrix3 = Core_Matrix3;
   Cesium.Matrix4 = Core_Matrix4;
   Cesium.MeshFilters = Core_MeshFilters;
-  Cesium.MouseEventType = Core_MouseEventType;
   Cesium.Occluder = Core_Occluder;
   Cesium.OrientationInterpolator = Core_OrientationInterpolator;
   Cesium.PlaneTessellator = Core_PlaneTessellator;
@@ -73988,6 +73957,8 @@ define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Cor
   Cesium.Queue = Core_Queue;
   Cesium.Ray = Core_Ray;
   Cesium.RuntimeError = Core_RuntimeError;
+  Cesium.ScreenSpaceEventHandler = Core_ScreenSpaceEventHandler;
+  Cesium.ScreenSpaceEventType = Core_ScreenSpaceEventType;
   Cesium.Shapes = Core_Shapes;
   Cesium.Spherical = Core_Spherical;
   Cesium.TaskProcessor = Core_TaskProcessor;
@@ -74111,17 +74082,11 @@ define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Cor
   Cesium.BingMapsImageryProvider = Scene_BingMapsImageryProvider;
   Cesium.BingMapsStyle = Scene_BingMapsStyle;
   Cesium.Camera = Scene_Camera;
-  Cesium.Camera2DController = Scene_Camera2DController;
-  Cesium.CameraCentralBodyController = Scene_CameraCentralBodyController;
-  Cesium.CameraColumbusViewController = Scene_CameraColumbusViewController;
-  Cesium.CameraControllerCollection = Scene_CameraControllerCollection;
-  Cesium.CameraEventHandler = Scene_CameraEventHandler;
+  Cesium.CameraColumbusViewMode = Scene_CameraColumbusViewMode;
+  Cesium.CameraController = Scene_CameraController;
+  Cesium.CameraEventAggregator = Scene_CameraEventAggregator;
   Cesium.CameraEventType = Scene_CameraEventType;
-  Cesium.CameraFlightController = Scene_CameraFlightController;
-  Cesium.CameraFreeLookController = Scene_CameraFreeLookController;
-  Cesium.CameraHelpers = Scene_CameraHelpers;
-  Cesium.CameraSpindleController = Scene_CameraSpindleController;
-  Cesium.CameraSpindleControllerMode = Scene_CameraSpindleControllerMode;
+  Cesium.CameraFlightPath = Scene_CameraFlightPath;
   Cesium.CentralBody = Scene_CentralBody;
   Cesium.CentralBodySurface = Scene_CentralBodySurface;
   Cesium.CentralBodySurfaceShaderSet = Scene_CentralBodySurfaceShaderSet;
@@ -74160,6 +74125,7 @@ define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Cor
   Cesium.Scene = Scene_Scene;
   Cesium.SceneMode = Scene_SceneMode;
   Cesium.SceneTransitioner = Scene_SceneTransitioner;
+  Cesium.ScreenSpaceCameraController = Scene_ScreenSpaceCameraController;
   Cesium.SensorVolumeCollection = Scene_SensorVolumeCollection;
   Cesium.SingleTileImageryProvider = Scene_SingleTileImageryProvider;
   Cesium.SkyAtmosphere = Scene_SkyAtmosphere;
