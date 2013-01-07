@@ -308,8 +308,9 @@
 
     function onResize() {
         var nav_width = document.getElementById('nav').scrollWidth;
+        var headerHeight = document.getElementById('header').scrollHeight;
         var width = window.innerWidth - nav_width - getScrollBarWidth();
-        var height = window.innerHeight;     // 800x600 minus header
+        var height = window.innerHeight - headerHeight;     // 800x600 minus header
         // var height = cc.scrollHeight;
         if (canvas.width === width && canvas.height === height) {
             return;
@@ -323,6 +324,107 @@
     }
     window.addEventListener('resize', onResize, false);
     onResize();
+
+
+    // Button actions
+    document.getElementById('reset_button').onclick = function () {
+        window.location.reload();
+    };
+
+        // Button actions
+    document.getElementById('instruction_button').onclick = function () {
+        if (document.getElementById('nav').style.display == 'none') {
+            document.getElementById('nav').style.display = 'block';
+            document.getElementById('instructions').style.display = 'block';
+            document.getElementById('reset_button').style.left = '310px';
+            document.getElementById('instruction_button').style.left = '360px';
+            document.getElementById('display_button').style.left = '410px';
+            document.getElementById('three_d_display_button').style.left = '410px';
+            document.getElementById('columbus_display_button').style.left = '410px';
+            document.getElementById('two_d_display_button').style.left = '410px';
+            document.getElementById('satellite_button').style.left = '460px';
+            document.getElementById('live_data_button').style.left = '510px';
+            document.getElementById('bing_data_button').style.left = '510px';
+            document.getElementById('osm_data_button').style.left = '510px';
+            document.getElementById('static_data_button').style.left = '510px';
+            onResize();
+        }
+        else {
+            document.getElementById('nav').style.display = 'none';
+            document.getElementById('instructions').style.display = 'none';
+            document.getElementById('reset_button').style.left = '10px';
+            document.getElementById('instruction_button').style.left = '60px';
+            document.getElementById('display_button').style.left = '110px';
+            document.getElementById('three_d_display_button').style.left = '110px';
+            document.getElementById('columbus_display_button').style.left = '110px';
+            document.getElementById('two_d_display_button').style.left = '110px';
+            document.getElementById('satellite_button').style.left = '160px';
+            document.getElementById('live_data_button').style.left = '210px';
+            document.getElementById('bing_data_button').style.left = '210px';
+            document.getElementById('osm_data_button').style.left = '210px';
+            document.getElementById('static_data_button').style.left = '210px';
+            onResize();
+        }
+    };
+
+    document.getElementById('display_button').onclick = function() {
+        if (document.getElementById('three_d_display_button').style.display == 'none') {
+            document.getElementById('three_d_display_button').style.display = 'block';
+            document.getElementById('columbus_display_button').style.display = 'block';
+            document.getElementById('two_d_display_button').style.display = 'block';
+        } else {
+            document.getElementById('three_d_display_button').style.display = 'none';
+            document.getElementById('columbus_display_button').style.display = 'none';
+            document.getElementById('two_d_display_button').style.display = 'none';
+        }
+    };
+
+    document.getElementById('satellite_button').onclick = function () {
+        if (document.getElementById('nav').style.display == 'none') {
+            document.getElementById('nav').style.display = 'block';
+            document.getElementById('nav_buttons').style.display = 'block';
+            document.getElementById('reset_button').style.left = '310px';
+            document.getElementById('instruction_button').style.left = '360px';
+            document.getElementById('display_button').style.left = '410px';
+            document.getElementById('three_d_display_button').style.left = '410px';
+            document.getElementById('columbus_display_button').style.left = '410px';
+            document.getElementById('two_d_display_button').style.left = '410px';
+            document.getElementById('satellite_button').style.left = '460px';
+            document.getElementById('live_data_button').style.left = '510px';
+            document.getElementById('bing_data_button').style.left = '510px';
+            document.getElementById('osm_data_button').style.left = '510px';
+            document.getElementById('static_data_button').style.left = '510px';
+            onResize();
+        }
+        else {
+            document.getElementById('nav').style.display = 'none';
+            document.getElementById('nav_buttons').style.display = 'none';
+            document.getElementById('reset_button').style.left = '10px';
+            document.getElementById('instruction_button').style.left = '60px';
+            document.getElementById('display_button').style.left = '110px';
+            document.getElementById('three_d_display_button').style.left = '110px';
+            document.getElementById('columbus_display_button').style.left = '110px';
+            document.getElementById('two_d_display_button').style.left = '110px';
+            document.getElementById('satellite_button').style.left = '160px';
+            document.getElementById('live_data_button').style.left = '210px';
+            document.getElementById('bing_data_button').style.left = '210px';
+            document.getElementById('osm_data_button').style.left = '210px';
+            document.getElementById('static_data_button').style.left = '210px';
+            onResize();
+        }
+    };
+
+    document.getElementById('live_data_button').onclick = function() {
+        if (document.getElementById('bing_data_button').style.display == 'none') {
+            document.getElementById('bing_data_button').style.display = 'block';
+            document.getElementById('osm_data_button').style.display = 'block';
+            document.getElementById('static_data_button').style.display = 'block';
+        } else {
+            document.getElementById('bing_data_button').style.display = 'none';
+            document.getElementById('osm_data_button').style.display = 'none';
+            document.getElementById('static_data_button').style.display = 'none';
+        }
+    };
 
 
     // When you hover over a satellite, show its name in a popup
@@ -499,15 +601,15 @@
             cb.getImageryLayers().addImageryProvider(ilNew);
         }
     }
-    document.getElementById("bing").onclick = function () {
+    document.getElementById("bing_data_button").onclick = function () {
         switchTileProviders("bing");
     };
 
-    document.getElementById('osm').onclick = function () {
+    document.getElementById('osm_data_button').onclick = function () {
         switchTileProviders("osm");
     };
 
-    document.getElementById('static').onclick = function () {
+    document.getElementById('static_data_button').onclick = function () {
         switchTileProviders("static");
     };
 
@@ -521,17 +623,17 @@
 
     // Transition between views
 
-    document.getElementById("3D_view").onclick = function () {
+    document.getElementById("three_d_display_button").onclick = function () {
         var transitioner = new Cesium.SceneTransitioner(scene);
         transitioner.to3D();
     };
 
-    document.getElementById('Columbus_view').onclick = function () {
+    document.getElementById('columbus_display_button').onclick = function () {
         var transitioner = new Cesium.SceneTransitioner(scene);
         transitioner.toColumbusView();
     };
 
-    document.getElementById('2D_view').onclick = function () {
+    document.getElementById('two_d_display_button').onclick = function () {
         var transitioner = new Cesium.SceneTransitioner(scene);
         transitioner.to2D();
     };

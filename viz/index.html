@@ -53,15 +53,27 @@
 
   <body>
     <div id="wrapper">
-      <div id="nav">
+      <div id="header">
         <h1>SOT: Satellite Orbit Tracker</h1>
+        <img src="static/images/on-reset.png" id="reset_button"/>
+        <img src="static/images/on-instructions.png" id="instruction_button"/>
+        <img src="static/images/on-display-options.png" id="display_button"/>
+        <img src="static/images/perspective-3d.png" id="three_d_display_button"/>
+        <img src="static/images/perspective-2point5d.png" id="columbus_display_button"/>
+        <img src="static/images/perspective-2d.png" id="two_d_display_button"/>
+        <img src="static/images/on-select-satellite.png" id="satellite_button"/>
+        <img src="static/images/on-live-data.png" id="live_data_button"/>
+        <img src="static/images/map-bing.png" id="bing_data_button"/>
+        <img src="static/images/mao-openstreet.png" id="osm_data_button"/>
+        <img src="static/images/map-static.png" id="static_data_button"/>
+      </div>
+      <div id="nav">
 <!--         <div id="modals">
           <span id='basic-modal1'><input type='button' name='basic' value='Instructions' class='modal'/></span>
           or
           <span id='basic-modal2'><input type='button' name='basic' value='Statistics' class='modal'/></span>
         </div> -->
         <div id="instructions">
-          <input type="button" id="hide_instructions" value="&times;" />
           <h2>Instructions</h2>
           <p>
             The satellites are displayed based on calculated position; you
@@ -78,25 +90,10 @@
             camera to its position.</p>
         </div>
         <div id="nav_buttons">
-          <input type="button" id="show_instructions" value="Instructions" />
           <form id="controls">
-            <div id="controls_visual">
-              <div id="earth_view">
-                <label>Earth View:</label><br />
-                <input type="button" id="3D_view" value="3D View" />
-                <input type="button" id="Columbus_view" value="2.5 View" />
-                <input type="button" id="2D_view" value="2D View" />
-              </div>
-              <div id="map_provider">
-                <label>Map Provider:</label><br />
-                <input type="button" id="bing" value="Bing Maps" />
-                <input type="button" id="osm" value="Open Street Map" />
-                <input type="button" id="static" value="Static File" />
-              </div>
-            </div>
             <div id="controls_satellite">
               <span>
-                <label>Satellite Group:<br />
+                <label><h2>Satellite Group:</h2>
                   <select id="select_satellite_group">
                     <option value="SMD">NASA Science</option>
                     <option value="iss">ISS</option>
@@ -107,7 +104,7 @@
                 </label>
               </span><br />
               <span>
-                <label>Select Satellite:
+                <label><h3>Select Satellite:</h3>
                   <select id="select_satellite">
                   </select>
                 </label>

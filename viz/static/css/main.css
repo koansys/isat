@@ -91,8 +91,83 @@ h3 {
     background:#9c9;
 }
 
+#nav {display: none;}
 #instructions {display: none;}
+#nav_buttons {display: none;}
 #statistics {display: none;}
+
+/* Buttons */
+#reset_button {
+    position: absolute;
+    top: 47px;
+    left: 10px;
+}
+
+#instruction_button {
+    position: absolute;
+    top: 47px;
+    left: 60px;
+}
+
+#display_button {
+    position: absolute;
+    top: 47px;
+    left: 110px;
+}
+
+#three_d_display_button {
+    position: absolute;
+    top: 97px;
+    left: 114px;
+    display: none;
+}
+
+#columbus_display_button {
+    position: absolute;
+    top: 142px;
+    left: 114px;
+    display: none;
+}
+
+#two_d_display_button {
+    position: absolute;
+    top: 187px;
+    left: 114px;
+    display: none;
+}
+
+#satellite_button {
+    position: absolute;
+    top: 47px;
+    left: 160px;
+}
+
+#live_data_button {
+    position: absolute;
+    top: 47px;
+    left: 210px;
+}
+
+#bing_data_button {
+    position: absolute;
+    top: 97px;
+    left: 205px;
+    display: none;
+}
+
+#osm_data_button {
+    position: absolute;
+    top: 152px;
+    left: 205px;
+    display: none;
+}
+
+#static_data_button {
+    position: absolute;
+    top: 207px;
+    left: 205px;
+    display: none;
+}
 
 table {border-collapse:collapse;}
 table td, table th {border:1px solid #888; padding: 3px;}
