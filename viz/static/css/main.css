@@ -60,13 +60,11 @@ table {
 #wrap {
     width:100%;
     margin:0 auto;
-    background:#99c;
 }
 
 #nav {
     padding:10px;
-    background:#c99;
-    width: 250px;
+    width: 350px;
     float: left;
 }
 

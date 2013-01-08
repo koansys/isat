@@ -21,21 +21,26 @@
 # - launch_date: Apr 13, 1994
 # - phase_id: 1,2,3,4,14,15 (see below)
 
-# Phase IDs:
-# 1: under study
-# 2: development
-# 3: operating
-# 4: past
-# 14: studied
-# 15: extended
-
-
 import csv
 import logging
 
-SCIENCE_CSV = "missions_mission_titles_phases.csv"
+SCIENCE_CSV = "missions_mission_titles_phases.csv" # Exported from CMS DB
 COMBINED_TLES = "COMBINED.txt"
-PHASES_WITH_IDS = ['3', '4', '15']
+OUTPUT_CSV = "output.csv"       # will be gratuitously, silently overwritten
+OUTPUT_KEYS   = [               # sucks these have to be hand-coded
+    'title', 'slug', 'tle_name',
+    'full_name', 'home_page',
+    'noradid', 'intldesig',
+    'noradid_url', 'intldesig_url', 'mission_url',
+    'launch_date', 'phase_id', # are these needed in output?
+    ]
+PHASE_NAMES = {'1': 'Under Study',
+               '2': 'Development',
+               '3': 'Operating',
+               '4': 'Past',
+               '14': 'Studied',
+               '15': 'Extended'}
+PHASES_WITH_TLES = ['3', '15']
 
 logging.basicConfig(level=logging.INFO)
 
@@ -49,7 +54,7 @@ with open(COMBINED_TLES, 'r') as tle_file:
             break
         tle1 = tle_file.readline().strip()
         tle2 = tle_file.readline().strip()
-        tles[name] = {'norad' : tle1[2:7].strip(),
+        tles[name] = {'noradid' : tle1[2:7].strip(),
                       'intldesig': tle1[9:17].strip() # YYNNNPPP
                       }
 
@@ -59,38 +64,68 @@ logging.info('Read %d TLE entries' % len(tles))
 # Store sats like:
 # sat['science_name'] = {'tle_name': 'ACTS 1', 'norad': '02608', 'intldesig': 2}
 
+# CSV exported from CMS has: title, slug, full_name, launch_date, phase_id, home_page
+
 sats = {}
 num_with_ids = 0
 num_sans_ids = 0
+num_with_tles = 0
 with open(SCIENCE_CSV) as science_csv:
     reader = csv.DictReader(science_csv)
     for linenum, row in enumerate(reader):
-        if row['phase_id'] not in PHASES_WITH_IDS:
-            logging.info('Skip phase_id=%s for %s' %
-                         (row['phase_id'], row['slug']))
+        if row['phase_id'] not in PHASES_WITH_TLES:
+            logging.info('Skip phase_id=%s (%s) for %s' %
+                          (row['phase_id'], PHASE_NAMES[row['phase_id']], row['slug']))
             num_sans_ids += 1
             continue
         num_with_ids += 1
         title = row['title']
         slug = row['slug']
         upslug = slug.upper()
+        satName = False
+        # Try to find a match by a couple attribute heuristics; don't be too sloppy
         if title in tles:
-            tle = tles[title]
-            sats[title] = tle
-            sats[title]['tle_name'] = title # same name, shocking
+            satName = title
             logging.info('Found by title="%s"' % title)
         elif upslug in tles:
-            tle = tles[upslug]
-            sats[title] = tle
-            sats[title]['tle_name'] = upslug # different name
+            satName = upslug
             logging.info('Found by upslug="%s"' % upslug)
-
-        # TODO: store from -> to URL path
-        # /sot/norad/26871 -> /missions/goes-m
+        # If we got one, store the other attrs:
+        if satName:
+            num_with_tles += 1
+            tle = tles[satName]
+            # TODO: add intldesig field
+            sats[satName] = {'tle_name'      : satName,
+                             'noradid_url'   : '/sot/noradid/%s'   % tle['noradid'],
+                             'intldesig_url' : '/sot/intldesig/%s' % tle['intldesig'],
+                             'mission_url'   : '/missions/%s'      % row['slug'],
+                             }
+            sats[satName].update(tle) # noradid, intldesig
+            sats[satName].update(row) # title, slug, full_name, launch_date, phase_id, home_page
+        # TODO: if we did NOT find one, store what we know, leave blank what we don't -- by what key?
         else:
             logging.warning('Can\'t find title="%s" slug="%s"' %
                             (title, slug))
+            # picking 'title' as key arbitrarily, could be 'slug' I suppose
+            sats[title] = row # title, slug, full_name, launch_date, phase_id, home_page
+            # TODO: add intldesig field
+            sats[title].update({'mission_url' : '/missions/%s' % row['slug']})
 
-logging.info('Num with ids=%d sans=%d' % (num_with_ids, num_sans_ids))
+
+logging.info('Num with  IDs=%d sans=%d' % (num_with_ids, num_sans_ids))
+logging.info('Num with TLEs=%d' % num_with_tles)
 logging.info('Found %d sats of %d in TLEs' % (len(sats), linenum + 1))
+
+from pprint import pprint as pp
+
+# Save it as a CSV so we can manually update it.
+# Really want URLs to be clickable to assist humans; may have to do as HTML rather than CSV.
+
+with open(OUTPUT_CSV, 'w') as output_csv:
+    writer = csv.DictWriter(output_csv, OUTPUT_KEYS)
+    writer.writeheader()
+    # for k, v in sats.items():
+    #     writer.writerow(v)
+    writer.writerows(sats.values())
+
 
