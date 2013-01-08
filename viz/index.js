@@ -743,7 +743,6 @@
     var satelliteTimer = setInterval(function () {
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
 
-        document.getElementById('date').textContent = clock.tick().toDate();
         if (satrecs.length > 0) {
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
