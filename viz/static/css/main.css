@@ -99,73 +99,73 @@ h3 {
 /* Buttons */
 #reset_button {
     position: absolute;
-    top: 47px;
+    top: 50px;
     left: 10px;
 }
 
 #instruction_button {
     position: absolute;
-    top: 47px;
-    left: 60px;
+    top: 50px;
+    left: 70px;
 }
 
 #display_button {
     position: absolute;
-    top: 47px;
-    left: 110px;
+    top: 50px;
+    left: 130px;
 }
 
 #three_d_display_button {
     position: absolute;
-    top: 97px;
-    left: 114px;
+    top: 110px;
+    left: 130px;
     display: none;
 }
 
 #columbus_display_button {
     position: absolute;
-    top: 142px;
-    left: 114px;
+    top: 170px;
+    left: 130px;
     display: none;
 }
 
 #two_d_display_button {
     position: absolute;
-    top: 187px;
-    left: 114px;
+    top: 230px;
+    left: 130px;
     display: none;
 }
 
 #satellite_button {
     position: absolute;
-    top: 47px;
-    left: 160px;
+    top: 50px;
+    left: 190px;
 }
 
 #live_data_button {
     position: absolute;
-    top: 47px;
-    left: 210px;
+    top: 50px;
+    left: 250px;
 }
 
 #bing_data_button {
     position: absolute;
-    top: 97px;
-    left: 205px;
+    top: 110px;
+    left: 250px;
     display: none;
 }
 
 #osm_data_button {
     position: absolute;
-    top: 152px;
-    left: 205px;
+    top: 170px;
+    left: 250px;
     display: none;
 }
 
 #static_data_button {
     position: absolute;
-    top: 207px;
-    left: 205px;
+    top: 230px;
+    left: 250px;
     display: none;
 }
 
