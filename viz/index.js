@@ -130,43 +130,6 @@
         }
     }
 
-    // Display positions, velocities of current satellites
-    // Limit number displayed else browser becomes unusable.
-    // BUG: Velocity doesn't agree with isstracker.com's KMH; problem with Units?
-    // BUG: Longitude doesn't agree with ISS Tracker (Latitude is OK)
-    // BUG: Height is sometimes NaN
-
-    function displayPositions(sats) {
-        var positionTable = document.getElementById('positions');
-        var tbody = positionTable.getElementsByTagName('tbody')[0];
-        var satnum, max, pos0, vel0, vel0Carte, carte, carto, newRow;
-
-        if (typeof tbody !== 'undefined' && tbody !== null) {
-            positionTable.removeChild(tbody);
-        }
-        tbody = document.createElement('tbody');
-        positionTable.appendChild(tbody);
-        for (satnum = 0, max = satrecs.length; satnum < max && satnum < SAT_POSITIONS_MAX; satnum += 1) {
-            pos0 = sats.positions[satnum];                 // position of first satellite
-            vel0 = sats.velocities[satnum];
-            vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
-            carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
-            // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
-            carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
-            newRow = tbody.insertRow(-1);
-            newRow.insertCell(-1).appendChild(document.createTextNode(satData[satnum].name));
-            newRow.insertCell(-1).appendChild(document.createTextNode(satData[satnum].noradId));
-            //newRow.insertCell(-1).appendChild(document.createTextNode(satData[satnum].intlDesig));
-            newRow.insertCell(-1).appendChild(document.createTextNode(carte.x.toFixed(0)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(carte.y.toFixed(0)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(carte.z.toFixed(0)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(vel0Carte.magnitude().toFixed(0)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.latitude).toFixed(3)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.longitude).toFixed(3)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(carto.height.toFixed(0)));
-        }
-    }
-
     // Load the satellite names and keys into the selector, sorted by name
 
     function populateSatelliteSelector() {
@@ -747,7 +710,6 @@
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
             updateSatelliteBillboards(sats.positions);
-            displayPositions(sats);
         }
     }, CALC_INTERVAL_MS);
 
