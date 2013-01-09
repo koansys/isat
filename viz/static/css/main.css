@@ -100,6 +100,7 @@ legend {
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
+    opacity: 0.85;
 }
 #satellite_form {
     display: none;
@@ -111,6 +112,7 @@ legend {
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
+    opacity: 0.85;
 }
 #map_display {
     display: none;
@@ -122,6 +124,7 @@ legend {
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
+    opacity: 0.85;
 }
 #satellite_display {
     display: none;
@@ -134,6 +137,7 @@ legend {
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
+    opacity: 0.85;
 }
 
 /* Buttons */

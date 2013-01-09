@@ -1,46 +1,47 @@
 /*global document, window, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
 (function () {
-  'use strict';
-  var canvas            = document.getElementById('glCanvas');
-  var ellipsoid         = Cesium.Ellipsoid.WGS84;
-  var scene             = new Cesium.Scene(canvas);
-  var satBillboards     = new Cesium.BillboardCollection();
-  var cb                = new Cesium.CentralBody(ellipsoid);
-  var clock             = new Cesium.Clock();
-  var orbitTraces       = new Cesium.PolylineCollection(); // currently only one at a time
-  var satrecs           = [];   // populated from onclick file load
-  var satPositions      = [];   // calculated by updateSatrecsPosVel()
-  var satData           = [];   // list of satellite data and metadata
+    'use strict';
+    var canvas            = document.getElementById('glCanvas');
+    var ellipsoid         = Cesium.Ellipsoid.WGS84;
+    var scene             = new Cesium.Scene(canvas);
+    var satBillboards     = new Cesium.BillboardCollection();
+    var cb                = new Cesium.CentralBody(ellipsoid);
+    var clock             = new Cesium.Clock();
+    var orbitTraces       = new Cesium.PolylineCollection(); // currently only one at a time
+    var satrecs           = [];   // populated from onclick file load
+    var satPositions      = [];   // calculated by updateSatrecsPosVel()
+    var satData           = [];   // list of satellite data and metadata
+    var selectedSatelliteIdx = null;
 
-  // Constants
-  var skyboxBase        = "static/images/skybox";
-  var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
-  var CALC_INTERVAL_MS  = 1000;
+    // Constants
+    var skyboxBase        = "static/images/skybox";
+    var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
+    var CALC_INTERVAL_MS  = 1000;
 
-  // HACK: force globals for SGP4
-  var WHICHCONST        = 84;   //
-  var TYPERUN           = 'm';  // 'm'anual, 'c'atalog, 'v'erification
-  var TYPEINPUT         = 'n';  // HACK: 'now'
+    // HACK: force globals for SGP4
+    var WHICHCONST        = 84;   //
+    var TYPERUN           = 'm';  // 'm'anual, 'c'atalog, 'v'erification
+    var TYPEINPUT         = 'n';  // HACK: 'now'
 
-  ///////////////////////////////////////////////////////////////////////////
-  // Tile Providers
+    ///////////////////////////////////////////////////////////////////////////
+    // Tile Providers
 
-  var TILE_PROVIDERS = {
+    var TILE_PROVIDERS = {
     'bing' : new Cesium.BingMapsImageryProvider(// fails to detect 404 due to no net :-(
-      {server : 'dev.virtualearth.net',
-      mapStyle: Cesium.BingMapsStyle.AERIAL_WITH_LABELS
+        {server : 'dev.virtualearth.net',
+        mapStyle: Cesium.BingMapsStyle.AERIAL_WITH_LABELS
     }),
     'osm'  : new Cesium.OpenStreetMapImageryProvider(
-      {url    : 'http://otile1.mqcdn.com/tiles/1.0.0/osm'
+        {url    : 'http://otile1.mqcdn.com/tiles/1.0.0/osm'
     }),
     'static' : new Cesium.SingleTileImageryProvider(
       {url: 'Images/NE2_50M_SR_W_4096.jpg'
-    })
+  })
     // Cross-origin image load denied by Cross-Origin Resource Sharing policy.
     // 'arcgis' : new Cesium.ArcGisMapServerImageryProvider(
     //     {url: 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
     //     })
-  };
+};
 
   ///////////////////////////////////////////////////////////////////////////
   // Satellite records and calculation
@@ -65,21 +66,21 @@
         tle0: tles[satnum][0],
         tle1: tles[satnum][1],
         tle2: tles[satnum][2]
-      };
+    };
 
-      rets = twoline2rv(WHICHCONST,
-                        tles[satnum][1],
-                        tles[satnum][2],
-                        TYPERUN,
-                        TYPEINPUT);
-      satrec   = rets.shift();
-      startmfe = rets.shift();
-      stopmfe  = rets.shift();
-      deltamin = rets.shift();
+    rets = twoline2rv(WHICHCONST,
+        tles[satnum][1],
+        tles[satnum][2],
+        TYPERUN,
+        TYPEINPUT);
+    satrec   = rets.shift();
+    startmfe = rets.shift();
+    stopmfe  = rets.shift();
+    deltamin = rets.shift();
       satrecs.push(satrec); // Don't need to sgp4(satrec, 0.0) to initialize state vector
-    }
-    // Returns nothing, sets globals: satrecs, satData
   }
+    // Returns nothing, sets globals: satrecs, satData
+}
 
   // Calculate new Satrecs based on time given as fractional Julian Date
   // (since that's what satrec stores).
@@ -105,14 +106,14 @@
       satrecsOut.push(satrec);
       positions.push(r);
       velocities.push(v);
-    }
+  }
 
     // UPDATE GLOBAL SO OTHERS CAN USE IT (TODO: make this sane w.r.t. globals)
     satPositions = positions;
     return {'satrecs': satrecsOut,
-            'positions': positions,
-            'velocities': positions};
-  }
+    'positions': positions,
+    'velocities': positions};
+}
 
   // Update the location of each satellite in the billboard.
   // The calculated position is in Km but Cesium wants meters.
@@ -127,14 +128,14 @@
     Cesium.Matrix4.fromRotationTranslation(
       Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
       Cesium.Cartesian3.ZERO
-    );
+      );
     for (posnum = 0, max = satPositions.length; posnum < max; posnum += 1) {
       bb = satBillboards.get(posnum);
       pos = satPositions[posnum];
       newpos =  new Cesium.Cartesian3(pos[0] * 1000, pos[1] * 1000, pos[2] * 1000); // TODO multiplyByScalar(1000)
       bb.setPosition(newpos);
-    }
   }
+}
 
   // Load the satellite names and keys into the selector, sorted by name
 
@@ -145,9 +146,9 @@
 
     for (satnum = 0, max = satrecs.length; satnum < max; satnum += 1) {
       nameIdx[satData[satnum].name] = satnum;
-    }
-    satkeys = Object.keys(nameIdx);
-    satkeys.sort();
+  }
+  satkeys = Object.keys(nameIdx);
+  satkeys.sort();
     satSelect.innerHTML = ''; // document.getElementById('select_satellite').empty();
     option = document.createElement('option');
     satSelect.appendChild(option); // first is empty to not select any satellite
@@ -156,8 +157,8 @@
       option.textContent = satkeys[satnum];
       option.value = nameIdx[satkeys[satnum]];
       satSelect.appendChild(option);
-    }
   }
+}
 
   // Create a new billboard for the satellites which are updated frequently.
   // These are placed in the global satellite billboard, replacing any old ones.
@@ -178,15 +179,17 @@
       billboard.satelliteName       = satData[satnum].name;
       billboard.satelliteNoradId    = satData[satnum].noradId;
       billboard.satelliteDesignator = satData[satnum].intlDesig;
-    }
-    scene.getPrimitives().add(satBillboards);
+      billboard.satelliteData       = satData[satnum];
+      billboard.satelliteNum        = satnum;
+  }
+  scene.getPrimitives().add(satBillboards);
 
-    image.src = 'Images/Satellite.png';
-    image.onload = function () {
+  image.src = 'Images/Satellite.png';
+  image.onload = function () {
       var textureAtlas = scene.getContext().createTextureAtlas({image: image}); // seems needed in onload()
       satBillboards.setTextureAtlas(textureAtlas);
-    };
-  }
+  };
+}
 
   ///////////////////////////////////////////////////////////////////////////
   // Geo: put a cross where we are, if the browser is Geo-aware
@@ -207,17 +210,17 @@
         billboards.setTextureAtlas(textureAtlas);
         billboards.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(target);
         billboards.add({imageIndex: 0,
-                        position: new Cesium.Cartesian3(0.0, 0.0, 0.0)});
+            position: new Cesium.Cartesian3(0.0, 0.0, 0.0)});
         scene.getPrimitives().add(billboards);
-      };
+    };
 
       // Point the camera at us and position it directly above us
       scene.getCamera().controller.lookAt(eye, target, up);
-    }
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(showGeo);
-    }
   }
+  if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(showGeo);
+  }
+}
 
   ///////////////////////////////////////////////////////////////////////////
   // Utilities
@@ -235,7 +238,7 @@
     value = value.replace(/[^\w\s\-]/, ''); // remove nonword, nonspace, nondash
     value = value.replace(/[\-\s]+/, '-'); // multiple spaces/dashes to a single dash
     return value;
-  }
+}
 
   // Function xyzKmFixed(pt, fix) {
   //     // Return string formatted for xyz scaled to Km, with fixed precision.
@@ -283,25 +286,25 @@
     document.body.removeChild (outer);
 
     return (w1 - w2);
-  }
+}
 
-  function onResize() {
+function onResize() {
     var headerHeight = document.getElementById('header').scrollHeight;
     var width = window.innerWidth - getScrollBarWidth();
     var height = window.innerHeight - headerHeight;     // 800x600 minus header
     // var height = cc.scrollHeight;
     if (canvas.width === width && canvas.height === height) {
       return;
-    }
-    canvas.width = width;
-    canvas.height = height;
-    var cc = document.getElementById('cesiumContainer');
-    cc.width = width;
-    cc.height = height;
-    scene.getCamera().frustum.aspectRatio = width / height;
   }
-    window.addEventListener('resize', onResize, false);
-    onResize();
+  canvas.width = width;
+  canvas.height = height;
+  var cc = document.getElementById('cesiumContainer');
+  cc.width = width;
+  cc.height = height;
+  scene.getCamera().frustum.aspectRatio = width / height;
+}
+window.addEventListener('resize', onResize, false);
+onResize();
 
 
   //////////////////////////////////////////
@@ -310,7 +313,7 @@
   // reset Window
   document.getElementById('reset_button').onclick = function () {
     window.location.reload();
-  };
+};
 
   // Toggle Instructions Modal.
   document.getElementById('instructions_button').onclick = function () {
@@ -318,16 +321,16 @@
       document.getElementById('instructions').style.display = 'block';
       document.getElementById('satellite_form').style.display = 'none';
       document.getElementById('map_display').style.display = 'none';
-    }
-    else {
+  }
+  else {
       document.getElementById('instructions').style.display = 'none';
-    }
-  };
+  }
+};
 
   // close Instructions Modal
   document.getElementById('instructions_close').onclick = function () {
     document.getElementById('instructions').style.display = 'none';
-  };
+};
 
   // Toggle Satellite
   document.getElementById('satellite_button').onclick = function () {
@@ -335,16 +338,16 @@
       document.getElementById('satellite_form').style.display = 'block';
       document.getElementById('map_display').style.display = 'none';
       document.getElementById('instructions').style.display = 'none';
-    }
-    else {
+  }
+  else {
       document.getElementById('satellite_form').style.display = 'none';
-    }
-  };
+  }
+};
 
   // close Satellite Modal
   document.getElementById('satellite_form_close').onclick = function () {
     document.getElementById('satellite_form').style.display = 'none';
-  };
+};
 
   // Toggle Map Display Modal
   document.getElementById('display_button').onclick = function () {
@@ -352,21 +355,22 @@
       document.getElementById('map_display').style.display = 'block';
       document.getElementById('satellite_form').style.display = 'none';
       document.getElementById('instructions').style.display = 'none';
-    }
-    else {
+  }
+  else {
       document.getElementById('map_display').style.display = 'none';
-    }
-  };
+  }
+};
 
   // Close Map Display Modal
   document.getElementById('map_display_close').onclick = function () {
     document.getElementById('map_display').style.display = 'none';
-  };
+};
 
   // Close Satellite Information Modal
   document.getElementById('satellite_display_close').onclick = function () {
     document.getElementById('satellite_display').style.display = 'none';
-  };
+    selectedSatelliteIdx = null;
+};
 
   // When you hover over a satellite, show its name in a popup
   // Add offset of canvas and an approx height of icon/label to position properly.
@@ -391,102 +395,127 @@
           satDiv.style.padding = '2px';
           satDiv.style.backgroundColor = '#909090';
           satDiv.style.color = 'black';
-        }
-        else {
+      }
+      else {
           satDiv.style.display = 'none';
-        }
-      },
+      }
+  },
       Cesium.ScreenSpaceEventType.MOUSE_MOVE // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
-    );
-  }
+      );
+}
 
-  function displayStats(sat) {
-    document.getElementById('satellite_name').innerHTML = 'Satellite: ' + sat.satelliteName;
-    document.getElementById('sat_data').innerHTML = 'Norad ID: ' + sat.satelliteNoradId;
+function displayStats() {
+    var satDisplay = document.getElementById('satellite_display');
+    var satnum = selectedSatelliteIdx; // fixed number to test...
+    var max, pos0, vel0, vel0Carte, carte, carto, newRow, sats;
 
-  }
+    var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
+    if (satrecs.length > 0) {
+        sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
+        satrecs = sats.satrecs;                       // propagate [GLOBAL]
+    }
+    satDisplay.style.display = 'block';
+    pos0 = sats.positions[satnum];                 // position of first satellite
+    vel0 = sats.velocities[satnum];
+    vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
+    carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
+    // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
+    carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
+    document.getElementById('satellite_name').innerHTML = 'Satellite: ' + satData[satnum].name;
+    document.getElementById('satellite_id').innerHTML = satData[satnum].noradId;
+    document.getElementById('satellite_x').innerHTML = carte.x.toFixed(0);
+    document.getElementById('satellite_y').innerHTML = carte.y.toFixed(0);
+    document.getElementById('satellite_z').innerHTML = carte.z.toFixed(0);
+    document.getElementById('satellite_velocity').innerHTML = vel0Carte.magnitude().toFixed(0);
+    document.getElementById('satellite_latitude').innerHTML = Cesium.Math.toDegrees(carto.latitude).toFixed(3);
+    document.getElementById('satellite_longitude').innerHTML = Cesium.Math.toDegrees(carto.longitude).toFixed(3);
+    document.getElementById('satellite_height').innerHTML = carto.height.toFixed(0);
 
-  // Clicking a satellite opens a page to Sciencce and NSSDC details
+}
 
-  function satelliteClickDetails(scene) {
-    var handler = new Cesium.ScreenSpaceEventHandler(scene.getCanvas());
+    // Clicking a satellite opens a page to Sciencce and NSSDC details
 
-    handler.setInputAction( // actionFunction, mouseEventType, eventModifierKey
-      function (click) {
-        var pickedObject = scene.pick(click.position);
-        var scienceUrl = 'http://science.nasa.gov/missions/';
-        var nssdcUrl = 'http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=';
-        var satDisplay = document.getElementById('satellite_display');
-        var satName, satDesig, century;
+    function satelliteClickDetails(scene) {
+        var handler = new Cesium.ScreenSpaceEventHandler(scene.getCanvas());
 
-        if (pickedObject) {
-          satName  = pickedObject.satelliteName.toLowerCase();
-          satDesig = pickedObject.satelliteDesignator;
-          satDisplay.style.display = 'block';
-          displayStats(pickedObject);
-          if (typeof window !== 'undefined') {
-            scienceUrl +=  scienceSlugify(satName) + '/';
-            window.open(scienceUrl, '_science');
+        handler.setInputAction( // actionFunction, mouseEventType, eventModifierKey
+            function (click) {
+                var pickedObject = scene.pick(click.position);
+                var scienceUrl = 'http://science.nasa.gov/missions/';
+                var nssdcUrl = 'http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=';
+                var satDisplay = document.getElementById('satellite_display');
+                var satName, satDesig, century;
 
-            // mangle Intl Designator for NSSDC: 98067A -> 1998-067A
-            if (Number(satDesig.slice(0, 2)) < 20) { // heuristic from JTrack3D source code
-              century = '20';
-            }
-            else {
-              century = '19';
-            }
-            nssdcUrl += century + satDesig.slice(0, 2) + '-' + satDesig.slice(2);
-            window.open(nssdcUrl, '_nssdc');
-          }
-        }
-      },
-      Cesium.ScreenSpaceEventType.LEFT_CLICK // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
-    );
-  }
+                if (pickedObject) {
+                    satName  = pickedObject.satelliteName.toLowerCase();
+                    satDesig = pickedObject.satelliteDesignator;
+                    if (typeof window !== 'undefined') {
+                        scienceUrl +=  scienceSlugify(satName) + '/';
+                        document.getElementById('science_url').href = scienceUrl;
 
-  // Highlight satellite billboard when selector pulldown used;
-  // open a new window (Pop Up) that shows Science.nasa.gov's info about it.
-  //
-  // We attach an attribute so we can detect any previously highlighted satellite.
-  // Updates one of the global satBillboard elements, resets others.
-  // The setColor changes icon wings from blue to green.
-  // Maybe we should replace the icon by fiddling the textureAtlas index
-  // but that would require more images in the textureAtlas.
-
-  document.getElementById('select_satellite').onchange = function () {
-    var satIdx = Number(this.value); // "16"
-    var target = Cesium.Cartesian3.ZERO;
-    var up = new Cesium.Cartesian3(0, 0, 1);
-    var billboard, bbnum, max, pos, eye;
-
-    for (bbnum = 0, max = satBillboards.getLength(); bbnum < max; bbnum += 1) {
-      billboard = satBillboards.get(bbnum);
-      if (billboard.hasOwnProperty('isSelected')) {
-        delete billboard.isSelected;
-        billboard.setColor({red: 1, blue: 1, green: 1, alpha: 1});
-        billboard.setScale(1.0);
-      }
-      if (bbnum === satIdx) {
-        billboard = satBillboards.get(satIdx);
-        billboard.isSelected = true;
-        billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1});
-        billboard.setScale(2.0);
-        pos = billboard.getPosition(); // Cartesian3, but what coordinate system?
-      }
+                        // mangle Intl Designator for NSSDC: 98067A -> 1998-067A
+                        if (Number(satDesig.slice(0, 2)) < 20) { // heuristic from JTrack3D source code
+                            century = '20';
+                        }
+                        else {
+                            century = '19';
+                        }
+                        nssdcUrl += century + satDesig.slice(0, 2) + '-' + satDesig.slice(2);
+                        document.getElementById('nssdc_url').href = nssdcUrl;
+                        selectedSatelliteIdx = pickedObject.satelliteNum;
+                    }
+                }
+            },
+            Cesium.ScreenSpaceEventType.LEFT_CLICK // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
+        );
     }
 
-    // TODO: *fly* to 'above' the satellite still looking at Earth
-    // Transform to put me "over" satellite location.
-    scene.getCamera().transform = Cesium.Matrix4.fromRotationTranslation(
-      Cesium.Transforms.computeTemeToPseudoFixedMatrix(new Cesium.JulianDate()),
-      Cesium.Cartesian3.ZERO);
-    eye = new Cesium.Cartesian3.clone(pos);
-    eye = eye.multiplyByScalar(1.5); // Zoom out a bit from the satellite
-    scene.getCamera().controller.lookAt(eye, target, up);
+    // Highlight satellite billboard when selector pulldown used;
+    // open a new window (Pop Up) that shows Science.nasa.gov's info about it.
+    //
+    // We attach an attribute so we can detect any previously highlighted satellite.
+    // Updates one of the global satBillboard elements, resets others.
+    // The setColor changes icon wings from blue to green.
+    // Maybe we should replace the icon by fiddling the textureAtlas index
+    // but that would require more images in the textureAtlas.
 
-    // TODO TMP: draw orbit, since we have the satIdx (not just a BB as we get in hover)
-    showOrbit(satIdx);
-  };
+    document.getElementById('select_satellite').onchange = function () {
+        var satIdx = Number(this.value); // "16"
+        var target = Cesium.Cartesian3.ZERO;
+        var up = new Cesium.Cartesian3(0, 0, 1);
+        var billboard, bbnum, max, pos, eye;
+
+        for (bbnum = 0, max = satBillboards.getLength(); bbnum < max; bbnum += 1) {
+            billboard = satBillboards.get(bbnum);
+            if (billboard.hasOwnProperty('isSelected')) {
+                delete billboard.isSelected;
+                billboard.setColor({red: 1, blue: 1, green: 1, alpha: 1});
+                billboard.setScale(1.0);
+            }
+            if (bbnum === satIdx) {
+                billboard = satBillboards.get(satIdx);
+                billboard.isSelected = true;
+                billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1});
+                billboard.setScale(2.0);
+                pos = billboard.getPosition(); // Cartesian3, but what coordinate system?
+            }
+        }
+
+        // TODO: *fly* to 'above' the satellite still looking at Earth
+        // Transform to put me "over" satellite location.
+        scene.getCamera().transform = Cesium.Matrix4.fromRotationTranslation(
+            Cesium.Transforms.computeTemeToPseudoFixedMatrix(new Cesium.JulianDate()),
+            Cesium.Cartesian3.ZERO);
+        eye = new Cesium.Cartesian3.clone(pos);
+        eye = eye.multiplyByScalar(1.5); // Zoom out a bit from the satellite
+        scene.getCamera().controller.lookAt(eye, target, up);
+
+        // TODO TMP: draw orbit, since we have the satIdx (not just a BB as we get in hover)
+        showOrbit(satIdx);
+
+        selectedSatelliteIdx = satIdx;
+        document.getElementById('satellite_form').style.display = 'none';
+    };
 
 
   // For the given satellite, calculate points for one orbit, starting 'now'
@@ -519,7 +548,7 @@
     var minutes, julianDate, minutesSinceEpoch, rets, r, position;
 
     orbitTraces.modelMatrix = Cesium.Matrix4.fromRotationTranslation(Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
-                                                                     Cesium.Cartesian3.ZERO);
+       Cesium.Cartesian3.ZERO);
 
     for (minutes = 0; minutes <= minutesPerOrbit; minutes += minutesPerPoint) {
       julianDate = now.addMinutes(minutes);
@@ -530,12 +559,12 @@
       position = new Cesium.Cartesian3(r[0], r[1], r[2]);  // becomes .x, .y, .z
       position = position.multiplyByScalar(1000); // Km to meters
       positions.push(position);
-    }
-    orbitTraces.removeAll();
-    orbitTraces.add({positions: positions,
-                     color: {red: 1, green: 1, blue: 0, alpha: 0.7}});
-
   }
+  orbitTraces.removeAll();
+  orbitTraces.add({positions: positions,
+   color: {red: 1, green: 1, blue: 0, alpha: 0.7}});
+
+}
 
 
   // Switch map/tile providers
@@ -548,51 +577,51 @@
     if (ilNew) {
       cb.getImageryLayers().removeAll();
       cb.getImageryLayers().addImageryProvider(ilNew);
-    }
   }
+}
 
-  document.getElementById("bing_data_button").onclick = function () {
-    switchTileProviders("bing");
-  };
+    document.getElementById("bing_data_button").onclick = function () {
+        switchTileProviders("bing");
+    };
 
-  document.getElementById('osm_data_button').onclick = function () {
-    switchTileProviders("osm");
-  };
+    document.getElementById('osm_data_button').onclick = function () {
+        switchTileProviders("osm");
+    };
 
-  document.getElementById('static_data_button').onclick = function () {
-    switchTileProviders("static");
-  };
+    document.getElementById('static_data_button').onclick = function () {
+        switchTileProviders("static");
+    };
 
-  // Transition between views
+    // Transition between views
 
-  document.getElementById("three_d_display_button").onclick = function () {
-    var transitioner = new Cesium.SceneTransitioner(scene);
-    transitioner.to3D();
-  };
+    document.getElementById("three_d_display_button").onclick = function () {
+        var transitioner = new Cesium.SceneTransitioner(scene);
+        transitioner.to3D();
+    };
 
-  document.getElementById('columbus_display_button').onclick = function () {
-    var transitioner = new Cesium.SceneTransitioner(scene);
-    transitioner.toColumbusView();
-  };
+    document.getElementById('columbus_display_button').onclick = function () {
+        var transitioner = new Cesium.SceneTransitioner(scene);
+        transitioner.toColumbusView();
+    };
 
-  document.getElementById('two_d_display_button').onclick = function () {
-    var transitioner = new Cesium.SceneTransitioner(scene);
-    transitioner.to2D();
-  };
+    document.getElementById('two_d_display_button').onclick = function () {
+        var transitioner = new Cesium.SceneTransitioner(scene);
+        transitioner.to2D();
+    };
 
-  // Switch which satellites are displayed.
-  document.getElementById('select_satellite_group').onchange = function () {
-    orbitTraces.removeAll();
-    getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
-    populateSatelliteSelector();
-    populateSatelliteBillboard();
-  };
+    // Switch which satellites are displayed.
+    document.getElementById('select_satellite_group').onchange = function () {
+        orbitTraces.removeAll();
+        getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
+        populateSatelliteSelector();
+        populateSatelliteBillboard();
+    };
 
   ///////////////////////////////////////////////////////////////////////////
   // Fire it up
 
   // How do we tell if we can't get Bing, and substitute flat map with 'single'?
-  cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
+  cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.static); // TODO: get from HTML selector
 
   scene.getPrimitives().setCentralBody(cb);
   scene.skyBox = new Cesium.SkyBox({
@@ -602,7 +631,7 @@
     negativeY: skyboxBase + '/tycho8_my_80.jpg',
     positiveZ: skyboxBase + '/tycho8_pz_80.jpg',
     negativeZ: skyboxBase + '/tycho8_mz_80.jpg'
-  });
+});
   scene.getPrimitives().add(orbitTraces);
 
   //scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
@@ -621,21 +650,25 @@
   /////////////////////////////////////////////////////////////////////////////
   // Run the timeclock, drive the animations
 
-  var satelliteTimer = setInterval(function () {
-    var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
+    var satelliteTimer = setInterval(function () {
+        var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
 
-    if (satrecs.length > 0) {
-      var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
-      satrecs = sats.satrecs;                       // propagate [GLOBAL]
-      updateSatelliteBillboards(sats.positions);
-    }
-  }, CALC_INTERVAL_MS);
+        if (satrecs.length > 0) {
+            var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
+            satrecs = sats.satrecs;                       // propagate [GLOBAL]
+            updateSatelliteBillboards(sats.positions);
+        }
+
+        if(selectedSatelliteIdx !== null) {
+            displayStats();
+        }
+    }, CALC_INTERVAL_MS);
 
   function animate() {
     // Code here updates primitives based on time, camera position, etc
     // We're updating positions and date with an interval timer,
     // and those are global, so the animation renderer gets them automatically.
-  }
+}
 
   // Loop the clock
 
@@ -644,6 +677,6 @@
     //animate();
     scene.render();
     Cesium.requestAnimationFrame(tick);
-  }());
+}());
 
 }());
