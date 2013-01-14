@@ -1,5 +1,7 @@
-/*!
- * Copyright 2011-2012 Cesium Contributors
+/**
+ * Cesium - https://github.com/AnalyticalGraphicsInc/cesium
+ *
+ * Copyright 2011-2013 Cesium Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,287 +16,10 @@
  * limitations under the License.
  *
  * Columbus View (Pat. Pend.)
+ *
+ * Portions licensed separately.
+ * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-
-/**
- * almond 0.0.3 Copyright (c) 2011, The Dojo Foundation All Rights Reserved.
- * Available via the MIT or new BSD license.
- * see: http://github.com/jrburke/almond for details
- */
-/*jslint strict: false, plusplus: false */
-/*global setTimeout: false */
-
-var requirejs, require, define;
-(function (undef) {
-
-    var defined = {},
-        waiting = {},
-        aps = [].slice,
-        main, req;
-
-    if (typeof define === "function") {
-        //If a define is already in play via another AMD loader,
-        //do not overwrite.
-        return;
-    }
-
-    /**
-     * Given a relative module name, like ./something, normalize it to
-     * a real name that can be mapped to a path.
-     * @param {String} name the relative name
-     * @param {String} baseName a real name that the name arg is relative
-     * to.
-     * @returns {String} normalized name
-     */
-    function normalize(name, baseName) {
-        //Adjust any relative paths.
-        if (name && name.charAt(0) === ".") {
-            //If have a base name, try to normalize against it,
-            //otherwise, assume it is a top-level require that will
-            //be relative to baseUrl in the end.
-            if (baseName) {
-                //Convert baseName to array, and lop off the last part,
-                //so that . matches that "directory" and not name of the baseName's
-                //module. For instance, baseName of "one/two/three", maps to
-                //"one/two/three.js", but we want the directory, "one/two" for
-                //this normalization.
-                baseName = baseName.split("/");
-                baseName = baseName.slice(0, baseName.length - 1);
-
-                name = baseName.concat(name.split("/"));
-
-                //start trimDots
-                var i, part;
-                for (i = 0; (part = name[i]); i++) {
-                    if (part === ".") {
-                        name.splice(i, 1);
-                        i -= 1;
-                    } else if (part === "..") {
-                        if (i === 1 && (name[2] === '..' || name[0] === '..')) {
-                            //End of the line. Keep at least one non-dot
-                            //path segment at the front so it can be mapped
-                            //correctly to disk. Otherwise, there is likely
-                            //no path mapping for a path starting with '..'.
-                            //This can still fail, but catches the most reasonable
-                            //uses of ..
-                            break;
-                        } else if (i > 0) {
-                            name.splice(i - 1, 2);
-                            i -= 2;
-                        }
-                    }
-                }
-                //end trimDots
-
-                name = name.join("/");
-            }
-        }
-        return name;
-    }
-
-    function makeRequire(relName, forceSync) {
-        return function () {
-            //A version of a require function that passes a moduleName
-            //value for items that may need to
-            //look up paths relative to the moduleName
-            return req.apply(undef, aps.call(arguments, 0).concat([relName, forceSync]));
-        };
-    }
-
-    function makeNormalize(relName) {
-        return function (name) {
-            return normalize(name, relName);
-        };
-    }
-
-    function makeLoad(depName) {
-        return function (value) {
-            defined[depName] = value;
-        };
-    }
-
-    function callDep(name) {
-        if (waiting.hasOwnProperty(name)) {
-            var args = waiting[name];
-            delete waiting[name];
-            main.apply(undef, args);
-        }
-        return defined[name];
-    }
-
-    /**
-     * Makes a name map, normalizing the name, and using a plugin
-     * for normalization if necessary. Grabs a ref to plugin
-     * too, as an optimization.
-     */
-    function makeMap(name, relName) {
-        var prefix, plugin,
-            index = name.indexOf('!');
-
-        if (index !== -1) {
-            prefix = normalize(name.slice(0, index), relName);
-            name = name.slice(index + 1);
-            plugin = callDep(prefix);
-
-            //Normalize according
-            if (plugin && plugin.normalize) {
-                name = plugin.normalize(name, makeNormalize(relName));
-            } else {
-                name = normalize(name, relName);
-            }
-        } else {
-            name = normalize(name, relName);
-        }
-
-        //Using ridiculous property names for space reasons
-        return {
-            f: prefix ? prefix + '!' + name : name, //fullName
-            n: name,
-            p: plugin
-        };
-    }
-
-    main = function (name, deps, callback, relName) {
-        var args = [],
-            usingExports,
-            cjsModule, depName, i, ret, map;
-
-        //Use name if no relName
-        if (!relName) {
-            relName = name;
-        }
-
-        //Call the callback to define the module, if necessary.
-        if (typeof callback === 'function') {
-
-            //Default to require, exports, module if no deps if
-            //the factory arg has any arguments specified.
-            if (!deps.length && callback.length) {
-                deps = ['require', 'exports', 'module'];
-            }
-
-            //Pull out the defined dependencies and pass the ordered
-            //values to the callback.
-            for (i = 0; i < deps.length; i++) {
-                map = makeMap(deps[i], relName);
-                depName = map.f;
-
-                //Fast path CommonJS standard dependencies.
-                if (depName === "require") {
-                    args[i] = makeRequire(name);
-                } else if (depName === "exports") {
-                    //CommonJS module spec 1.1
-                    args[i] = defined[name] = {};
-                    usingExports = true;
-                } else if (depName === "module") {
-                    //CommonJS module spec 1.1
-                    cjsModule = args[i] = {
-                        id: name,
-                        uri: '',
-                        exports: defined[name]
-                    };
-                } else if (defined.hasOwnProperty(depName) || waiting.hasOwnProperty(depName)) {
-                    args[i] = callDep(depName);
-                } else if (map.p) {
-                    map.p.load(map.n, makeRequire(relName, true), makeLoad(depName), {});
-                    args[i] = defined[depName];
-                } else {
-                    throw name + ' missing ' + depName;
-                }
-            }
-
-            ret = callback.apply(defined[name], args);
-
-            if (name) {
-                //If setting exports via "module" is in play,
-                //favor that over return value and exports. After that,
-                //favor a non-undefined return value over exports use.
-                if (cjsModule && cjsModule.exports !== undef) {
-                    defined[name] = cjsModule.exports;
-                } else if (!usingExports) {
-                    //Use the return value from the function.
-                    defined[name] = ret;
-                }
-            }
-        } else if (name) {
-            //May just be an object definition for the module. Only
-            //worry about defining if have a module name.
-            defined[name] = callback;
-        }
-    };
-
-    requirejs = req = function (deps, callback, relName, forceSync) {
-        if (typeof deps === "string") {
-
-            //Just return the module wanted. In this scenario, the
-            //deps arg is the module name, and second arg (if passed)
-            //is just the relName.
-            //Normalize module name, if it contains . or ..
-            return callDep(makeMap(deps, callback).f);
-        } else if (!deps.splice) {
-            //deps is a config object, not an array.
-            //Drop the config stuff on the ground.
-            if (callback.splice) {
-                //callback is an array, which means it is a dependency list.
-                //Adjust args if there are dependencies
-                deps = callback;
-                callback = arguments[2];
-            } else {
-                deps = [];
-            }
-        }
-
-        //Simulate async callback;
-        if (forceSync) {
-            main(undef, deps, callback, relName);
-        } else {
-            setTimeout(function () {
-                main(undef, deps, callback, relName);
-            }, 15);
-        }
-
-        return req;
-    };
-
-    /**
-     * Just drops the config on the floor, but returns req in case
-     * the config return value is used.
-     */
-    req.config = function () {
-        return req;
-    };
-
-    /**
-     * Export require as a global, but only if it does not already exist.
-     */
-    if (!require) {
-        require = req;
-    }
-
-    define = function (name, deps, callback) {
-
-        //This module may not have dependencies
-        if (!deps.splice) {
-            //deps is not an array, so probably means
-            //an object literal or factory function for
-            //the value. Adjust args.
-            callback = deps;
-            deps = [];
-        }
-
-        if (define.unordered) {
-            waiting[name] = [name, deps, callback];
-        } else {
-            main(name, deps, callback);
-        }
-    };
-
-    define.amd = {
-        jQuery: true
-    };
-}());
-
-define("../ThirdParty/almond-0.0.3/almond.js", function(){});
 
 /*global define*/
 define('Core/defaultValue',[],function() {
@@ -552,7 +277,8 @@ define('Core/Math',[
     CesiumMath.sign = function(value) {
         if (value > 0) {
             return 1;
-        } else if (value < 0) {
+        }
+        if (value < 0) {
             return -1;
         }
 
@@ -756,11 +482,14 @@ define('Core/Math',[
         var twoPi = CesiumMath.TWO_PI;
 
         var simplified = angle - Math.floor(angle / twoPi) * twoPi;
+
         if (simplified < -Math.PI) {
-            simplified += twoPi;
-        } else if (simplified >= Math.PI) {
-            simplified -= twoPi;
+            return simplified + twoPi;
         }
+        if (simplified >= Math.PI) {
+            return simplified - twoPi;
+        }
+
         return simplified;
     };
 
@@ -768,24 +497,21 @@ define('Core/Math',[
      * Alters the value of input x such that <code>-CesiumMath.PI</code> <= x <= <code>CesiumMath.PI</code>
      * @param {Number} angle in radians
      * @return {Number} The angle in the range ()<code>-CesiumMath.PI</code>, <code>CesiumMath.PI</code>).
-    */
-    CesiumMath.negativePiToPi = function(x){
+     */
+    CesiumMath.negativePiToPi = function(x) {
         var epsilon10 = CesiumMath.EPSILON10;
         var pi = CesiumMath.PI;
         var two_pi = CesiumMath.TWO_PI;
-        while(x < -(pi+ epsilon10)){
+        while (x < -(pi + epsilon10)) {
             x += two_pi;
         }
-        if(x < -pi){
-            x = -pi;
+        if (x < -pi) {
+            return -pi;
         }
-        while(x > pi + epsilon10){
-            x-=two_pi;
+        while (x > pi + epsilon10) {
+            x -= two_pi;
         }
-        if(x > pi){
-            x = pi;
-        }
-        return x;
+        return x > pi ? pi : x;
     };
 
     /**
@@ -855,7 +581,7 @@ define('Core/Math',[
         }
 
         ++n;
-        if(n > maximumValue) {
+        if (n > maximumValue) {
             n = minimumValue;
         }
         return n;
@@ -922,218 +648,6 @@ define('Core/freezeObject',[],function() {
 
     return freezeObject;
 });
-/*global define*/
-define('Core/Cartographic',[
-        './defaultValue',
-        './DeveloperError',
-        './freezeObject',
-        './Math'
-    ], function(
-        defaultValue,
-        DeveloperError,
-        freezeObject,
-        CesiumMath) {
-    
-
-    /**
-     * A position defined by longitude, latitude, and height.
-     * @alias Cartographic
-     * @constructor
-     *
-     * @param {Number} [longitude=0.0] The longitude, in radians.
-     * @param {Number} [latitude=0.0] The latitude, in radians.
-     * @param {Number} [height=0.0] The height, in meters, above the ellipsoid.
-     *
-     * @see Ellipsoid
-     */
-    var Cartographic = function(longitude, latitude, height) {
-        /**
-         * The longitude, in radians.
-         * @type Number
-         */
-        this.longitude = defaultValue(longitude, 0.0);
-
-        /**
-         * The latitude, in radians.
-         * @type Number
-         */
-        this.latitude = defaultValue(latitude, 0.0);
-
-        /**
-         * The height, in meters, above the ellipsoid.
-         * @type Number
-         */
-        this.height = defaultValue(height, 0.0);
-    };
-
-    /**
-     * Creates a new Cartographic instance from longitude and latitude
-     * specified in degrees.  The values in the resulting object will
-     * be in radians.
-     * @memberof Cartographic
-     *
-     * @param {Number} [longitude=0.0] The longitude, in degrees.
-     * @param {Number} [latitude=0.0] The latitude, in degrees.
-     * @param {Number} [height=0.0] The height, in meters, above the ellipsoid.
-     * @param {Cartographic} [result] The object onto which to store the result.
-     * @return {Cartographic} The modified result parameter or a new Cartographic instance if one was not provided.
-     */
-    Cartographic.fromDegrees = function(longitude, latitude, height, result) {
-        longitude = CesiumMath.toRadians(defaultValue(longitude, 0.0));
-        latitude = CesiumMath.toRadians(defaultValue(latitude, 0.0));
-        height = defaultValue(height, 0.0);
-
-        if (typeof result === 'undefined') {
-            return new Cartographic(longitude, latitude, height);
-        }
-
-        result.longitude = longitude;
-        result.latitude = latitude;
-        result.height = height;
-        return result;
-    };
-
-    /**
-     * Duplicates a Cartographic instance.
-     * @memberof Cartographic
-     *
-     * @param {Cartographic} cartographic The cartographic to duplicate.
-     * @param {Cartographic} [result] The object onto which to store the result.
-     * @return {Cartographic} The modified result parameter or a new Cartographic instance if one was not provided.
-     *
-     * @exception {DeveloperError} cartographic is required.
-     */
-    Cartographic.clone = function(cartographic, result) {
-        if (typeof cartographic === 'undefined') {
-            throw new DeveloperError('cartographic is required');
-        }
-        if (typeof result === 'undefined') {
-            return new Cartographic(cartographic.longitude, cartographic.latitude, cartographic.height);
-        }
-        result.longitude = cartographic.longitude;
-        result.latitude = cartographic.latitude;
-        result.height = cartographic.height;
-        return result;
-    };
-
-    /**
-     * Compares the provided cartographics componentwise and returns
-     * <code>true</code> if they are equal, <code>false</code> otherwise.
-     * @memberof Cartographic
-     *
-     * @param {Cartographic} [left] The first cartographic.
-     * @param {Cartographic} [right] The second cartographic.
-     * @return {Boolean} <code>true</code> if left and right are equal, <code>false</code> otherwise.
-     */
-    Cartographic.equals = function(left, right) {
-        return (left === right) ||
-                ((typeof left !== 'undefined') &&
-                 (typeof right !== 'undefined') &&
-                 (left.longitude === right.longitude) &&
-                 (left.latitude === right.latitude) &&
-                 (left.height === right.height));
-    };
-
-    /**
-     * Compares the provided cartographics componentwise and returns
-     * <code>true</code> if they are within the provided epsilon,
-     * <code>false</code> otherwise.
-     * @memberof Cartographic
-     *
-     * @param {Cartographic} [left] The first cartographic.
-     * @param {Cartographic} [right] The second cartographic.
-     * @param {Number} epsilon The epsilon to use for equality testing.
-     * @return {Boolean} <code>true</code> if left and right are within the provided epsilon, <code>false</code> otherwise.
-     *
-     * @exception {DeveloperError} epsilon is required and must be a number.
-     */
-    Cartographic.equalsEpsilon = function(left, right, epsilon) {
-        if (typeof epsilon !== 'number') {
-            throw new DeveloperError('epsilon is required and must be a number.');
-        }
-        return (left === right) ||
-               ((typeof left !== 'undefined') &&
-                (typeof right !== 'undefined') &&
-                (Math.abs(left.longitude - right.longitude) <= epsilon) &&
-                (Math.abs(left.latitude - right.latitude) <= epsilon) &&
-                (Math.abs(left.height - right.height) <= epsilon));
-    };
-
-    /**
-     * Creates a string representing the provided cartographic in the format '(longitude, latitude, height)'.
-     * @memberof Cartographic
-     *
-     * @param {Cartographic} cartographic The cartographic to stringify.
-     * @return {String} A string representing the provided cartographic in the format '(longitude, latitude, height)'.
-     *
-     * @exception {DeveloperError} cartographic is required.
-     */
-    Cartographic.toString = function(cartographic) {
-        if (typeof cartographic === 'undefined') {
-            throw new DeveloperError('cartographic is required');
-        }
-        return '(' + cartographic.longitude + ', ' + cartographic.latitude + ', ' + cartographic.height + ')';
-    };
-
-    /**
-     * An immutable Cartographic instance initialized to (0.0, 0.0, 0.0).
-     *
-     * @memberof Cartographic
-     */
-    Cartographic.ZERO = freezeObject(new Cartographic(0.0, 0.0, 0.0));
-
-    /**
-     * Duplicates this instance.
-     * @memberof Cartographic
-     *
-     * @param {Cartographic} [result] The object onto which to store the result.
-     * @return {Cartographic} The modified result parameter or a new Cartographic instance if one was not provided.
-     */
-    Cartographic.prototype.clone = function(result) {
-        return Cartographic.clone(this, result);
-    };
-
-    /**
-     * Compares the provided against this cartographic componentwise and returns
-     * <code>true</code> if they are equal, <code>false</code> otherwise.
-     * @memberof Cartographic
-     *
-     * @param {Cartographic} [right] The second cartographic.
-     * @return {Boolean} <code>true</code> if left and right are equal, <code>false</code> otherwise.
-     */
-    Cartographic.prototype.equals = function(right) {
-        return Cartographic.equals(this, right);
-    };
-
-    /**
-     * Compares the provided against this cartographic componentwise and returns
-     * <code>true</code> if they are within the provided epsilon,
-     * <code>false</code> otherwise.
-     * @memberof Cartographic
-     *
-     * @param {Cartographic} [right] The second cartographic.
-     * @param {Number} epsilon The epsilon to use for equality testing.
-     * @return {Boolean} <code>true</code> if left and right are within the provided epsilon, <code>false</code> otherwise.
-     *
-     * @exception {DeveloperError} epsilon is required and must be a number.
-     */
-    Cartographic.prototype.equalsEpsilon = function(right, epsilon) {
-        return Cartographic.equalsEpsilon(this, right, epsilon);
-    };
-
-    /**
-     * Creates a string representing this cartographic in the format '(longitude, latitude, height)'.
-     * @memberof Cartographic
-     *
-     * @return {String} A string representing the provided cartographic in the format '(longitude, latitude, height)'.
-     */
-    Cartographic.prototype.toString = function() {
-        return Cartographic.toString(this);
-    };
-
-    return Cartographic;
-});
-
 /*global define*/
 define('Core/Cartesian3',[
         './defaultValue',
@@ -1997,6 +1511,218 @@ define('Core/Cartesian3',[
 });
 
 /*global define*/
+define('Core/Cartographic',[
+        './defaultValue',
+        './DeveloperError',
+        './freezeObject',
+        './Math'
+    ], function(
+        defaultValue,
+        DeveloperError,
+        freezeObject,
+        CesiumMath) {
+    
+
+    /**
+     * A position defined by longitude, latitude, and height.
+     * @alias Cartographic
+     * @constructor
+     *
+     * @param {Number} [longitude=0.0] The longitude, in radians.
+     * @param {Number} [latitude=0.0] The latitude, in radians.
+     * @param {Number} [height=0.0] The height, in meters, above the ellipsoid.
+     *
+     * @see Ellipsoid
+     */
+    var Cartographic = function(longitude, latitude, height) {
+        /**
+         * The longitude, in radians.
+         * @type Number
+         */
+        this.longitude = defaultValue(longitude, 0.0);
+
+        /**
+         * The latitude, in radians.
+         * @type Number
+         */
+        this.latitude = defaultValue(latitude, 0.0);
+
+        /**
+         * The height, in meters, above the ellipsoid.
+         * @type Number
+         */
+        this.height = defaultValue(height, 0.0);
+    };
+
+    /**
+     * Creates a new Cartographic instance from longitude and latitude
+     * specified in degrees.  The values in the resulting object will
+     * be in radians.
+     * @memberof Cartographic
+     *
+     * @param {Number} [longitude=0.0] The longitude, in degrees.
+     * @param {Number} [latitude=0.0] The latitude, in degrees.
+     * @param {Number} [height=0.0] The height, in meters, above the ellipsoid.
+     * @param {Cartographic} [result] The object onto which to store the result.
+     * @return {Cartographic} The modified result parameter or a new Cartographic instance if one was not provided.
+     */
+    Cartographic.fromDegrees = function(longitude, latitude, height, result) {
+        longitude = CesiumMath.toRadians(defaultValue(longitude, 0.0));
+        latitude = CesiumMath.toRadians(defaultValue(latitude, 0.0));
+        height = defaultValue(height, 0.0);
+
+        if (typeof result === 'undefined') {
+            return new Cartographic(longitude, latitude, height);
+        }
+
+        result.longitude = longitude;
+        result.latitude = latitude;
+        result.height = height;
+        return result;
+    };
+
+    /**
+     * Duplicates a Cartographic instance.
+     * @memberof Cartographic
+     *
+     * @param {Cartographic} cartographic The cartographic to duplicate.
+     * @param {Cartographic} [result] The object onto which to store the result.
+     * @return {Cartographic} The modified result parameter or a new Cartographic instance if one was not provided.
+     *
+     * @exception {DeveloperError} cartographic is required.
+     */
+    Cartographic.clone = function(cartographic, result) {
+        if (typeof cartographic === 'undefined') {
+            throw new DeveloperError('cartographic is required');
+        }
+        if (typeof result === 'undefined') {
+            return new Cartographic(cartographic.longitude, cartographic.latitude, cartographic.height);
+        }
+        result.longitude = cartographic.longitude;
+        result.latitude = cartographic.latitude;
+        result.height = cartographic.height;
+        return result;
+    };
+
+    /**
+     * Compares the provided cartographics componentwise and returns
+     * <code>true</code> if they are equal, <code>false</code> otherwise.
+     * @memberof Cartographic
+     *
+     * @param {Cartographic} [left] The first cartographic.
+     * @param {Cartographic} [right] The second cartographic.
+     * @return {Boolean} <code>true</code> if left and right are equal, <code>false</code> otherwise.
+     */
+    Cartographic.equals = function(left, right) {
+        return (left === right) ||
+                ((typeof left !== 'undefined') &&
+                 (typeof right !== 'undefined') &&
+                 (left.longitude === right.longitude) &&
+                 (left.latitude === right.latitude) &&
+                 (left.height === right.height));
+    };
+
+    /**
+     * Compares the provided cartographics componentwise and returns
+     * <code>true</code> if they are within the provided epsilon,
+     * <code>false</code> otherwise.
+     * @memberof Cartographic
+     *
+     * @param {Cartographic} [left] The first cartographic.
+     * @param {Cartographic} [right] The second cartographic.
+     * @param {Number} epsilon The epsilon to use for equality testing.
+     * @return {Boolean} <code>true</code> if left and right are within the provided epsilon, <code>false</code> otherwise.
+     *
+     * @exception {DeveloperError} epsilon is required and must be a number.
+     */
+    Cartographic.equalsEpsilon = function(left, right, epsilon) {
+        if (typeof epsilon !== 'number') {
+            throw new DeveloperError('epsilon is required and must be a number.');
+        }
+        return (left === right) ||
+               ((typeof left !== 'undefined') &&
+                (typeof right !== 'undefined') &&
+                (Math.abs(left.longitude - right.longitude) <= epsilon) &&
+                (Math.abs(left.latitude - right.latitude) <= epsilon) &&
+                (Math.abs(left.height - right.height) <= epsilon));
+    };
+
+    /**
+     * Creates a string representing the provided cartographic in the format '(longitude, latitude, height)'.
+     * @memberof Cartographic
+     *
+     * @param {Cartographic} cartographic The cartographic to stringify.
+     * @return {String} A string representing the provided cartographic in the format '(longitude, latitude, height)'.
+     *
+     * @exception {DeveloperError} cartographic is required.
+     */
+    Cartographic.toString = function(cartographic) {
+        if (typeof cartographic === 'undefined') {
+            throw new DeveloperError('cartographic is required');
+        }
+        return '(' + cartographic.longitude + ', ' + cartographic.latitude + ', ' + cartographic.height + ')';
+    };
+
+    /**
+     * An immutable Cartographic instance initialized to (0.0, 0.0, 0.0).
+     *
+     * @memberof Cartographic
+     */
+    Cartographic.ZERO = freezeObject(new Cartographic(0.0, 0.0, 0.0));
+
+    /**
+     * Duplicates this instance.
+     * @memberof Cartographic
+     *
+     * @param {Cartographic} [result] The object onto which to store the result.
+     * @return {Cartographic} The modified result parameter or a new Cartographic instance if one was not provided.
+     */
+    Cartographic.prototype.clone = function(result) {
+        return Cartographic.clone(this, result);
+    };
+
+    /**
+     * Compares the provided against this cartographic componentwise and returns
+     * <code>true</code> if they are equal, <code>false</code> otherwise.
+     * @memberof Cartographic
+     *
+     * @param {Cartographic} [right] The second cartographic.
+     * @return {Boolean} <code>true</code> if left and right are equal, <code>false</code> otherwise.
+     */
+    Cartographic.prototype.equals = function(right) {
+        return Cartographic.equals(this, right);
+    };
+
+    /**
+     * Compares the provided against this cartographic componentwise and returns
+     * <code>true</code> if they are within the provided epsilon,
+     * <code>false</code> otherwise.
+     * @memberof Cartographic
+     *
+     * @param {Cartographic} [right] The second cartographic.
+     * @param {Number} epsilon The epsilon to use for equality testing.
+     * @return {Boolean} <code>true</code> if left and right are within the provided epsilon, <code>false</code> otherwise.
+     *
+     * @exception {DeveloperError} epsilon is required and must be a number.
+     */
+    Cartographic.prototype.equalsEpsilon = function(right, epsilon) {
+        return Cartographic.equalsEpsilon(this, right, epsilon);
+    };
+
+    /**
+     * Creates a string representing this cartographic in the format '(longitude, latitude, height)'.
+     * @memberof Cartographic
+     *
+     * @return {String} A string representing the provided cartographic in the format '(longitude, latitude, height)'.
+     */
+    Cartographic.prototype.toString = function() {
+        return Cartographic.toString(this);
+    };
+
+    return Cartographic;
+});
+
+/*global define*/
 define('Core/Ellipsoid',[
         './freezeObject',
         './defaultValue',
@@ -2064,6 +1790,8 @@ define('Core/Ellipsoid',[
         this._minimumRadius = Math.min(x, y, z);
 
         this._maximumRadius = Math.max(x, y, z);
+
+        this._centerToleranceSquared = CesiumMath.EPSILON1;
     };
 
     /**
@@ -2283,11 +2011,12 @@ define('Core/Ellipsoid',[
 
     /**
      * Converts the provided cartesian to cartographic representation.
+     * The cartesian is undefined at the center of the ellipsoid.
      * @memberof Ellipsoid
      *
      * @param {Cartesian3} cartesian The Cartesian position to convert to cartographic representation.
      * @param {Cartographic} [result] The object onto which to store the result.
-     * @return {Cartographic} The modified result parameter or a new Cartographic instance if none was provided.
+     * @return {Cartographic} The modified result parameter, new Cartographic instance if none was provided, or undefined if the cartesian is at the center of the ellipsoid.
      *
      * @exception {DeveloperError} cartesian is required.
      *
@@ -2299,6 +2028,11 @@ define('Core/Ellipsoid',[
     Ellipsoid.prototype.cartesianToCartographic = function(cartesian, result) {
         //`cartesian is required.` is thrown from scaleToGeodeticSurface
         var p = this.scaleToGeodeticSurface(cartesian, cartesianToCartographicP);
+
+        if (typeof p === 'undefined') {
+            return undefined;
+        }
+
         var n = this.geodeticSurfaceNormal(p, cartesianToCartographicN);
         var h = Cartesian3.subtract(cartesian, p, cartesianToCartographicH);
 
@@ -2349,14 +2083,18 @@ define('Core/Ellipsoid',[
         return result;
     };
 
+    var scaleToGeodeticSurfaceIntersection;
+    var scaleToGeodeticSurfaceGradient = new Cartesian3();
+
     /**
      * Scales the provided Cartesian position along the geodetic surface normal
-     * so that it is on the surface of this ellipsoid.
+     * so that it is on the surface of this ellipsoid.  If the position is
+     * at the center of the ellipsoid, this function returns undefined.
      * @memberof Ellipsoid
      *
      * @param {Cartesian3} cartesian The Cartesian position to scale.
      * @param {Cartesian3} [result] The object onto which to store the result.
-     * @return {Cartesian3} The modified result parameter or a new Cartesian3 instance if none was provided.
+     * @return {Cartesian3} The modified result parameter, a new Cartesian3 instance if none was provided, or undefined if the position is at the center.
      *
      * @exception {DeveloperError} cartesian is required.
      */
@@ -2369,74 +2107,87 @@ define('Core/Ellipsoid',[
         var positionY = cartesian.y;
         var positionZ = cartesian.z;
 
+        var oneOverRadii = this._oneOverRadii;
+        var oneOverRadiiX = oneOverRadii.x;
+        var oneOverRadiiY = oneOverRadii.y;
+        var oneOverRadiiZ = oneOverRadii.z;
+
+        var x2 = positionX * positionX * oneOverRadiiX * oneOverRadiiX;
+        var y2 = positionY * positionY * oneOverRadiiY * oneOverRadiiY;
+        var z2 = positionZ * positionZ * oneOverRadiiZ * oneOverRadiiZ;
+
+        // Compute the squared ellipsoid norm.
+        var squaredNorm = x2 + y2 + z2;
+        var ratio = Math.sqrt(1.0 / squaredNorm);
+
+        // As an initial approximation, assume that the radial intersection is the projection point.
+        var intersection = Cartesian3.multiplyByScalar(cartesian, ratio, scaleToGeodeticSurfaceIntersection);
+
+        //* If the position is near the center, the iteration will not converge.
+        if (squaredNorm < this._centerToleranceSquared) {
+            return !isFinite(ratio) ? undefined : Cartesian3.clone(intersection, result);
+        }
+
         var oneOverRadiiSquared = this._oneOverRadiiSquared;
         var oneOverRadiiSquaredX = oneOverRadiiSquared.x;
         var oneOverRadiiSquaredY = oneOverRadiiSquared.y;
         var oneOverRadiiSquaredZ = oneOverRadiiSquared.z;
 
-        var radiiSquared = this._radiiSquared;
-        var radiiSquaredX = radiiSquared.x;
-        var radiiSquaredY = radiiSquared.y;
-        var radiiSquaredZ = radiiSquared.z;
+        // Use the gradient at the intersection point in place of the true unit normal.
+        // The difference in magnitude will be absorbed in the multiplier.
+        var gradient = scaleToGeodeticSurfaceGradient;
+        gradient.x = intersection.x * oneOverRadiiSquaredX * 2.0;
+        gradient.y = intersection.y * oneOverRadiiSquaredY * 2.0;
+        gradient.z = intersection.z * oneOverRadiiSquaredZ * 2.0;
 
-        var radiiToTheFourth = this._radiiToTheFourth;
-        var radiiToTheFourthX = radiiToTheFourth.x;
-        var radiiToTheFourthY = radiiToTheFourth.y;
-        var radiiToTheFourthZ = radiiToTheFourth.z;
+        // Compute the initial guess at the normal vector multiplier, lambda.
+        var lambda = (1.0 - ratio) * Cartesian3.magnitude(cartesian) / (0.5 * Cartesian3.magnitude(gradient));
+        var correction = 0.0;
 
-        var beta = 1.0 / Math.sqrt(
-                (positionX * positionX) * oneOverRadiiSquaredX +
-                (positionY * positionY) * oneOverRadiiSquaredY +
-                (positionZ * positionZ) * oneOverRadiiSquaredZ);
-
-        var x = beta * positionX * oneOverRadiiSquaredX;
-        var y = beta * positionY * oneOverRadiiSquaredY;
-        var z = beta * positionZ * oneOverRadiiSquaredZ;
-
-        var n = Math.sqrt(x * x + y * y + z * z);
-        var alpha = (1.0 - beta) * (Cartesian3.magnitude(cartesian) / n);
-
-        var x2 = positionX * positionX;
-        var y2 = positionY * positionY;
-        var z2 = positionZ * positionZ;
-
-        var da = 0.0;
-        var db = 0.0;
-        var dc = 0.0;
-
-        var s = 0.0;
-        var dSdA = 1.0;
+        var func;
+        var denominator;
+        var xMultiplier;
+        var yMultiplier;
+        var zMultiplier;
+        var xMultiplier2;
+        var yMultiplier2;
+        var zMultiplier2;
+        var xMultiplier3;
+        var yMultiplier3;
+        var zMultiplier3;
 
         do {
-            alpha -= (s / dSdA);
+            lambda -= correction;
 
-            da = 1.0 + (alpha * oneOverRadiiSquaredX);
-            db = 1.0 + (alpha * oneOverRadiiSquaredY);
-            dc = 1.0 + (alpha * oneOverRadiiSquaredZ);
+            xMultiplier = 1.0 / (1.0 + lambda * oneOverRadiiSquaredX);
+            yMultiplier = 1.0 / (1.0 + lambda * oneOverRadiiSquaredY);
+            zMultiplier = 1.0 / (1.0 + lambda * oneOverRadiiSquaredZ);
 
-            var da2 = da * da;
-            var db2 = db * db;
-            var dc2 = dc * dc;
+            xMultiplier2 = xMultiplier * xMultiplier;
+            yMultiplier2 = yMultiplier * yMultiplier;
+            zMultiplier2 = zMultiplier * zMultiplier;
 
-            var da3 = da * da2;
-            var db3 = db * db2;
-            var dc3 = dc * dc2;
+            xMultiplier3 = xMultiplier2 * xMultiplier;
+            yMultiplier3 = yMultiplier2 * yMultiplier;
+            zMultiplier3 = zMultiplier2 * zMultiplier;
 
-            s = x2 / (radiiSquaredX * da2) + y2 / (radiiSquaredY * db2) + z2 / (radiiSquaredZ * dc2) - 1.0;
+            func = x2 * xMultiplier2 + y2 * yMultiplier2 + z2 * zMultiplier2 - 1.0;
 
-            dSdA = -2.0 * (x2 / (radiiToTheFourthX * da3) + y2 / (radiiToTheFourthY * db3) + z2 / (radiiToTheFourthZ * dc3));
-        } while (Math.abs(s) > CesiumMath.EPSILON10);
+            // "denominator" here refers to the use of this expression in the velocity and acceleration
+            // computations in the sections to follow.
+            denominator = x2 * xMultiplier3 * oneOverRadiiSquaredX + y2 * yMultiplier3 * oneOverRadiiSquaredY + z2 * zMultiplier3 * oneOverRadiiSquaredZ;
 
-        x = positionX / da;
-        y = positionY / db;
-        z = positionZ / dc;
+            var derivative = -2.0 * denominator;
+
+            correction = func / derivative;
+        } while (Math.abs(func) > CesiumMath.EPSILON12);
 
         if (typeof result === 'undefined') {
-            return new Cartesian3(x, y, z);
+            return new Cartesian3(positionX * xMultiplier, positionY * yMultiplier, positionZ * zMultiplier);
         }
-        result.x = x;
-        result.y = y;
-        result.z = z;
+        result.x = positionX * xMultiplier;
+        result.y = positionY * yMultiplier;
+        result.z = positionZ * zMultiplier;
         return result;
     };
 
@@ -3622,7 +3373,7 @@ define('Workers/createVerticesFromExtent',[
 
         ExtentTessellator.computeVertices(parameters);
 
-        return vertices;
+        return vertices.buffer;
     }
 
     return createTaskProcessorWorker(createVerticesFromExtent);
