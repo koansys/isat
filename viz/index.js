@@ -651,6 +651,11 @@
 
     setInterval(function () {
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
+        var date = new Date();
+        var display_now = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        document.getElementById('local_time').innerHTML = display_now;
+        var display_utc = date.getUTCHours() + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds();
+        document.getElementById('utc_time').innerHTML = display_utc;
 
         if (satrecs.length > 0) {
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock

@@ -139,6 +139,18 @@ legend {
     border-radius: 15px;
     opacity: 0.85;
 }
+#user_date {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: white;
+    padding: 10px;
+    width: 25%;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    opacity: 0.85;
+}
 
 /* Buttons */
 #reset_button {

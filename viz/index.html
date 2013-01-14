@@ -57,7 +57,7 @@
     <div id="wrapper">
       <div id="header">
         <h1>
-          SOT: Satellite Orbit Tracker
+          SOT: Satellite Orbit Tracker <span id="time_now"></span>
         </h1>
         <img src="static/images/on-reset.png"
              id="reset_button"
@@ -258,7 +258,10 @@
         <a id="science_url"href="#" target="_nasaScience">Science.NASA.gov</a><br />
         <a id="nssdc_url" href="#"target="_nssdc">NSSDC</a>
       </div> <!-- /satellite_display -->
-
+      <div id="user_date">
+        <p>Local Time: <span id="local_time"></span></p>
+        <p>UTC: <span id="utc_time"></span></p>
+      </div> <!-- /user_date -->
     </div> <!-- /wrapper -->
   </body>
 </html>
