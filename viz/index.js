@@ -11,6 +11,7 @@
     var satPositions      = [];   // calculated by updateSatrecsPosVel()
     var satData           = [];   // list of satellite data and metadata
     var selectedSatelliteIdx = null;
+    var transitioner      = new Cesium.SceneTransitioner(scene, ellipsoid);
 
     // Constants
     var skyboxBase        = 'static/images/skybox';
@@ -403,7 +404,6 @@
     }
 
     function displayStats() {
-        var satDisplay = document.getElementById('satellite_display');
         var satnum = selectedSatelliteIdx; // fixed number to test...
         var pos0, vel0, vel0Carte, carte, carto, sats;
 
@@ -412,10 +412,10 @@
             sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
         }
-        satDisplay.style.display = 'block';
+        document.getElementById('satellite_display').style.display = 'block'; // show modal
         pos0 = sats.positions[satnum];                 // position of first satellite
         vel0 = sats.velocities[satnum];
-        vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
+        vel0Carte = new Cesium.Cartesian3(Math.abs(vel0[0]), Math.abs(vel0[1]), Math.abs(vel0[2]));
         carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
         // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
         carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
@@ -461,6 +461,8 @@
                         document.getElementById('nssdc_url').href = nssdcUrl;
                         selectedSatelliteIdx = pickedObject.satelliteNum;
                     }
+                    moveCamera();
+                    showOrbit();
                 }
             },
             Cesium.ScreenSpaceEventType.LEFT_CLICK // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
@@ -477,42 +479,45 @@
     // but that would require more images in the textureAtlas.
 
     document.getElementById('select_satellite').onchange = function () {
-        var satIdx = Number(this.value); // '16'
-        var target = Cesium.Cartesian3.ZERO;
-        var up = new Cesium.Cartesian3(0, 0, 1);
-        var billboard, bbnum, max, pos, eye;
-
-        for (bbnum = 0, max = satBillboards.getLength(); bbnum < max; bbnum += 1) {
-            billboard = satBillboards.get(bbnum);
-            if (billboard.hasOwnProperty('isSelected')) {
-                delete billboard.isSelected;
-                billboard.setColor({red: 1, blue: 1, green: 1, alpha: 1});
-                billboard.setScale(1.0);
-            }
-            if (bbnum === satIdx) {
-                billboard = satBillboards.get(satIdx);
-                billboard.isSelected = true;
-                billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1});
-                billboard.setScale(2.0);
-                pos = billboard.getPosition(); // Cartesian3, but what coordinate system?
-            }
-        }
-
-        // TODO: *fly* to 'above' the satellite still looking at Earth
-        // Transform to put me "over" satellite location.
-        scene.getCamera().transform = Cesium.Matrix4.fromRotationTranslation(
-            Cesium.Transforms.computeTemeToPseudoFixedMatrix(new Cesium.JulianDate()),
-            Cesium.Cartesian3.ZERO);
-        eye = new Cesium.Cartesian3.clone(pos);
-        eye = eye.multiplyByScalar(1.5); // Zoom out a bit from the satellite
-        scene.getCamera().controller.lookAt(eye, target, up);
-
-        // TODO TMP: draw orbit, since we have the satIdx (not just a BB as we get in hover)
-        showOrbit(satIdx);
-
-        selectedSatelliteIdx = satIdx;
+        selectedSatelliteIdx = Number(this.value); // '16'
         document.getElementById('satellite_form').style.display = 'none';
+        moveCamera();
+        showOrbit();
     };
+
+    function moveCamera() {
+            var satIdx = selectedSatelliteIdx;
+            var target = Cesium.Cartesian3.ZERO;
+            var up = new Cesium.Cartesian3(0, 0, 1);
+            var billboard, bbnum, max, pos, eye;
+
+            for (bbnum = 0, max = satBillboards.getLength(); bbnum < max; bbnum += 1) {
+                billboard = satBillboards.get(bbnum);
+                if (billboard.hasOwnProperty('isSelected')) {
+                    delete billboard.isSelected;
+                    billboard.setColor({red: 1, blue: 1, green: 1, alpha: 1});
+                    billboard.setScale(1.0);
+                }
+                if (bbnum === satIdx) {
+                    billboard = satBillboards.get(satIdx);
+                    billboard.isSelected = true;
+                    billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1});
+                    billboard.setScale(2.0);
+                    pos = billboard.getPosition(); // Cartesian3, but what coordinate system?
+                }
+            }
+
+        if (scene.mode == Cesium.SceneMode.SCENE3D) {
+            // TODO: *fly* to 'above' the satellite still looking at Earth
+            // Transform to put me "over" satellite location.
+            scene.getCamera().transform = Cesium.Matrix4.fromRotationTranslation(
+                Cesium.Transforms.computeTemeToPseudoFixedMatrix(new Cesium.JulianDate()),
+                Cesium.Cartesian3.ZERO);
+            eye = new Cesium.Cartesian3.clone(pos);
+            eye = eye.multiplyByScalar(1.5); // Zoom out a bit from the satellite
+            scene.getCamera().controller.lookAt(eye, target, up);
+        }
+    }
 
 
     // For the given satellite, calculate points for one orbit, starting 'now'
@@ -534,7 +539,8 @@
     // Compare with TLE 15.721.. revs/day:
     // 24 hr/day * 60 min/hr / 15.72125391 rev/day = 91.59574 minutes/rev -- close (enough?)
 
-    function showOrbit(satIdx) {
+    function showOrbit() {
+        var satIdx = selectedSatelliteIdx;
         var positions = [];
         var satrec = satrecs[satIdx];
         var jdSat = new Cesium.JulianDate.fromTotalDays(satrec.jdsatepoch);
@@ -592,17 +598,14 @@
     // Transition between views
 
     document.getElementById('three_d_display_button').onclick = function () {
-        var transitioner = new Cesium.SceneTransitioner(scene);
         transitioner.to3D();
     };
 
     document.getElementById('columbus_display_button').onclick = function () {
-        var transitioner = new Cesium.SceneTransitioner(scene);
         transitioner.toColumbusView();
     };
 
     document.getElementById('two_d_display_button').onclick = function () {
-        var transitioner = new Cesium.SceneTransitioner(scene);
         transitioner.to2D();
     };
 
@@ -652,10 +655,10 @@
     setInterval(function () {
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
         var date = new Date();
-        var display_now = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-        document.getElementById('local_time').innerHTML = display_now;
-        var display_utc = date.getUTCHours() + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds();
-        document.getElementById('utc_time').innerHTML = display_utc;
+        var displayNow = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+        document.getElementById('local_time').innerHTML = displayNow;
+        var displayUtc = date.getUTCHours() + ':' + date.getUTCMinutes() + ':' + date.getUTCSeconds();
+        document.getElementById('utc_time').innerHTML = displayUtc;
 
         if (satrecs.length > 0) {
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
@@ -665,6 +668,7 @@
 
         if (selectedSatelliteIdx !== null) {
             displayStats();
+            showOrbit();
         }
     }, CALC_INTERVAL_MS);
 
