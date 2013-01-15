@@ -55,10 +55,7 @@
 
   <body>
     <div id="wrapper">
-      <div id="header">
-        <h1>
-          SOT: Satellite Orbit Tracker <span id="time_now"></span>
-        </h1>
+      <div id="navagation_buttons" class="nav">
         <img src="static/images/on-reset.png"
              id="reset_button"
              height="50px"
@@ -79,7 +76,7 @@
              height="50px"
              width="50px"
              title="Select Satellite" />
-      </div> <!-- /header -->
+      </div> <!-- /navagation_buttons -->
       <div id="main">
         <div class="popup" id="satellite_popup" style="display:none;"></div>
         <div id="cesiumContainer">
@@ -220,40 +217,14 @@
         <input type="button" id="satellite_display_close" value="&times;" class="button" />
         <h2 id="satellite_name">Satellite Information:</h2>
         <p id="sat_data"></p>
-        <table border="1">
-          <tr>
-            <th>ID</th>
-            <td id="satellite_id"></td>
-          </tr>
-          <tr>
-            <th>X Km</th>
-            <td id="satellite_x"></td>
-          </tr>
-          <tr>
-            <th>Y Km</th>
-            <td id="satellite_y"></td>
-          </tr>
-          <tr>
-            <th>Z Km</th>
-            <td id="satellite_z"></td>
-          </tr>
-          <tr>
-            <th>Velocity</th>
-            <td id="satellite_velocity"></td>
-          </tr>
-          <tr>
-            <th>Latitude</th>
-            <td id="satellite_latitude"></td>
-          </tr>
-          <tr>
-            <th>Longitude</th>
-            <td id="satellite_longitude"></td>
-          </tr>
-          <tr>
-            <th>Height</th>
-            <td id="satellite_height"></td>
-          </tr>
-        </table>
+        <p>ID <span id="satellite_id"></span></p>
+        <p>X Km <span id="satellite_x"></span></p>
+        <p>Y Km <span id="satellite_y"></span></p>
+        <p>Z Km <span id="satellite_z"></spaß n></p>
+        <p>Velocity <span id="satellite_velocity"></span></p>
+        <p>Latitude <span id="satellite_latitude"></span></p>
+        <p>Longitude <span id="satellite_longitude"></span></p>
+        <p>Height <span id="satellite_height"></span></p>
         <h3>More Information</h3>
         <a id="science_url"href="#" target="_nasaScience">Science.NASA.gov</a><br />
         <a id="nssdc_url" href="#"target="_nssdc">NSSDC</a>

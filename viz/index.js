@@ -255,41 +255,9 @@
     // In <canvas> tag our height and width can only be in pixels, not percent.
     // So wrap it in a div whose height/width we can query.
 
-    function getScrollBarWidth() {
-        // getScrollBarWidth
-        // http://www.alexandre-gomes.com/?p=115
-        //
-        // Gives me scrollbar width for multi-browser support.
-        //
-        var inner = document.createElement('p');
-        inner.style.width = '100%';
-        inner.style.height = '200px';
-
-        var outer = document.createElement('div');
-        outer.style.position = 'absolute';
-        outer.style.top = '0px';
-        outer.style.left = '0px';
-        outer.style.visibility = 'hidden';
-        outer.style.width = '200px';
-        outer.style.height = '150px';
-        outer.style.overflow = 'hidden';
-        outer.appendChild(inner);
-
-        document.body.appendChild(outer);
-        var w1 = inner.offsetWidth;
-        outer.style.overflow = 'scroll';
-        var w2 = inner.offsetWidth;
-        if (w1 === w2) {
-            w2 = outer.clientWidth;
-        }
-        document.body.removeChild(outer);
-        return (w1 - w2);
-    }
-
     function onResize() {
-        var headerHeight = document.getElementById('header').scrollHeight;
-        var width = window.innerWidth - getScrollBarWidth();
-        var height = window.innerHeight - headerHeight;     // 800x600 minus header
+        var width = document.getElementById('wrapper').offsetWidth;
+        var height = width;     // 800x600 minus header
         // var height = cc.scrollHeight;
         if (canvas.width === width && canvas.height === height) {
             return;

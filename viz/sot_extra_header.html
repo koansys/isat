@@ -1,0 +1,43 @@
+<script>
+  opsmode = 'i'; //GLOBAL for intl, 'i'mproved
+</script>
+
+<script type="text/javascript" src="/media/sot/js/twoline2rv.js"></script>
+<script type="text/javascript" src="/media/sot/js/getgravc.js"></script>
+<script type="text/javascript" src="/media/sot/js/days2mdh.js"></script>
+<script type="text/javascript" src="/media/sot/js/jday.js"></script>
+<script type="text/javascript" src="/media/sot/js/sgp4init.js"></script>
+<script type="text/javascript" src="/media/sot/js/initl.js"></script>
+<script type="text/javascript" src="/media/sot/js/gstime.js"></script>
+<script type="text/javascript" src="/media/sot/js/sgp4.js"></script>
+
+<script type="text/javascript" src="/media/sot/js/dscom.js"></script>
+<script type="text/javascript" src="/media/sot/js/dpper.js"></script>
+<script type="text/javascript" src="/media/sot/js/dsinit.js"></script>
+<script type="text/javascript" src="/media/sot/js/dspace.js"></script>
+
+<script type="text/javascript" src="/media/sot/js/tle.js"></script>
+
+<script type="text/javascript" src="/media/sot/cesium/Cesium.js"></script>
+<script type="text/javascript" src="/media/sot/js/modernizr-2.6.2.min.js"></script>
+
+<link rel="stylesheet" href="/media/sot/css/normalize.css">
+<link rel="stylesheet" href="/media/sot/css/main.css">
+<script type="text/javascript">
+  window.onload = function() {
+    if(window.externalHost){
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = '/media/sot/js/modernizr_load_ie.js';
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+    else{
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = '/media/sot/js/modernizr_load.js';
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+  }
+</script>

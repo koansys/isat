@@ -1,0 +1,180 @@
+<div id="wrapper">
+  <div id="navagation_buttons" class="nav">
+    <img src="/media/sot/images/on-reset.png"
+         id="reset_button"
+         height="50px"
+         width="50px"
+         title="Reset" />
+    <img src="/media/sot/images/on-instructions.png"
+         id="instructions_button"
+         height="50px"
+         width="50px"
+         title="Instructions" />
+    <img src="/media/sot/images/on-display-options.png"
+         id="display_button"
+         height="50px"
+         width="50px"
+         title="Display Options" />
+    <img src="/media/sot/images/on-select-satellite.png"
+         id="satellite_button"
+         height="50px"
+         width="50px"
+         title="Select Satellite" />
+  </div> <!-- /navagation_buttons -->
+  <div id="main">
+    <div class="popup" id="satellite_popup" style="display:none;"></div>
+    <div id="cesiumContainer">
+      <!-- Cesium jQuery updates this with onResize at startup -->
+      <canvas id="glCanvas" width="300" height="300" tabindex="1"></canvas>
+    </div> <!-- /cesiumContainer -->
+  </div> <!-- /main -->
+  <div id="instructions">
+    <input type="button" id="instructions_close" value="&times;" class="button" />
+    <h2>
+      Instructions
+    </h2>
+    <p>
+      The satellites are displayed based on calculated position; you
+      can watch them move but it helps to zoom in a bit. You may have
+      to zoon out quite a bit to see satellites with very large
+      orbits. You can rotate the Earth and zoom in or out. If you've
+      allowed geolocation in your browser, a marker will show your
+      current position.
+    </p>
+    <p>
+      Hover over a satelite icon to show its name. Click it to bring
+      up pages/tabs that provide details
+      from <a href="http://science.nasa.gov/">Science.nasa.gov</a>
+      and <a href="http://nssdc.gsfc.nasa.gov/">NSSDC</a>. Select a
+      specific satellite from a group to highlight it and move the
+      camera to its position.
+    </p>
+  </div> <!-- /insructions -->
+  <div id="satellite_form">
+    <input type="button" id="satellite_form_close" value="&times;" class="button" />
+    <form id="controls">
+      <fieldset>
+        <legend>
+          Select a Satellite:
+        </legend>
+        <div id="controls_satellite">
+          <span>
+            <label for="select_satellite_group">
+              Satellite Group:
+            </label><br />
+            <select id="select_satellite_group">
+              <option value="SMD">
+                NASA Science
+              </option>
+                <optgroup label="From Celestrak">
+                  <!-- nested optgroups not indented by browsers; use CSS? -->
+                  <optgroup label="Special Interest">
+                    <option value="visual"> 100 (or so) Brightest</option>
+                    <option value="cosmos-2251-debris"> COSMOS 2251 Debris</option>
+                    <option value="1999-025"> FENGYUN 1C Debris</option>
+                    <option value="iridium-33-debris"> IRIDIUM 33 Debris</option>
+                    <option value="tle-new"> Last 30 Days' Launches</option>
+                    <option value="stations"> Space Stations</option>
+                    <!-- breeze-m r/b breakup (2012-044c) -->
+                  </optgroup>
+                  <optgroup label="Weather &amp; Earth Resources">
+                    <option value="dmc"> Disaster Monitoring</option>
+                    <option value="resource"> Earth Resources</option>
+                    <option value="goes"> GOES</option>
+                    <option value="noaa"> NOAA</option>
+                    <option value="sarsat"> Search &amp; Rescue (SARSAT)</option>
+                    <option value="tdrss"> Tracking and Data Relay Satellite</option>
+                    <option value="weather"> Weather</option>
+                  </optgroup>
+                  <optgroup label="Communications">
+                    <option value="amateur"> Amateur Radio</option>
+                    <option value="x-comm"> Experimental</option>
+                    <option value="geo"> Geostationary</option>
+                    <option value="globalstar"> Globalstar</option>
+                    <option value="gorizont"> Gorizont</option>
+                    <option value="intelsat"> Intelsat</option>
+                    <option value="iridium"> Iridium</option>
+                    <option value="molniya"> Molniya</option>
+                    <option value="other-comm"> Other</option>
+                    <option value="orbcomm"> Orbcomm</option>
+                    <option value="raduga"> Raduga</option>
+                  </optgroup>
+                  <optgroup label="Navigation">
+                    <option value="gps-ops"> GPS Operational</option>
+                    <option value="galileo"> Galileo</option>
+                    <option value="glo-ops"> Glonass Operational</option>
+                    <option value="nnss"> Navy Navigation Satellite System</option>
+                    <option value="musson"> Russian LEO Navigation</option>
+                    <option value="sbas"> Satellite-Based Augmentation System</option>
+                  </optgroup>
+                  <optgroup label="Scientific">
+                    <option value="education"> Education</option>
+                    <option value="engineering"> Engineering</option>
+                    <option value="geodetic"> Geodetic</option>
+                    <option value="science"> Space &amp; Earth Science</option>
+                  </optgroup>
+                  <optgroup label="Miscellaneous">
+                    <option value="cubesat"> CubeSats</option>
+                    <option value="military"> Miscellaneous Military</option>
+                    <option value="other"> Other</option>
+                    <option value="radar"> Radar Calibration</option>
+                  </optgroup>
+                </optgroup> <!-- Celestrak -->
+            </select>
+          </span>
+          <span>
+            <label>
+              Select Satellite:
+            </label><br />
+            <select id="select_satellite">
+            </select>
+          </span>
+        </div> <!-- /controls_satellite -->
+      </fieldset>
+    </form>
+  </div> <!-- /satellite_form -->
+  <div id="map_display">
+    <input type="button" id="map_display_close" value="&times;" class="button" />
+    <h2>Map Display Options</h2>
+    <h3>Maps:</h3>
+    <img src="/media/sot/images/map-bing.png"
+         id="bing_data_button"
+         title="Select Bing Map" />
+    <img src="/media/sot/images/mao-openstreet.png"
+         id="osm_data_button"
+         title="Select OSM Map" />
+    <img src="media/sot/images/map-static.png"
+         id="static_data_button"
+         title="Select Static Map" />
+    <h3>Perspective</h3>
+    <img src="/media/sot/images/perspective-3d.png"
+         id="three_d_display_button"
+         title="Display 3D" />
+    <img src="/media/sot/images/perspective-2point5d.png"
+         id="columbus_display_button"
+         title="Display Columbus View" />
+    <img src="/media/sot/images/perspective-2d.png"
+         id="two_d_display_button"
+         title="Display 2D" />
+  </div> <!-- /map_display -->
+  <div id="satellite_display">
+    <input type="button" id="satellite_display_close" value="&times;" class="button" />
+    <h2 id="satellite_name">Satellite Information:</h2>
+    <p id="sat_data"></p>
+    <p>ID <span id="satellite_id"></span></p>
+    <p>X Km <span id="satellite_x"></span></p>
+    <p>Y Km <span id="satellite_y"></span></p>
+    <p>Z Km <span id="satellite_z"></spaß n></p>
+    <p>Velocity <span id="satellite_velocity"></span></p>
+    <p>Latitude <span id="satellite_latitude"></span></p>
+    <p>Longitude <span id="satellite_longitude"></span></p>
+    <p>Height <span id="satellite_height"></span></p>
+    <h3>More Information</h3>
+    <a id="science_url"href="#" target="_nasaScience">Science.NASA.gov</a><br />
+    <a id="nssdc_url" href="#"target="_nssdc">NSSDC</a>
+  </div> <!-- /satellite_display -->
+  <div id="user_date">
+    <p>Local Time: <span id="local_time"></span></p>
+    <p>UTC: <span id="utc_time"></span></p>
+  </div> <!-- /user_date -->
+</div> <!-- /wrapper -->

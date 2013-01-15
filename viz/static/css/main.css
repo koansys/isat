@@ -57,9 +57,10 @@ table {
     border-spacing: 0;
 }
 
-#wrap {
+#wrapper {
     width:100%;
     margin:0 auto;
+    position: relative;
 }
 
 h1 {
@@ -92,11 +93,11 @@ legend {
 #instructions {
     display: none;
     position: absolute;
-    top: 110px;
+    top: 70px;
     left: 10px;
     background-color: white;
     padding: 10px;
-    width: 25%;
+    width: 50%;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
@@ -105,7 +106,7 @@ legend {
 #satellite_form {
     display: none;
     position: absolute;
-    top: 110px;
+    top: 70px;
     left: 10px;
     background-color: white;
     padding: 10px;
@@ -117,7 +118,7 @@ legend {
 #map_display {
     display: none;
     position: absolute;
-    top: 110px;
+    top: 70px;
     left: 10px;
     background-color: white;
     padding: 10px;
@@ -129,11 +130,11 @@ legend {
 #satellite_display {
     display: none;
     position: absolute;
-    top: 50px;
+    top: 10px;
     right: 10px;
     background-color: white;
     padding: 10px;
-    width: 25%;
+    width: 30%;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
@@ -153,28 +154,10 @@ legend {
 }
 
 /* Buttons */
-#reset_button {
+.nav {
     position: absolute;
-    top: 50px;
-    left: 10px;
-}
-
-#instructions_button {
-    position: absolute;
-    top: 50px;
-    left: 70px;
-}
-
-#display_button {
-    position: absolute;
-    top: 50px;
-    left: 130px;
-}
-
-#satellite_button {
-    position: absolute;
-    top: 50px;
-    left: 190px;
+    top: 10px;
+    left: 10px;ß
 }
 
 .button {
