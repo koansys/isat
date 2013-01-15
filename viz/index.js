@@ -13,7 +13,7 @@
     var selectedSatelliteIdx = null;
 
     // Constants
-    var skyboxBase        = 'static/images/skybox';
+    var skyboxBase        = '/media/sot/images/skybox';
     var CALC_INTERVAL_MS  = 1000;
 
     // HACK: force globals for SGP4
@@ -33,7 +33,7 @@
             {url    : 'http://otile1.mqcdn.com/tiles/1.0.0/osm'
             }),
         'static' : new Cesium.SingleTileImageryProvider(
-            {url: 'Images/NE2_50M_SR_W_4096.jpg'
+            {url: '/media/sot/images/NE2_50M_SR_W_4096.jpg'
             })
         // Cross-origin image load denied by Cross-Origin Resource Sharing policy.
         // 'arcgis' : new Cesium.ArcGisMapServerImageryProvider(
@@ -182,7 +182,7 @@
         }
         scene.getPrimitives().add(satBillboards);
 
-        image.src = 'Images/Satellite.png';
+        image.src = '/media/sot/images/Satellite.png';
         image.onload = function () {
             var textureAtlas = scene.getContext().createTextureAtlas({image: image}); // seems needed in onload()
             satBillboards.setTextureAtlas(textureAtlas);
@@ -577,7 +577,7 @@
     // Switch which satellites are displayed.
     document.getElementById('select_satellite_group').onchange = function () {
         orbitTraces.removeAll();
-        getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
+        getSatrecsFromTLEFile('/media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
         populateSatelliteSelector();
         populateSatelliteBillboard();
     };
@@ -586,7 +586,7 @@
     // Fire it up
 
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
-    cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
+    cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.osm); // TODO: get from HTML selector
 
     scene.getPrimitives().setCentralBody(cb);
     scene.skyBox = new Cesium.SkyBox({
