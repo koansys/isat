@@ -202,7 +202,7 @@
             var up     = new Cesium.Cartesian3(0, 0, 1);
             // Put a cross where we are
             var image = new Image();
-            image.src = 'Images/icon_geolocation.png';
+            image.src = '/media/sot/images/icon_geolocation.png';
             image.onload = function () {
                 var billboards = new Cesium.BillboardCollection(); // how to make single?
                 var textureAtlas = scene.getContext().createTextureAtlas({image: image});
@@ -257,8 +257,8 @@
     // So wrap it in a div whose height/width we can query.
 
     function onResize() {
-        var width = document.getElementById('wrapper').offsetWidth;
-        var height = width;     // 800x600 minus header
+        var width = 937;
+        var height = width * 0.56;     // 800x600 minus header
         // var height = cc.scrollHeight;
         if (canvas.width === width && canvas.height === height) {
             return;
@@ -611,7 +611,7 @@
 
     showGeolocation(scene);
 
-    getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
+    getSatrecsFromTLEFile('/media/sot/tle/' + document.getElementById('select_satellite_group').value + '.txt');
     populateSatelliteSelector();
     populateSatelliteBillboard();
     satelliteHoverDisplay(scene); // should be self-invoked
