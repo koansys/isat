@@ -564,12 +564,9 @@
             positions.push(position);
         }
         orbitTraces.removeAll();
-        // OpenStreetMap: yellow=(1,1,0) is too pale; try pink=ff00cc=(1,0,0.8), purple 6666ff=(0.4,0.4,1)
         orbitTraces.add({positions: positions,
                          width: 2, // pixels
-                         //color: {red: 1.0, green: 1.0, blue: 0.0, alpha: 0.7} // yellow
-                         //color: {red: 0.4, green: 0.4, blue: 1.0, alpha: 0.7} // purple
-                         color: {red: 1.0, green: 0.0, blue: 0.8, alpha: 0.7} // pink
+                         color: {red: 1.0, green: 0.0, blue: 0.8, alpha: 0.7} // pink shows well
                         });
 
     }
