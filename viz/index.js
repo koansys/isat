@@ -621,7 +621,7 @@
     // Fire it up
 
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
-    cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
+    cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.osm); // TODO: get from HTML selector
 
     scene.getPrimitives().setCentralBody(cb);
     scene.skyBox = new Cesium.SkyBox({
