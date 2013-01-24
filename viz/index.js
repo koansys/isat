@@ -35,11 +35,14 @@
             }),
         'static' : new Cesium.SingleTileImageryProvider(
             {url: 'Images/NE2_50M_SR_W_4096.jpg'
+            }),
+        // Lots of ArcGIS products avaiable including .../World_Street_Map/MapServer
+        // TODO: for now use AGI's proxy but we need to run our own to avoid:
+        // "Cross-origin image load denied by Cross-Origin Resource Sharing policy."
+        'arcgis' : new Cesium.ArcGisMapServerImageryProvider(
+            {url: 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',
+             proxy: new Cesium.DefaultProxy('http://cesium.agi.com/proxy/')
             })
-        // Cross-origin image load denied by Cross-Origin Resource Sharing policy.
-        // 'arcgis' : new Cesium.ArcGisMapServerImageryProvider(
-        //     {url: 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
-        //     })
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -591,6 +594,10 @@
 
     document.getElementById('osm_data_button').onclick = function () {
         switchTileProviders('osm');
+    };
+
+    document.getElementById('arcgis_data_button').onclick = function () {
+        switchTileProviders('arcgis');
     };
 
     document.getElementById('static_data_button').onclick = function () {
