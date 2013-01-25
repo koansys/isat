@@ -14,8 +14,9 @@
     var transitioner      = new Cesium.SceneTransitioner(scene, ellipsoid);
 
     // Constants
-    var skyboxBase        = 'static/images/skybox';
-    var CALC_INTERVAL_MS  = 1000;
+    var CESIUM_TEXTURES_BASE = 'cesium/Assets/Textures';
+    var SKYBOX_BASE          = CESIUM_TEXTURES_BASE + '/SkyBox';
+    var CALC_INTERVAL_MS     = 1000;
 
     // HACK: force globals for SGP4
     var WHICHCONST        = 84;   //
@@ -27,14 +28,14 @@
 
     var TILE_PROVIDERS = {
         'bing' : new Cesium.BingMapsImageryProvider(// fails to detect 404 due to no net :-(
-            {server : 'dev.virtualearth.net',
+            {url : 'http://dev.virtualearth.net',
              mapStyle: Cesium.BingMapsStyle.AERIAL_WITH_LABELS
             }),
         'osm'  : new Cesium.OpenStreetMapImageryProvider(
             {url    : 'http://otile1.mqcdn.com/tiles/1.0.0/osm'
             }),
         'static' : new Cesium.SingleTileImageryProvider(
-            {url: 'Images/NE2_50M_SR_W_4096.jpg'
+            {url: CESIUM_TEXTURES_BASE + '/NE2_LR_LC_SR_W_DR_2048.jpg'
             }),
         // Lots of ArcGIS products avaiable including .../World_Street_Map/MapServer
         // TODO: for now use AGI's proxy but we need to run our own to avoid:
@@ -630,16 +631,17 @@
     // Fire it up
 
     // How do we tell if we can't get Bing, and substitute flat map with 'single'?
-    cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.osm); // TODO: get from HTML selector
+    //cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.osm); // TODO: get from HTML selector
+    cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
 
     scene.getPrimitives().setCentralBody(cb);
     scene.skyBox = new Cesium.SkyBox({
-        positiveX: skyboxBase + '/tycho8_px_80.jpg',
-        negativeX: skyboxBase + '/tycho8_mx_80.jpg',
-        positiveY: skyboxBase + '/tycho8_py_80.jpg',
-        negativeY: skyboxBase + '/tycho8_my_80.jpg',
-        positiveZ: skyboxBase + '/tycho8_pz_80.jpg',
-        negativeZ: skyboxBase + '/tycho8_mz_80.jpg'
+        positiveX: SKYBOX_BASE + '/tycho8_px_80.jpg',
+        negativeX: SKYBOX_BASE + '/tycho8_mx_80.jpg',
+        positiveY: SKYBOX_BASE + '/tycho8_py_80.jpg',
+        negativeY: SKYBOX_BASE + '/tycho8_my_80.jpg',
+        positiveZ: SKYBOX_BASE + '/tycho8_pz_80.jpg',
+        negativeZ: SKYBOX_BASE + '/tycho8_mz_80.jpg'
     });
     scene.getPrimitives().add(orbitTraces);
 

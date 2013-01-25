@@ -5673,6 +5673,7 @@ define('Core/Matrix3',[
      * @see Matrix3.fromRowMajorArray
      * @see Matrix3.fromQuaternion
      * @see Matrix3.fromScale
+     * @see Matrix3.fromUniformScale
      * @see Matrix2
      * @see Matrix4
      */
@@ -5840,22 +5841,192 @@ define('Core/Matrix3',[
             throw new DeveloperError('scale is required.');
         }
         if (typeof result === 'undefined') {
-            return new Matrix3(scale.x, 0.0,     0.0,
-                               0.0,     scale.y, 0.0,
-                               0.0,     0.0,     scale.z);
+            return new Matrix3(
+                scale.x, 0.0,     0.0,
+                0.0,     scale.y, 0.0,
+                0.0,     0.0,     scale.z);
         }
 
         result[0] = scale.x;
         result[1] = 0.0;
         result[2] = 0.0;
-
         result[3] = 0.0;
         result[4] = scale.y;
         result[5] = 0.0;
-
         result[6] = 0.0;
         result[7] = 0.0;
         result[8] = scale.z;
+        return result;
+    };
+
+    /**
+     * Computes a Matrix3 instance representing a uniform scale.
+     * @memberof Matrix3
+     *
+     * @param {Number} scale The uniform scale factor.
+     * @param {Matrix3} [result] The object in which the result will be stored, if undefined a new instance will be created.
+     * @returns The modified result parameter, or a new Matrix3 instance if one was not provided.
+     *
+     * @exception {DeveloperError} scale is required.
+     *
+     * @example
+     * // Creates
+     * //   [2.0, 0.0, 0.0]
+     * //   [0.0, 2.0, 0.0]
+     * //   [0.0, 0.0, 2.0]
+     * var m = Matrix3.fromUniformScale(2.0);
+     */
+    Matrix3.fromUniformScale = function(scale, result) {
+        if (typeof scale !== 'number') {
+            throw new DeveloperError('scale is required.');
+        }
+        if (typeof result === 'undefined') {
+            return new Matrix3(
+                scale, 0.0,   0.0,
+                0.0,   scale, 0.0,
+                0.0,   0.0,   scale);
+        }
+
+        result[0] = scale;
+        result[1] = 0.0;
+        result[2] = 0.0;
+        result[3] = 0.0;
+        result[4] = scale;
+        result[5] = 0.0;
+        result[6] = 0.0;
+        result[7] = 0.0;
+        result[8] = scale;
+        return result;
+    };
+
+    /**
+     * Creates a rotation matrix around the x-axis.
+     *
+     * @param {Number} angle The angle, in radians, of the rotation.  Positive angles are counterclockwise.
+     * @param {Matrix3} [result] The object in which the result will be stored, if undefined a new instance will be created.
+     *
+     * @returns The modified result parameter, or a new Matrix3 instance if one was not provided.
+     *
+     * @exception {DeveloperError} angle is required.
+     *
+     * @example
+     * // Rotate a point 45 degrees counterclockwise around the x-axis.
+     * var p = new Cartesian3(5, 6, 7);
+     * var m = Matrix3.fromRotationX(CesiumMath.toRadians(45.0));
+     * var rotated = m.multiplyByVector(p);
+     */
+    Matrix3.fromRotationX = function(angle, result) {
+        if (typeof angle === 'undefined') {
+            throw new DeveloperError('angle is required.');
+        }
+
+        var cosAngle = Math.cos(angle);
+        var sinAngle = Math.sin(angle);
+
+        if (typeof result === 'undefined') {
+            return new Matrix3(
+                1.0, 0.0, 0.0,
+                0.0, cosAngle, -sinAngle,
+                0.0, sinAngle, cosAngle);
+        }
+
+        result[0] = 1.0;
+        result[1] = 0.0;
+        result[2] = 0.0;
+        result[3] = 0.0;
+        result[4] = cosAngle;
+        result[5] = sinAngle;
+        result[6] = 0.0;
+        result[7] = -sinAngle;
+        result[8] = cosAngle;
+
+        return result;
+    };
+
+    /**
+     * Creates a rotation matrix around the y-axis.
+     *
+     * @param {Number} angle The angle, in radians, of the rotation.  Positive angles are counterclockwise.
+     * @param {Matrix3} [result] The object in which the result will be stored, if undefined a new instance will be created.
+     *
+     * @returns The modified result parameter, or a new Matrix3 instance if one was not provided.
+     *
+     * @exception {DeveloperError} angle is required.
+     *
+     * @example
+     * // Rotate a point 45 degrees counterclockwise around the y-axis.
+     * var p = new Cartesian3(5, 6, 7);
+     * var m = Matrix3.fromRotationY(CesiumMath.toRadians(45.0));
+     * var rotated = m.multiplyByVector(p);
+     */
+    Matrix3.fromRotationY = function(angle, result) {
+        if (typeof angle === 'undefined') {
+            throw new DeveloperError('angle is required.');
+        }
+
+        var cosAngle = Math.cos(angle);
+        var sinAngle = Math.sin(angle);
+
+        if (typeof result === 'undefined') {
+            return new Matrix3(
+                cosAngle, 0.0, sinAngle,
+                0.0, 1.0, 0.0,
+                -sinAngle, 0.0, cosAngle);
+        }
+
+        result[0] = cosAngle;
+        result[1] = 0.0;
+        result[2] = -sinAngle;
+        result[3] = 0.0;
+        result[4] = 1.0;
+        result[5] = 0.0;
+        result[6] = sinAngle;
+        result[7] = 0.0;
+        result[8] = cosAngle;
+
+        return result;
+    };
+
+    /**
+     * Creates a rotation matrix around the z-axis.
+     *
+     * @param {Number} angle The angle, in radians, of the rotation.  Positive angles are counterclockwise.
+     * @param {Matrix3} [result] The object in which the result will be stored, if undefined a new instance will be created.
+     *
+     * @returns The modified result parameter, or a new Matrix3 instance if one was not provided.
+     *
+     * @exception {DeveloperError} angle is required.
+     *
+     * @example
+     * // Rotate a point 45 degrees counterclockwise around the z-axis.
+     * var p = new Cartesian3(5, 6, 7);
+     * var m = Matrix3.fromRotationZ(CesiumMath.toRadians(45.0));
+     * var rotated = m.multiplyByVector(p);
+     */
+    Matrix3.fromRotationZ = function(angle, result) {
+        if (typeof angle === 'undefined') {
+            throw new DeveloperError('angle is required.');
+        }
+
+        var cosAngle = Math.cos(angle);
+        var sinAngle = Math.sin(angle);
+
+        if (typeof result === 'undefined') {
+            return new Matrix3(
+                cosAngle, -sinAngle, 0.0,
+                sinAngle, cosAngle, 0.0,
+                0.0, 0.0, 1.0);
+        }
+
+        result[0] = cosAngle;
+        result[1] = sinAngle;
+        result[2] = 0.0;
+        result[3] = -sinAngle;
+        result[4] = cosAngle;
+        result[5] = 0.0;
+        result[6] = 0.0;
+        result[7] = 0.0;
+        result[8] = 1.0;
 
         return result;
     };
@@ -6677,6 +6848,7 @@ define('Core/Matrix4',[
      * @see Matrix4.fromRotationTranslation
      * @see Matrix4.fromTranslation
      * @see Matrix4.fromScale
+     * @see Matrix4.fromUniformScale
      * @see Matrix4.fromCamera
      * @see Matrix4.computePerspectiveFieldOfView
      * @see Matrix4.computeOrthographicOffCenter
@@ -6885,10 +7057,11 @@ define('Core/Matrix4',[
             throw new DeveloperError('scale is required.');
         }
         if (typeof result === 'undefined') {
-            return new Matrix4(scale.x, 0.0,     0.0,     0.0,
-                               0.0,     scale.y, 0.0,     0.0,
-                               0.0,     0.0,     scale.z, 0.0,
-                               0.0,     0.0,     0.0,     1.0);
+            return new Matrix4(
+                scale.x, 0.0,     0.0,     0.0,
+                0.0,     scale.y, 0.0,     0.0,
+                0.0,     0.0,     scale.z, 0.0,
+                0.0,     0.0,     0.0,     1.0);
         }
 
         result[0] = scale.x;
@@ -6902,6 +7075,54 @@ define('Core/Matrix4',[
         result[8] = 0.0;
         result[9] = 0.0;
         result[10] = scale.z;
+        result[11] = 0.0;
+        result[12] = 0.0;
+        result[13] = 0.0;
+        result[14] = 0.0;
+        result[15] = 1.0;
+        return result;
+    };
+
+    /**
+     * Computes a Matrix4 instance representing a uniform scale.
+     * @memberof Matrix4
+     *
+     * @param {Number} scale The uniform scale factor.
+     * @param {Matrix4} [result] The object in which the result will be stored, if undefined a new instance will be created.
+     * @returns The modified result parameter, or a new Matrix4 instance if one was not provided.
+     *
+     * @exception {DeveloperError} scale is required.
+     *
+     * @example
+     * // Creates
+     * //   [2.0, 0.0, 0.0, 0.0]
+     * //   [0.0, 2.0, 0.0, 0.0]
+     * //   [0.0, 0.0, 2.0, 0.0]
+     * //   [0.0, 0.0, 0.0, 1.0]
+     * var m = Matrix4.fromScale(2.0);
+     */
+    Matrix4.fromUniformScale = function(scale, result) {
+        if (typeof scale !== 'number') {
+            throw new DeveloperError('scale is required.');
+        }
+        if (typeof result === 'undefined') {
+            return new Matrix4(scale, 0.0,   0.0,   0.0,
+                               0.0,   scale, 0.0,   0.0,
+                               0.0,   0.0,   scale, 0.0,
+                               0.0,   0.0,   0.0,   1.0);
+        }
+
+        result[0] = scale;
+        result[1] = 0.0;
+        result[2] = 0.0;
+        result[3] = 0.0;
+        result[4] = 0.0;
+        result[5] = scale;
+        result[6] = 0.0;
+        result[7] = 0.0;
+        result[8] = 0.0;
+        result[9] = 0.0;
+        result[10] = scale;
         result[11] = 0.0;
         result[12] = 0.0;
         result[13] = 0.0;
@@ -7696,7 +7917,7 @@ define('Core/Matrix4',[
      * @exception {DeveloperError} matrix is required.
      * @exception {DeveloperError} translation is required.
      *
-     * @see Matrix.#fromTranslation
+     * @see Matrix4#fromTranslation
      *
      * @example
      * // Instead of Matrix4.multiply(m, Matrix4.fromTranslation(position), m);
@@ -7741,6 +7962,67 @@ define('Core/Matrix4',[
         result[13] = ty;
         result[14] = tz;
         result[15] = matrix[15];
+        return result;
+    };
+
+    /**
+     * Multiplies a transformation matrix (with a bottom row of <code>[0.0, 0.0, 0.0, 1.0]</code>)
+     * by an implicit uniform scale matrix.  This is an optimization
+     * for <code>Matrix4.multiply(m, Matrix4.fromScale(scale), m);</code> with less allocations and arithmetic operations.
+     *
+     * @memberof Matrix4
+     *
+     * @param {Matrix4} matrix The matrix on the left-hand side.
+     * @param {Number} scale The uniform scale on the right-hand side.
+     * @param {Matrix4} [result] The object onto which to store the result.
+     *
+     * @return {Matrix4} The modified result parameter or a new Matrix4 instance if one was not provided.
+     *
+     * @exception {DeveloperError} matrix is required.
+     * @exception {DeveloperError} scale is required.
+     *
+     * @see Matrix4#fromUniformScale
+     *
+     * @example
+     * // Instead of Matrix4.multiply(m, Matrix4.fromUniformScale(scale), m);
+     * Matrix4.multiplyByUniformScale(m, scale, m);
+     */
+    Matrix4.multiplyByUniformScale = function(matrix, scale, result) {
+        if (typeof matrix === 'undefined') {
+            throw new DeveloperError('matrix is required');
+        }
+        if (typeof scale !== 'number') {
+            throw new DeveloperError('scale is required');
+        }
+
+        if (scale === 1.0) {
+            return Matrix4.clone(matrix, result);
+        }
+
+        if (typeof result === 'undefined') {
+            return new Matrix4(
+                scale * matrix[0], scale * matrix[4], scale * matrix[8],  matrix[12],
+                scale * matrix[1], scale * matrix[5], scale * matrix[9],  matrix[13],
+                scale * matrix[2], scale * matrix[6], scale * matrix[10], matrix[14],
+                0.0,               0.0,               0.0,                1.0);
+        }
+
+        result[0] = scale * matrix[0];
+        result[1] = scale * matrix[1];
+        result[2] = scale * matrix[2];
+        result[3] = 0.0;
+        result[4] = scale * matrix[4];
+        result[5] = scale * matrix[5];
+        result[6] = scale * matrix[6];
+        result[7] = 0.0;
+        result[8] = scale * matrix[8];
+        result[9] = scale * matrix[9];
+        result[10] = scale * matrix[10];
+        result[11] = 0.0;
+        result[12] = matrix[12];
+        result[13] = matrix[13];
+        result[14] = matrix[14];
+        result[15] = 1.0;
         return result;
     };
 
@@ -8492,6 +8774,23 @@ define('Core/Matrix4',[
      */
     Matrix4.prototype.multiplyByTranslation = function(translation, result) {
         return Matrix4.multiplyByTranslation(this, translation, result);
+    };
+
+    /**
+     * Multiplies this matrix, assuming it is a transformation matrix (with a bottom row of
+     * <code>[0.0, 0.0, 0.0, 1.0]</code>), by an implicit uniform scale matrix.
+     *
+     * @memberof Matrix4
+     *
+     * @param {Number} scale The scale on the right-hand side of the multiplication.
+     * @param {Matrix4} [result] The object onto which to store the result.
+     *
+     * @return {Matrix4} The modified result parameter or a new Matrix4 instance if one was not provided.
+     *
+     * @exception {DeveloperError} scale is required.
+     */
+    Matrix4.prototype.multiplyByUniformScale = function(scale, result) {
+        return Matrix4.multiplyByUniformScale(this, scale, result);
     };
 
     /**
@@ -11814,6 +12113,7 @@ define('Core/JulianDate',[
      * @return {Number} The number of seconds that have elpased from this Julian date to the other Julian date.
      *
      * @see JulianDate#getMinutesDifference
+     * @see JulianDate#getDaysDifference
      *
      * @example
      * var start = JulianDate.fromDate(new Date('July 4, 2011 12:00:00'));
@@ -11823,8 +12123,8 @@ define('Core/JulianDate',[
     JulianDate.prototype.getSecondsDifference = function(other) {
         var julianDate1 = this;
         var julianDate2 = other;
-        var dayDifference = (julianDate2.getJulianDayNumber() - julianDate1.getJulianDayNumber()) * TimeConstants.SECONDS_PER_DAY;
-        return (dayDifference + (julianDate2.getSecondsOfDay() - julianDate1.getSecondsOfDay()));
+        var dayDifference = (julianDate2._julianDayNumber - julianDate1._julianDayNumber) * TimeConstants.SECONDS_PER_DAY;
+        return (dayDifference + (julianDate2._secondsOfDay - julianDate1._secondsOfDay));
     };
 
     /**
@@ -11838,6 +12138,7 @@ define('Core/JulianDate',[
      * @return {Number} The number of seconds that have elpased from this Julian date to the other Julian date.
      *
      * @see JulianDate#getSecondsDifference
+     * @see JulianDate#getDaysDifference
      *
      * @example
      * var start = JulianDate.fromDate(new Date('July 4, 2011 12:00:00'));
@@ -11846,6 +12147,32 @@ define('Core/JulianDate',[
      */
     JulianDate.prototype.getMinutesDifference = function(other) {
         return this.getSecondsDifference(other) / TimeConstants.SECONDS_PER_MINUTE;
+    };
+
+    /**
+     * Computes the number of days that have elapsed from this Julian date to the <code>other</code>
+     * Julian date.  A day is always exactly 86400.0 seconds.
+     *
+     * @memberof JulianDate
+     *
+     * @param {JulianDate} other The other Julian date, which is the end of the interval.
+     *
+     * @return {Number} The number of days that have elpased from this Julian date to the other Julian date.
+     *
+     * @see JulianDate#getSecondsDifference
+     * @see JulianDate#getMinutesDifference
+     *
+     * @example
+     * var start = JulianDate.fromDate(new Date('July 4, 2011 12:00:00'));
+     * var end = JulianDate.fromDate(new Date('July 5, 2011 14:24:00'));
+     * var difference = start.getDaysDifference(end);    // 1.1 days
+     */
+    JulianDate.prototype.getDaysDifference = function(other) {
+        var julianDate1 = this;
+        var julianDate2 = other;
+        var dayDifference = (julianDate2._julianDayNumber - julianDate1._julianDayNumber);
+        var secondDifference = (julianDate2._secondsOfDay - julianDate1._secondsOfDay) / TimeConstants.SECONDS_PER_DAY;
+        return dayDifference + secondDifference;
     };
 
     /**
@@ -16272,7 +16599,38 @@ define('Core/EncodedCartesian3',[
         this.low = Cartesian3.ZERO.clone();
     };
 
-    function spilt(value, result) {
+    /**
+     * Encodes a 64-bit floating-point value as two floating-point values that, when converted to
+     * 32-bit floating-point and added, approximate the original input.  The returned object
+     * has <code>high</code> and <code>low</code> properties for the high and low bits, respectively.
+     * <p>
+     * The fixed-point encoding follows <a href="http://blogs.agi.com/insight3d/index.php/2008/09/03/precisions-precisions/">Precisions, Precisions</a>.
+     * </p>
+     * @memberof EncodedCartesian3
+     *
+     * @param {Number} value The floating-point value to encode.
+     * @param {Object} [result] The object onto which to store the result.
+     *
+     * @return {Object} The modified result parameter or a new instance if one was not provided.
+     *
+     * @exception {DeveloperError} value is required.
+     *
+     * @example
+     * var value = 1234567.1234567;
+     * var splitValue = EncodedCartesian3.encode(value);
+     */
+    EncodedCartesian3.encode = function(value, result) {
+        if (typeof value === 'undefined') {
+            throw new DeveloperError('value is required');
+        }
+
+        if (typeof result === 'undefined') {
+            result = {
+                high : 0.0,
+                low : 0.0
+            };
+        }
+
         var doubleHigh;
         if (value >= 0.0) {
             doubleHigh = Math.floor(value / 65536.0) * 65536.0;
@@ -16283,11 +16641,13 @@ define('Core/EncodedCartesian3',[
             result.high = -doubleHigh;
             result.low = value + doubleHigh;
         }
-    }
 
-    var scratchSpilt = function() {
-        this.high = 0.0;
-        this.low = 0.0;
+        return result;
+    };
+
+    var scratchEncode = {
+        high : 0.0,
+        low : 0.0
     };
 
     /**
@@ -16320,17 +16680,17 @@ define('Core/EncodedCartesian3',[
         var high = result.high;
         var low = result.low;
 
-        spilt(cartesian.x, scratchSpilt);
-        high.x = scratchSpilt.high;
-        low.x = scratchSpilt.low;
+        EncodedCartesian3.encode(cartesian.x, scratchEncode);
+        high.x = scratchEncode.high;
+        low.x = scratchEncode.low;
 
-        spilt(cartesian.y, scratchSpilt);
-        high.y = scratchSpilt.high;
-        low.y = scratchSpilt.low;
+        EncodedCartesian3.encode(cartesian.y, scratchEncode);
+        high.y = scratchEncode.high;
+        low.y = scratchEncode.low;
 
-        spilt(cartesian.z, scratchSpilt);
-        high.z = scratchSpilt.high;
-        low.z = scratchSpilt.low;
+        EncodedCartesian3.encode(cartesian.z, scratchEncode);
+        high.z = scratchEncode.high;
+        low.z = scratchEncode.low;
 
         return result;
     };
@@ -18087,6 +18447,8 @@ define('Core/Matrix2',[
      *
      * @see Matrix2.fromColumnMajor
      * @see Matrix2.fromRowMajorArray
+     * @see Matrix2.fromScale
+     * @see Matrix2.fromUniformScale
      * @see Matrix3
      * @see Matrix4
      */
@@ -18158,6 +18520,108 @@ define('Core/Matrix2',[
         result[1] = values[2];
         result[2] = values[1];
         result[3] = values[3];
+        return result;
+    };
+
+    /**
+     * Computes a Matrix2 instance representing a non-uniform scale.
+     * @memberof Matrix2
+     *
+     * @param {Cartesian2} scale The x and y scale factors.
+     * @param {Matrix2} [result] The object in which the result will be stored, if undefined a new instance will be created.
+     * @returns The modified result parameter, or a new Matrix2 instance if one was not provided.
+     *
+     * @exception {DeveloperError} scale is required.
+     *
+     * @example
+     * // Creates
+     * //   [7.0, 0.0]
+     * //   [0.0, 8.0]
+     * var m = Matrix2.fromScale(new Cartesian2(7.0, 8.0));
+     */
+    Matrix2.fromScale = function(scale, result) {
+        if (typeof scale === 'undefined') {
+            throw new DeveloperError('scale is required.');
+        }
+        if (typeof result === 'undefined') {
+            return new Matrix2(
+                scale.x, 0.0,
+                0.0,     scale.y);
+        }
+
+        result[0] = scale.x;
+        result[1] = 0.0;
+        result[2] = 0.0;
+        result[3] = scale.y;
+        return result;
+    };
+
+    /**
+     * Computes a Matrix2 instance representing a uniform scale.
+     * @memberof Matrix2
+     *
+     * @param {Number} scale The uniform scale factor.
+     * @param {Matrix2} [result] The object in which the result will be stored, if undefined a new instance will be created.
+     * @returns The modified result parameter, or a new Matrix2 instance if one was not provided.
+     *
+     * @exception {DeveloperError} scale is required.
+     *
+     * @example
+     * // Creates
+     * //   [2.0, 0.0]
+     * //   [0.0, 2.0]
+     * var m = Matrix2.fromUniformScale(2.0);
+     */
+    Matrix2.fromUniformScale = function(scale, result) {
+        if (typeof scale !== 'number') {
+            throw new DeveloperError('scale is required.');
+        }
+        if (typeof result === 'undefined') {
+            return new Matrix2(
+                scale, 0.0,
+                0.0,   scale);
+        }
+
+        result[0] = scale;
+        result[1] = 0.0;
+        result[2] = 0.0;
+        result[3] = scale;
+        return result;
+    };
+
+    /**
+     * Creates a rotation matrix.
+     *
+     * @param {Number} angle The angle, in radians, of the rotation.  Positive angles are counterclockwise.
+     * @param {Matrix2} [result] The object in which the result will be stored, if undefined a new instance will be created.
+     *
+     * @returns The modified result parameter, or a new Matrix2 instance if one was not provided.
+     *
+     * @exception {DeveloperError} angle is required.
+     *
+     * @example
+     * // Rotate a point 45 degrees counterclockwise.
+     * var p = new Cartesian2(5, 6);
+     * var m = Matrix2.fromRotation(CesiumMath.toRadians(45.0));
+     * var rotated = m.multiplyByVector(p);
+     */
+    Matrix2.fromRotation = function(angle, result) {
+        if (typeof angle === 'undefined') {
+            throw new DeveloperError('angle is required.');
+        }
+
+        var cosAngle = Math.cos(angle);
+        var sinAngle = Math.sin(angle);
+
+        if (typeof result === 'undefined') {
+            return new Matrix2(
+                cosAngle, -sinAngle,
+                sinAngle, cosAngle);
+        }
+        result[0] = cosAngle;
+        result[1] = sinAngle;
+        result[2] = -sinAngle;
+        result[3] = cosAngle;
         return result;
     };
 
@@ -19079,15 +19543,19 @@ define('Core/Tipsify',['./DeveloperError'], function(DeveloperError) {
 
 /*global define*/
 define('Core/MeshFilters',[
+        './defaultValue',
         './DeveloperError',
         './Cartesian3',
+        './EncodedCartesian3',
         './GeographicProjection',
         './ComponentDatatype',
         './PrimitiveType',
         './Tipsify'
     ], function(
+        defaultValue,
         DeveloperError,
         Cartesian3,
+        EncodedCartesian3,
         GeographicProjection,
         ComponentDatatype,
         PrimitiveType,
@@ -19415,7 +19883,7 @@ define('Core/MeshFilters',[
         return newAttributes;
     };
 
-    MeshFilters._copyVertex = function(destinationAttributes, sourceAttributes, index) {
+    function copyVertex(destinationAttributes, sourceAttributes, index) {
         for ( var attribute in sourceAttributes) {
             if (sourceAttributes.hasOwnProperty(attribute) && sourceAttributes[attribute].values) {
                 var attr = sourceAttributes[attribute];
@@ -19425,7 +19893,7 @@ define('Core/MeshFilters',[
                 }
             }
         }
-    };
+    }
 
     /**
      * DOC_TBA.  Old mesh is not guaranteed to be copied.
@@ -19481,7 +19949,7 @@ define('Core/MeshFilters',[
                             i0 = currentIndex++;
                             oldToNewIndex[x0] = i0;
 
-                            MeshFilters._copyVertex(newAttributes, mesh.attributes, x0);
+                            copyVertex(newAttributes, mesh.attributes, x0);
                         }
 
                         var i1 = oldToNewIndex[x1];
@@ -19489,7 +19957,7 @@ define('Core/MeshFilters',[
                             i1 = currentIndex++;
                             oldToNewIndex[x1] = i1;
 
-                            MeshFilters._copyVertex(newAttributes, mesh.attributes, x1);
+                            copyVertex(newAttributes, mesh.attributes, x1);
                         }
 
                         var i2 = oldToNewIndex[x2];
@@ -19497,7 +19965,7 @@ define('Core/MeshFilters',[
                             i2 = currentIndex++;
                             oldToNewIndex[x2] = i2;
 
-                            MeshFilters._copyVertex(newAttributes, mesh.attributes, x2);
+                            copyVertex(newAttributes, mesh.attributes, x2);
                         }
 
                         newIndices.push(i0);
@@ -19528,8 +19996,6 @@ define('Core/MeshFilters',[
         return meshes;
     };
 
-    ///////////////////////////////////////////////////////////////////////////
-
     /**
      * DOC_TBA
      */
@@ -19559,6 +20025,84 @@ define('Core/MeshFilters',[
             };
             delete mesh.attributes.position;
         }
+
+        return mesh;
+    };
+
+    var encodedResult = {
+        high : 0.0,
+        low : 0.0
+    };
+
+    /**
+     * Encodes floating-point mesh attribute values as two separate attributes to improve
+     * rendering precision using the same encoding as {@link EncodedCartesian3}.
+     * <p>
+     * This is commonly used to create high-precision position vertex attributes.
+     * </p>
+     *
+     * @param {Object} mesh The mesh to filter, which is modified in place.
+     * @param {String} [attributeName='position'] The name of the attribute.
+     * @param {String} [attributeHighName='positionHigh'] The name of the attribute for the encoded high bits.
+     * @param {String} [attributeLowName='positionLow'] The name of the attribute for the encoded low bits.
+     *
+     * @returns The modified <code>mesh</code> argument, with its encoded attribute.
+     *
+     * @exception {DeveloperError} mesh is required.
+     * @exception {DeveloperError} mesh must have an attributes property.
+     * @exception {DeveloperError} mesh must have attribute matching the attributeName argument.
+     * @exception {DeveloperError} The attribute componentDatatype must be ComponentDatatype.FLOAT.
+     *
+     * @example
+     * mesh = MeshFilters.encodeAttribute(mesh, 'position3D', 'position3DHigh', 'position3DLow');
+     *
+     * @see EncodedCartesian3
+     */
+    MeshFilters.encodeAttribute = function(mesh, attributeName, attributeHighName, attributeLowName) {
+        attributeName = defaultValue(attributeName, 'position');
+        attributeHighName = defaultValue(attributeHighName, 'positionHigh');
+        attributeLowName = defaultValue(attributeLowName, 'positionLow');
+
+        if (typeof mesh === 'undefined') {
+            throw new DeveloperError('mesh is required.');
+        }
+
+        if (typeof mesh.attributes === 'undefined') {
+            throw new DeveloperError('mesh must have an attributes property.');
+        }
+
+        var attribute = mesh.attributes[attributeName];
+
+        if (typeof attribute === 'undefined') {
+            throw new DeveloperError('mesh must have attribute matching the attributeName argument: ' + attributeName + '.');
+        }
+
+        if (attribute.componentDatatype !== ComponentDatatype.FLOAT) {
+            throw new DeveloperError('The attribute componentDatatype must be ComponentDatatype.FLOAT.');
+        }
+
+        var values = attribute.values;
+        var length = values.length;
+        var highValues = new Array(length);
+        var lowValues = new Array(length);
+
+        for (var i = 0; i < length; ++i) {
+            EncodedCartesian3.encode(values[i], encodedResult);
+            highValues[i] = encodedResult.high;
+            lowValues[i] = encodedResult.low;
+        }
+
+        mesh.attributes[attributeHighName] = {
+            componentDatatype : attribute.componentDatatype,
+            componentsPerAttribute : attribute.componentsPerAttribute,
+            values : highValues
+        };
+        mesh.attributes[attributeLowName] = {
+            componentDatatype : attribute.componentDatatype,
+            componentsPerAttribute : attribute.componentsPerAttribute,
+            values : lowValues
+        };
+        delete mesh.attributes[attributeName];
 
         return mesh;
     };
@@ -23267,7 +23811,7 @@ define('Core/Shapes',[
          * @param {Cartesian3} center The ellipse's center point in the fixed frame.
          * @param {Number} semiMajorAxis The length of the ellipse's semi-major axis in meters.
          * @param {Number} semiMinorAxis The length of the ellipse's semi-minor axis in meters.
-         * @param {Number} [bearing] The angle from north (counter-clockwise) in radians. The default is zero.
+         * @param {Number} [bearing] The angle from north (clockwise) in radians. The default is zero.
          * @param {Number} [granularity] The angular distance between points on the circle.
          *
          * @exception {DeveloperError} ellipsoid, center, semiMajorAxis, and semiMinorAxis are required.
@@ -23557,6 +24101,83 @@ define('Core/Spherical',[],function() {
     return Spherical;
 });
 
+/*global define*/
+define('Core/buildModuleUrl',[
+        'require',
+        './DeveloperError'
+    ], function(
+        require,
+        DeveloperError) {
+    
+    /*global CESIUM_BASE_URL*/
+
+    var baseUrl;
+    function getCesiumBaseUrl() {
+        if (typeof baseUrl !== 'undefined') {
+            return baseUrl;
+        }
+
+        if (typeof CESIUM_BASE_URL !== 'undefined') {
+            baseUrl = CESIUM_BASE_URL;
+        } else {
+            var cesiumScriptRegex = /(.*?)Cesium\w*\.js(?:\W|$)/i;
+            var scripts = document.getElementsByTagName('script');
+            for ( var i = 0, len = scripts.length; i < len; ++i) {
+                var src = scripts[i].getAttribute('src');
+                var result = cesiumScriptRegex.exec(src);
+                if (result !== null) {
+                    baseUrl = result[1];
+                    break;
+                }
+            }
+        }
+
+        if (typeof baseUrl === 'undefined') {
+            throw new DeveloperError('Unable to determine Cesium base URL automatically, try defining a global variable called CESIUM_BASE_URL.');
+        }
+
+        if (!/\/$/.test(baseUrl)) {
+            baseUrl += '/';
+        }
+
+        return baseUrl;
+    }
+
+    function buildModuleUrlFromRequireToUrl(moduleID) {
+        //moduleID will be non-relative, so require it relative to this module, in Core.
+        return require.toUrl('../' + moduleID);
+    }
+
+    function buildModuleUrlFromBaseUrl(moduleID) {
+        return getCesiumBaseUrl() + moduleID;
+    }
+
+    var implementation;
+
+    /**
+     * Given a non-relative moduleID, returns a URL to the file represented by that module ID,
+     * using, in order of preference, require.toUrl, the value of a global CESIUM_BASE_URL, or
+     * the base URL of the Cesium.js script.
+     *
+     * @private
+     */
+    var buildModuleUrl = function(moduleID) {
+        if (typeof implementation !== 'undefined') {
+            return implementation(moduleID);
+        }
+
+        //select implementation
+        if (typeof require.toUrl !== 'undefined') {
+            implementation = buildModuleUrlFromRequireToUrl;
+        } else {
+            implementation = buildModuleUrlFromBaseUrl;
+        }
+
+        return implementation(moduleID);
+    };
+
+    return buildModuleUrl;
+});
 /**
   @license
   when.js - https://github.com/cujojs/when
@@ -24308,13 +24929,13 @@ define('ThirdParty/when',[],function () {
 /*global define*/
 define('Core/TaskProcessor',[
         'require',
+        './buildModuleUrl',
         './defaultValue',
-        './DeveloperError',
         '../ThirdParty/when'
     ], function(
         require,
+        buildModuleUrl,
         defaultValue,
-        DeveloperError,
         when) {
     
 
@@ -24333,37 +24954,10 @@ define('Core/TaskProcessor',[
         delete deferreds[id];
     }
 
-    var cesiumScriptRegex = /(.*?)Cesium\w*\.js(?:\W|$)/i;
-    var bootstrapperScript = 'cesiumWorkerBootstrapper.js';
-    var bootstrapperUrl;
-    function getBootstrapperUrl() {
-        /*global CESIUM_BASE_URL*/
-        if (typeof bootstrapperUrl !== 'undefined') {
-            return bootstrapperUrl;
-        }
-
-        if (typeof CESIUM_BASE_URL !== 'undefined') {
-            return (bootstrapperUrl = CESIUM_BASE_URL + '/' + bootstrapperScript);
-        }
-
-        if (typeof require.toUrl !== 'undefined') {
-            return (bootstrapperUrl = require.toUrl('../Workers/' + bootstrapperScript));
-        }
-
-        var scripts = document.getElementsByTagName('script');
-        for ( var i = 0, len = scripts.length; i < len; ++i) {
-            var src = scripts[i].getAttribute('src');
-            var result = cesiumScriptRegex.exec(src);
-            if (result !== null) {
-                return (bootstrapperUrl = result[1] + bootstrapperScript);
-            }
-        }
-
-        throw new DeveloperError('Unable to determine Cesium base URL automatically, try defining a global variable called CESIUM_BASE_URL.');
-    }
+    var bootstrapperUrl = buildModuleUrl('Workers/cesiumWorkerBootstrapper.js');
 
     function createWorker(processor) {
-        var worker = new Worker(getBootstrapperUrl());
+        var worker = new Worker(bootstrapperUrl);
         worker.postMessage = defaultValue(worker.webkitPostMessage, worker.postMessage);
 
         //bootstrap
@@ -29810,7 +30404,7 @@ define('Renderer/Texture',[
      * @see Context#createTexture2D
      * @see Context#createTexture2DFromFramebuffer
      */
-    var Texture = function(gl, textureFilterAnisotropic, textureTarget, texture, pixelFormat, pixelDatatype, width, height, preMultiplyAlpha) {
+    var Texture = function(gl, textureFilterAnisotropic, textureTarget, texture, pixelFormat, pixelDatatype, width, height, preMultiplyAlpha, flipY) {
         this._gl = gl;
         this._textureFilterAnisotropic = textureFilterAnisotropic;
         this._textureTarget = textureTarget;
@@ -29821,6 +30415,7 @@ define('Renderer/Texture',[
         this._height = height;
         this._dimensions = new Cartesian2(width, height);
         this._preMultiplyAlpha = preMultiplyAlpha;
+        this._flipY = flipY;
         this._sampler = undefined;
 
         this.setSampler();
@@ -29879,7 +30474,7 @@ define('Renderer/Texture',[
 
         // TODO: gl.pixelStorei(gl._UNPACK_ALIGNMENT, 4);
         gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, this._preMultiplyAlpha);
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, this._flipY);
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(target, this._texture);
 
@@ -30099,6 +30694,20 @@ define('Renderer/Texture',[
     };
 
     /**
+     * Returns true if the source pixels are flipped vertically when the texture is created or updated, i.e.,
+     * <code>UNPACK_FLIP_Y_WEBGL</code> is used.
+     *
+     * @memberof Texture
+     *
+     * @return {Boolean} True if the source pixels are flipped vertically; otherwise, false.
+     *
+     * @exception {DeveloperError} This texture was destroyed, i.e., destroy() was called.
+     */
+    Texture.prototype.getFlipY = function() {
+        return this._flipY;
+    };
+
+    /**
      * DOC_TBA
      * @memberof Texture
      * @exception {DeveloperError} This texture was destroyed, i.e., destroy() was called.
@@ -30185,7 +30794,7 @@ define('Renderer/CubeMapFace',[
      *
      * @see CubeMap
      */
-    var CubeMapFace = function(gl, texture, textureTarget, targetFace, pixelFormat, pixelDatatype, size, preMultiplyAlpha) {
+    var CubeMapFace = function(gl, texture, textureTarget, targetFace, pixelFormat, pixelDatatype, size, preMultiplyAlpha, flipY) {
         this._gl = gl;
         this._texture = texture;
         this._textureTarget = textureTarget;
@@ -30194,6 +30803,7 @@ define('Renderer/CubeMapFace',[
         this._pixelDatatype = pixelDatatype;
         this._size = size;
         this._preMultiplyAlpha = preMultiplyAlpha;
+        this._flipY = flipY;
     };
 
     /**
@@ -30256,7 +30866,7 @@ define('Renderer/CubeMapFace',[
 
         // TODO: gl.pixelStorei(gl._UNPACK_ALIGNMENT, 4);
         gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, this._preMultiplyAlpha);
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, this._flipY);
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(target, this._texture);
 
@@ -30389,7 +30999,7 @@ define('Renderer/CubeMap',[
      *
      * @see Context#createCubeMap
      */
-    var CubeMap = function(gl, textureFilterAnisotropic, textureTarget, texture, pixelFormat, pixelDatatype, size, preMultiplyAlpha) {
+    var CubeMap = function(gl, textureFilterAnisotropic, textureTarget, texture, pixelFormat, pixelDatatype, size, preMultiplyAlpha, flipY) {
         this._gl = gl;
         this._textureFilterAnisotropic = textureFilterAnisotropic;
         this._textureTarget = textureTarget;
@@ -30398,14 +31008,15 @@ define('Renderer/CubeMap',[
         this._pixelDatatype = pixelDatatype;
         this._size = size;
         this._preMultiplyAlpha = preMultiplyAlpha;
+        this._flipY = flipY;
         this._sampler = undefined;
 
-        this._positiveX = new CubeMapFace(gl, texture, textureTarget, gl.TEXTURE_CUBE_MAP_POSITIVE_X, pixelFormat, pixelDatatype, size, preMultiplyAlpha);
-        this._negativeX = new CubeMapFace(gl, texture, textureTarget, gl.TEXTURE_CUBE_MAP_NEGATIVE_X, pixelFormat, pixelDatatype, size, preMultiplyAlpha);
-        this._positiveY = new CubeMapFace(gl, texture, textureTarget, gl.TEXTURE_CUBE_MAP_POSITIVE_Y, pixelFormat, pixelDatatype, size, preMultiplyAlpha);
-        this._negativeY = new CubeMapFace(gl, texture, textureTarget, gl.TEXTURE_CUBE_MAP_NEGATIVE_Y, pixelFormat, pixelDatatype, size, preMultiplyAlpha);
-        this._positiveZ = new CubeMapFace(gl, texture, textureTarget, gl.TEXTURE_CUBE_MAP_POSITIVE_Z, pixelFormat, pixelDatatype, size, preMultiplyAlpha);
-        this._negativeZ = new CubeMapFace(gl, texture, textureTarget, gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, pixelFormat, pixelDatatype, size, preMultiplyAlpha);
+        this._positiveX = new CubeMapFace(gl, texture, textureTarget, gl.TEXTURE_CUBE_MAP_POSITIVE_X, pixelFormat, pixelDatatype, size, preMultiplyAlpha, flipY);
+        this._negativeX = new CubeMapFace(gl, texture, textureTarget, gl.TEXTURE_CUBE_MAP_NEGATIVE_X, pixelFormat, pixelDatatype, size, preMultiplyAlpha, flipY);
+        this._positiveY = new CubeMapFace(gl, texture, textureTarget, gl.TEXTURE_CUBE_MAP_POSITIVE_Y, pixelFormat, pixelDatatype, size, preMultiplyAlpha, flipY);
+        this._negativeY = new CubeMapFace(gl, texture, textureTarget, gl.TEXTURE_CUBE_MAP_NEGATIVE_Y, pixelFormat, pixelDatatype, size, preMultiplyAlpha, flipY);
+        this._positiveZ = new CubeMapFace(gl, texture, textureTarget, gl.TEXTURE_CUBE_MAP_POSITIVE_Z, pixelFormat, pixelDatatype, size, preMultiplyAlpha, flipY);
+        this._negativeZ = new CubeMapFace(gl, texture, textureTarget, gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, pixelFormat, pixelDatatype, size, preMultiplyAlpha, flipY);
 
         this.setSampler();
     };
@@ -30639,10 +31250,24 @@ define('Renderer/CubeMap',[
      *
      * @returns {Boolean} true if the cubemap was created with premultiplied alpha; otherwise, false.
      *
-     * @exception {DeveloperError} This texture was destroyed, i.e., destroy() was called.
+     * @exception {DeveloperError} This cube map was destroyed, i.e., destroy() was called.
      */
     CubeMap.prototype.getPreMultiplyAlpha = function() {
         return this._preMultiplyAlpha;
+    };
+
+    /**
+     * Returns true if the source pixels are flipped vertically when cube-map faces are created or updated, i.e.,
+     * <code>UNPACK_FLIP_Y_WEBGL</code> is used.
+     *
+     * @memberof CubeMap
+     *
+     * @return {Boolean} True if the source pixels are flipped vertically; otherwise, false.
+     *
+     * @exception {DeveloperError} This cube map was destroyed, i.e., destroy() was called.
+     */
+    CubeMap.prototype.getFlipY = function() {
+        return this._flipY;
     };
 
     CubeMap.prototype._getTexture = function() {
@@ -31127,6 +31752,49 @@ return material;\n\
 }\n\
 ";
 });
+// This file is automatically rebuilt by the Cesium build process.
+/*global define*/
+define('Shaders/Materials/RimLightingMaterial',[],function() {
+    
+    return "uniform vec4 color;\n\
+uniform vec4 rimColor;\n\
+uniform float width;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+float d = 1.0 - dot(materialInput.normalEC, normalize(materialInput.positionToEyeEC));\n\
+float s = smoothstep(1.0 - width, 1.0, d);\n\
+material.diffuse = color.rgb;\n\
+material.emission = rimColor.rgb * s;\n\
+material.alpha = mix(color.a, rimColor.a, s);\n\
+return material;\n\
+}\n\
+";
+});
+// This file is automatically rebuilt by the Cesium build process.
+/*global define*/
+define('Shaders/Materials/ErosionMaterial',[],function() {
+    
+    return "uniform vec4 color;\n\
+uniform float time;\n\
+czm_material czm_getMaterial(czm_materialInput materialInput)\n\
+{\n\
+czm_material material = czm_getDefaultMaterial(materialInput);\n\
+float alpha = 1.0;\n\
+if (time != 1.0)\n\
+{\n\
+float t = 0.5 + (0.5 * czm_snoise(materialInput.str / (1.0 / 10.0)));\n\
+if (t > time)\n\
+{\n\
+alpha = 0.0;\n\
+}\n\
+}\n\
+material.diffuse = color.rgb;\n\
+material.alpha = color.a * alpha;\n\
+return material;\n\
+}\n\
+";
+});
 /*global define*/
 define('Scene/Material',[
         '../ThirdParty/when',
@@ -31138,6 +31806,7 @@ define('Scene/Material',[
         '../Core/combine',
         '../Core/defaultValue',
         '../Core/destroyObject',
+        '../Core/Cartesian2',
         '../Core/Matrix2',
         '../Core/Matrix3',
         '../Core/Matrix4',
@@ -31159,7 +31828,9 @@ define('Scene/Material',[
         '../Shaders/Materials/StripeMaterial',
         '../Shaders/Materials/TieDyeMaterial',
         '../Shaders/Materials/Water',
-        '../Shaders/Materials/WoodMaterial'
+        '../Shaders/Materials/WoodMaterial',
+        '../Shaders/Materials/RimLightingMaterial',
+        '../Shaders/Materials/ErosionMaterial'
     ], function(
         when,
         loadImage,
@@ -31170,6 +31841,7 @@ define('Scene/Material',[
         combine,
         defaultValue,
         destroyObject,
+        Cartesian2,
         Matrix2,
         Matrix3,
         Matrix4,
@@ -31191,7 +31863,9 @@ define('Scene/Material',[
         StripeMaterial,
         TieDyeMaterial,
         WaterMaterial,
-        WoodMaterial) {
+        WoodMaterial,
+        RimLightingMaterial,
+        ErosionMaterial) {
     
 
     /**
@@ -31374,6 +32048,17 @@ define('Scene/Material',[
      *      <li><code>animationSpeed</code>:  Number that controls the animations speed of the water.</li>
      *      <li><code>amplitude</code>:  Number that controls the amplitude of water waves.</li>
      *      <li><code>specularIntensity</code>:  Number that controls the intensity of specular reflections.</li>
+     *  </ul>
+     *  <li>RimLighting</li>
+     *  <ul>
+     *      <li><code>color</code>:  diffuse color and alpha.</li>
+     *      <li><code>rimColor</code>:  diffuse color and alpha of the rim.</li>
+     *      <li><code>width</code>:  Number that determines the rim's width.</li>
+     *  </ul>
+     *  <li>Erosion</li>
+     *  <ul>
+     *      <li><code>color</code>:  diffuse color and alpha.</li>
+     *      <li><code>time</code>:  Time of erosion.  1.0 is no erosion; 0.0 is fully eroded.</li>
      *  </ul>
      * </ul>
      * </div>
@@ -31990,10 +32675,7 @@ define('Scene/Material',[
         type : Material.ImageType,
         uniforms : {
             image : Material.DefaultImageId,
-            repeat : {
-                x : 1,
-                y : 1
-            }
+            repeat : new Cartesian2(1.0, 1.0)
         },
         components : {
             diffuse : 'texture2D(image, fract(repeat * materialInput.st)).rgb',
@@ -32007,10 +32689,7 @@ define('Scene/Material',[
         uniforms : {
             image : Material.DefaultImageId,
             channels : 'rgb',
-            repeat : {
-                x : 1,
-                y : 1
-            }
+            repeat : new Cartesian2(1.0, 1.0)
         },
         components : {
             diffuse : 'texture2D(image, fract(repeat * materialInput.st)).channels'
@@ -32023,10 +32702,7 @@ define('Scene/Material',[
         uniforms : {
             image : Material.DefaultImageId,
             channel : 'a',
-            repeat : {
-                x : 1,
-                y : 1
-            }
+            repeat : new Cartesian2(1.0, 1.0)
         },
         components : {
             alpha : 'texture2D(image, fract(repeat * materialInput.st)).channel'
@@ -32039,10 +32715,7 @@ define('Scene/Material',[
         uniforms : {
             image : Material.DefaultImageId,
             channel : 'r',
-            repeat : {
-                x : 1,
-                y : 1
-            }
+            repeat : new Cartesian2(1.0, 1.0)
         },
         components : {
             specular : 'texture2D(image, fract(repeat * materialInput.st)).channel'
@@ -32055,10 +32728,7 @@ define('Scene/Material',[
         uniforms : {
             image : Material.DefaultImageId,
             channels : 'rgb',
-            repeat : {
-                x : 1,
-                y : 1
-            }
+            repeat : new Cartesian2(1.0, 1.0)
         },
         components : {
             emission : 'texture2D(image, fract(repeat * materialInput.st)).channels'
@@ -32072,10 +32742,7 @@ define('Scene/Material',[
             image : Material.DefaultImageId,
             channel : 'r',
             strength : 0.8,
-            repeat : {
-                x : 1,
-                y : 1
-            }
+            repeat : new Cartesian2(1.0, 1.0)
         },
         source : BumpMapMaterial
     });
@@ -32087,10 +32754,7 @@ define('Scene/Material',[
             image : Material.DefaultImageId,
             channels : 'rgb',
             strength : 0.8,
-            repeat : {
-                x : 1,
-                y : 1
-            }
+            repeat : new Cartesian2(1.0, 1.0)
         },
         source : NormalMapMaterial
     });
@@ -32134,26 +32798,10 @@ define('Scene/Material',[
     Material._materialCache.addMaterial(Material.BrickType, {
         type : Material.BrickType,
         uniforms : {
-            brickColor : {
-                red : 0.6,
-                green : 0.3,
-                blue : 0.1,
-                alpha : 1.0
-            },
-            mortarColor : {
-                red : 0.8,
-                green : 0.8,
-                blue : 0.7,
-                alpha : 1.0
-            },
-            brickSize : {
-                x : 0.30,
-                y : 0.15
-            },
-            brickPct : {
-                x : 0.90,
-                y : 0.85
-            },
+            brickColor : new Color(0.6, 0.3, 0.1, 1.0),
+            mortarColor : new Color(0.8, 0.8, 0.7, 1.0),
+            brickSize : new Cartesian2(0.3, 0.15),
+            brickPct : new Cartesian2(0.9, 0.85),
             brickRoughness : 0.2,
             mortarRoughness : 0.1
         },
@@ -32164,23 +32812,10 @@ define('Scene/Material',[
     Material._materialCache.addMaterial(Material.WoodType, {
         type : Material.WoodType,
         uniforms : {
-            lightWoodColor : {
-                red : 0.6,
-                green : 0.3,
-                blue : 0.1,
-                alpha : 1.0
-            },
-            darkWoodColor : {
-                red : 0.4,
-                green : 0.2,
-                blue : 0.07,
-                alpha : 1.0
-            },
+            lightWoodColor : new Color(0.6, 0.3, 0.1, 1.0),
+            darkWoodColor : new Color(0.4, 0.2, 0.07, 1.0),
             ringFrequency : 3.0,
-            noiseScale : {
-                x : 0.7,
-                y : 0.5
-            },
+            noiseScale : new Cartesian2(0.7, 0.5),
             grainFrequency : 27.0
         },
         source : WoodMaterial
@@ -32190,12 +32825,7 @@ define('Scene/Material',[
     Material._materialCache.addMaterial(Material.AsphaltType, {
         type : Material.AsphaltType,
         uniforms : {
-            asphaltColor : {
-                red : 0.15,
-                green : 0.15,
-                blue : 0.15,
-                alpha : 1.0
-            },
+            asphaltColor : new Color(0.15, 0.15, 0.15, 1.0),
             bumpSize : 0.02,
             roughness : 0.2
         },
@@ -32206,12 +32836,7 @@ define('Scene/Material',[
     Material._materialCache.addMaterial(Material.CementType, {
         type : Material.CementType,
         uniforms : {
-            cementColor : {
-                red : 0.95,
-                green : 0.95,
-                blue : 0.85,
-                alpha : 1.0
-            },
+            cementColor : new Color(0.95, 0.95, 0.85, 1.0),
             grainScale : 0.01,
             roughness : 0.3
         },
@@ -32222,18 +32847,8 @@ define('Scene/Material',[
     Material._materialCache.addMaterial(Material.GrassType, {
         type : Material.GrassType,
         uniforms : {
-            grassColor : {
-                red : 0.25,
-                green : 0.4,
-                blue : 0.1,
-                alpha : 1.0
-            },
-            dirtColor : {
-                red : 0.1,
-                green : 0.1,
-                blue : 0.1,
-                alpha : 1.0
-            },
+            grassColor : new Color(0.25, 0.4, 0.1, 1.0),
+            dirtColor : new Color(0.1, 0.1, 0.1, 1.0),
             patchiness : 1.5
         },
         source : GrassMaterial
@@ -32244,18 +32859,8 @@ define('Scene/Material',[
         type : Material.StripeType,
         uniforms : {
             horizontal : true,
-            lightColor : {
-                red : 1.0,
-                green : 1.0,
-                blue : 1.0,
-                alpha : 0.5
-            },
-            darkColor : {
-                red : 0.0,
-                green : 0.0,
-                blue : 1.0,
-                alpha : 0.5
-            },
+            lightColor : new Color(1.0, 1.0, 1.0, 0.5),
+            darkColor : new Color(0.0, 0.0, 1.0, 0.5),
             offset : 0.0,
             repeat : 5.0
         },
@@ -32266,22 +32871,9 @@ define('Scene/Material',[
     Material._materialCache.addMaterial(Material.CheckerboardType, {
         type : Material.CheckerboardType,
         uniforms : {
-            lightColor : {
-                red : 1.0,
-                green : 1.0,
-                blue : 1.0,
-                alpha : 0.5
-            },
-            darkColor : {
-                red : 0.0,
-                green : 0.0,
-                blue : 0.0,
-                alpha : 0.5
-            },
-            repeat : {
-                x : 5.0,
-                y : 5.0
-            }
+            lightColor : new Color(1.0, 1.0, 1.0, 0.5),
+            darkColor : new Color(0.0, 0.0, 0.0, 0.5),
+            repeat : new Cartesian2(5.0, 5.0)
         },
         source : CheckerboardMaterial
     });
@@ -32290,22 +32882,9 @@ define('Scene/Material',[
     Material._materialCache.addMaterial(Material.DotType, {
         type : Material.DotType,
         uniforms : {
-            lightColor : {
-                red : 1.0,
-                green : 1.0,
-                blue : 0.0,
-                alpha : 0.75
-            },
-            darkColor : {
-                red : 0.0,
-                green : 1.0,
-                blue : 1.0,
-                alpha : 0.75
-            },
-            repeat : {
-                x : 5.0,
-                y : 5.0
-            }
+            lightColor : new Color(1.0, 1.0, 0.0, 0.75),
+            darkColor : new Color(0.0, 1.0, 1.0, 0.75),
+            repeat : new Cartesian2(5.0, 5.0)
         },
         source : DotMaterial
     });
@@ -32314,18 +32893,8 @@ define('Scene/Material',[
     Material._materialCache.addMaterial(Material.TyeDyeType, {
         type : Material.TyeDyeType,
         uniforms : {
-            lightColor : {
-                red : 1.0,
-                green : 1.0,
-                blue : 0.0,
-                alpha : 0.75
-            },
-            darkColor : {
-                red : 1.0,
-                green : 0.0,
-                blue : 0.0,
-                alpha : 0.75
-            },
+            lightColor : new Color(1.0, 1.0, 0.0, 0.75),
+            darkColor : new Color(1.0, 0.0, 0.0, 0.75),
             frequency : 5.0
         },
         source : TieDyeMaterial
@@ -32335,18 +32904,8 @@ define('Scene/Material',[
     Material._materialCache.addMaterial(Material.FacetType, {
         type : Material.FacetType,
         uniforms : {
-            lightColor : {
-                red : 0.25,
-                green : 0.25,
-                blue : 0.25,
-                alpha : 0.75
-            },
-            darkColor : {
-                red : 0.75,
-                green : 0.75,
-                blue : 0.75,
-                alpha : 0.75
-            },
+            lightColor : new Color(0.25, 0.25, 0.25, 0.75),
+            darkColor : new Color(0.75, 0.75, 0.75, 0.75),
             frequency : 10.0
         },
         source : FacetMaterial
@@ -32356,18 +32915,8 @@ define('Scene/Material',[
     Material._materialCache.addMaterial(Material.BlobType, {
         type : Material.BlobType,
         uniforms : {
-            lightColor : {
-                red : 1.0,
-                green : 1.0,
-                blue : 1.0,
-                alpha : 0.5
-            },
-            darkColor : {
-                red : 0.0,
-                green : 0.0,
-                blue : 1.0,
-                alpha : 0.5
-            },
+            lightColor : new Color(1.0, 1.0, 1.0, 0.5),
+            darkColor : new Color(0.0, 0.0, 1.0, 0.5),
             frequency : 10.0
         },
         source : BlobMaterial
@@ -32398,6 +32947,27 @@ define('Scene/Material',[
             fadeFactor : 1.0
         },
         source : WaterMaterial
+    });
+
+    Material.RimLightingType = 'RimLighting';
+    Material._materialCache.addMaterial(Material.RimLightingType, {
+        type : Material.RimLightingType,
+        uniforms : {
+            color : new Color(1.0, 0.0, 0.0, 0.7),
+            rimColor : new Color(1.0, 1.0, 1.0, 0.4),
+            width : 0.3
+        },
+        source : RimLightingMaterial
+    });
+
+    Material.ErosionType = 'Erosion';
+    Material._materialCache.addMaterial(Material.ErosionType, {
+        type : Material.ErosionType,
+        uniforms : {
+            color : new Color(1.0, 0.0, 0.0, 0.5),
+            time : 1.0
+        },
+        source : ErosionMaterial
     });
 
     return Material;
@@ -32435,6 +33005,13 @@ define('DynamicScene/DynamicColorMaterial',[
     DynamicColorMaterial.isMaterial = function(czmlInterval) {
         return typeof czmlInterval !== 'undefined' && typeof czmlInterval.solidColor !== 'undefined';
     };
+
+    /**
+     * Returns true if the provided CZML interval contains color material data.
+     * @param czmlInterval The CZML interval to check.
+     * @returns {Boolean} true if the interval contains CZML color material data, false otherwise.
+     */
+    DynamicColorMaterial.prototype.isMaterial = DynamicColorMaterial.isMaterial;
 
     /**
      * Provided a CZML interval containing color material data, processes the
@@ -32519,6 +33096,13 @@ define('DynamicScene/DynamicImageMaterial',[
     DynamicImageMaterial.isMaterial = function(czmlInterval) {
         return typeof czmlInterval.image !== 'undefined';
     };
+
+    /**
+     * Returns true if the provided CZML interval contains image material data.
+     * @param czmlInterval The CZML interval to check.
+     * @returns {Boolean} true if the interval contains CZML image material data, false otherwise.
+     */
+    DynamicImageMaterial.prototype.isMaterial = DynamicImageMaterial.isMaterial;
 
     /**
      * Provided a CZML interval containing image material data, processes the
@@ -32711,10 +33295,10 @@ define('DynamicScene/DynamicMaterialProperty',[
         //If the new data was a different type, look for a handler for this type.
         if (foundMaterial === false) {
             for ( var i = 0, len = potentialMaterials.length; i < len; i++) {
-                var Material = potentialMaterials[i];
-                foundMaterial = Material.isMaterial(czmlInterval);
+                var PotentialMaterial = potentialMaterials[i];
+                foundMaterial = PotentialMaterial.isMaterial(czmlInterval);
                 if (foundMaterial) {
-                    existingInterval.data = existingMaterial = new Material();
+                    existingInterval.data = existingMaterial = new PotentialMaterial();
                     break;
                 }
             }
@@ -34933,6 +35517,13 @@ define('Renderer/BlendingState',[
         /**
          * DOC_TBA
          */
+        DISABLED : {
+            enabled : false
+        },
+
+        /**
+         * DOC_TBA
+         */
         ALPHA_BLEND : {
             enabled : true,
             equationRgb : BlendEquation.ADD,
@@ -35135,6 +35726,13 @@ define('Renderer/DrawCommand',['../Core/DeveloperError'], function(DeveloperErro
          * @type Framebuffer
          */
         this.framebuffer = undefined;
+
+        /**
+         * Specifies if this command is only to be executed in the frustum closest
+         * to the eye containing the bounding volume. Defaults to <code>false</code>.
+         * @type Boolean
+         */
+        this.executeInClosestFrustum = false;
     };
 
     /**
@@ -38535,6 +39133,7 @@ void main()\n\
 vec4 p = vec4(u_radii * position, 1.0);\n\
 v_positionEC = (czm_modelView * p).xyz;\n\
 gl_Position = czm_modelViewProjection * p;\n\
+gl_Position.z = clamp(gl_Position.z, gl_DepthRange.near, gl_DepthRange.far);\n\
 }\n\
 ";
 });
@@ -38896,6 +39495,7 @@ define('Scene/EllipsoidPrimitive',[
                 colorCommand.renderState = this._rs;
                 colorCommand.shaderProgram = this._sp;
                 colorCommand.uniformMap = combine([this._uniforms, this._material._uniforms], false, false);
+                colorCommand.executeInClosestFrustum = true;
             }
 
             colorCommand.boundingVolume = this._boundingSphere;
@@ -38930,6 +39530,7 @@ define('Scene/EllipsoidPrimitive',[
                 pickCommand.renderState = this._rs;
                 pickCommand.shaderProgram = this._pickSP;
                 pickCommand.uniformMap = combine([this._uniforms, pickMaterial._uniforms], false, false);
+                pickCommand.executeInClosestFrustum = true;
             }
 
             pickCommand.boundingVolume = this._boundingSphere;
@@ -38938,7 +39539,7 @@ define('Scene/EllipsoidPrimitive',[
             ellipsoidCommandLists.pickList.push(pickCommand);
         }
 
-        commandList.push(this._commandLists);
+        commandList.push(ellipsoidCommandLists);
     };
 
     /**
@@ -39267,8 +39868,7 @@ define('DynamicScene/DynamicEllipsoidVisualizer',[
 /*global define*/
 define('Shaders/SensorVolume',[],function() {
     
-    return "uniform float u_erosion;\n\
-uniform vec4 u_intersectionColor;\n\
+    return "uniform vec4 u_intersectionColor;\n\
 bool inSensorShadow(vec3 coneVertexWC, czm_ellipsoid ellipsoidEC, vec3 pointEC)\n\
 {\n\
 vec3 D = ellipsoidEC.inverseRadii;\n\
@@ -39281,23 +39881,8 @@ float d = dot(temp, q);\n\
 return (d < -test) && (d / length(temp) < -sqrt(test));\n\
 }\n\
 #ifndef RENDER_FOR_PICK\n\
-void sensorErode(float sensorRadius, vec3 pointEC)\n\
-{\n\
-if (u_erosion != 1.0)\n\
-{\n\
-vec3 pointMC = (czm_inverseModelView * vec4(pointEC, 1.0)).xyz;\n\
-pointMC /= sensorRadius;\n\
-pointMC /= (1.0 / 10.0);\n\
-float t = 0.5 + (0.5 * czm_snoise(pointMC));\n\
-if (t > u_erosion)\n\
-{\n\
-discard;\n\
-}\n\
-}\n\
-}\n\
 vec4 getIntersectionColor(float sensorRadius, vec3 pointEC)\n\
 {\n\
-sensorErode(sensorRadius, pointEC);\n\
 return u_intersectionColor;\n\
 }\n\
 vec2 sensor2dTextureCoordinates(float sensorRadius, vec3 pointMC)\n\
@@ -39319,17 +39904,12 @@ attribute vec3 normal;\n\
 varying vec3 v_positionWC;\n\
 varying vec3 v_positionEC;\n\
 varying vec3 v_normalEC;\n\
-varying vec3 v_sensorVertexWC;\n\
-varying vec3 v_sensorVertexEC;\n\
 void main()\n\
 {\n\
 gl_Position = czm_modelViewProjection * position;\n\
 v_positionWC = (czm_model * position).xyz;\n\
 v_positionEC = (czm_modelView * position).xyz;\n\
 v_normalEC = czm_normal * normal;\n\
-vec4 sensorVertexMC = vec4(0.0, 0.0, 0.0, 1.0);\n\
-v_sensorVertexWC = (czm_model * sensorVertexMC).xyz;\n\
-v_sensorVertexEC = (czm_modelView * sensorVertexMC).xyz;\n\
 }\n\
 ";
 });
@@ -39347,12 +39927,9 @@ uniform vec4 u_pickColor;\n\
 varying vec3 v_positionWC;\n\
 varying vec3 v_positionEC;\n\
 varying vec3 v_normalEC;\n\
-varying vec3 v_sensorVertexWC;\n\
-varying vec3 v_sensorVertexEC;\n\
 #ifndef RENDER_FOR_PICK\n\
 vec4 getColor(float sensorRadius, vec3 pointEC)\n\
 {\n\
-sensorErode(sensorRadius, pointEC);\n\
 czm_materialInput materialInput;\n\
 vec3 pointMC = (czm_inverseModelView * vec4(pointEC, 1.0)).xyz;\n\
 materialInput.st = sensor2dTextureCoordinates(sensorRadius, pointMC);\n\
@@ -39407,6 +39984,8 @@ return (((point.x * point.x) / (ellipsoid.radii.x * ellipsoid.radii.x)) +\n\
 }\n\
 void main()\n\
 {\n\
+vec3 sensorVertexWC = czm_model[3].xyz;\n\
+vec3 sensorVertexEC = czm_modelView[3].xyz;\n\
 czm_ellipsoid ellipsoid = czm_getWgs84EllipsoidEC();\n\
 if (!u_showThroughEllipsoid)\n\
 {\n\
@@ -39414,12 +39993,12 @@ if (czm_pointInEllipsoid(ellipsoid, v_positionWC))\n\
 {\n\
 discard;\n\
 }\n\
-if (inSensorShadow(v_sensorVertexWC, ellipsoid, v_positionEC))\n\
+if (inSensorShadow(sensorVertexWC, ellipsoid, v_positionEC))\n\
 {\n\
 discard;\n\
 }\n\
 }\n\
-if (distance(v_positionEC, v_sensorVertexEC) > u_sensorRadius)\n\
+if (distance(v_positionEC, sensorVertexEC) > u_sensorRadius)\n\
 {\n\
 discard;\n\
 }\n\
@@ -39605,13 +40184,6 @@ define('Scene/CustomSensorVolume',[
          */
         this.intersectionColor = (typeof t.intersectionColor !== 'undefined') ? Color.clone(t.intersectionColor) : Color.clone(Color.WHITE);
 
-        /**
-         * DOC_TBA
-         *
-         * @type Number
-         */
-        this.erosion = (typeof t.erosion === 'undefined') ? 1.0 : t.erosion;
-
         var that = this;
         this._uniforms = {
             u_showThroughEllipsoid : function() {
@@ -39625,9 +40197,6 @@ define('Scene/CustomSensorVolume',[
             },
             u_intersectionColor : function() {
                 return that.intersectionColor;
-            },
-            u_erosion : function() {
-                return that.erosion;
             }
         };
 
@@ -44905,8 +45474,10 @@ define('Renderer/VertexLayout',['../Core/Enumeration'], function(Enumeration) {
 /*global define*/
 define('Shaders/PolygonVS',[],function() {
     
-    return "attribute vec2 position2D;\n\
-attribute vec3 position3D;\n\
+    return "attribute vec3 position3DHigh;\n\
+attribute vec3 position3DLow;\n\
+attribute vec2 position2DHigh;\n\
+attribute vec2 position2DLow;\n\
 attribute vec2 textureCoordinates;\n\
 uniform float u_morphTime;\n\
 uniform float u_height;\n\
@@ -44915,11 +45486,26 @@ varying vec3 v_positionEC;\n\
 varying vec2 v_textureCoordinates;\n\
 void main()\n\
 {\n\
-vec4 p = czm_columbusViewMorph(vec3(u_height, position2D), position3D, u_morphTime);\n\
-v_positionMC = position3D;\n\
-v_positionEC = (czm_modelView * p).xyz;\n\
+vec4 p;\n\
+if (u_morphTime == 1.0)\n\
+{\n\
+p = vec4(czm_translateRelativeToEye(position3DHigh, position3DLow), 1.0);\n\
+}\n\
+else if (u_morphTime == 0.0)\n\
+{\n\
+p = vec4(czm_translateRelativeToEye(vec3(u_height, position2DHigh), vec3(u_height, position2DLow)), 1.0);\n\
+}\n\
+else\n\
+{\n\
+p = czm_columbusViewMorph(\n\
+czm_translateRelativeToEye(vec3(u_height, position2DHigh), vec3(u_height, position2DLow)),\n\
+czm_translateRelativeToEye(position3DHigh, position3DLow),\n\
+u_morphTime);\n\
+}\n\
+v_positionMC = position3DHigh + position3DLow;\n\
+v_positionEC = (czm_modelViewRelativeToEye * p).xyz;\n\
 v_textureCoordinates = textureCoordinates;\n\
-gl_Position = czm_modelViewProjection * p;\n\
+gl_Position = czm_modelViewProjectionRelativeToEye * p;\n\
 }\n\
 ";
 });
@@ -44927,24 +45513,10 @@ gl_Position = czm_modelViewProjection * p;\n\
 /*global define*/
 define('Shaders/PolygonFS',[],function() {
     
-    return "uniform float u_erosion;\n\
-uniform float u_morphTime;\n\
+    return "uniform float u_morphTime;\n\
 varying vec3 v_positionMC;\n\
 varying vec3 v_positionEC;\n\
 varying vec2 v_textureCoordinates;\n\
-#ifndef RENDER_FOR_PICK\n\
-void erode(vec3 str)\n\
-{\n\
-if (u_erosion != 1.0)\n\
-{\n\
-float t = 0.5 + (0.5 * czm_snoise(str / (1.0 / 10.0)));\n\
-if (t > u_erosion)\n\
-{\n\
-discard;\n\
-}\n\
-}\n\
-}\n\
-#endif\n\
 void main()\n\
 {\n\
 czm_materialInput materialInput;\n\
@@ -44955,7 +45527,6 @@ materialInput.normalEC = mix(czm_normal[0], normalize(czm_normal * czm_geodeticS
 materialInput.tangentToEyeMatrix = czm_eastNorthUpToEyeCoordinates(v_positionMC, materialInput.normalEC);\n\
 vec3 positionToEyeEC = -v_positionEC;\n\
 materialInput.positionToEyeEC = positionToEyeEC;\n\
-erode(materialInput.str);\n\
 czm_material material = czm_getMaterial(materialInput);\n\
 gl_FragColor = czm_phong(normalize(positionToEyeEC), material);\n\
 }\n\
@@ -44965,14 +45536,31 @@ gl_FragColor = czm_phong(normalize(positionToEyeEC), material);\n\
 /*global define*/
 define('Shaders/PolygonVSPick',[],function() {
     
-    return "attribute vec2 position2D;\n\
-attribute vec3 position3D;\n\
+    return "attribute vec3 position3DHigh;\n\
+attribute vec3 position3DLow;\n\
+attribute vec2 position2DHigh;\n\
+attribute vec2 position2DLow;\n\
 uniform float u_morphTime;\n\
 uniform float u_height;\n\
 void main()\n\
 {\n\
-vec4 p = czm_columbusViewMorph(vec3(u_height, position2D), position3D, u_morphTime);\n\
-gl_Position = czm_modelViewProjection * p;\n\
+vec4 p;\n\
+if (u_morphTime == 1.0)\n\
+{\n\
+p = vec4(czm_translateRelativeToEye(position3DHigh, position3DLow), 1.0);\n\
+}\n\
+else if (u_morphTime == 0.0)\n\
+{\n\
+p = vec4(czm_translateRelativeToEye(vec3(u_height, position2DHigh), vec3(u_height, position2DLow)), 1.0);\n\
+}\n\
+else\n\
+{\n\
+p = czm_columbusViewMorph(\n\
+czm_translateRelativeToEye(vec3(u_height, position2DHigh), vec3(u_height, position2DLow)),\n\
+czm_translateRelativeToEye(position3DHigh, position3DLow),\n\
+u_morphTime);\n\
+}\n\
+gl_Position = czm_modelViewProjectionRelativeToEye * p;\n\
 }\n\
 ";
 });
@@ -45009,6 +45597,8 @@ define('Scene/Polygon',[
         '../Core/WindingOrder',
         '../Core/ExtentTessellator',
         '../Core/Queue',
+        '../Core/Matrix3',
+        '../Core/Quaternion',
         '../Renderer/BlendingState',
         '../Renderer/BufferUsage',
         '../Renderer/CommandLists',
@@ -45043,6 +45633,8 @@ define('Scene/Polygon',[
         WindingOrder,
         ExtentTessellator,
         Queue,
+        Matrix3,
+        Quaternion,
         BlendingState,
         BufferUsage,
         CommandLists,
@@ -45059,9 +45651,11 @@ define('Scene/Polygon',[
     
 
     var attributeIndices = {
-        position2D : 0,
-        position3D : 1,
-        textureCoordinates : 2
+        position3DHigh : 0,
+        position3DLow : 1,
+        position2DHigh : 2,
+        position2DLow : 3,
+        textureCoordinates : 4
     };
 
     function PositionVertices() {
@@ -45191,6 +45785,7 @@ define('Scene/Polygon',[
         };
 
         this._positions = undefined;
+        this._textureRotationAngle = undefined;
         this._extent = undefined;
         this._polygonHierarchy = undefined;
         this._createVertexArray = false;
@@ -45239,13 +45834,6 @@ define('Scene/Polygon',[
         this.material.uniforms.color = new Color(1.0, 1.0, 0.0, 0.5);
         this._material = undefined;
 
-        /**
-         * DOC_TBA
-         *
-         * @type Number
-         */
-        this.erosion = 1.0;
-
         this._mode = SceneMode.SCENE3D;
         this._projection = undefined;
 
@@ -45259,9 +45847,6 @@ define('Scene/Polygon',[
 
         var that = this;
         this._uniforms = {
-            u_erosion : function() {
-                return that.erosion;
-            },
             u_morphTime : function() {
                 return that.morphTime;
             },
@@ -45296,8 +45881,9 @@ define('Scene/Polygon',[
      *
      * @see Polygon#getPositions
      *
-     * @param {Array} positions. The cartesian positions of the polygon.
-     * @param {double} [height=0.0]. The height of the polygon.
+     * @param {Array} positions The cartesian positions of the polygon.
+     * @param {Number} [height=0.0] The height of the polygon.
+     * @param {Number} [textureRotationAngle=0.0] The angle, in radians, to rotate the texture.  Positive angles are counter-clockwise.
      *
      * @example
      * polygon.setPositions([
@@ -45306,12 +45892,13 @@ define('Scene/Polygon',[
      *   ellipsoid.cartographicToCartesian(new Cartographic(...))
      * ], 10.0);
      */
-    Polygon.prototype.setPositions = function(positions, height) {
+    Polygon.prototype.setPositions = function(positions, height, textureRotationAngle) {
         // positions can be undefined
         if (typeof positions !== 'undefined' && (positions.length < 3)) {
             throw new DeveloperError('At least three positions are required.');
         }
         this.height = defaultValue(height, 0.0);
+        this._textureRotationAngle = defaultValue(textureRotationAngle, 0.0);
         this._extent = undefined;
         this._polygonHierarchy = undefined;
         this._positions = positions;
@@ -45346,7 +45933,8 @@ define('Scene/Polygon',[
      * }
      * </code>
      * </pre>
-     * @param {double} [height=0.0] The height of the polygon.
+     * @param {Number} [height=0.0] The height of the polygon.
+     * @param {Number} [textureRotationAngle=0.0] The angle to rotate the texture in radians.
      *
      * @exception {DeveloperError} At least three positions are required.
      *
@@ -45363,7 +45951,7 @@ define('Scene/Polygon',[
      *      }]
      *  };
      */
-    Polygon.prototype.configureFromPolygonHierarchy  = function(hierarchy, height) {
+    Polygon.prototype.configureFromPolygonHierarchy  = function(hierarchy, height, textureRotationAngle) {
         // Algorithm adapted from http://www.geometrictools.com/Documentation/TriangulationByEarClipping.pdf
         var polygons = [];
         var queue = new Queue();
@@ -45403,6 +45991,7 @@ define('Scene/Polygon',[
         }
 
         this.height = defaultValue(height, 0.0);
+        this._textureRotationAngle = defaultValue(textureRotationAngle, 0.0);
         this._positions = undefined;
         this._extent = undefined;
         this._polygonHierarchy = polygons;
@@ -45429,6 +46018,7 @@ define('Scene/Polygon',[
     Polygon.prototype.configureExtent = function(extent, height) {
         this._extent = extent;
         this.height = defaultValue(height, 0.0);
+        this._textureRotationAngle = undefined;
         this._positions = undefined;
         this._polygonHierarchy = undefined;
         this._createVertexArray = true;
@@ -45436,9 +46026,10 @@ define('Scene/Polygon',[
 
     var appendTextureCoordinatesCartesian2 = new Cartesian2();
     var appendTextureCoordinatesCartesian3 = new Cartesian3();
+    var appendTextureCoordinatesQuaternion = new Quaternion();
+    var appendTextureCoordinatesMatrix3 = new Matrix3();
 
-    function appendTextureCoordinates(tangentPlane, positions2D, mesh) {
-        var boundingRectangle = new BoundingRectangle.fromPoints(positions2D);
+    function appendTextureCoordinates(tangentPlane, boundingRectangle, mesh, angle) {
         var origin = new Cartesian2(boundingRectangle.x, boundingRectangle.y);
 
         var positions = mesh.attributes.position.values;
@@ -45446,6 +46037,9 @@ define('Scene/Polygon',[
 
         var textureCoordinates = new Float32Array(2 * (length / 3));
         var j = 0;
+
+        var rotation = Quaternion.fromAxisAngle(tangentPlane._normal, angle, appendTextureCoordinatesQuaternion);
+        var textureMatrix = Matrix3.fromQuaternion(rotation, appendTextureCoordinatesMatrix3);
 
         // PERFORMANCE_IDEA:  Instead of storing texture coordinates per-vertex, we could
         // save memory by computing them in the fragment shader.  However, projecting
@@ -45455,6 +46049,7 @@ define('Scene/Polygon',[
             p.x = positions[i];
             p.y = positions[i + 1];
             p.z = positions[i + 2];
+            Matrix3.multiplyByVector(textureMatrix, p, p);
             var st = tangentPlane.projectPointOntoPlane(p, appendTextureCoordinatesCartesian2);
             st.subtract(origin, st);
 
@@ -45471,9 +46066,50 @@ define('Scene/Polygon',[
         return mesh;
     }
 
-    var createMeshFromPositionsPositions = [];
+    var computeBoundingRectangleCartesian2 = new Cartesian2();
+    var computeBoundingRectangleCartesian3 = new Cartesian3();
+    var computeBoundingRectangleQuaternion = new Quaternion();
+    var computeBoundingRectangleMatrix3 = new Matrix3();
 
-    function createMeshFromPositions(polygon, positions, outerPositions2D) {
+    function computeBoundingRectangle(tangentPlane, positions, angle, result) {
+        var rotation = Quaternion.fromAxisAngle(tangentPlane._normal, angle, computeBoundingRectangleQuaternion);
+        var textureMatrix = Matrix3.fromQuaternion(rotation,computeBoundingRectangleMatrix3);
+
+        var minX = Number.POSITIVE_INFINITY;
+        var maxX = Number.NEGATIVE_INFINITY;
+        var minY = Number.POSITIVE_INFINITY;
+        var maxY = Number.NEGATIVE_INFINITY;
+
+        var length = positions.length;
+        for ( var i = 0; i < length; ++i) {
+            var p = Cartesian3.clone(positions[i], computeBoundingRectangleCartesian3);
+            Matrix3.multiplyByVector(textureMatrix, p, p);
+            var st = tangentPlane.projectPointOntoPlane(p, computeBoundingRectangleCartesian2);
+
+            if (typeof st !== 'undefined') {
+                minX = Math.min(minX, st.x);
+                maxX = Math.max(maxX, st.x);
+
+                minY = Math.min(minY, st.y);
+                maxY = Math.max(maxY, st.y);
+            }
+        }
+
+        if (typeof result === 'undefined') {
+            result = new BoundingRectangle();
+        }
+
+        result.x = minX;
+        result.y = minY;
+        result.width = maxX - minX;
+        result.height = maxY - minY;
+        return result;
+    }
+
+    var createMeshFromPositionsPositions = [];
+    var createMeshFromPositionsBoundingRectangle = new BoundingRectangle();
+
+    function createMeshFromPositions(polygon, positions, angle, outerPositions) {
         var cleanedPositions = PolygonPipeline.cleanUp(positions);
         if (cleanedPositions.length < 3) {
             // Duplicate positions result in not enough positions to form a polygon.
@@ -45490,12 +46126,11 @@ define('Scene/Polygon',[
         }
         var indices = PolygonPipeline.earClip2D(positions2D);
         var mesh = PolygonPipeline.computeSubdivision(cleanedPositions, indices, polygon._granularity);
-        var boundary2D = outerPositions2D || positions2D;
-        mesh = appendTextureCoordinates(tangentPlane, boundary2D, mesh);
+        var boundary = outerPositions || cleanedPositions;
+        var boundingRectangle = computeBoundingRectangle(tangentPlane, boundary, angle, createMeshFromPositionsBoundingRectangle);
+        mesh = appendTextureCoordinates(tangentPlane, boundingRectangle, mesh, angle);
         return mesh;
     }
-
-    var createMeshesOuterPositions2D = [];
 
     function createMeshes(polygon) {
         // PERFORMANCE_IDEA:  Move this to a web-worker.
@@ -45513,17 +46148,15 @@ define('Scene/Polygon',[
                 polygon._boundingVolume2D.center = new Cartesian3(0.0, center2D.x, center2D.y);
             }
         } else if (typeof polygon._positions !== 'undefined') {
-            mesh = createMeshFromPositions(polygon, polygon._positions);
+            mesh = createMeshFromPositions(polygon, polygon._positions, polygon._textureRotationAngle);
             if (typeof mesh !== 'undefined') {
                 meshes.push(mesh);
                 polygon._boundingVolume = BoundingSphere.fromPoints(polygon._positions, polygon._boundingVolume);
             }
         } else if (typeof polygon._polygonHierarchy !== 'undefined') {
             var outerPositions =  polygon._polygonHierarchy[0];
-            var tangentPlane = EllipsoidTangentPlane.fromPoints(outerPositions, polygon.ellipsoid);
-            var outerPositions2D = tangentPlane.projectPointsOntoPlane(outerPositions, createMeshesOuterPositions2D);
             for (i = 0; i < polygon._polygonHierarchy.length; i++) {
-                mesh = createMeshFromPositions(polygon, polygon._polygonHierarchy[i], outerPositions2D);
+                mesh = createMeshFromPositions(polygon, polygon._polygonHierarchy[i], polygon._textureRotationAngle, outerPositions);
                 if (typeof mesh !== 'undefined') {
                     meshes.push(mesh);
                 }
@@ -45549,29 +46182,33 @@ define('Scene/Polygon',[
             mesh = MeshFilters.reorderForPreVertexCache(mesh);
 
             if (polygon._mode === SceneMode.SCENE3D) {
-                mesh.attributes.position2D = { // Not actually used in shader
-                        value : [0.0, 0.0]
-                    };
-                mesh.attributes.position3D = mesh.attributes.position;
-                delete mesh.attributes.position;
+                mesh.attributes.position2DHigh = { // Not actually used in shader
+                    value : [0.0, 0.0]
+                };
+                mesh.attributes.position2DLow = { // Not actually used in shader
+                    value : [0.0, 0.0]
+                };
+                mesh = MeshFilters.encodeAttribute(mesh, 'position', 'position3DHigh', 'position3DLow');
             } else {
                 mesh = MeshFilters.projectTo2D(mesh, polygon._projection);
+
+                if ((i === 0) && (polygon._mode !== SceneMode.SCENE3D)) {
+                    var projectedPositions = mesh.attributes.position2D.values;
+                    var positions = [];
+
+                    for (var j = 0; j < projectedPositions.length; j += 2) {
+                        positions.push(new Cartesian3(projectedPositions[j], projectedPositions[j + 1], 0.0));
+                    }
+
+                    polygon._boundingVolume2D = BoundingSphere.fromPoints(positions, polygon._boundingVolume2D);
+                    var center2DPositions = polygon._boundingVolume2D.center;
+                    polygon._boundingVolume2D.center = new Cartesian3(0.0, center2DPositions.x, center2DPositions.y);
+                }
+
+                mesh = MeshFilters.encodeAttribute(mesh, 'position3D', 'position3DHigh', 'position3DLow');
+                mesh = MeshFilters.encodeAttribute(mesh, 'position2D', 'position2DHigh', 'position2DLow');
             }
             processedMeshes = processedMeshes.concat(MeshFilters.fitToUnsignedShortIndices(mesh));
-        }
-
-        if (polygon._mode !== SceneMode.SCENE3D) {
-            mesh = meshes[0];
-            var projectedPositions = mesh.attributes.position2D.values;
-            var positions = [];
-
-            for (i = 0; i < projectedPositions.length; i += 2) {
-                positions.push(new Cartesian3(projectedPositions[i], projectedPositions[i + 1], 0.0));
-            }
-
-            polygon._boundingVolume2D = BoundingSphere.fromPoints(positions, polygon._boundingVolume2D);
-            var center2DPositions = polygon._boundingVolume2D.center;
-            polygon._boundingVolume2D.center = new Cartesian3(0.0, center2DPositions.x, center2DPositions.y);
         }
 
         return processedMeshes;
@@ -48227,7 +48864,6 @@ return materialInput;\n\
 }\n\
 vec4 getOuterColor(float sensorRadius, vec3 pointEC, vec3 normalEC)\n\
 {\n\
-sensorErode(sensorRadius, pointEC);\n\
 czm_materialInput materialInput = getMaterialInput(sensorRadius, pointEC, normalEC);\n\
 czm_material material = czm_getOuterMaterial(materialInput);\n\
 vec3 positionToEyeEC = normalize(-v_positionEC);\n\
@@ -48235,7 +48871,6 @@ return czm_phong(positionToEyeEC, material);\n\
 }\n\
 vec4 getInnerColor(float sensorRadius, vec3 pointEC, vec3 normalEC)\n\
 {\n\
-sensorErode(sensorRadius, pointEC);\n\
 czm_materialInput materialInput = getMaterialInput(sensorRadius, pointEC, normalEC);\n\
 czm_material material = czm_getInnerMaterial(materialInput);\n\
 vec3 positionToEyeEC = normalize(-v_positionEC);\n\
@@ -48243,7 +48878,6 @@ return czm_phong(positionToEyeEC, material);\n\
 }\n\
 vec4 getCapColor(float sensorRadius, vec3 pointEC, vec3 normalEC)\n\
 {\n\
-sensorErode(sensorRadius, pointEC);\n\
 czm_materialInput materialInput = getMaterialInput(sensorRadius, pointEC, normalEC);\n\
 czm_material material = czm_getCapMaterial(materialInput);\n\
 vec3 positionToEyeEC = normalize(-v_positionEC);\n\
@@ -48251,7 +48885,6 @@ return czm_phong(positionToEyeEC, material);\n\
 }\n\
 vec4 getSilhouetteColor(float sensorRadius, vec3 pointEC, vec3 normalEC)\n\
 {\n\
-sensorErode(sensorRadius, pointEC);\n\
 czm_materialInput materialInput = getMaterialInput(sensorRadius, pointEC, normalEC);\n\
 czm_material material = czm_getSilhouetteMaterial(materialInput);\n\
 vec3 positionToEyeEC = normalize(-v_positionEC);\n\
@@ -48772,13 +49405,6 @@ define('Scene/ComplexConicSensorVolume',[
          */
         this.intersectionColor = (typeof t.intersectionColor !== 'undefined') ? Color.clone(t.intersectionColor) : Color.clone(Color.WHITE);
 
-        /**
-         * DOC_TBA
-         *
-         * @type Number
-         */
-        this.erosion = (typeof t.erosion === 'undefined') ? 1.0 : t.erosion;
-
         var that = this;
         this._uniforms = {
             u_sensorRadius : function() {
@@ -48801,9 +49427,6 @@ define('Scene/ComplexConicSensorVolume',[
             },
             u_intersectionColor : function() {
                 return that.intersectionColor;
-            },
-            u_erosion : function() {
-                return that.erosion;
             }
         };
         this._mode = SceneMode.SCENE3D;
@@ -57072,13 +57695,13 @@ define('Renderer/Context',[
      * // Example 1. Create a stream index buffer of unsigned shorts that is
      * // 16 bytes in size.
      * var buffer = context.createIndexBuffer(16, BufferUsage.STREAM_DRAW,
-     *     IndexType.unsignedShort);
+     *     IndexDatatype.UNSIGNED_SHORT);
      *
      * ////////////////////////////////////////////////////////////////////////////////
      *
      * // Example 2. Create a static index buffer containing three unsigned shorts.
      * var buffer = context.createIndexBuffer(new Uint16Array([0, 1, 2]),
-     *     BufferUsage.STATIC_DRAW, IndexType.unsignedShort)
+     *     BufferUsage.STATIC_DRAW, IndexDatatype.UNSIGNED_SHORT)
      */
     Context.prototype.createIndexBuffer = function(typedArrayOrSizeInBytes, usage, indexDatatype) {
         var bytesPerIndex;
@@ -57287,6 +57910,7 @@ define('Renderer/Context',[
         // Use premultiplied alpha for opaque textures should perform better on Chrome:
         // http://media.tojicode.com/webglCamp4/#20
         var preMultiplyAlpha = description.preMultiplyAlpha || pixelFormat === PixelFormat.RGB || pixelFormat === PixelFormat.LUMINANCE;
+        var flipY = defaultValue(description.flipY, true);
 
         var gl = this._gl;
         var textureTarget = gl.TEXTURE_2D;
@@ -57298,7 +57922,7 @@ define('Renderer/Context',[
         if (source) {
             // TODO: _gl.pixelStorei(_gl._UNPACK_ALIGNMENT, 4);
             gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, preMultiplyAlpha);
-            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, flipY);
 
             if (source.arrayBufferView) {
                 // Source: typed array
@@ -57312,7 +57936,7 @@ define('Renderer/Context',[
         }
         gl.bindTexture(textureTarget, null);
 
-        return new Texture(gl, this._textureFilterAnisotropic, textureTarget, texture, pixelFormat, pixelDatatype, width, height, preMultiplyAlpha);
+        return new Texture(gl, this._textureFilterAnisotropic, textureTarget, texture, pixelFormat, pixelDatatype, width, height, preMultiplyAlpha, flipY);
     };
 
     /**
@@ -57496,6 +58120,7 @@ define('Renderer/Context',[
         // Use premultiplied alpha for opaque textures should perform better on Chrome:
         // http://media.tojicode.com/webglCamp4/#20
         var preMultiplyAlpha = description.preMultiplyAlpha || ((pixelFormat === PixelFormat.RGB) || (pixelFormat === PixelFormat.LUMINANCE));
+        var flipY = defaultValue(description.flipY, true);
 
         var gl = this._gl;
         var textureTarget = gl.TEXTURE_CUBE_MAP;
@@ -57515,7 +58140,7 @@ define('Renderer/Context',[
         if (source) {
             // TODO: _gl.pixelStorei(_gl._UNPACK_ALIGNMENT, 4);
             gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, preMultiplyAlpha);
-            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, flipY);
 
             createFace(gl.TEXTURE_CUBE_MAP_POSITIVE_X, source.positiveX);
             createFace(gl.TEXTURE_CUBE_MAP_NEGATIVE_X, source.negativeX);
@@ -57533,7 +58158,7 @@ define('Renderer/Context',[
         }
         gl.bindTexture(textureTarget, null);
 
-        return new CubeMap(gl, this._textureFilterAnisotropic, textureTarget, texture, pixelFormat, pixelDatatype, size, preMultiplyAlpha);
+        return new CubeMap(gl, this._textureFilterAnisotropic, textureTarget, texture, pixelFormat, pixelDatatype, size, preMultiplyAlpha, flipY);
     };
 
     /**
@@ -61774,7 +62399,7 @@ define('Scene/BingMapsImageryProvider',[
      * @alias BingMapsImageryProvider
      * @constructor
      *
-     * @param {String} description.server The name of the Bing Maps server hosting the imagery.
+     * @param {String} description.url The url of the Bing Maps server hosting the imagery.
      * @param {String} [description.key] An optional Bing Maps key, which can be created at
      *        <a href='https://www.bingmapsportal.com/'>https://www.bingmapsportal.com/</a>.
      * @param {Enumeration} [description.mapStyle=BingMapsStyle.AERIAL] The type of Bing Maps
@@ -61792,7 +62417,7 @@ define('Scene/BingMapsImageryProvider',[
      * @param {Proxy} [description.proxy] A proxy to use for requests. This object is
      *        expected to have a getURL function which returns the proxied URL, if needed.
      *
-     * @exception {DeveloperError} <code>description.server</code> is required.
+     * @exception {DeveloperError} <code>description.url</code> is required.
      *
      * @see ArcGisMapServerImageryProvider
      * @see OpenStreetMapImageryProvider
@@ -61805,19 +62430,19 @@ define('Scene/BingMapsImageryProvider',[
      *
      * @example
      * var bing = new BingMapsImageryProvider({
-     *     server : 'dev.virtualearth.net',
+     *     url : 'http://dev.virtualearth.net',
      *     mapStyle : BingMapsStyle.AERIAL
      * });
      */
     var BingMapsImageryProvider = function BingMapsImageryProvider(description) {
         description = defaultValue(description, {});
 
-        if (typeof description.server === 'undefined') {
-            throw new DeveloperError('description.server is required.');
+        if (typeof description.url === 'undefined') {
+            throw new DeveloperError('description.url is required.');
         }
 
-        this._server = description.server;
-        this._key = defaultValue(description.key, 'AquXz3981-1ND5jGs8qQn7R7YUP8qkWi77yZSVM7o3nIvzb-Mg0W2Ta57xuUyywX');
+        this._url = description.url;
+        this._key = defaultValue(description.key, 'Auc5O1omLRY_ub2safz0m2vJbzhYhSfTkO9eRDtLOauonIVoAiy6BV8c-L4jl1MT');
         this._mapStyle = defaultValue(description.mapStyle, BingMapsStyle.AERIAL);
         this._tileDiscardPolicy = description.tileDiscardPolicy;
         this._proxy = description.proxy;
@@ -61850,7 +62475,7 @@ define('Scene/BingMapsImageryProvider',[
 
         this._ready = false;
 
-        var metadataUrl = 'http://' + this._server + '/REST/v1/Imagery/Metadata/' + this._mapStyle.imagerySetName + '?key=' + this._key;
+        var metadataUrl = this._url + '/REST/v1/Imagery/Metadata/' + this._mapStyle.imagerySetName + '?key=' + this._key;
         var that = this;
         var metadataError;
 
@@ -61893,14 +62518,14 @@ define('Scene/BingMapsImageryProvider',[
     };
 
     /**
-     * Gets the name of the Bing Maps server hosting the imagery.
+     * Gets the name of the Bing Maps server url hosting the imagery.
      *
      * @memberof BingMapsImageryProvider
      *
-     * @returns {String} The server name.
+     * @returns {String} The url.
      */
-    BingMapsImageryProvider.prototype.getServer = function() {
-        return this._server;
+    BingMapsImageryProvider.prototype.getUrl = function() {
+        return this._url;
     };
 
     /**
@@ -71761,13 +72386,6 @@ define('Scene/RectangularPyramidSensorVolume',[
          */
         this.intersectionColor = (typeof t.intersectionColor !== 'undefined') ? Color.clone(t.intersectionColor) : Color.clone(Color.WHITE);
 
-        /**
-         * DOC_TBA
-         *
-         * @type Number
-         */
-        this.erosion = (typeof t.erosion === 'undefined') ? 1.0 : t.erosion;
-
         t._pickIdThis = t._pickIdThis || this;
         this._customSensor = new CustomSensorVolume(t);
     };
@@ -71795,7 +72413,6 @@ define('Scene/RectangularPyramidSensorVolume',[
         s.radius = this.radius;
         s.material = this.material;
         s.intersectionColor = this.intersectionColor;
-        s.erosion = this.erosion;
 
         if ((this._xHalfAngle !== this.xHalfAngle) || (this._yHalfAngle !== this.yHalfAngle)) {
 
@@ -73212,6 +73829,10 @@ define('Scene/Scene',[
 
             // PERFORMANCE_IDEA: sort bins
             frustumCommands.commands.push(command);
+
+            if (command.executeInClosestFrustum) {
+                break;
+            }
         }
     }
 
@@ -75920,7 +76541,7 @@ define('Scene/WebMapServiceImageryProvider',[
      * @example
      * var provider = new WebMapServiceImageryProvider({
      *     url: 'http://sampleserver1.arcgisonline.com/ArcGIS/services/Specialty/ESRI_StatesCitiesRivers_USA/MapServer/WMSServer',
-     *     layerName: '0',
+     *     layers : '0',
      *     proxy: new Cesium.DefaultProxy('/proxy/')
      * });
      */
@@ -76238,8 +76859,9 @@ define('Scene/WebMapServiceImageryProvider',[
 
     return WebMapServiceImageryProvider;
 });
+
 /*global define*/
-define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Core/BoundingRectangle', 'Core/BoundingSphere', 'Core/BoxTessellator', 'Core/Cartesian2', 'Core/Cartesian3', 'Core/Cartesian4', 'Core/Cartographic', 'Core/CatmullRomSpline', 'Core/Clock', 'Core/ClockRange', 'Core/ClockStep', 'Core/Color', 'Core/ComponentDatatype', 'Core/CubeMapEllipsoidTessellator', 'Core/CubicRealPolynomial', 'Core/DefaultProxy', 'Core/DeveloperError', 'Core/Ellipsoid', 'Core/EllipsoidTangentPlane', 'Core/EllipsoidalOccluder', 'Core/EncodedCartesian3', 'Core/Enumeration', 'Core/Event', 'Core/Extent', 'Core/ExtentTessellator', 'Core/FAR', 'Core/FeatureDetection', 'Core/Fullscreen', 'Core/GeographicProjection', 'Core/HermitePolynomialApproximation', 'Core/HermiteSpline', 'Core/IndexDatatype', 'Core/Intersect', 'Core/IntersectionTests', 'Core/Interval', 'Core/Iso8601', 'Core/JulianDate', 'Core/KeyboardEventModifier', 'Core/LagrangePolynomialApproximation', 'Core/LeapSecond', 'Core/LinearApproximation', 'Core/Math', 'Core/Matrix2', 'Core/Matrix3', 'Core/Matrix4', 'Core/MeshFilters', 'Core/Occluder', 'Core/OrientationInterpolator', 'Core/PlaneTessellator', 'Core/PolygonPipeline', 'Core/PolylinePipeline', 'Core/PrimitiveType', 'Core/QuadraticRealPolynomial', 'Core/QuarticRealPolynomial', 'Core/Quaternion', 'Core/Queue', 'Core/Ray', 'Core/RequestErrorEvent', 'Core/RuntimeError', 'Core/ScreenSpaceEventHandler', 'Core/ScreenSpaceEventType', 'Core/Shapes', 'Core/Spherical', 'Core/TaskProcessor', 'Core/TimeConstants', 'Core/TimeInterval', 'Core/TimeIntervalCollection', 'Core/TimeStandard', 'Core/Tipsify', 'Core/Transforms', 'Core/TridiagonalSystemSolver', 'Core/Visibility', 'Core/WebMercatorProjection', 'Core/WindingOrder', 'Core/binarySearch', 'Core/clone', 'Core/combine', 'Core/computeSunPosition', 'Core/createGuid', 'Core/defaultValue', 'Core/destroyObject', 'Core/freezeObject', 'Core/getImagePixels', 'Core/isLeapYear', 'Core/jsonp', 'Core/loadArrayBuffer', 'Core/loadImage', 'Core/loadJson', 'Core/loadText', 'Core/loadXML', 'Core/pointInsideTriangle2D', 'Core/requestAnimationFrame', 'Core/throttleRequestByServer', 'Core/writeTextToCanvas', 'DynamicScene/CompositeDynamicObjectCollection', 'DynamicScene/CzmlBoolean', 'DynamicScene/CzmlCartesian2', 'DynamicScene/CzmlCartesian3', 'DynamicScene/CzmlCartographic', 'DynamicScene/CzmlColor', 'DynamicScene/CzmlDefaults', 'DynamicScene/CzmlHorizontalOrigin', 'DynamicScene/CzmlImage', 'DynamicScene/CzmlLabelStyle', 'DynamicScene/CzmlNumber', 'DynamicScene/CzmlString', 'DynamicScene/CzmlUnitCartesian3', 'DynamicScene/CzmlUnitQuaternion', 'DynamicScene/CzmlUnitSpherical', 'DynamicScene/CzmlVerticalOrigin', 'DynamicScene/DynamicBillboard', 'DynamicScene/DynamicBillboardVisualizer', 'DynamicScene/DynamicColorMaterial', 'DynamicScene/DynamicCone', 'DynamicScene/DynamicConeVisualizer', 'DynamicScene/DynamicConeVisualizerUsingCustomSensor', 'DynamicScene/DynamicDirectionsProperty', 'DynamicScene/DynamicEllipsoid', 'DynamicScene/DynamicEllipsoidVisualizer', 'DynamicScene/DynamicImageMaterial', 'DynamicScene/DynamicLabel', 'DynamicScene/DynamicLabelVisualizer', 'DynamicScene/DynamicMaterialProperty', 'DynamicScene/DynamicObject', 'DynamicScene/DynamicObjectCollection', 'DynamicScene/DynamicObjectView', 'DynamicScene/DynamicPath', 'DynamicScene/DynamicPathVisualizer', 'DynamicScene/DynamicPoint', 'DynamicScene/DynamicPointVisualizer', 'DynamicScene/DynamicPolygon', 'DynamicScene/DynamicPolygonVisualizer', 'DynamicScene/DynamicPolyline', 'DynamicScene/DynamicPolylineVisualizer', 'DynamicScene/DynamicPositionProperty', 'DynamicScene/DynamicProperty', 'DynamicScene/DynamicPyramid', 'DynamicScene/DynamicPyramidVisualizer', 'DynamicScene/DynamicVertexPositionsProperty', 'DynamicScene/ReferenceProperty', 'DynamicScene/VisualizerCollection', 'DynamicScene/processCzml', 'Renderer/BlendEquation', 'Renderer/BlendFunction', 'Renderer/BlendingState', 'Renderer/Buffer', 'Renderer/BufferUsage', 'Renderer/ClearCommand', 'Renderer/CommandLists', 'Renderer/Context', 'Renderer/CubeMap', 'Renderer/CubeMapFace', 'Renderer/CullFace', 'Renderer/DepthFunction', 'Renderer/DrawCommand', 'Renderer/Framebuffer', 'Renderer/MipmapHint', 'Renderer/PickFramebuffer', 'Renderer/PixelDatatype', 'Renderer/PixelFormat', 'Renderer/Renderbuffer', 'Renderer/RenderbufferFormat', 'Renderer/ShaderCache', 'Renderer/ShaderProgram', 'Renderer/StencilFunction', 'Renderer/StencilOperation', 'Renderer/Texture', 'Renderer/TextureAtlas', 'Renderer/TextureAtlasBuilder', 'Renderer/TextureMagnificationFilter', 'Renderer/TextureMinificationFilter', 'Renderer/TextureWrap', 'Renderer/UniformDatatype', 'Renderer/UniformState', 'Renderer/VertexArray', 'Renderer/VertexArrayFacade', 'Renderer/VertexLayout', 'Renderer/loadCubeMap', 'Scene/AnimationCollection', 'Scene/ArcGisMapServerImageryProvider', 'Scene/Billboard', 'Scene/BillboardCollection', 'Scene/BingMapsImageryProvider', 'Scene/BingMapsStyle', 'Scene/Camera', 'Scene/CameraColumbusViewMode', 'Scene/CameraController', 'Scene/CameraEventAggregator', 'Scene/CameraEventType', 'Scene/CameraFlightPath', 'Scene/CentralBody', 'Scene/CentralBodySurface', 'Scene/CentralBodySurfaceShaderSet', 'Scene/ComplexConicSensorVolume', 'Scene/CompositePrimitive', 'Scene/CullingVolume', 'Scene/CustomSensorVolume', 'Scene/DiscardMissingTileImagePolicy', 'Scene/EllipsoidPrimitive', 'Scene/EllipsoidTerrainProvider', 'Scene/FrameState', 'Scene/FrustumCommands', 'Scene/GeographicTilingScheme', 'Scene/HorizontalOrigin', 'Scene/Imagery', 'Scene/ImageryLayer', 'Scene/ImageryLayerCollection', 'Scene/ImageryProvider', 'Scene/ImageryProviderError', 'Scene/ImageryState', 'Scene/Label', 'Scene/LabelCollection', 'Scene/LabelStyle', 'Scene/Material', 'Scene/NeverTileDiscardPolicy', 'Scene/OpenStreetMapImageryProvider', 'Scene/OrthographicFrustum', 'Scene/PerformanceDisplay', 'Scene/PerspectiveFrustum', 'Scene/PerspectiveOffCenterFrustum', 'Scene/Polygon', 'Scene/Polyline', 'Scene/PolylineCollection', 'Scene/Projections', 'Scene/RectangularPyramidSensorVolume', 'Scene/Scene', 'Scene/SceneMode', 'Scene/SceneTransitioner', 'Scene/ScreenSpaceCameraController', 'Scene/SensorVolumeCollection', 'Scene/SingleTileImageryProvider', 'Scene/SkyAtmosphere', 'Scene/SkyBox', 'Scene/TerrainProvider', 'Scene/TexturePool', 'Scene/Tile', 'Scene/TileDiscardPolicy', 'Scene/TileImagery', 'Scene/TileLoadQueue', 'Scene/TileMapServiceImageryProvider', 'Scene/TileReplacementQueue', 'Scene/TileState', 'Scene/TilingScheme', 'Scene/VerticalOrigin', 'Scene/ViewportQuad', 'Scene/WebMapServiceImageryProvider', 'Scene/WebMercatorTilingScheme', 'Shaders/BillboardCollectionFS', 'Shaders/BillboardCollectionVS', 'Shaders/BuiltinFunctions', 'Shaders/CentralBodyFS', 'Shaders/CentralBodyFSDepth', 'Shaders/CentralBodyFSPole', 'Shaders/CentralBodyVS', 'Shaders/CentralBodyVSDepth', 'Shaders/CentralBodyVSPole', 'Shaders/ComplexConicSensorVolumeFS', 'Shaders/ComplexConicSensorVolumeVS', 'Shaders/ConstructiveSolidGeometry', 'Shaders/CustomSensorVolumeFS', 'Shaders/CustomSensorVolumeVS', 'Shaders/EllipsoidFS', 'Shaders/EllipsoidVS', 'Shaders/Materials/AsphaltMaterial', 'Shaders/Materials/BlobMaterial', 'Shaders/Materials/BrickMaterial', 'Shaders/Materials/BumpMapMaterial', 'Shaders/Materials/CementMaterial', 'Shaders/Materials/CheckerboardMaterial', 'Shaders/Materials/DotMaterial', 'Shaders/Materials/FacetMaterial', 'Shaders/Materials/FresnelMaterial', 'Shaders/Materials/GrassMaterial', 'Shaders/Materials/NormalMapMaterial', 'Shaders/Materials/ReflectionMaterial', 'Shaders/Materials/RefractionMaterial', 'Shaders/Materials/StripeMaterial', 'Shaders/Materials/TieDyeMaterial', 'Shaders/Materials/Water', 'Shaders/Materials/WoodMaterial', 'Shaders/Noise', 'Shaders/PolygonFS', 'Shaders/PolygonFSPick', 'Shaders/PolygonVS', 'Shaders/PolygonVSPick', 'Shaders/PolylineFS', 'Shaders/PolylineVS', 'Shaders/Ray', 'Shaders/ReprojectWebMercatorFS', 'Shaders/ReprojectWebMercatorVS', 'Shaders/SensorVolume', 'Shaders/SkyAtmosphereFS', 'Shaders/SkyAtmosphereVS', 'Shaders/SkyBoxFS', 'Shaders/SkyBoxVS', 'Shaders/ViewportQuadFS', 'Shaders/ViewportQuadVS', 'ThirdParty/Tween', 'ThirdParty/Uri', 'ThirdParty/measureText', 'ThirdParty/sprintf', 'ThirdParty/when'], function(Core_AnimationController, Core_AxisAlignedBoundingBox, Core_BoundingRectangle, Core_BoundingSphere, Core_BoxTessellator, Core_Cartesian2, Core_Cartesian3, Core_Cartesian4, Core_Cartographic, Core_CatmullRomSpline, Core_Clock, Core_ClockRange, Core_ClockStep, Core_Color, Core_ComponentDatatype, Core_CubeMapEllipsoidTessellator, Core_CubicRealPolynomial, Core_DefaultProxy, Core_DeveloperError, Core_Ellipsoid, Core_EllipsoidTangentPlane, Core_EllipsoidalOccluder, Core_EncodedCartesian3, Core_Enumeration, Core_Event, Core_Extent, Core_ExtentTessellator, Core_FAR, Core_FeatureDetection, Core_Fullscreen, Core_GeographicProjection, Core_HermitePolynomialApproximation, Core_HermiteSpline, Core_IndexDatatype, Core_Intersect, Core_IntersectionTests, Core_Interval, Core_Iso8601, Core_JulianDate, Core_KeyboardEventModifier, Core_LagrangePolynomialApproximation, Core_LeapSecond, Core_LinearApproximation, Core_Math, Core_Matrix2, Core_Matrix3, Core_Matrix4, Core_MeshFilters, Core_Occluder, Core_OrientationInterpolator, Core_PlaneTessellator, Core_PolygonPipeline, Core_PolylinePipeline, Core_PrimitiveType, Core_QuadraticRealPolynomial, Core_QuarticRealPolynomial, Core_Quaternion, Core_Queue, Core_Ray, Core_RequestErrorEvent, Core_RuntimeError, Core_ScreenSpaceEventHandler, Core_ScreenSpaceEventType, Core_Shapes, Core_Spherical, Core_TaskProcessor, Core_TimeConstants, Core_TimeInterval, Core_TimeIntervalCollection, Core_TimeStandard, Core_Tipsify, Core_Transforms, Core_TridiagonalSystemSolver, Core_Visibility, Core_WebMercatorProjection, Core_WindingOrder, Core_binarySearch, Core_clone, Core_combine, Core_computeSunPosition, Core_createGuid, Core_defaultValue, Core_destroyObject, Core_freezeObject, Core_getImagePixels, Core_isLeapYear, Core_jsonp, Core_loadArrayBuffer, Core_loadImage, Core_loadJson, Core_loadText, Core_loadXML, Core_pointInsideTriangle2D, Core_requestAnimationFrame, Core_throttleRequestByServer, Core_writeTextToCanvas, DynamicScene_CompositeDynamicObjectCollection, DynamicScene_CzmlBoolean, DynamicScene_CzmlCartesian2, DynamicScene_CzmlCartesian3, DynamicScene_CzmlCartographic, DynamicScene_CzmlColor, DynamicScene_CzmlDefaults, DynamicScene_CzmlHorizontalOrigin, DynamicScene_CzmlImage, DynamicScene_CzmlLabelStyle, DynamicScene_CzmlNumber, DynamicScene_CzmlString, DynamicScene_CzmlUnitCartesian3, DynamicScene_CzmlUnitQuaternion, DynamicScene_CzmlUnitSpherical, DynamicScene_CzmlVerticalOrigin, DynamicScene_DynamicBillboard, DynamicScene_DynamicBillboardVisualizer, DynamicScene_DynamicColorMaterial, DynamicScene_DynamicCone, DynamicScene_DynamicConeVisualizer, DynamicScene_DynamicConeVisualizerUsingCustomSensor, DynamicScene_DynamicDirectionsProperty, DynamicScene_DynamicEllipsoid, DynamicScene_DynamicEllipsoidVisualizer, DynamicScene_DynamicImageMaterial, DynamicScene_DynamicLabel, DynamicScene_DynamicLabelVisualizer, DynamicScene_DynamicMaterialProperty, DynamicScene_DynamicObject, DynamicScene_DynamicObjectCollection, DynamicScene_DynamicObjectView, DynamicScene_DynamicPath, DynamicScene_DynamicPathVisualizer, DynamicScene_DynamicPoint, DynamicScene_DynamicPointVisualizer, DynamicScene_DynamicPolygon, DynamicScene_DynamicPolygonVisualizer, DynamicScene_DynamicPolyline, DynamicScene_DynamicPolylineVisualizer, DynamicScene_DynamicPositionProperty, DynamicScene_DynamicProperty, DynamicScene_DynamicPyramid, DynamicScene_DynamicPyramidVisualizer, DynamicScene_DynamicVertexPositionsProperty, DynamicScene_ReferenceProperty, DynamicScene_VisualizerCollection, DynamicScene_processCzml, Renderer_BlendEquation, Renderer_BlendFunction, Renderer_BlendingState, Renderer_Buffer, Renderer_BufferUsage, Renderer_ClearCommand, Renderer_CommandLists, Renderer_Context, Renderer_CubeMap, Renderer_CubeMapFace, Renderer_CullFace, Renderer_DepthFunction, Renderer_DrawCommand, Renderer_Framebuffer, Renderer_MipmapHint, Renderer_PickFramebuffer, Renderer_PixelDatatype, Renderer_PixelFormat, Renderer_Renderbuffer, Renderer_RenderbufferFormat, Renderer_ShaderCache, Renderer_ShaderProgram, Renderer_StencilFunction, Renderer_StencilOperation, Renderer_Texture, Renderer_TextureAtlas, Renderer_TextureAtlasBuilder, Renderer_TextureMagnificationFilter, Renderer_TextureMinificationFilter, Renderer_TextureWrap, Renderer_UniformDatatype, Renderer_UniformState, Renderer_VertexArray, Renderer_VertexArrayFacade, Renderer_VertexLayout, Renderer_loadCubeMap, Scene_AnimationCollection, Scene_ArcGisMapServerImageryProvider, Scene_Billboard, Scene_BillboardCollection, Scene_BingMapsImageryProvider, Scene_BingMapsStyle, Scene_Camera, Scene_CameraColumbusViewMode, Scene_CameraController, Scene_CameraEventAggregator, Scene_CameraEventType, Scene_CameraFlightPath, Scene_CentralBody, Scene_CentralBodySurface, Scene_CentralBodySurfaceShaderSet, Scene_ComplexConicSensorVolume, Scene_CompositePrimitive, Scene_CullingVolume, Scene_CustomSensorVolume, Scene_DiscardMissingTileImagePolicy, Scene_EllipsoidPrimitive, Scene_EllipsoidTerrainProvider, Scene_FrameState, Scene_FrustumCommands, Scene_GeographicTilingScheme, Scene_HorizontalOrigin, Scene_Imagery, Scene_ImageryLayer, Scene_ImageryLayerCollection, Scene_ImageryProvider, Scene_ImageryProviderError, Scene_ImageryState, Scene_Label, Scene_LabelCollection, Scene_LabelStyle, Scene_Material, Scene_NeverTileDiscardPolicy, Scene_OpenStreetMapImageryProvider, Scene_OrthographicFrustum, Scene_PerformanceDisplay, Scene_PerspectiveFrustum, Scene_PerspectiveOffCenterFrustum, Scene_Polygon, Scene_Polyline, Scene_PolylineCollection, Scene_Projections, Scene_RectangularPyramidSensorVolume, Scene_Scene, Scene_SceneMode, Scene_SceneTransitioner, Scene_ScreenSpaceCameraController, Scene_SensorVolumeCollection, Scene_SingleTileImageryProvider, Scene_SkyAtmosphere, Scene_SkyBox, Scene_TerrainProvider, Scene_TexturePool, Scene_Tile, Scene_TileDiscardPolicy, Scene_TileImagery, Scene_TileLoadQueue, Scene_TileMapServiceImageryProvider, Scene_TileReplacementQueue, Scene_TileState, Scene_TilingScheme, Scene_VerticalOrigin, Scene_ViewportQuad, Scene_WebMapServiceImageryProvider, Scene_WebMercatorTilingScheme, Shaders_BillboardCollectionFS, Shaders_BillboardCollectionVS, Shaders_BuiltinFunctions, Shaders_CentralBodyFS, Shaders_CentralBodyFSDepth, Shaders_CentralBodyFSPole, Shaders_CentralBodyVS, Shaders_CentralBodyVSDepth, Shaders_CentralBodyVSPole, Shaders_ComplexConicSensorVolumeFS, Shaders_ComplexConicSensorVolumeVS, Shaders_ConstructiveSolidGeometry, Shaders_CustomSensorVolumeFS, Shaders_CustomSensorVolumeVS, Shaders_EllipsoidFS, Shaders_EllipsoidVS, Shaders_Materials_AsphaltMaterial, Shaders_Materials_BlobMaterial, Shaders_Materials_BrickMaterial, Shaders_Materials_BumpMapMaterial, Shaders_Materials_CementMaterial, Shaders_Materials_CheckerboardMaterial, Shaders_Materials_DotMaterial, Shaders_Materials_FacetMaterial, Shaders_Materials_FresnelMaterial, Shaders_Materials_GrassMaterial, Shaders_Materials_NormalMapMaterial, Shaders_Materials_ReflectionMaterial, Shaders_Materials_RefractionMaterial, Shaders_Materials_StripeMaterial, Shaders_Materials_TieDyeMaterial, Shaders_Materials_Water, Shaders_Materials_WoodMaterial, Shaders_Noise, Shaders_PolygonFS, Shaders_PolygonFSPick, Shaders_PolygonVS, Shaders_PolygonVSPick, Shaders_PolylineFS, Shaders_PolylineVS, Shaders_Ray, Shaders_ReprojectWebMercatorFS, Shaders_ReprojectWebMercatorVS, Shaders_SensorVolume, Shaders_SkyAtmosphereFS, Shaders_SkyAtmosphereVS, Shaders_SkyBoxFS, Shaders_SkyBoxVS, Shaders_ViewportQuadFS, Shaders_ViewportQuadVS, ThirdParty_Tween, ThirdParty_Uri, ThirdParty_measureText, ThirdParty_sprintf, ThirdParty_when) {
+define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Core/BoundingRectangle', 'Core/BoundingSphere', 'Core/BoxTessellator', 'Core/Cartesian2', 'Core/Cartesian3', 'Core/Cartesian4', 'Core/Cartographic', 'Core/CatmullRomSpline', 'Core/Clock', 'Core/ClockRange', 'Core/ClockStep', 'Core/Color', 'Core/ComponentDatatype', 'Core/CubeMapEllipsoidTessellator', 'Core/CubicRealPolynomial', 'Core/DefaultProxy', 'Core/DeveloperError', 'Core/Ellipsoid', 'Core/EllipsoidTangentPlane', 'Core/EllipsoidalOccluder', 'Core/EncodedCartesian3', 'Core/Enumeration', 'Core/Event', 'Core/Extent', 'Core/ExtentTessellator', 'Core/FAR', 'Core/FeatureDetection', 'Core/Fullscreen', 'Core/GeographicProjection', 'Core/HermitePolynomialApproximation', 'Core/HermiteSpline', 'Core/IndexDatatype', 'Core/Intersect', 'Core/IntersectionTests', 'Core/Interval', 'Core/Iso8601', 'Core/JulianDate', 'Core/KeyboardEventModifier', 'Core/LagrangePolynomialApproximation', 'Core/LeapSecond', 'Core/LinearApproximation', 'Core/Math', 'Core/Matrix2', 'Core/Matrix3', 'Core/Matrix4', 'Core/MeshFilters', 'Core/Occluder', 'Core/OrientationInterpolator', 'Core/PlaneTessellator', 'Core/PolygonPipeline', 'Core/PolylinePipeline', 'Core/PrimitiveType', 'Core/QuadraticRealPolynomial', 'Core/QuarticRealPolynomial', 'Core/Quaternion', 'Core/Queue', 'Core/Ray', 'Core/RequestErrorEvent', 'Core/RuntimeError', 'Core/ScreenSpaceEventHandler', 'Core/ScreenSpaceEventType', 'Core/Shapes', 'Core/Spherical', 'Core/TaskProcessor', 'Core/TimeConstants', 'Core/TimeInterval', 'Core/TimeIntervalCollection', 'Core/TimeStandard', 'Core/Tipsify', 'Core/Transforms', 'Core/TridiagonalSystemSolver', 'Core/Visibility', 'Core/WebMercatorProjection', 'Core/WindingOrder', 'Core/binarySearch', 'Core/buildModuleUrl', 'Core/clone', 'Core/combine', 'Core/computeSunPosition', 'Core/createGuid', 'Core/defaultValue', 'Core/destroyObject', 'Core/freezeObject', 'Core/getImagePixels', 'Core/isLeapYear', 'Core/jsonp', 'Core/loadArrayBuffer', 'Core/loadImage', 'Core/loadJson', 'Core/loadText', 'Core/loadXML', 'Core/pointInsideTriangle2D', 'Core/requestAnimationFrame', 'Core/throttleRequestByServer', 'Core/writeTextToCanvas', 'DynamicScene/CompositeDynamicObjectCollection', 'DynamicScene/CzmlBoolean', 'DynamicScene/CzmlCartesian2', 'DynamicScene/CzmlCartesian3', 'DynamicScene/CzmlCartographic', 'DynamicScene/CzmlColor', 'DynamicScene/CzmlDefaults', 'DynamicScene/CzmlHorizontalOrigin', 'DynamicScene/CzmlImage', 'DynamicScene/CzmlLabelStyle', 'DynamicScene/CzmlNumber', 'DynamicScene/CzmlString', 'DynamicScene/CzmlUnitCartesian3', 'DynamicScene/CzmlUnitQuaternion', 'DynamicScene/CzmlUnitSpherical', 'DynamicScene/CzmlVerticalOrigin', 'DynamicScene/DynamicBillboard', 'DynamicScene/DynamicBillboardVisualizer', 'DynamicScene/DynamicColorMaterial', 'DynamicScene/DynamicCone', 'DynamicScene/DynamicConeVisualizer', 'DynamicScene/DynamicConeVisualizerUsingCustomSensor', 'DynamicScene/DynamicDirectionsProperty', 'DynamicScene/DynamicEllipsoid', 'DynamicScene/DynamicEllipsoidVisualizer', 'DynamicScene/DynamicImageMaterial', 'DynamicScene/DynamicLabel', 'DynamicScene/DynamicLabelVisualizer', 'DynamicScene/DynamicMaterialProperty', 'DynamicScene/DynamicObject', 'DynamicScene/DynamicObjectCollection', 'DynamicScene/DynamicObjectView', 'DynamicScene/DynamicPath', 'DynamicScene/DynamicPathVisualizer', 'DynamicScene/DynamicPoint', 'DynamicScene/DynamicPointVisualizer', 'DynamicScene/DynamicPolygon', 'DynamicScene/DynamicPolygonVisualizer', 'DynamicScene/DynamicPolyline', 'DynamicScene/DynamicPolylineVisualizer', 'DynamicScene/DynamicPositionProperty', 'DynamicScene/DynamicProperty', 'DynamicScene/DynamicPyramid', 'DynamicScene/DynamicPyramidVisualizer', 'DynamicScene/DynamicVertexPositionsProperty', 'DynamicScene/ReferenceProperty', 'DynamicScene/VisualizerCollection', 'DynamicScene/processCzml', 'Renderer/BlendEquation', 'Renderer/BlendFunction', 'Renderer/BlendingState', 'Renderer/Buffer', 'Renderer/BufferUsage', 'Renderer/ClearCommand', 'Renderer/CommandLists', 'Renderer/Context', 'Renderer/CubeMap', 'Renderer/CubeMapFace', 'Renderer/CullFace', 'Renderer/DepthFunction', 'Renderer/DrawCommand', 'Renderer/Framebuffer', 'Renderer/MipmapHint', 'Renderer/PickFramebuffer', 'Renderer/PixelDatatype', 'Renderer/PixelFormat', 'Renderer/Renderbuffer', 'Renderer/RenderbufferFormat', 'Renderer/ShaderCache', 'Renderer/ShaderProgram', 'Renderer/StencilFunction', 'Renderer/StencilOperation', 'Renderer/Texture', 'Renderer/TextureAtlas', 'Renderer/TextureAtlasBuilder', 'Renderer/TextureMagnificationFilter', 'Renderer/TextureMinificationFilter', 'Renderer/TextureWrap', 'Renderer/UniformDatatype', 'Renderer/UniformState', 'Renderer/VertexArray', 'Renderer/VertexArrayFacade', 'Renderer/VertexLayout', 'Renderer/loadCubeMap', 'Scene/AnimationCollection', 'Scene/ArcGisMapServerImageryProvider', 'Scene/Billboard', 'Scene/BillboardCollection', 'Scene/BingMapsImageryProvider', 'Scene/BingMapsStyle', 'Scene/Camera', 'Scene/CameraColumbusViewMode', 'Scene/CameraController', 'Scene/CameraEventAggregator', 'Scene/CameraEventType', 'Scene/CameraFlightPath', 'Scene/CentralBody', 'Scene/CentralBodySurface', 'Scene/CentralBodySurfaceShaderSet', 'Scene/ComplexConicSensorVolume', 'Scene/CompositePrimitive', 'Scene/CullingVolume', 'Scene/CustomSensorVolume', 'Scene/DiscardMissingTileImagePolicy', 'Scene/EllipsoidPrimitive', 'Scene/EllipsoidTerrainProvider', 'Scene/FrameState', 'Scene/FrustumCommands', 'Scene/GeographicTilingScheme', 'Scene/HorizontalOrigin', 'Scene/Imagery', 'Scene/ImageryLayer', 'Scene/ImageryLayerCollection', 'Scene/ImageryProvider', 'Scene/ImageryProviderError', 'Scene/ImageryState', 'Scene/Label', 'Scene/LabelCollection', 'Scene/LabelStyle', 'Scene/Material', 'Scene/NeverTileDiscardPolicy', 'Scene/OpenStreetMapImageryProvider', 'Scene/OrthographicFrustum', 'Scene/PerformanceDisplay', 'Scene/PerspectiveFrustum', 'Scene/PerspectiveOffCenterFrustum', 'Scene/Polygon', 'Scene/Polyline', 'Scene/PolylineCollection', 'Scene/Projections', 'Scene/RectangularPyramidSensorVolume', 'Scene/Scene', 'Scene/SceneMode', 'Scene/SceneTransitioner', 'Scene/ScreenSpaceCameraController', 'Scene/SensorVolumeCollection', 'Scene/SingleTileImageryProvider', 'Scene/SkyAtmosphere', 'Scene/SkyBox', 'Scene/TerrainProvider', 'Scene/TexturePool', 'Scene/Tile', 'Scene/TileDiscardPolicy', 'Scene/TileImagery', 'Scene/TileLoadQueue', 'Scene/TileMapServiceImageryProvider', 'Scene/TileReplacementQueue', 'Scene/TileState', 'Scene/TilingScheme', 'Scene/VerticalOrigin', 'Scene/ViewportQuad', 'Scene/WebMapServiceImageryProvider', 'Scene/WebMercatorTilingScheme', 'Shaders/BillboardCollectionFS', 'Shaders/BillboardCollectionVS', 'Shaders/BuiltinFunctions', 'Shaders/CentralBodyFS', 'Shaders/CentralBodyFSDepth', 'Shaders/CentralBodyFSPole', 'Shaders/CentralBodyVS', 'Shaders/CentralBodyVSDepth', 'Shaders/CentralBodyVSPole', 'Shaders/ComplexConicSensorVolumeFS', 'Shaders/ComplexConicSensorVolumeVS', 'Shaders/ConstructiveSolidGeometry', 'Shaders/CustomSensorVolumeFS', 'Shaders/CustomSensorVolumeVS', 'Shaders/EllipsoidFS', 'Shaders/EllipsoidVS', 'Shaders/Materials/AsphaltMaterial', 'Shaders/Materials/BlobMaterial', 'Shaders/Materials/BrickMaterial', 'Shaders/Materials/BumpMapMaterial', 'Shaders/Materials/CementMaterial', 'Shaders/Materials/CheckerboardMaterial', 'Shaders/Materials/DotMaterial', 'Shaders/Materials/ErosionMaterial', 'Shaders/Materials/FacetMaterial', 'Shaders/Materials/FresnelMaterial', 'Shaders/Materials/GrassMaterial', 'Shaders/Materials/NormalMapMaterial', 'Shaders/Materials/ReflectionMaterial', 'Shaders/Materials/RefractionMaterial', 'Shaders/Materials/RimLightingMaterial', 'Shaders/Materials/StripeMaterial', 'Shaders/Materials/TieDyeMaterial', 'Shaders/Materials/Water', 'Shaders/Materials/WoodMaterial', 'Shaders/Noise', 'Shaders/PolygonFS', 'Shaders/PolygonFSPick', 'Shaders/PolygonVS', 'Shaders/PolygonVSPick', 'Shaders/PolylineFS', 'Shaders/PolylineVS', 'Shaders/Ray', 'Shaders/ReprojectWebMercatorFS', 'Shaders/ReprojectWebMercatorVS', 'Shaders/SensorVolume', 'Shaders/SkyAtmosphereFS', 'Shaders/SkyAtmosphereVS', 'Shaders/SkyBoxFS', 'Shaders/SkyBoxVS', 'Shaders/ViewportQuadFS', 'Shaders/ViewportQuadVS', 'ThirdParty/Tween', 'ThirdParty/Uri', 'ThirdParty/measureText', 'ThirdParty/sprintf', 'ThirdParty/when'], function(Core_AnimationController, Core_AxisAlignedBoundingBox, Core_BoundingRectangle, Core_BoundingSphere, Core_BoxTessellator, Core_Cartesian2, Core_Cartesian3, Core_Cartesian4, Core_Cartographic, Core_CatmullRomSpline, Core_Clock, Core_ClockRange, Core_ClockStep, Core_Color, Core_ComponentDatatype, Core_CubeMapEllipsoidTessellator, Core_CubicRealPolynomial, Core_DefaultProxy, Core_DeveloperError, Core_Ellipsoid, Core_EllipsoidTangentPlane, Core_EllipsoidalOccluder, Core_EncodedCartesian3, Core_Enumeration, Core_Event, Core_Extent, Core_ExtentTessellator, Core_FAR, Core_FeatureDetection, Core_Fullscreen, Core_GeographicProjection, Core_HermitePolynomialApproximation, Core_HermiteSpline, Core_IndexDatatype, Core_Intersect, Core_IntersectionTests, Core_Interval, Core_Iso8601, Core_JulianDate, Core_KeyboardEventModifier, Core_LagrangePolynomialApproximation, Core_LeapSecond, Core_LinearApproximation, Core_Math, Core_Matrix2, Core_Matrix3, Core_Matrix4, Core_MeshFilters, Core_Occluder, Core_OrientationInterpolator, Core_PlaneTessellator, Core_PolygonPipeline, Core_PolylinePipeline, Core_PrimitiveType, Core_QuadraticRealPolynomial, Core_QuarticRealPolynomial, Core_Quaternion, Core_Queue, Core_Ray, Core_RequestErrorEvent, Core_RuntimeError, Core_ScreenSpaceEventHandler, Core_ScreenSpaceEventType, Core_Shapes, Core_Spherical, Core_TaskProcessor, Core_TimeConstants, Core_TimeInterval, Core_TimeIntervalCollection, Core_TimeStandard, Core_Tipsify, Core_Transforms, Core_TridiagonalSystemSolver, Core_Visibility, Core_WebMercatorProjection, Core_WindingOrder, Core_binarySearch, Core_buildModuleUrl, Core_clone, Core_combine, Core_computeSunPosition, Core_createGuid, Core_defaultValue, Core_destroyObject, Core_freezeObject, Core_getImagePixels, Core_isLeapYear, Core_jsonp, Core_loadArrayBuffer, Core_loadImage, Core_loadJson, Core_loadText, Core_loadXML, Core_pointInsideTriangle2D, Core_requestAnimationFrame, Core_throttleRequestByServer, Core_writeTextToCanvas, DynamicScene_CompositeDynamicObjectCollection, DynamicScene_CzmlBoolean, DynamicScene_CzmlCartesian2, DynamicScene_CzmlCartesian3, DynamicScene_CzmlCartographic, DynamicScene_CzmlColor, DynamicScene_CzmlDefaults, DynamicScene_CzmlHorizontalOrigin, DynamicScene_CzmlImage, DynamicScene_CzmlLabelStyle, DynamicScene_CzmlNumber, DynamicScene_CzmlString, DynamicScene_CzmlUnitCartesian3, DynamicScene_CzmlUnitQuaternion, DynamicScene_CzmlUnitSpherical, DynamicScene_CzmlVerticalOrigin, DynamicScene_DynamicBillboard, DynamicScene_DynamicBillboardVisualizer, DynamicScene_DynamicColorMaterial, DynamicScene_DynamicCone, DynamicScene_DynamicConeVisualizer, DynamicScene_DynamicConeVisualizerUsingCustomSensor, DynamicScene_DynamicDirectionsProperty, DynamicScene_DynamicEllipsoid, DynamicScene_DynamicEllipsoidVisualizer, DynamicScene_DynamicImageMaterial, DynamicScene_DynamicLabel, DynamicScene_DynamicLabelVisualizer, DynamicScene_DynamicMaterialProperty, DynamicScene_DynamicObject, DynamicScene_DynamicObjectCollection, DynamicScene_DynamicObjectView, DynamicScene_DynamicPath, DynamicScene_DynamicPathVisualizer, DynamicScene_DynamicPoint, DynamicScene_DynamicPointVisualizer, DynamicScene_DynamicPolygon, DynamicScene_DynamicPolygonVisualizer, DynamicScene_DynamicPolyline, DynamicScene_DynamicPolylineVisualizer, DynamicScene_DynamicPositionProperty, DynamicScene_DynamicProperty, DynamicScene_DynamicPyramid, DynamicScene_DynamicPyramidVisualizer, DynamicScene_DynamicVertexPositionsProperty, DynamicScene_ReferenceProperty, DynamicScene_VisualizerCollection, DynamicScene_processCzml, Renderer_BlendEquation, Renderer_BlendFunction, Renderer_BlendingState, Renderer_Buffer, Renderer_BufferUsage, Renderer_ClearCommand, Renderer_CommandLists, Renderer_Context, Renderer_CubeMap, Renderer_CubeMapFace, Renderer_CullFace, Renderer_DepthFunction, Renderer_DrawCommand, Renderer_Framebuffer, Renderer_MipmapHint, Renderer_PickFramebuffer, Renderer_PixelDatatype, Renderer_PixelFormat, Renderer_Renderbuffer, Renderer_RenderbufferFormat, Renderer_ShaderCache, Renderer_ShaderProgram, Renderer_StencilFunction, Renderer_StencilOperation, Renderer_Texture, Renderer_TextureAtlas, Renderer_TextureAtlasBuilder, Renderer_TextureMagnificationFilter, Renderer_TextureMinificationFilter, Renderer_TextureWrap, Renderer_UniformDatatype, Renderer_UniformState, Renderer_VertexArray, Renderer_VertexArrayFacade, Renderer_VertexLayout, Renderer_loadCubeMap, Scene_AnimationCollection, Scene_ArcGisMapServerImageryProvider, Scene_Billboard, Scene_BillboardCollection, Scene_BingMapsImageryProvider, Scene_BingMapsStyle, Scene_Camera, Scene_CameraColumbusViewMode, Scene_CameraController, Scene_CameraEventAggregator, Scene_CameraEventType, Scene_CameraFlightPath, Scene_CentralBody, Scene_CentralBodySurface, Scene_CentralBodySurfaceShaderSet, Scene_ComplexConicSensorVolume, Scene_CompositePrimitive, Scene_CullingVolume, Scene_CustomSensorVolume, Scene_DiscardMissingTileImagePolicy, Scene_EllipsoidPrimitive, Scene_EllipsoidTerrainProvider, Scene_FrameState, Scene_FrustumCommands, Scene_GeographicTilingScheme, Scene_HorizontalOrigin, Scene_Imagery, Scene_ImageryLayer, Scene_ImageryLayerCollection, Scene_ImageryProvider, Scene_ImageryProviderError, Scene_ImageryState, Scene_Label, Scene_LabelCollection, Scene_LabelStyle, Scene_Material, Scene_NeverTileDiscardPolicy, Scene_OpenStreetMapImageryProvider, Scene_OrthographicFrustum, Scene_PerformanceDisplay, Scene_PerspectiveFrustum, Scene_PerspectiveOffCenterFrustum, Scene_Polygon, Scene_Polyline, Scene_PolylineCollection, Scene_Projections, Scene_RectangularPyramidSensorVolume, Scene_Scene, Scene_SceneMode, Scene_SceneTransitioner, Scene_ScreenSpaceCameraController, Scene_SensorVolumeCollection, Scene_SingleTileImageryProvider, Scene_SkyAtmosphere, Scene_SkyBox, Scene_TerrainProvider, Scene_TexturePool, Scene_Tile, Scene_TileDiscardPolicy, Scene_TileImagery, Scene_TileLoadQueue, Scene_TileMapServiceImageryProvider, Scene_TileReplacementQueue, Scene_TileState, Scene_TilingScheme, Scene_VerticalOrigin, Scene_ViewportQuad, Scene_WebMapServiceImageryProvider, Scene_WebMercatorTilingScheme, Shaders_BillboardCollectionFS, Shaders_BillboardCollectionVS, Shaders_BuiltinFunctions, Shaders_CentralBodyFS, Shaders_CentralBodyFSDepth, Shaders_CentralBodyFSPole, Shaders_CentralBodyVS, Shaders_CentralBodyVSDepth, Shaders_CentralBodyVSPole, Shaders_ComplexConicSensorVolumeFS, Shaders_ComplexConicSensorVolumeVS, Shaders_ConstructiveSolidGeometry, Shaders_CustomSensorVolumeFS, Shaders_CustomSensorVolumeVS, Shaders_EllipsoidFS, Shaders_EllipsoidVS, Shaders_Materials_AsphaltMaterial, Shaders_Materials_BlobMaterial, Shaders_Materials_BrickMaterial, Shaders_Materials_BumpMapMaterial, Shaders_Materials_CementMaterial, Shaders_Materials_CheckerboardMaterial, Shaders_Materials_DotMaterial, Shaders_Materials_ErosionMaterial, Shaders_Materials_FacetMaterial, Shaders_Materials_FresnelMaterial, Shaders_Materials_GrassMaterial, Shaders_Materials_NormalMapMaterial, Shaders_Materials_ReflectionMaterial, Shaders_Materials_RefractionMaterial, Shaders_Materials_RimLightingMaterial, Shaders_Materials_StripeMaterial, Shaders_Materials_TieDyeMaterial, Shaders_Materials_Water, Shaders_Materials_WoodMaterial, Shaders_Noise, Shaders_PolygonFS, Shaders_PolygonFSPick, Shaders_PolygonVS, Shaders_PolygonVSPick, Shaders_PolylineFS, Shaders_PolylineVS, Shaders_Ray, Shaders_ReprojectWebMercatorFS, Shaders_ReprojectWebMercatorVS, Shaders_SensorVolume, Shaders_SkyAtmosphereFS, Shaders_SkyAtmosphereVS, Shaders_SkyBoxFS, Shaders_SkyBoxVS, Shaders_ViewportQuadFS, Shaders_ViewportQuadVS, ThirdParty_Tween, ThirdParty_Uri, ThirdParty_measureText, ThirdParty_sprintf, ThirdParty_when) {
   
   var Cesium = {
     _shaders : {}
@@ -76321,6 +76943,7 @@ define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Cor
   Cesium.WebMercatorProjection = Core_WebMercatorProjection;
   Cesium.WindingOrder = Core_WindingOrder;
   Cesium.binarySearch = Core_binarySearch;
+  Cesium.buildModuleUrl = Core_buildModuleUrl;
   Cesium.clone = Core_clone;
   Cesium.combine = Core_combine;
   Cesium.computeSunPosition = Core_computeSunPosition;
@@ -76516,12 +77139,14 @@ define('Cesium',['Core/AnimationController', 'Core/AxisAlignedBoundingBox', 'Cor
   Cesium._shaders.CementMaterial = Shaders_Materials_CementMaterial;
   Cesium._shaders.CheckerboardMaterial = Shaders_Materials_CheckerboardMaterial;
   Cesium._shaders.DotMaterial = Shaders_Materials_DotMaterial;
+  Cesium._shaders.ErosionMaterial = Shaders_Materials_ErosionMaterial;
   Cesium._shaders.FacetMaterial = Shaders_Materials_FacetMaterial;
   Cesium._shaders.FresnelMaterial = Shaders_Materials_FresnelMaterial;
   Cesium._shaders.GrassMaterial = Shaders_Materials_GrassMaterial;
   Cesium._shaders.NormalMapMaterial = Shaders_Materials_NormalMapMaterial;
   Cesium._shaders.ReflectionMaterial = Shaders_Materials_ReflectionMaterial;
   Cesium._shaders.RefractionMaterial = Shaders_Materials_RefractionMaterial;
+  Cesium._shaders.RimLightingMaterial = Shaders_Materials_RimLightingMaterial;
   Cesium._shaders.StripeMaterial = Shaders_Materials_StripeMaterial;
   Cesium._shaders.TieDyeMaterial = Shaders_Materials_TieDyeMaterial;
   Cesium._shaders.Water = Shaders_Materials_Water;
