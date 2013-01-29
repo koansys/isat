@@ -635,6 +635,7 @@
     cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
 
     scene.getPrimitives().setCentralBody(cb);
+    scene.skyAtmosphere = new Cesium.SkyAtmosphere(); // make globe stand out from skybox
     scene.skyBox = new Cesium.SkyBox({
         positiveX: SKYBOX_BASE + '/tycho8_px_80.jpg',
         negativeX: SKYBOX_BASE + '/tycho8_mx_80.jpg',
