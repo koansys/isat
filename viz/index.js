@@ -490,28 +490,28 @@
     };
 
     function moveCamera() {
-            var satIdx = selectedSatelliteIdx;
-            var target = Cesium.Cartesian3.ZERO;
-            var up = new Cesium.Cartesian3(0, 0, 1);
-            var billboard, bbnum, max, pos, eye;
+        var satIdx = selectedSatelliteIdx;
+        var target = Cesium.Cartesian3.ZERO;
+        var up = new Cesium.Cartesian3(0, 0, 1);
+        var billboard, bbnum, max, pos, eye;
 
-            for (bbnum = 0, max = satBillboards.getLength(); bbnum < max; bbnum += 1) {
-                billboard = satBillboards.get(bbnum);
-                if (billboard.hasOwnProperty('isSelected')) {
-                    delete billboard.isSelected;
-                    billboard.setColor({red: 1, blue: 1, green: 1, alpha: 1});
-                    billboard.setScale(1.0);
-                }
-                if (bbnum === satIdx) {
-                    billboard = satBillboards.get(satIdx);
-                    billboard.isSelected = true;
-                    billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1});
-                    billboard.setScale(2.0);
-                    pos = billboard.getPosition(); // Cartesian3, but what coordinate system?
-                }
+        for (bbnum = 0, max = satBillboards.getLength(); bbnum < max; bbnum += 1) {
+            billboard = satBillboards.get(bbnum);
+            if (billboard.hasOwnProperty('isSelected')) {
+                delete billboard.isSelected;
+                billboard.setColor({red: 1, blue: 1, green: 1, alpha: 1});
+                billboard.setScale(1.0);
             }
+            if (bbnum === satIdx) {
+                billboard = satBillboards.get(satIdx);
+                billboard.isSelected = true;
+                billboard.setColor({red: 1, blue: 0, green: 1, alpha: 1});
+                billboard.setScale(2.0);
+                pos = billboard.getPosition(); // Cartesian3, but what coordinate system?
+            }
+        }
 
-        if (scene.mode == Cesium.SceneMode.SCENE3D) {
+        if (scene.mode === Cesium.SceneMode.SCENE3D) {
             // TODO: *fly* to 'above' the satellite still looking at Earth
             // Transform to put me "over" satellite location.
             scene.getCamera().transform = Cesium.Matrix4.fromRotationTranslation(
