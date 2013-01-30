@@ -292,7 +292,8 @@
     }
 
     function onResize() {
-        var headerHeight = document.getElementById('header').scrollHeight;
+        //var headerHeight = document.getElementById('header').scrollHeight;
+        var headerHeight = document.getElementById('navigation_buttons').scrollHeight;
         var width = window.innerWidth - getScrollBarWidth();
         var height = window.innerHeight - headerHeight;     // 800x600 minus header
         // var height = cc.scrollHeight;
@@ -351,7 +352,7 @@
     // The W3C has living docs but the API is not standardized in browsers yet.
     // https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
     document.getElementById('fullscreen_button').onclick = function () {
-        var el = document.getElementById('cesiumContainer');
+        var el = document.getElementById('wrapper'); // not just cesiumContainer
         var fsMethod = el.requestFullscreen ||
             el.webkitRequestFullscreen ||
             el.mozRequestFullScreen ||

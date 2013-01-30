@@ -55,10 +55,10 @@
 
   <body>
     <div id="wrapper">
-      <div id="header">
-        <h1>
-          SOT: Satellite Orbit Tracker <span id="time_now"></span>
-        </h1>
+      <h1>
+        SOT: Satellite Orbit Tracker <span id="time_now"></span>
+      </h1>
+      <div id="navigation_buttons">
         <img src="static/images/on-reset.png"
              id="reset_button"
              height="50px"
@@ -84,7 +84,7 @@
              height="50px"
              width="50px"
              title="Use Full Screen" />
-      </div> <!-- /header -->
+      </div> <!-- navigation_buttons -->
       <div id="main">
         <div class="popup" id="satellite_popup" style="display:none;"></div>
         <div id="cesiumContainer">
@@ -203,7 +203,7 @@
         <h3>Maps:</h3>
         <img src="static/images/map-bing.png"
              id="bing_data_button"
-             title="Select Bing Map" />
+             titlewrapp="Select Bing Map" />
         <img src="static/images/mao-openstreet.png"
              id="osm_data_button"
              title="Select OSM Map" />
