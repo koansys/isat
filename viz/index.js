@@ -348,17 +348,29 @@
         }
     };
 
-    // Fullscreen: browser exits via its own mechanism, e.g., ESCAPE key
+    // Toggle Fullscreen
+    // Browser can exit via its own mechanism, e.g., ESCAPE key.
     // The W3C has living docs but the API is not standardized in browsers yet.
     // https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
     document.getElementById('fullscreen_button').onclick = function () {
+        var fsEl = document.fullscreenElement        // w3c
+            ||     document.webkitFullscreenElement
+            ||     document.mozFullScreenElement; // TODO: what for IE?
+        var fsExit = document.exitFullscreen         // w3c
+            ||       document.mozCancelFullScreensa
+            ||       document.webkitExitFullscreen;  // TODO: what for IE?
         var el = document.getElementById('wrapper'); // not just cesiumContainer
-        var fsMethod = el.requestFullscreen ||
-            el.webkitRequestFullscreen ||
-            el.mozRequestFullScreen ||
-            el.msRequestFullScreen;
-        if (typeof fsMethod !== 'undefined' && fsMethod) {
-            fsMethod.call(el);
+        var fsRequest = el.requestFullscreen
+            ||          el.webkitRequestFullscreen
+            ||          el.mozRequestFullScreen
+            ||          el.msRequestFullScreen;
+        console.log('el=' + el + ' fsEl=' + fsEl + ' fsRequest=' + fsRequest + ' fsExit=' + fsExit);
+        if (fsEl && fsExit !== 'undefined' && fsExit) {
+            fsExit.call(document);
+        } else {
+            if (typeof fsRequest !== 'undefined' && fsRequest) {
+                fsRequest.call(el);
+            }
         }
         onResize();
     };
