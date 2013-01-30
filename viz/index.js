@@ -351,19 +351,13 @@
     // The W3C has living docs but the API is not standardized in browsers yet.
     // https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
     document.getElementById('fullscreen_button').onclick = function () {
-        var cesiumContainer = document.getElementById('cesiumContainer');
-        console.log('Fullscreen requested');
-        if (cesiumContainer.requestFullscreen) { // W3c spec, opera
-            console.log('requestFullscreen: w3, opera');
-            cesiumContainer.requestFullscreen();
-        } else if (cesiumContainer.webkitRequestFullscreen) { // Chrome
-            console.log('webkitRequestFullscreen: chrome');
-            cesiumContainer.webkitRequestFullscreen();
-        } else if (cesiumContainer.mozRequestFullScreen) {
-            console.log('requestFullscreen: w3, opera');
-            cesiumContainer.mozRequestFullScreen(); // firefox
-        } else {
-            console.log('Could not find fullscreen feature');
+        var el = document.getElementById('cesiumContainer');
+        var fsMethod = el.requestFullscreen ||
+            el.webkitRequestFullscreen ||
+            el.mozRequestFullScreen ||
+            el.msRequestFullScreen;
+        if (typeof fsMethod !== 'undefined' && fsMethod) {
+            fsMethod.call(el);
         }
         onResize();
     };
