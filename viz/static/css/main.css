@@ -66,6 +66,11 @@ h1 {
     font-size: 1.75em;
     font-weight:bold;
     padding: 5px;
+    /* google Iceland would be nice web font */
+    font-family: impact, arial, trebuchet, verdana, sans-serif;
+    font-style: oblique;
+    background-color: black;
+    color: rgb(94, 237, 0);
 }
 h2 {
     font-size: 1.5em;
