@@ -177,6 +177,12 @@ legend {
     left: 190px;
 }
 
+#fullscreen_button {
+    position: absolute;
+    top: 50px;
+    left: 250px;
+}
+
 .button {
     margin-top: 15px;
     float: right;
