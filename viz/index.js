@@ -357,14 +357,13 @@
             ||     document.webkitFullscreenElement
             ||     document.mozFullScreenElement; // TODO: what for IE?
         var fsExit = document.exitFullscreen         // w3c
-            ||       document.mozCancelFullScreensa
+            ||       document.mozCancelFullScreen
             ||       document.webkitExitFullscreen;  // TODO: what for IE?
         var el = document.getElementById('wrapper'); // not just cesiumContainer
         var fsRequest = el.requestFullscreen
             ||          el.webkitRequestFullscreen
             ||          el.mozRequestFullScreen
             ||          el.msRequestFullScreen;
-        console.log('el=' + el + ' fsEl=' + fsEl + ' fsRequest=' + fsRequest + ' fsExit=' + fsExit);
         if (fsEl && fsExit !== 'undefined' && fsExit) {
             fsExit.call(document);
         } else {
