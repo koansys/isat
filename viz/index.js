@@ -293,9 +293,9 @@
 
     function onResize() {
         //var headerHeight = document.getElementById('header').scrollHeight;
-        var headerHeight = document.getElementById('navigation_buttons').scrollHeight;
+        var headerHeight = document.getElementById('header').scrollHeight;
         var width = window.innerWidth - getScrollBarWidth();
-        var height = window.innerHeight - headerHeight;     // 800x600 minus header
+        var height = window.innerHeight - headerHeight;
         // var height = cc.scrollHeight;
         if (canvas.width === width && canvas.height === height) {
             return;
@@ -451,7 +451,7 @@
         carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
         // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
         carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
-        document.getElementById('satellite_name').innerHTML = 'Satellite: ' + satData[satnum].name;
+        document.getElementById('satellite_name').innerHTML = satData[satnum].name;
         document.getElementById('satellite_id').innerHTML = satData[satnum].noradId;
         document.getElementById('satellite_x').innerHTML = carte.x.toFixed(0);
         document.getElementById('satellite_y').innerHTML = carte.y.toFixed(0);
@@ -695,10 +695,22 @@
     setInterval(function () {
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
         var date = new Date();
-        var displayNow = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+        var h = date.getHours();
+        var hours = (h < 10) ? '0' + h : h;
+        var m = date.getMinutes();
+        var minutes = (m < 10) ? '0' + m : m;
+        var s = date.getSeconds();
+        var seconds = (s < 10) ? '0' + s : s;
+        var displayNow = hours + ':' + minutes + ':' + seconds;
         document.getElementById('local_time').innerHTML = displayNow;
-        var displayUtc = date.getUTCHours() + ':' + date.getUTCMinutes() + ':' + date.getUTCSeconds();
-        document.getElementById('utc_time').innerHTML = displayUtc;
+        var uh = date.getUTCHours();
+        var uhours = (uh < 10) ? '0' + uh : uh;
+        var um = date.getUTCMinutes();
+        var uminutes = (um < 10) ? '0' + um : um;
+        var us = date.getUTCSeconds();
+        var useconds = (us < 10) ? '0' + us : us;
+        var displayuNow = uhours + ':' + uminutes + ':' + useconds;
+        document.getElementById('utc_time').innerHTML = displayuNow;
 
         if (satrecs.length > 0) {
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock

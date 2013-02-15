@@ -38,9 +38,6 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
-body {
-    line-height: 1.25;
-}
 ol, ul {
     list-style: none;
 }
@@ -60,6 +57,36 @@ table {
 #wrap {
     width:100%;
     margin:0 auto;
+}
+
+.bg_image_left {
+    position: absolute;
+    float: left;
+    left: 0px;
+    top: 50px;
+    z-index: 5;
+    pointer-events: none;
+    height: 90%
+}
+
+.bg_image_right {
+    position: absolute;
+    float: right;
+    right: 0px;
+    top: 50px;
+    z-index: 5;
+    pointer-events: none;
+    height: 90%
+}
+
+#header {
+    background: url(../images/Banner.jpg) repeat-x 0 0;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100px;
+    border-bottom: 2px solid #4cf126;
 }
 
 h1 {
@@ -93,64 +120,79 @@ legend {
     width: 100%;
 }
 
-#nav {display: none;}
+#cesiumContainer {
+    position: relative;
+}
+
 #instructions {
     display: none;
-    position: absolute;
-    top: 110px;
+    top: 120px;
     left: 10px;
-    background-color: white;
-    padding: 10px;
     width: 25%;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    opacity: 0.85;
 }
+
 #satellite_form {
     display: none;
-    position: absolute;
-    top: 110px;
+    top: 120px;
     left: 10px;
-    background-color: white;
-    padding: 10px;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    opacity: 0.85;
 }
+
 #map_display {
     display: none;
-    position: absolute;
-    top: 110px;
+    top: 120px;
     left: 10px;
-    background-color: white;
-    padding: 10px;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    opacity: 0.85;
 }
+
 #satellite_display {
     display: none;
-    position: absolute;
-    top: 50px;
+    top: 10px;
     right: 10px;
-    background-color: white;
-    padding: 10px;
-    width: 25%;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    opacity: 0.85;
+    width: 300px;
 }
+
+#satellite_display dl {
+    border: 3px double #ccc;
+    padding: 0.5em;
+}
+
+#satellite_display dt {
+    float: left;
+    clear: left;
+    width: 100px;
+    text-align: right;
+    font-weight: bold;
+    color: white;
+}
+
+#satellite_display dt:after {
+    content: ":";
+}
+
+#satellite_display dd {
+    margin: 0 0 0 110px;
+    padding: 0 0 0.5em 0;
+}
+
+#satellite_display a:link {
+    color: #42d025;
+    text-decoration:none;
+}
+
+#satellite_display a:visited {
+    color: #42d025;
+    text-decoration:none;
+}
+
+#satellite_display a:hover {
+    color: #42d025;
+    text-decoration:underline;
+}
+
 #user_date {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background-color: white;
+    background-color: #2c751d;
+    color: white;
+    font-weight: bold;
     padding: 10px;
-    width: 25%;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
@@ -158,37 +200,34 @@ legend {
 }
 
 /* Buttons */
-#reset_button {
+#navigation_buttons {
     position: absolute;
-    top: 50px;
+    top: 10px;
     left: 10px;
+    z-index: 10;
 }
 
-#instructions_button {
-    position: absolute;
-    top: 50px;
-    left: 70px;
-}
-
-#display_button {
-    position: absolute;
-    top: 50px;
-    left: 130px;
-}
-
-#satellite_button {
-    position: absolute;
-    top: 50px;
-    left: 190px;
-}
-
-#fullscreen_button {
-    position: absolute;
-    top: 50px;
-    left: 250px;
-}
-
-.button {
-    margin-top: 15px;
+.close_button {
     float: right;
+}
+
+.hud_button {
+    height: 70px;
+    width: 70px;
+}
+
+.second_level {
+    padding-left: 15px;
+}
+
+.modal {
+    position: absolute;
+    background-color: #2c751d;
+    color: white;
+    padding: 10px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    opacity: 0.85;
+    z-index: 10;
 }
