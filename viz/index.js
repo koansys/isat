@@ -382,18 +382,21 @@
     // Toggle Map Display Modal
     document.getElementById('display_button').onclick = function () {
         if (document.getElementById('map_display').style.display === 'none') {
+            document.getElementById('display_button').src = 'static/images/Orbit_2.png';
             document.getElementById('map_display').style.display = 'block';
             document.getElementById('satellite_form').style.display = 'none';
             document.getElementById('instructions').style.display = 'none';
         }
         else {
             document.getElementById('map_display').style.display = 'none';
+            document.getElementById('display_button').src = 'static/images/Orbit_1.png';
         }
     };
 
     // Close Map Display Modal
     document.getElementById('map_display_close').onclick = function () {
         document.getElementById('map_display').style.display = 'none';
+        document.getElementById('display_button').src = 'static/images/Orbit_1.png';
     };
 
     // Close Satellite Information Modal
