@@ -54,6 +54,10 @@ table {
     border-spacing: 0;
 }
 
+body {
+    font-family: Sans-Serif;
+}
+
 #wrap {
     width:100%;
     margin:0 auto;
@@ -66,7 +70,7 @@ table {
     top: 50px;
     z-index: 5;
     pointer-events: none;
-    height: 90%
+    height: 95%
 }
 
 .bg_image_right {
@@ -76,7 +80,7 @@ table {
     top: 50px;
     z-index: 5;
     pointer-events: none;
-    height: 90%
+    height: 95%
 }
 
 #header {
@@ -85,8 +89,32 @@ table {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    height: 100px;
+    height: 75px;
     border-bottom: 2px solid #4cf126;
+}
+
+#controls dd {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#controls select {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    width: 350px;
+    border-radius: 4px 4px 4px 4px;
+    color: #555555;
+    display: inline-block;
+    font-size: 14px;
+    height: 25px;
+    line-height: 20px;
+    margin-bottom: 10px;
+    padding: 4px 6px;
+    vertical-align: middle;
+}
+
+#instructions p {
+    padding: 5px;
 }
 
 h1 {
@@ -124,22 +152,71 @@ legend {
     position: relative;
 }
 
+#reset_button {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    background-image: url(../images/Refresh_1.png);
+}
+
+#instructions_button {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    background-image: url(../images/Info_1.png);
+}
+
+#display_button {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    background-image: url(../images/Orbit_1.png);
+}
+
+#satellite_button {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    background-image: url(../images/Satellite_1.png);
+}
+
+#fullscreen_button {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    background-image: url(../images/Expand_1.png);
+}
+
+#zoom_out {
+    width: 182px;
+    height: 40px;
+    display: inline-block;
+    background-image: url(../images/ZoomOut.png);
+}
+
+#zoom_in {
+    width: 182px;
+    height: 40px;
+    display: inline-block;
+    background-image: url(../images/ZoomIn.png);
+}
+
 #instructions {
     display: none;
-    top: 120px;
+    top: 180px;
     left: 10px;
     width: 25%;
 }
 
 #satellite_form {
     display: none;
-    top: 120px;
+    top: 180px;
     left: 10px;
 }
 
 #map_display {
     display: none;
-    top: 120px;
+    top: 180px;
     left: 10px;
 }
 
@@ -202,6 +279,13 @@ legend {
 /* Buttons */
 #navigation_buttons {
     position: absolute;
+    top: 80px;
+    left: 10px;
+    z-index: 10;
+}
+
+#zoom_buttons {
+    position: absolute;
     top: 10px;
     left: 10px;
     z-index: 10;
@@ -230,4 +314,9 @@ legend {
     border-radius: 15px;
     opacity: 0.85;
     z-index: 10;
+}
+
+.perspective_button {
+    padding-top: 5px;
+    padding-right: 10px;
 }

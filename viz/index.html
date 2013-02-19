@@ -57,38 +57,22 @@
     <div id="wrapper">
       <img src="static/images/3D_BG_Left.png" class="bg_image_left" />
       <img src="static/images/3D_BG_Right.png" class="bg_image_right" />
-      <div id="header">
+      <header id="header">
         <img src="static/images/Title.png" alt="SOT: Satellite Oribital Tracker" />
-      </div>
+      </header>
       <div id="main">
         <div id="cesiumContainer">
           <div class="popup" id="satellite_popup"></div>
+          <div id="zoom_buttons" class="modal">
+            <span id="zoom_out"></span>
+            <span id="zoom_in"></span>
+          </div>
           <div id="navigation_buttons" class="modal">
-            <img src="static/images/Refresh_1.png"
-                 class="hud_button"
-                 id="reset_button"
-                 title="Reset"
-                 alt="Reset" />
-            <img src="static/images/Info_1.png"
-                 class="hud_button"
-                 id="instructions_button"
-                 title="Instructions"
-                 alt="Instructions" />
-            <img src="static/images/Orbit_1.png"
-                 class="hud_button"
-                 id="display_button"
-                 title="Display Options"
-                 alt="Display Options" />
-            <img src="static/images/Satellite_1.png"
-                 class="hud_button"
-                 id="satellite_button"
-                 title="Select Satellite"
-                 alt="Select Satellite" />
-            <img src="static/images/Expand_1.png"
-                 class="hud_button"
-                 id="fullscreen_button"
-                 title="Use Full Screen"
-                 alt="Full Screen Mode" />
+            <span id="reset_button" class="hud_button"></span>
+            <span id="instructions_button" class="hud_button"></span>
+            <span id="display_button" class="hud_button"></span>
+            <span id="satellite_button" class="hud_button"></span>
+            <span id="fullscreen_button" class="hud_button"></span>
           </div> <!-- navigation_buttons -->
           <!-- Cesium jQuery updates this with onResize at startup -->
           <canvas id="glCanvas" width="300" height="300" tabindex="1"></canvas>
@@ -101,22 +85,13 @@
             <h2>
               Instructions
             </h2>
-            <p>
-              The satellites are displayed based on calculated position; you
-              can watch them move but it helps to zoom in a bit. You may have
-              to zoon out quite a bit to see satellites with very large
-              orbits. You can rotate the Earth and zoom in or out. If you've
-              allowed geolocation in your browser, a marker will show your
-              current position.
-            </p>
-            <p>
-              Hover over a satelite icon to show its name. Click it to bring
-              up pages/tabs that provide details
-              from <a href="http://science.nasa.gov/">Science.nasa.gov</a>
-              and <a href="http://nssdc.gsfc.nasa.gov/">NSSDC</a>. Select a
-              specific satellite from a group to highlight it and move the
-              camera to its position.
-            </p>
+            <p>The satellites are displayed based on their calculated positions in orbit.</p>
+            <p>Hover your cursor over a satellite to see its name. Click on a satellite to bring up details about that satellite, including links to more information about it from Science.nasa.gov and National Space Science Data Center (NSSDC).</p>
+            <p>Zoom in for a closer look at a satellite's orbit. Zoom out to see satellites in larger orbits and further distances from Earth.</p>
+            <p>Click and drag to rotate the Earth.</p>
+            <p>Click on the Globe Display icon to choose the type of map and perspective you are viewing.</p>
+            <p>By default, the NASA Science satellites are displayed. Click on the Satellite icon to view a different group of satellites or find a specific satellite.</p>
+            <p>If you shared your location with your browser a marker will indicate this position on the map.</p>
           </div> <!-- /insructions -->
           <div id="satellite_form" class="modal">
             <img src="static/images/close.png"
@@ -130,11 +105,11 @@
                 <legend>
                   Select a Satellite:
                 </legend>
-                <div id="controls_satellite">
-                  <span>
-                    <label for="select_satellite_group">
-                      Satellite Group:
-                    </label><br />
+                <dl id="controls_satellite">
+                  <dt>
+                    <label for="select_satellite_group">Satellite Group:</label>
+                  </dt>
+                  <dd>
                     <select id="select_satellite_group">
                       <option value="SMD">
                         NASA Science
@@ -192,15 +167,15 @@
                           <option value="radar"> Radar Calibration</option>
                         </optgroup>
                     </select>
-                  </span><br>
-                  <span>
-                    <label>
-                      Select Satellite:
-                    </label><br />
+                  </dd>
+                  <dt>
+                    <label for="select_satellite">Select Satellite:</label>
+                  </dt>
+                  <dd>
                     <select id="select_satellite">
                     </select>
-                  </span>
-                </div> <!-- /controls_satellite -->
+                  </dd>
+                </dl> <!-- /controls_satellite -->
               </fieldset>
             </form>
           </div> <!-- /satellite_form -->
@@ -245,19 +220,22 @@
                    title="Display 3D"
                    alt="Display 3D"
                    onmouseover="this.src='static/images/3D_2.png'"
-                   onmouseout="this.src='static/images/3D_1.png'"/>
+                   onmouseout="this.src='static/images/3D_1.png'"
+                   class="perspective_button" />
               <img src="static/images/2.5D_1.png"
                    id="columbus_display_button"
                    title="Display Columbus View"
                    alt="Display Columbus View"
                    onmouseover="this.src='static/images/2.5D_2.png'"
-                   onmouseout="this.src='static/images/2.5D_1.png'"/>
+                   onmouseout="this.src='static/images/2.5D_1.png'"
+                   class="perspective_button" />
               <img src="static/images/2D_1.png"
                    id="two_d_display_button"
                    title="Display 2D"
                    alt="Display 2D"
                    onmouseover="this.src='static/images/2D_2.png'"
-                   onmouseout="this.src='static/images/2D_1.png'"/>
+                   onmouseout="this.src='static/images/2D_1.png'"
+                   class="perspective_button" />
             </div> <!-- /perspective -->
           </div> <!-- /map_display -->
           <div id="satellite_display" class="modal">
@@ -286,9 +264,8 @@
               <dt>Height</dt>
                 <dd id="satellite_height"></dd>
             </dl>
-            <h3>More Information</h3>
+            <h3>More on <span id="satellite_name2"></span></h3>
             <a id="science_url" href="#" target="nasascience">National Space Science Data Center</a>
-            <h3>NSSDC</h3>
             <a id="nssdc_url" href="#" target="nssdc">Science Mission Directive</a>
           </div> <!-- /satellite_display -->
         </div> <!-- /cesiumContainer -->

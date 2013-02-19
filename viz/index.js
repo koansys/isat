@@ -321,31 +321,129 @@
 
     // Toggle Instructions Modal.
     document.getElementById('instructions_button').onclick = function () {
-        if (document.getElementById('instructions').style.display === 'none') {
+        if (document.getElementById('instructions').style.display === 'none' ||  !document.getElementById('instructions').style.display) {
             document.getElementById('instructions').style.display = 'block';
+            document.getElementById('instructions_button').style.backgroundImage = "url('static/images/Info_2.png')";
             document.getElementById('satellite_form').style.display = 'none';
+            document.getElementById('satellite_button').style.backgroundImage = "url('static/images/Satellite_1.png')";
             document.getElementById('map_display').style.display = 'none';
+            document.getElementById('display_button').style.backgroundImage = "url('static/images/Orbit_1.png')";
         }
         else {
             document.getElementById('instructions').style.display = 'none';
+            document.getElementById('instructions_button').style.backgroundImage = "url('static/images/Info_1.png')";
         }
     };
 
     // close Instructions Modal
     document.getElementById('instructions_close').onclick = function () {
         document.getElementById('instructions').style.display = 'none';
+            document.getElementById('instructions_button').style.backgroundImage = "url('static/images/Info_1.png')";
     };
 
     // Toggle Satellite
     document.getElementById('satellite_button').onclick = function () {
-        if (document.getElementById('satellite_form').style.display === 'none') {
+        if (document.getElementById('satellite_form').style.display === 'none' ||  !document.getElementById('satellite_form').style.display) {
             document.getElementById('satellite_form').style.display = 'block';
+            document.getElementById('satellite_button').style.backgroundImage = "url('static/images/Satellite_2.png')";
             document.getElementById('map_display').style.display = 'none';
+            document.getElementById('display_button').style.backgroundImage = "url('static/images/Orbit_1.png')";
             document.getElementById('instructions').style.display = 'none';
+            document.getElementById('instructions_button').style.backgroundImage = "url('static/images/Info_1.png')";
         }
         else {
             document.getElementById('satellite_form').style.display = 'none';
+            document.getElementById('satellite_button').style.backgroundImage = "url('static/images/Satellite_1.png')";
         }
+    };
+
+
+    // close Satellite Modal
+    document.getElementById('satellite_form_close').onclick = function () {
+        document.getElementById('satellite_form').style.display = 'none';
+            document.getElementById('satellite_button').style.backgroundImage = "url('static/images/Satellite_1.png')";
+    };
+
+    // Toggle Map Display Modal
+    document.getElementById('display_button').onclick = function () {
+        if (document.getElementById('map_display').style.display === 'none' ||  !document.getElementById('map_display').style.display) {
+            document.getElementById('map_display').style.display = 'block';
+            document.getElementById('display_button').style.backgroundImage = "url('static/images/Orbit_2.png')";
+            document.getElementById('satellite_form').style.display = 'none';
+            document.getElementById('satellite_button').style.backgroundImage = "url('static/images/Satellite_1.png')";
+            document.getElementById('instructions').style.display = 'none';
+            document.getElementById('instructions_button').style.backgroundImage = "url('static/images/Info_1.png')";
+        }
+        else {
+            document.getElementById('map_display').style.display = 'none';
+            document.getElementById('display_button').style.backgroundImage = "url('static/images/Orbit_1.png')";
+        }
+    };
+
+    // Close Map Display Modal
+    document.getElementById('map_display_close').onclick = function () {
+        document.getElementById('map_display').style.display = 'none';
+        document.getElementById('display_button').style.backgroundImage = "url('static/images/Orbit_1.png')";
+    };
+
+    // Hover Over Reset Button
+    document.getElementById('reset_button').onmouseover = function () {
+        document.getElementById('reset_button').style.backgroundImage = "url('static/images/Refresh_2.png')";
+        document.getElementById('instructions_button').style.backgroundImage = "url('static/images/Info_1.png')";
+        document.getElementById('display_button').style.backgroundImage = "url('static/images/Orbit_1.png')";
+        document.getElementById('satellite_button').style.backgroundImage = "url('static/images/Satellite_1.png')";
+        document.getElementById('fullscreen_button').style.backgroundImage = "url('static/images/Expand_1.png')";
+    };
+
+    // Hover Over Instructions Button
+    document.getElementById('instructions_button').onmouseover = function () {
+        document.getElementById('reset_button').style.backgroundImage = "url('static/images/Refresh_1.png')";
+        document.getElementById('instructions_button').style.backgroundImage = "url('static/images/Info_2.png')";
+        document.getElementById('display_button').style.backgroundImage = "url('static/images/Orbit_1.png')";
+        document.getElementById('satellite_button').style.backgroundImage = "url('static/images/Satellite_1.png')";
+        document.getElementById('fullscreen_button').style.backgroundImage = "url('static/images/Expand_1.png')";
+    };
+
+    // Hover Over Display Button
+    document.getElementById('display_button').onmouseover = function () {
+        document.getElementById('reset_button').style.backgroundImage = "url('static/images/Refresh_1.png')";
+        document.getElementById('instructions_button').style.backgroundImage = "url('static/images/Info_1.png')";
+        document.getElementById('display_button').style.backgroundImage = "url('static/images/Orbit_2.png')";
+        document.getElementById('satellite_button').style.backgroundImage = "url('static/images/Satellite_1.png')";
+        document.getElementById('fullscreen_button').style.backgroundImage = "url('static/images/Expand_1.png')";
+    };
+
+    // Hover Over Satellite Button
+    document.getElementById('satellite_button').onmouseover = function () {
+        document.getElementById('reset_button').style.backgroundImage = "url('static/images/Refresh_1.png')";
+        document.getElementById('instructions_button').style.backgroundImage = "url('static/images/Info_1.png')";
+        document.getElementById('display_button').style.backgroundImage = "url('static/images/Orbit_1.png')";
+        document.getElementById('satellite_button').style.backgroundImage = "url('static/images/Satellite_2.png')";
+        document.getElementById('fullscreen_button').style.backgroundImage = "url('static/images/Expand_1.png')";
+    };
+
+    // Hover Over Fullscreen Button
+    document.getElementById('fullscreen_button').onmouseover = function () {
+        document.getElementById('reset_button').style.backgroundImage = "url('static/images/Refresh_1.png')";
+        document.getElementById('instructions_button').style.backgroundImage = "url('static/images/Info_1.png')";
+        document.getElementById('display_button').style.backgroundImage = "url('static/images/Orbit_1.png')";
+        document.getElementById('satellite_button').style.backgroundImage = "url('static/images/Satellite_1.png')";
+        document.getElementById('fullscreen_button').style.backgroundImage = "url('static/images/Expand_2b.png')";
+    };
+
+    // Reset Buttons
+    document.getElementById('navigation_buttons').onmouseout = function () {
+        document.getElementById('reset_button').style.backgroundImage = "url('static/images/Refresh_1.png')";
+        document.getElementById('instructions_button').style.backgroundImage = "url('static/images/Info_1.png')";
+        document.getElementById('display_button').style.backgroundImage = "url('static/images/Orbit_1.png')";
+        document.getElementById('satellite_button').style.backgroundImage = "url('static/images/Satellite_1.png')";
+        document.getElementById('fullscreen_button').style.backgroundImage = "url('static/images/Expand_1.png')";
+    };
+
+    // Close Satellite Information Modal
+    document.getElementById('satellite_display_close').onclick = function () {
+        document.getElementById('satellite_display').style.display = 'none';
+        selectedSatelliteIdx = null;
     };
 
     // Toggle Fullscreen
@@ -366,43 +464,14 @@
             ||          el.msRequestFullScreen;
         if (fsEl && fsExit !== 'undefined' && fsExit) {
             fsExit.call(document);
+            document.getElementById('fullscreen_button').style.backgroundImage = "url('static/images/Expand_1.png')";
         } else {
             if (typeof fsRequest !== 'undefined' && fsRequest) {
                 fsRequest.call(el);
+                document.getElementById('fullscreen_button').style.backgroundImage = "url('static/images/Expand_2.png')";
             }
         }
         onResize();
-    };
-
-    // close Satellite Modal
-    document.getElementById('satellite_form_close').onclick = function () {
-        document.getElementById('satellite_form').style.display = 'none';
-    };
-
-    // Toggle Map Display Modal
-    document.getElementById('display_button').onclick = function () {
-        if (document.getElementById('map_display').style.display === 'none') {
-            document.getElementById('display_button').src = 'static/images/Orbit_2.png';
-            document.getElementById('map_display').style.display = 'block';
-            document.getElementById('satellite_form').style.display = 'none';
-            document.getElementById('instructions').style.display = 'none';
-        }
-        else {
-            document.getElementById('map_display').style.display = 'none';
-            document.getElementById('display_button').src = 'static/images/Orbit_1.png';
-        }
-    };
-
-    // Close Map Display Modal
-    document.getElementById('map_display_close').onclick = function () {
-        document.getElementById('map_display').style.display = 'none';
-        document.getElementById('display_button').src = 'static/images/Orbit_1.png';
-    };
-
-    // Close Satellite Information Modal
-    document.getElementById('satellite_display_close').onclick = function () {
-        document.getElementById('satellite_display').style.display = 'none';
-        selectedSatelliteIdx = null;
     };
 
     // When you hover over a satellite, show its name in a popup
@@ -454,6 +523,7 @@
         // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
         carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
         document.getElementById('satellite_name').innerHTML = satData[satnum].name;
+        document.getElementById('satellite_name2').innerHTML = satData[satnum].name;
         document.getElementById('satellite_id').innerHTML = satData[satnum].noradId;
         document.getElementById('satellite_x').innerHTML = carte.x.toFixed(0);
         document.getElementById('satellite_y').innerHTML = carte.y.toFixed(0);
@@ -548,11 +618,26 @@
                 Cesium.Transforms.computeTemeToPseudoFixedMatrix(new Cesium.JulianDate()),
                 Cesium.Cartesian3.ZERO);
             eye = new Cesium.Cartesian3.clone(pos);
-            eye = eye.multiplyByScalar(1.5); // Zoom out a bit from the satellite
+            eye = eye.multiplyByScalar(2); // Zoom out a bit from the satellite
             scene.getCamera().controller.lookAt(eye, target, up);
         }
     }
 
+    document.getElementById('zoom_out').onclick = function () {
+        var cameraHeight = ellipsoid.cartesianToCartographic(scene.getCamera().position).height;
+        var moveRate = cameraHeight / 10.0;
+        if (scene.mode === Cesium.SceneMode.SCENE3D) {
+            scene.getCamera().controller.moveBackward(moveRate);
+        }
+    };
+
+    document.getElementById('zoom_in').onclick = function () {
+        var cameraHeight = ellipsoid.cartesianToCartographic(scene.getCamera().position).height;
+        var moveRate = cameraHeight / 10.0;
+        if (scene.mode === Cesium.SceneMode.SCENE3D) {
+            scene.getCamera().controller.moveForward(moveRate);
+        }
+    };
 
     // For the given satellite, calculate points for one orbit, starting 'now'
     // and create a polyline to visualize it.
