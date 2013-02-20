@@ -30,27 +30,10 @@
 
     <script type="text/javascript" src="cesium/Cesium.js"></script>
     <script type="text/javascript" src="static/js/modernizr-2.6.2.min.js"></script>
+    <script type="text/javascript" src="static/js/modernizr_load.js"></script>
 
     <link rel="stylesheet" href="static/css/normalize.css">
     <link rel="stylesheet" href="static/css/main.css">
-    <script type="text/javascript">
-      window.onload = function() {
-        if(window.externalHost){
-          var s = document.createElement('script');
-          s.type = 'text/javascript';
-          s.src = 'static/js/modernizr_load_ie.js';
-          var x = document.getElementsByTagName('script')[0];
-          x.parentNode.insertBefore(s, x);
-        }
-        else{
-          var s = document.createElement('script');
-          s.type = 'text/javascript';
-          s.src = 'static/js/modernizr_load.js';
-          var x = document.getElementsByTagName('script')[0];
-          x.parentNode.insertBefore(s, x);
-        }
-      }
-    </script>
   </head>
 
   <body>
