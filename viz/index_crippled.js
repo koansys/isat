@@ -11,7 +11,7 @@
     var WHICHCONST      = 84;   //
     var TYPERUN         = 'm';  // 'm'anual, 'c'atalog, 'v'erification
     var TYPEINPUT       = 'n';  // HACK: 'now'
-    var SAT_POSITIONS_MAX = 10; // Limit numer of positions displayed to save CPU
+    var SAT_POSITIONS_MAX = 25; // Limit numer of positions displayed to save CPU
     var CALC_INTERVAL_MS  = 1000;
 
     function getSatrecsFromTLEFile(fileName) {
