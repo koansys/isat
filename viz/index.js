@@ -294,7 +294,8 @@
     function onResize() {
         //var headerHeight = document.getElementById('header').scrollHeight;
         var headerHeight = document.getElementById('header').scrollHeight;
-        var width = window.innerWidth - getScrollBarWidth();
+        var width = document.getElementById('wrapper').scrollWidth;
+        // var width = window.innerWidth - getScrollBarWidth();
         var height = window.innerHeight - headerHeight;
         // var height = cc.scrollHeight;
         if (canvas.width === width && canvas.height === height) {
