@@ -15,12 +15,14 @@ Build it using the Java `ant` tool (you'll need Java installed)::
 This builds everything: the Cesium library and all the demos and
 documentation.
 
-Copy the three files from .../cesium/Build/Unminified/ to your SOT
-project's .../sot/viz/cesium/ directory:
+Copy recursively the contents .../cesium/Build/CesiumUnminified/ directory::
 
- * 2761612 Dec  5 13:13 Cesium.js
- *   87087 Dec  5 13:13 cesiumWorkerBootstrapper.js
- *  128440 Dec  5 13:13 createVerticesFromExtent.js
+  drwxr-xr-x       102 Jan 25 11:50 Assets
+  -rw-r--r--   2874967 Jan 25 11:54 Cesium.js
+  drwxr-xr-x       136 Jan 25 11:50 Widgets
+  drwxr-xr-x       136 Jan 25 11:50 Workers to your SOT
+
+to your project's .../sot/viz/cesium/ directory.
 
 These are referenced by our index.js file. We use the unminified
 versions so we can debug.

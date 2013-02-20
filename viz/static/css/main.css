@@ -38,9 +38,6 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
-body {
-    line-height: 1.25;
-}
 ol, ul {
     list-style: none;
 }
@@ -57,16 +54,78 @@ table {
     border-spacing: 0;
 }
 
-#wrapper {
-    width: 937px;
+body {
+    font-family: Sans-Serif;
+}
+
+#wrap {
+    width:100%;
     margin:0 auto;
-    position: relative;
+}
+
+.bg_image_left {
+    position: absolute;
+    float: left;
+    left: 0px;
+    top: 50px;
+    z-index: 5;
+    pointer-events: none;
+    height: 95%
+}
+
+.bg_image_right {
+    position: absolute;
+    float: right;
+    right: 0px;
+    top: 50px;
+    z-index: 5;
+    pointer-events: none;
+    height: 95%
+}
+
+#header {
+    background: url(../images/Banner.jpg) repeat-x 0 0;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 80px;
+    border-bottom: 2px solid #4cf126;
+}
+
+#controls dd {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#controls select {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    width: 350px;
+    border-radius: 4px 4px 4px 4px;
+    color: #555555;
+    display: inline-block;
+    font-size: 14px;
+    height: 25px;
+    line-height: 20px;
+    margin-bottom: 10px;
+    padding: 4px 6px;
+    vertical-align: middle;
+}
+
+#instructions p {
+    padding: 5px;
 }
 
 h1 {
     font-size: 1.75em;
     font-weight:bold;
     padding: 5px;
+    /* google Iceland would be nice web font */
+    font-family: impact, arial, trebuchet, verdana, sans-serif;
+    font-style: oblique;
+    background-color: black;
+    color: rgb(94, 237, 0);
 }
 h2 {
     font-size: 1.5em;
@@ -89,64 +148,128 @@ legend {
     width: 100%;
 }
 
-#nav {display: none;}
+#cesiumContainer {
+    position: relative;
+}
+
+#reset_button {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    background-image: url(../images/Refresh_1.png);
+}
+
+#instructions_button {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    background-image: url(../images/Info_1.png);
+}
+
+#display_button {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    background-image: url(../images/Orbit_1.png);
+}
+
+#satellite_button {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    background-image: url(../images/Satellite_1.png);
+}
+
+#fullscreen_button {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    background-image: url(../images/Expand_1.png);
+}
+
+#zoom_out {
+    width: 182px;
+    height: 40px;
+    display: inline-block;
+    background-image: url(../images/ZoomOut.png);
+}
+
+#zoom_in {
+    width: 182px;
+    height: 40px;
+    display: inline-block;
+    background-image: url(../images/ZoomIn.png);
+}
+
 #instructions {
     display: none;
-    position: absolute;
-    top: 70px;
+    top: 180px;
     left: 10px;
-    background-color: white;
-    padding: 10px;
-    width: 50%;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    opacity: 0.85;
+    width: 25%;
 }
+
 #satellite_form {
     display: none;
-    position: absolute;
-    top: 70px;
+    top: 180px;
     left: 10px;
-    background-color: white;
-    padding: 10px;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    opacity: 0.85;
 }
+
 #map_display {
     display: none;
-    position: absolute;
-    top: 70px;
+    top: 180px;
     left: 10px;
-    background-color: white;
-    padding: 10px;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    opacity: 0.85;
 }
+
 #satellite_display {
     display: none;
-    position: absolute;
     top: 10px;
     right: 10px;
-    background-color: white;
-    padding: 10px;
-    width: 30%;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    opacity: 0.85;
+    width: 300px;
 }
+
+#satellite_display dl {
+    border: 3px double #ccc;
+    padding: 0.5em;
+}
+
+#satellite_display dt {
+    float: left;
+    clear: left;
+    width: 100px;
+    text-align: right;
+    font-weight: bold;
+    color: white;
+}
+
+#satellite_display dt:after {
+    content: ":";
+}
+
+#satellite_display dd {
+    margin: 0 0 0 110px;
+    padding: 0 0 0.5em 0;
+}
+
+#satellite_display a:link {
+    color: #42d025;
+    text-decoration:none;
+}
+
+#satellite_display a:visited {
+    color: #42d025;
+    text-decoration:none;
+}
+
+#satellite_display a:hover {
+    color: #42d025;
+    text-decoration:underline;
+}
+
 #user_date {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background-color: white;
+    background-color: #2c751d;
+    color: white;
+    font-weight: bold;
     padding: 10px;
-    width: 25%;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
@@ -154,13 +277,46 @@ legend {
 }
 
 /* Buttons */
-.nav {
+#navigation_buttons {
     position: absolute;
-    top: 10px;
-    left: 10px;ß
+    top: 80px;
+    left: 10px;
+    z-index: 10;
 }
 
-.button {
-    margin-top: 15px;
+#zoom_buttons {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+}
+
+.close_button {
     float: right;
+}
+
+.hud_button {
+    height: 70px;
+    width: 70px;
+}
+
+.second_level {
+    padding-left: 15px;
+}
+
+.modal {
+    position: absolute;
+    background-color: #2c751d;
+    color: white;
+    padding: 10px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    opacity: 0.85;
+    z-index: 10;
+}
+
+.perspective_button {
+    padding-top: 5px;
+    padding-right: 10px;
 }

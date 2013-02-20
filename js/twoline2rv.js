@@ -124,10 +124,10 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
 
     // JavaScript's strings are immutable strings, so convert to
     // mutable array, munge, then convert back to strings.
-    
+
     longstr1 = longstr1.split('');
     longstr2 = longstr2.split('');
-    
+
     // set the implied decimal points since doing a formated read
     // fixes for bad input data values (missing, ...)
     for (j = 10; j <= 15; j += 1) { //"8002B " -> "8002B_"
@@ -325,10 +325,10 @@ function twoline2rv(whichconst, longstr1, longstr2, typerun, typeinput) {
         }
         if (typeinput === 'n') { // HACK: 'now', from cesiumtry
             var now = new Date();
-            jdstart = jday(now.getFullYear(), now.getMonth() /* 0-11 !! */, now.getHours() /* 0-11 */,
-                           now.getHours(), now.getMinutes(), now.getSeconds());
-            jdstop =  jday(now.getFullYear(), now.getMonth() /* 0-11 !! */, now.getHours() /* 0-11 */,
-                           now.getHours(), now.getMinutes(), (now.getSeconds() + 1) % 60); // more than jdstart
+            jdstart = jday(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDay(),
+                           now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+            jdstop =  jday(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDay(),
+                           now.getUTCHours(), now.getUTCMinutes(), (now.getUTCSeconds() + 1) % 60); // more than jdstart
             startmfe = (jdstart - satrec.jdsatepoch) * 1440.0;
             stopmfe  = (jdstop  - satrec.jdsatepoch) * 1440.0;
             deltamin = 60; // minutes, we shouldn't need this
