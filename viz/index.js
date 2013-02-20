@@ -338,7 +338,7 @@
     // close Instructions Modal
     document.getElementById('instructions_close').onclick = function () {
         document.getElementById('instructions').style.display = 'none';
-            document.getElementById('instructions_button').style.backgroundImage = "url('static/images/Info_1.png')";
+        document.getElementById('instructions_button').style.backgroundImage = "url('/media/sot/images/Info_1.png')";
     };
 
     // Toggle Satellite
@@ -361,7 +361,7 @@
     // close Satellite Modal
     document.getElementById('satellite_form_close').onclick = function () {
         document.getElementById('satellite_form').style.display = 'none';
-            document.getElementById('satellite_button').style.backgroundImage = "url('static/images/Satellite_1.png')";
+        document.getElementById('satellite_button').style.backgroundImage = "url('/media/sot/images/Satellite_1.png')";
     };
 
     // Toggle Map Display Modal
