@@ -770,7 +770,7 @@
 
     showGeolocation(scene);
 
-    getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
+    getSatrecsFromTLEFile('/media/sot/tle/' + document.getElementById('select_satellite_group').value + '.txt');
     populateSatelliteSelector();
     populateSatelliteBillboard();
     satelliteHoverDisplay(scene); // should be self-invoked
