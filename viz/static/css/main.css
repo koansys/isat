@@ -191,14 +191,15 @@ legend {
     width: 182px;
     height: 40px;
     display: inline-block;
-    background-image: url(../images/ZoomOut.png);
+    background-image: url(../images/Zoom_out.png);
 }
 
 #zoom_in {
     width: 182px;
     height: 40px;
     display: inline-block;
-    background-image: url(../images/ZoomIn.png);
+    background-image: url(../images/Zoom_in.png);
+    margin-left: -5px;
 }
 
 #instructions {
