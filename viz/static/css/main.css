@@ -201,6 +201,20 @@ legend {
     margin-left: -5px;
 }
 
+#play_button {
+    width: 59px;
+    height: 38px;
+    display: inline-block;
+    background-image: url(../images/Play_2.png);
+}
+
+#pause_button {
+    width: 59px;
+    height: 38px;
+    display: inline-block;
+    background-image: url(../images/Pause_1.png);
+}
+
 #instructions {
     display: none;
     top: 180px;

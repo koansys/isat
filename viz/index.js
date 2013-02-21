@@ -22,6 +22,7 @@
     var WHICHCONST        = 84;   //
     var TYPERUN           = 'm';  // 'm'anual, 'c'atalog, 'v'erification
     var TYPEINPUT         = 'n';  // HACK: 'now'
+    var PLAY              = true;
 
     ///////////////////////////////////////////////////////////////////////////
     // Tile Providers
@@ -445,6 +446,9 @@
     document.getElementById('satellite_display_close').onclick = function () {
         document.getElementById('satellite_display').style.display = 'none';
         selectedSatelliteIdx = null;
+        PLAY = true;
+        document.getElementById('play_button').style.backgroundImage = "url('static/images/Play_2.png')";
+        document.getElementById('pause_button').style.backgroundImage = "url('static/images/Pause_1.png')";
     };
 
     // Toggle Fullscreen
@@ -568,6 +572,7 @@
                     }
                     moveCamera();
                     showOrbit();
+                    displayStats();
                 }
             },
             Cesium.ScreenSpaceEventType.LEFT_CLICK // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
@@ -780,7 +785,21 @@
     /////////////////////////////////////////////////////////////////////////////
     // Run the timeclock, drive the animations
 
+    // TOGGLE Play
+     document.getElementById('play_button').onclick = function () {
+        PLAY = true;
+        document.getElementById('play_button').style.backgroundImage = "url('static/images/Play_2.png')";
+        document.getElementById('pause_button').style.backgroundImage = "url('static/images/Pause_1.png')";
+     };
+     document.getElementById('pause_button').onclick = function () {
+        PLAY = false;
+        document.getElementById('pause_button').style.backgroundImage = "url('static/images/Pause_2.png')";
+        document.getElementById('play_button').style.backgroundImage = "url('static/images/Play_1.png')";
+     };
+
+
     setInterval(function () {
+        console.log(PLAY);
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
         var date = new Date();
         var h = date.getHours();
@@ -800,17 +819,21 @@
         var displayuNow = uhours + ':' + uminutes + ':' + useconds;
         document.getElementById('utc_time').innerHTML = displayuNow;
 
-        if (satrecs.length > 0) {
+        if (satrecs.length > 0 && PLAY) {
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
             updateSatelliteBillboards(sats.positions);
         }
 
-        if (selectedSatelliteIdx !== null) {
-            displayStats();
+        if (selectedSatelliteIdx !== null && PLAY) {
             showOrbit();
+            displayStats();
+        }
+
+        if (selectedSatelliteIdx !== null) {
         }
     }, CALC_INTERVAL_MS);
+
 
     // Loop the clock
 
