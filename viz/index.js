@@ -589,8 +589,31 @@
     // but that would require more images in the textureAtlas.
 
     document.getElementById('select_satellite').onchange = function () {
-        selectedSatelliteIdx = Number(this.value); // '16'
+        // TODO: var defs duped from satelliteClickDetails() above!
+        var scienceUrl = 'http://science.nasa.gov/missions/';
+        var nssdcUrl = 'http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=';
+        var satName, satDesig, scienceUrl, century, nssdcUrl;
+
         document.getElementById('satellite_form').style.display = 'none';
+        selectedSatelliteIdx = Number(this.value); // '16'
+        // set the HREF links in the More on... dialog2
+        // TODO: don't copy/paste replicate this code from above, make a function
+        satName = satData[selectedSatelliteIdx].name.toLowerCase(); // crres
+        satDesig = satData[selectedSatelliteIdx].intlDesig;
+        scienceUrl +=  scienceSlugify(satName) + '/';
+        document.getElementById('science_url').href = scienceUrl;
+        // mangle Intl Designator for NSSDC: 98067A -> 1998-067A
+        if (Number(satDesig.slice(0, 2)) < 20) { // heuristic from JTrack3D source code
+            century = '20';
+        }
+        else {
+            century = '19';
+        }
+        nssdcUrl += century + satDesig.slice(0, 2) + '-' + satDesig.slice(2);
+        document.getElementById('nssdc_url').href = nssdcUrl;
+
+        // TODO: Not sure why this has to be after the URL mangling
+        // but if it's before, we don't display the satellite details pane
         moveCamera();
         showOrbit();
     };
