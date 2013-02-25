@@ -426,9 +426,7 @@
                     satDiv.style.display = ''; // remove any 'none'
                     // The following used to work in <style> section, but stopped; why?
                     satDiv.style.position = 'absolute'; // vital to positioning near cursor
-                    satDiv.style.padding = '2px';
-                    satDiv.style.backgroundColor = '#909090';
-                    satDiv.style.color = 'black';
+                    satDiv.className = "modal";
                 }
                 else {
                     satDiv.style.display = 'none';
