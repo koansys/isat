@@ -62,26 +62,6 @@ body {
     margin:0 auto;
 }
 
-.bg_image_left {
-    position: absolute;
-    float: left;
-    left: 0px;
-    top: 50px;
-    z-index: 5;
-    pointer-events: none;
-    height: 95%
-}
-
-.bg_image_right {
-    position: absolute;
-    float: right;
-    right: 0px;
-    top: 50px;
-    z-index: 5;
-    pointer-events: none;
-    height: 95%
-}
-
 #header {
     background: url(../images/Banner.jpg) repeat-x 0 0;
     -webkit-background-size: cover;
