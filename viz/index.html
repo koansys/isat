@@ -45,15 +45,53 @@
         <div id="cesiumContainer">
           <div class="popup" id="satellite_popup"></div>
           <div id="zoom_buttons" class="modal">
-            <span id="zoom_out"></span>
-            <span id="zoom_in"></span>
+            <img src="static/images/Zoom_out.png"
+                 id="zoom_out"
+                 title="Zoom Out"
+                 alt="Zoom Out"
+                 class="zoom_button" />
+            <img src="static/images/Zoom_in.png"
+                 id="zoom_in"
+                 title="Zoom In"
+                 alt="Zoom In"
+                 class="zoom_button" />
           </div>
           <div id="navigation_buttons" class="modal">
-            <span id="reset_button" class="hud_button"></span>
-            <span id="instructions_button" class="hud_button"></span>
-            <span id="display_button" class="hud_button"></span>
-            <span id="satellite_button" class="hud_button"></span>
-            <span id="fullscreen_button" class="hud_button"></span>
+            <img src="static/images/Refresh_1.png"
+                 id="reset_button"
+                 title="Reset View"
+                 alt="Reset View"
+                 class="hud_button"
+                 onmouseover="this.src='static/images/Refresh_2.png'"
+                 onmouseout="this.src='static/images/Refresh_1.png'"/>
+            <img src="static/images/Info_1.png"
+                 id="instructions_button"
+                 title="Instructions"
+                 alt="Instructions"
+                 class="hud_button"
+                 onmouseover="this.src='static/images/Info_2.png'"
+                 onmouseout="this.src='static/images/Info_1.png'"/>
+            <img src="static/images/Orbit_1.png"
+                 id="display_button"
+                 title="Display Options"
+                 alt="Display Options"
+                 class="hud_button"
+                 onmouseover="this.src='static/images/Orbit_2.png'"
+                 onmouseout="this.src='static/images/Orbit_1.png'"/>
+            <img src="static/images/Satellite_1.png"
+                 id="satellite_button"
+                 title="Select Satellites"
+                 alt="Select Satellites"
+                 class="hud_button"
+                 onmouseover="this.src='static/images/Satellite_2.png'"
+                 onmouseout="this.src='static/images/Satellite_1.png'"/>
+            <img src="static/images/Expand_1.png"
+                 id="fullscreen_button"
+                 title="Full Screen Toggle"
+                 alt="Full Screen Toggle"
+                 class="hud_button"
+                 onmouseover="this.src='static/images/Expand_2b.png'"
+                 onmouseout="this.src='static/images/Expand_1.png'"/>
           </div> <!-- navigation_buttons -->
           <!-- Cesium jQuery updates this with onResize at startup -->
           <canvas id="glCanvas" width="300" height="300" tabindex="1"></canvas>
@@ -226,8 +264,20 @@
                  alt="Close Button"
                  class="close_button" />
             <h2 id="satellite_name"></h2>
-            <span id="play_button"></span>
-            <span id="pause_button"></span>
+            <img src="static/images/Play_1.png"
+                 id="play_button"
+                 title="Play satellite location data"
+                 alt="Play satellite location data"
+                 class="play_button"
+                 onmouseover="this.src='static/images/Play_2.png'"
+                 onmouseout="this.src='static/images/Play_1.png'"/>
+            <img src="static/images/Pause_1.png"
+                 id="pause_button"
+                 title="Pause satellite location data"
+                 alt="Pause satellite location data"
+                 class="pause_button"
+                 onmouseover="this.src='static/images/Pause_2.png'"
+                 onmouseout="this.src='static/images/Pause_1.png'"/>
             <dl>
               <dt>ID</dt>
                 <dd id="satellite_id"></dd>

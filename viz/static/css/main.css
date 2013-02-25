@@ -135,49 +135,42 @@ legend {
     width: 70px;
     height: 70px;
     display: inline-block;
-    background-image: url(../images/Refresh_1.png);
 }
 
 #instructions_button {
     width: 70px;
     height: 70px;
     display: inline-block;
-    background-image: url(../images/Info_1.png);
 }
 
 #display_button {
     width: 70px;
     height: 70px;
     display: inline-block;
-    background-image: url(../images/Orbit_1.png);
 }
 
 #satellite_button {
     width: 70px;
     height: 70px;
     display: inline-block;
-    background-image: url(../images/Satellite_1.png);
 }
 
 #fullscreen_button {
     width: 70px;
     height: 70px;
     display: inline-block;
-    background-image: url(../images/Expand_1.png);
 }
 
 #zoom_out {
     width: 182px;
     height: 40px;
     display: inline-block;
-    background-image: url(../images/Zoom_out.png);
 }
 
 #zoom_in {
     width: 182px;
     height: 40px;
     display: inline-block;
-    background-image: url(../images/Zoom_in.png);
     margin-left: -5px;
 }
 
@@ -185,14 +178,12 @@ legend {
     width: 59px;
     height: 38px;
     display: inline-block;
-    background-image: url(../images/Play_2.png);
 }
 
 #pause_button {
     width: 59px;
     height: 38px;
     display: inline-block;
-    background-image: url(../images/Pause_1.png);
 }
 
 #instructions {
