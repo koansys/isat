@@ -743,7 +743,6 @@
 
 
     setInterval(function () {
-        console.log(PLAY);
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
         var date = new Date();
         var h = date.getHours();
