@@ -1,223 +1,273 @@
 <div id="wrapper">
-  <img src="/media/sot/images/3D_BG_Left.png" class="bg_image_left" />
-  <img src="/media/sot/images/3D_BG_Right.png" class="bg_image_right" />
-  <header id="header">
-    <img src="/media/sot/images/Title.png" alt="SOT: Satellite Oribital Tracker" />
-  </header>
-  <div id="main">
-    <div id="cesiumContainer">
-      <div class="popup" id="satellite_popup"></div>
-      <div id="zoom_buttons" class="modal">
-        <span id="zoom_out"></span>
-        <span id="zoom_in"></span>
-      </div>
-      <div id="navigation_buttons" class="modal">
-        <span id="reset_button" class="hud_button"></span>
-        <span id="instructions_button" class="hud_button"></span>
-        <span id="display_button" class="hud_button"></span>
-        <span id="satellite_button" class="hud_button"></span>
-        <span id="fullscreen_button" class="hud_button"></span>
-      </div> <!-- navigation_buttons -->
-      <!-- Cesium jQuery updates this with onResize at startup -->
-      <canvas id="glCanvas" width="300" height="300" tabindex="1"></canvas>
-      <div id="instructions" class="modal">
-        <img src="/media/sot/images/close.png"
-             id="instructions_close"
-             title="Close Button"
-             alt="Close Button"
-             class="close_button" />
-        <h2>
-          Instructions
-        </h2>
-        <p>The satellites are displayed based on their calculated positions in orbit.</p>
-        <p>Hover your cursor over a satellite to see its name. Click on a satellite to bring up details about that satellite, including links to more information about it from Science.nasa.gov and National Space Science Data Center (NSSDC).</p>
-        <p>Zoom in for a closer look at a satellite's orbit. Zoom out to see satellites in larger orbits and further distances from Earth.</p>
-        <p>Click and drag to rotate the Earth.</p>
-        <p>Click on the Globe Display icon to choose the type of map and perspective you are viewing.</p>
-        <p>By default, the NASA Science satellites are displayed. Click on the Satellite icon to view a different group of satellites or find a specific satellite.</p>
-        <p>If you shared your location with your browser a marker will indicate this position on the map.</p>
-      </div> <!-- /insructions -->
-      <div id="satellite_form" class="modal">
-        <img src="/media/sot/images/close.png"
-             id="satellite_form_close"
-             title="Close Button"
-             alt="Close Button"
-             class="close_button" />
-        <!-- <input type="button" id="satellite_form_close" value="&times;" class="close_button" /> -->
-        <form id="controls">
-          <fieldset>
-            <legend>
-              Select a Satellite:
-            </legend>
-            <dl id="controls_satellite">
-              <dt>
-                <label for="select_satellite_group">Satellite Group:</label>
-              </dt>
-              <dd>
-                <select id="select_satellite_group">
-                  <option value="SMD">
-                    NASA Science
-                  </option>
-                    <optgroup label="From Celestrak"></optgroup>
-                    <optgroup class="second_level" label="Special Interest">
-                      <option value="visual"> 100 (or so) Brightest</option>
-                      <option value="cosmos-2251-debris"> COSMOS 2251 Debris</option>
-                      <option value="1999-025"> FENGYUN 1C Debris</option>
-                      <option value="iridium-33-debris"> IRIDIUM 33 Debris</option>
-                      <option value="tle-new"> Last 30 Days' Launches</option>
-                      <option value="stations"> Space Stations</option>
-                      <!-- breeze-m r/b breakup (2012-044c) -->
-                    </optgroup>
-                    <optgroup class="second_level" label="Weather &amp; Earth Resources">
-                      <option value="dmc"> Disaster Monitoring</option>
-                      <option value="resource"> Earth Resources</option>
-                      <option value="goes"> GOES</option>
-                      <option value="noaa"> NOAA</option>
-                      <option value="sarsat"> Search &amp; Rescue (SARSAT)</option>
-                      <option value="tdrss"> Tracking and Data Relay Satellite</option>
-                      <option value="weather"> Weather</option>
-                    </optgroup>
-                    <optgroup class="second_level" label="Communications">
-                      <option value="amateur"> Amateur Radio</option>
-                      <option value="x-comm"> Experimental</option>
-                      <option value="geo"> Geostationary</option>
-                      <option value="globalstar"> Globalstar</option>
-                      <option value="gorizont"> Gorizont</option>
-                      <option value="intelsat"> Intelsat</option>
-                      <option value="iridium"> Iridium</option>
-                      <option value="molniya"> Molniya</option>
-                      <option value="other-comm"> Other</option>
-                      <option value="orbcomm"> Orbcomm</option>
-                      <option value="raduga"> Raduga</option>
-                    </optgroup>
-                    <optgroup class="second_level" label="Navigation">
-                      <option value="gps-ops"> GPS Operational</option>
-                      <option value="galileo"> Galileo</option>
-                      <option value="glo-ops"> Glonass Operational</option>
-                      <option value="nnss"> Navy Navigation Satellite System</option>
-                      <option value="musson"> Russian LEO Navigation</option>
-                      <option value="sbas"> Satellite-Based Augmentation System</option>
-                    </optgroup>
-                    <optgroup class="second_level" label="Scientific">
-                      <option value="education"> Education</option>
-                      <option value="engineering"> Engineering</option>
-                      <option value="geodetic"> Geodetic</option>
-                      <option value="science"> Space &amp; Earth Science</option>
-                    </optgroup>
-                    <optgroup class="second_level" label="Miscellaneous">
-                      <option value="cubesat"> CubeSats</option>
-                      <option value="military"> Miscellaneous Military</option>
-                      <option value="other"> Other</option>
-                      <option value="radar"> Radar Calibration</option>
-                    </optgroup>
-                </select>
-              </dd>
-              <dt>
-                <label for="select_satellite">Select Satellite:</label>
-              </dt>
-              <dd>
-                <select id="select_satellite">
-                </select>
-              </dd>
-            </dl> <!-- /controls_satellite -->
-          </fieldset>
-        </form>
-      </div> <!-- /satellite_form -->
-      <div id="map_display" class="modal">
-        <img src="/media/sot/images/close.png"
-             id="map_display_close"
-             title="Close Button"
-             alt="Close Button"
-             class="close_button" />
-        <h2>Global Display</h2>
-        <div id="maps">
-          <img src="/media/sot/images/Map_Displays.png" alt="Map Display"><br>
-          <img src="/media/sot/images/Bing_1.png"
-               id="bing_data_button"
-               title="Select Bing Map"
-               alt="Select Bing Map"
-               onmouseover="this.src='/media/sot/images/Bing_2.png'"
-               onmouseout="this.src='/media/sot/images/Bing_1.png'"/>
-          <img src="/media/sot/images/OpenStreet_1.png"
-               id="osm_data_button"
-               title="Select OSM Map"
-               alt="Select OSM Map"
-               onmouseover="this.src='/media/sot/images/OpenStreet_2.png'"
-               onmouseout="this.src='/media/sot/images/OpenStreet_1.png'"/>
-          <img src="/media/sot/images/ArcGis_1.png"
-               id="arcgis_data_button"
-               title="Select ArcGIS Map"
-               alt="Select ArcGIS Map"
-               onmouseover="this.src='/media/sot/images/ArcGis_2.png'"
-               onmouseout="this.src='/media/sot/images/ArcGis_1.png'"/>
-          <img src="/media/sot/images/Offline_1.png"
-               id="static_data_button"
-               title="Select Offline Map"
-               alt="Select Offline Map"
-               onmouseover="this.src='/media/sot/images/Offline_2.png'"
-               onmouseout="this.src='/media/sot/images/Offline_1.png'"/>
-        </div><br> <!-- /map_display -->
-        <div id="perpective">
-          <img src="/media/sot/images/Perspective.png" alt="Perspective"><br>
-          <img src="/media/sot/images/3D_1.png"
-               id="three_d_display_button"
-               title="Display 3D"
-               alt="Display 3D"
-               onmouseover="this.src='/media/sot/images/3D_2.png'"
-               onmouseout="this.src='/media/sot/images/3D_1.png'"
-               class="perspective_button" />
-          <img src="/media/sot/images/2.5D_1.png"
-               id="columbus_display_button"
-               title="Display Columbus View"
-               alt="Display Columbus View"
-               onmouseover="this.src='/media/sot/images/2.5D_2.png'"
-               onmouseout="this.src='/media/sot/images/2.5D_1.png'"
-               class="perspective_button" />
-          <img src="/media/sot/images/2D_1.png"
-               id="two_d_display_button"
-               title="Display 2D"
-               alt="Display 2D"
-               onmouseover="this.src='/media/sot/images/2D_2.png'"
-               onmouseout="this.src='/media/sot/images/2D_1.png'"
-               class="perspective_button" />
-        </div> <!-- /perspective -->
-      </div> <!-- /map_display -->
-      <div id="satellite_display" class="modal">
-        <img src="/media/sot/images/close.png"
-             id="satellite_display_close"
-             title="Close Button"
-             alt="Close Button"
-             class="close_button" />
-        <h2 id="satellite_name"></h2>
-        <p id="sat_data"></p>
-        <dl>
-          <dt>ID</dt>
-            <dd id="satellite_id"></dd>
-          <dt>X Km</dt>
-            <dd id="satellite_x"></dd>
-          <dt>Y Km</dt>
-            <dd id="satellite_y"></dd>
-          <dt>Z Km</dt>
-            <dd id="satellite_z"></dd>
-          <dt>Velocity</dt>
-            <dd id="satellite_velocity"></dd>
-          <dt>Latitude</dt>
-            <dd id="satellite_latitude"></dd>
-          <dt>Longitude</dt>
-            <dd id="satellite_longitude"></dd>
-          <dt>Height</dt>
-            <dd id="satellite_height"></dd>
-        </dl>
-        <h3>More on <span id="satellite_name2"></span></h3>
-        <a id="science_url" href="#" target="nasascience">National Space Science Data Center</a>
-        <a id="nssdc_url" href="#" target="nssdc">Science Mission Directive</a>
-      </div> <!-- /satellite_display -->
-    </div> <!-- /cesiumContainer -->
-  </div> <!-- /main -->
+      <header id="header">
+        <img src="/media/sot/images/Title.png" alt="NASA's Interactive Satellite Viewer" /> <img src="/media/sot/images/NASA_logo.png" alt="NASA" class="float-right" />
+      </header>
+      <div id="main">
+        <div id="cesiumContainer">
+          <div class="popup" id="satellite_popup"></div>
+          <div id="zoom_buttons" class="modal">
+            <img src="/media/sot/images/Zoom_out.png"
+                 id="zoom_out"
+                 title="Zoom Out"
+                 alt="Zoom Out"
+                 class="zoom_button" />
+            <img src="/media/sot/images/Zoom_in.png"
+                 id="zoom_in"
+                 title="Zoom In"
+                 alt="Zoom In"
+                 class="zoom_button" />
+          </div>
+          <div id="navigation_buttons" class="modal">
+            <img src="/media/sot/images/Refresh_1.png"
+                 id="reset_button"
+                 title="Reset View"
+                 alt="Reset View"
+                 class="hud_button"
+                 onmouseover="this.src='/media/sot/images/Refresh_2.png'"
+                 onmouseout="this.src='/media/sot/images/Refresh_1.png'"/>
+            <img src="/media/sot/images/Info_1.png"
+                 id="instructions_button"
+                 title="Instructions"
+                 alt="Instructions"
+                 class="hud_button"
+                 onmouseover="this.src='/media/sot/images/Info_2.png'"
+                 onmouseout="this.src='/media/sot/images/Info_1.png'"/>
+            <img src="/media/sot/images/Orbit_1.png"
+                 id="display_button"
+                 title="Display Options"
+                 alt="Display Options"
+                 class="hud_button"
+                 onmouseover="this.src='/media/sot/images/Orbit_2.png'"
+                 onmouseout="this.src='/media/sot/images/Orbit_1.png'"/>
+            <img src="/media/sot/images/Satellite_1.png"
+                 id="satellite_button"
+                 title="Select Satellites"
+                 alt="Select Satellites"
+                 class="hud_button"
+                 onmouseover="this.src='/media/sot/images/Satellite_2.png'"
+                 onmouseout="this.src='/media/sot/images/Satellite_1.png'"/>
+            <img src="/media/sot/images/Expand_1.png"
+                 id="fullscreen_button"
+                 title="Full Screen Toggle"
+                 alt="Full Screen Toggle"
+                 class="hud_button"
+                 onmouseover="this.src='/media/sot/images/Expand_2b.png'"
+                 onmouseout="this.src='/media/sot/images/Expand_1.png'"/>
+          </div> <!-- navigation_buttons -->
+          <!-- Cesium jQuery updates this with onResize at startup -->
+          <canvas id="glCanvas" width="300" height="300" tabindex="1"></canvas>
+          <div id="instructions" class="modal">
+            <img src="/media/sot/images/close.png"
+                 id="instructions_close"
+                 title="Close Window"
+                 alt="Close Window"
+                 class="close_button" />
+            <h2>
+              Instructions
+            </h2>
+            <p>The satellites are displayed based on their calculated positions in orbit.</p>
+            <p>Hover your cursor over a satellite to see its name. Click on a satellite to bring up details about that satellite, including links to more information about it from Science.nasa.gov and National Space Science Data Center (NSSDC).</p>
+            <p>Zoom in for a closer look at a satellite's orbit. Zoom out to see satellites in larger orbits and further distances from Earth.</p>
+            <p>Click and drag to rotate the Earth.</p>
+            <p>Click on the Globe Display icon to choose the type of map and perspective you are viewing.</p>
+            <p>By default, the NASA Science satellites are displayed. Click on the Satellite icon to view a different group of satellites or find a specific satellite.</p>
+            <p>If you shared your location with your browser a marker will indicate this position on the map.</p>
+          </div> <!-- /insructions -->
+          <div id="satellite_form" class="modal">
+            <img src="/media/sot/images/close.png"
+                 id="satellite_form_close"
+                 title="Close Window"
+                 alt="Close Window"
+                 class="close_button" />
+            <!-- <input type="button" id="satellite_form_close" value="&times;" class="close_button" /> -->
+            <form id="controls">
+              <fieldset>
+                <legend>
+                  Select a Satellite:
+                </legend>
+                <dl id="controls_satellite">
+                  <dt>
+                    <label for="select_satellite_group">Satellite Group:</label>
+                  </dt>
+                  <dd>
+                    <select id="select_satellite_group">
+                      <option value="SMD">
+                        NASA Science
+                      </option>
+                        <optgroup label="From Celestrak"></optgroup>
+                        <optgroup class="second_level" label="Special Interest">
+                          <option value="visual"> 100 (or so) Brightest</option>
+                          <option value="cosmos-2251-debris"> COSMOS 2251 Debris</option>
+                          <option value="1999-025"> FENGYUN 1C Debris</option>
+                          <option value="iridium-33-debris"> IRIDIUM 33 Debris</option>
+                          <option value="tle-new"> Last 30 Days' Launches</option>
+                          <option value="stations"> Space Stations</option>
+                          <!-- breeze-m r/b breakup (2012-044c) -->
+                        </optgroup>
+                        <optgroup class="second_level" label="Weather &amp; Earth Resources">
+                          <option value="dmc"> Disaster Monitoring</option>
+                          <option value="resource"> Earth Resources</option>
+                          <option value="goes"> GOES</option>
+                          <option value="noaa"> NOAA</option>
+                          <option value="sarsat"> Search &amp; Rescue (SARSAT)</option>
+                          <option value="tdrss"> Tracking and Data Relay Satellite</option>
+                          <option value="weather"> Weather</option>
+                        </optgroup>
+                        <optgroup class="second_level" label="Communications">
+                          <option value="amateur"> Amateur Radio</option>
+                          <option value="x-comm"> Experimental</option>
+                          <option value="geo"> Geostationary</option>
+                          <option value="globalstar"> Globalstar</option>
+                          <option value="gorizont"> Gorizont</option>
+                          <option value="intelsat"> Intelsat</option>
+                          <option value="iridium"> Iridium</option>
+                          <option value="molniya"> Molniya</option>
+                          <option value="other-comm"> Other</option>
+                          <option value="orbcomm"> Orbcomm</option>
+                          <option value="raduga"> Raduga</option>
+                        </optgroup>
+                        <optgroup class="second_level" label="Navigation">
+                          <option value="gps-ops"> GPS Operational</option>
+                          <option value="galileo"> Galileo</option>
+                          <option value="glo-ops"> Glonass Operational</option>
+                          <option value="nnss"> Navy Navigation Satellite System</option>
+                          <option value="musson"> Russian LEO Navigation</option>
+                          <option value="sbas"> Satellite-Based Augmentation System</option>
+                        </optgroup>
+                        <optgroup class="second_level" label="Scientific">
+                          <option value="education"> Education</option>
+                          <option value="engineering"> Engineering</option>
+                          <option value="geodetic"> Geodetic</option>
+                          <option value="science"> Space &amp; Earth Science</option>
+                        </optgroup>
+                        <optgroup class="second_level" label="Miscellaneous">
+                          <option value="cubesat"> CubeSats</option>
+                          <option value="military"> Miscellaneous Military</option>
+                          <option value="other"> Other</option>
+                          <option value="radar"> Radar Calibration</option>
+                        </optgroup>
+                    </select>
+                  </dd>
+                  <dt>
+                    <label for="select_satellite">Select Satellite:</label>
+                  </dt>
+                  <dd>
+                    <select id="select_satellite">
+                    </select>
+                  </dd>
+                </dl> <!-- /controls_satellite -->
+              </fieldset>
+            </form>
+          </div> <!-- /satellite_form -->
+          <div id="map_display" class="modal">
+            <img src="/media/sot/images/close.png"
+                 id="map_display_close"
+                 title="Close Window"
+                 alt="Close Window"
+                 class="close_button" />
+            <h2>Globe Display</h2>
+            <div id="maps">
+              <img src="/media/sot/images/Map_Displays.png" alt="Map Display"><br>
+              <img src="/media/sot/images/Bing_1.png"
+                   id="bing_data_button"
+                   title="Select Bing Map"
+                   alt="Select Bing Map"
+                   onmouseover="this.src='/media/sot/images/Bing_2.png'"
+                   onmouseout="this.src='/media/sot/images/Bing_1.png'"/>
+              <img src="/media/sot/images/OpenStreet_1.png"
+                   id="osm_data_button"
+                   title="Select OSM Map"
+                   alt="Select OSM Map"
+                   onmouseover="this.src='/media/sot/images/OpenStreet_2.png'"
+                   onmouseout="this.src='/media/sot/images/OpenStreet_1.png'"/>
+              <img src="/media/sot/images/ArcGis_1.png"
+                   id="arcgis_data_button"
+                   title="Select ArcGIS Map"
+                   alt="Select ArcGIS Map"
+                   onmouseover="this.src='/media/sot/images/ArcGis_2.png'"
+                   onmouseout="this.src='/media/sot/images/ArcGis_1.png'"/>
+              <img src="/media/sot/images/Offline_1.png"
+                   id="static_data_button"
+                   title="Select Offline Map"
+                   alt="Select Offline Map"
+                   onmouseover="this.src='/media/sot/images/Offline_2.png'"
+                   onmouseout="this.src='/media/sot/images/Offline_1.png'"/>
+            </div><br> <!-- /map_display -->
+            <div id="perpective">
+              <img src="/media/sot/images/Perspective.png" alt="Perspective"><br>
+              <img src="/media/sot/images/3D_1.png"
+                   id="three_d_display_button"
+                   title="Display 3D"
+                   alt="Display 3D"
+                   onmouseover="this.src='/media/sot/images/3D_2.png'"
+                   onmouseout="this.src='/media/sot/images/3D_1.png'"
+                   class="perspective_button" />
+              <img src="/media/sot/images/2.5D_1.png"
+                   id="columbus_display_button"
+                   title="Display Columbus View"
+                   alt="Display Columbus View"
+                   onmouseover="this.src='/media/sot/images/2.5D_2.png'"
+                   onmouseout="this.src='/media/sot/images/2.5D_1.png'"
+                   class="perspective_button" />
+              <img src="/media/sot/images/2D_1.png"
+                   id="two_d_display_button"
+                   title="Display 2D"
+                   alt="Display 2D"
+                   onmouseover="this.src='/media/sot/images/2D_2.png'"
+                   onmouseout="this.src='/media/sot/images/2D_1.png'"
+                   class="perspective_button" />
+            </div> <!-- /perspective -->
+          </div> <!-- /map_display -->
+          <div id="satellite_display" class="modal">
+            <img src="/media/sot/images/close.png"
+                 id="satellite_display_close"
+                 title="Close Window"
+                 alt="Close Window"
+                 class="close_button" />
+            <h2 id="satellite_name"></h2>
+            <img src="/media/sot/images/Play_1.png"
+                 id="play_button"
+                 title="Play satellite location data"
+                 alt="Play satellite location data"
+                 class="play_button"
+                 onmouseover="this.src='/media/sot/images/Play_2.png'"
+                 onmouseout="this.src='/media/sot/images/Play_1.png'"/>
+            <img src="/media/sot/images/Pause_1.png"
+                 id="pause_button"
+                 title="Pause satellite location data"
+                 alt="Pause satellite location data"
+                 class="pause_button"
+                 onmouseover="this.src='/media/sot/images/Pause_2.png'"
+                 onmouseout="this.src='/media/sot/images/Pause_1.png'"/>
+            <dl>
+              <dt>ID</dt>
+                <dd id="satellite_id"></dd>
+              <dt>X Km</dt>
+                <dd id="satellite_x"></dd>
+              <dt>Y Km</dt>
+                <dd id="satellite_y"></dd>
+              <dt>Z Km</dt>
+                <dd id="satellite_z"></dd>
+              <dt>Velocity</dt>
+                <dd id="satellite_velocity"></dd>
+              <dt>Latitude</dt>
+                <dd id="satellite_latitude"></dd>
+              <dt>Longitude</dt>
+                <dd id="satellite_longitude"></dd>
+              <dt>Height</dt>
+                <dd id="satellite_height"></dd>
+            </dl>
+            <h3>More on <span id="satellite_name2"></span></h3>
+            <a id="science_url" href="#" target="nasascience">Science Mission Directorate</a>
+            <br>
+            <a id="nssdc_url" href="#" target="nssdc">National Space Science Data Center</a>
+          </div> <!-- /satellite_display -->
+        </div> <!-- /cesiumContainer -->
+      </div> <!-- /main -->
 
-  <div style="position: absolute; left: 50%; bottom: 10px;">
-    <div id="user_date" style="position: relative; left: -50%;">
-        <p>Local Time: <span id="local_time"></span>&nbsp;&nbsp;&nbsp;&nbsp;UTC: <span id="utc_time"></span></p>
+      <div style="position: absolute; left: 50%; bottom: 10px;">
+        <div id="user_date" style="position: relative; left: -50%;">
+            <p>Local Time: <span id="local_time"></span>&nbsp;&nbsp;&nbsp;&nbsp;UTC: <span id="utc_time"></span></p>
+        </div>
     </div>
-</div>
-</div> <!-- /wrapper -->
+    </div> <!-- /wrapper -->
