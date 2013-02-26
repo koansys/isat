@@ -70,6 +70,7 @@ body {
     background-size: cover;
     height: 80px;
     border-bottom: 2px solid #4cf126;
+    min-width: 800px;
 }
 
 #controls dd {
