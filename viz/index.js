@@ -293,10 +293,8 @@
     }
 
     function onResize() {
-        //var headerHeight = document.getElementById('header').scrollHeight;
-        var headerHeight = document.getElementById('header').scrollHeight;
-        var width = document.getElementById('wrapper').scrollWidth;
-        // var width = window.innerWidth - getScrollBarWidth();
+        var headerHeight = document.getElementById('header').offsetHeight;
+        var width = window.innerWidth - getScrollBarWidth();
         var height = window.innerHeight - headerHeight;
         // var height = cc.scrollHeight;
         if (canvas.width === width && canvas.height === height) {
