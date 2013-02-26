@@ -14,7 +14,7 @@
     var transitioner      = new Cesium.SceneTransitioner(scene, ellipsoid);
 
     // Constants
-    var CESIUM_TEXTURES_BASE = 'cesium/Assets/Textures';
+    var CESIUM_TEXTURES_BASE = '/media/sot/cesium/Assets/Textures';
     var SKYBOX_BASE          = CESIUM_TEXTURES_BASE + '/SkyBox';
     var CALC_INTERVAL_MS     = 1000;
 
@@ -188,7 +188,7 @@
         }
         scene.getPrimitives().add(satBillboards);
 
-        image.src = 'Images/Satellite.png';
+        image.src = '/media/sot/images/Satellite.png';
         image.onload = function () {
             var textureAtlas = scene.getContext().createTextureAtlas({image: image}); // seems needed in onload()
             satBillboards.setTextureAtlas(textureAtlas);
@@ -207,7 +207,7 @@
             var up     = new Cesium.Cartesian3(0, 0, 1);
             // Put a cross where we are
             var image = new Image();
-            image.src = 'Images/icon_geolocation.png';
+            image.src = '/media/sot/images/icon_geolocation.png';
             image.onload = function () {
                 var billboards = new Cesium.BillboardCollection(); // how to make single?
                 var textureAtlas = scene.getContext().createTextureAtlas({image: image});
@@ -689,7 +689,7 @@
     // Switch which satellites are displayed.
     document.getElementById('select_satellite_group').onchange = function () {
         orbitTraces.removeAll();
-        getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
+        getSatrecsFromTLEFile('/media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
         populateSatelliteSelector();
         populateSatelliteBillboard();
     };

@@ -62,7 +62,7 @@ body {
     margin:0 auto;
 }
 
-#header {
+#iSat_header {
     background: url(../images/Banner.jpg) repeat-x 0 0;
     -webkit-background-size: cover;
     -moz-background-size: cover;
