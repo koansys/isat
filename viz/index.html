@@ -5,11 +5,51 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
   <head>
     <title>
-      SOT: Satellite Orbit Tracker
+      NASA's Interactive Satellite Viewer
     </title>
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
     <script>
       opsmode = 'i'; //GLOBAL for intl, 'i'mproved
+
+      // Pre-loading Images
+      Banner = new Image();
+      Banner.src = 'static/images/Banner.jpg'
+      Title = new Image();
+      Title.src = 'static/images/Title.png'
+      NASA_logo = new Image();
+      NASA_logo.src = 'static/images/NASA_logo.png'
+      Zoom_out = new Image();
+      Zoom_out.src = 'static/images/Zoom_out.png'
+      Zoom_in = new Image();
+      Zoom_in.src = 'static/images/Zoom_in.png'
+      Refresh_1 = new Image();
+      Refresh_1.src = 'static/images/Refresh_1.png'
+      Refresh_2 = new Image();
+      Refresh_2.src = 'static/images/Refresh_2.png'
+      Info_1 = new Image();
+      Info_1.src = 'static/images/Info_1.png'
+      Info_2 = new Image();
+      Info_2.src = 'static/images/Info_2.png'
+      Orbit_1 = new Image();
+      Orbit_1.src = 'static/images/Orbit_1.png'
+      Orbit_2 = new Image();
+      Orbit_2.src = 'static/images/Orbit_2.png'
+      Satellite_1 = new Image();
+      Satellite_1.src = 'static/images/Satellite_1.png'
+      Satellite_2 = new Image();
+      Satellite_2.src = 'static/images/Satellite_2.png'
+      Expand_1 = new Image();
+      Expand_1.src = 'static/images/Expand_1.png'
+      Expand_2 = new Image();
+      Expand_2.src = 'static/images/Expand_2b.png'
+      Pause_1 = new Image();
+      Pause_1.src = 'static/images/Pause_1.png'
+      Pause_2 = new Image();
+      Pause_2.src = 'static/images/Pause_2.png'
+      Play_1 = new Image();
+      Play_1.src = 'static/images/Play_1.png'
+      Play_2 = new Image();
+      Play_2.src = 'static/images/Play_2.png'
     </script>
 
     <script type="text/javascript" src="../js/twoline2rv.js"></script>
@@ -38,32 +78,68 @@
 
   <body>
     <div id="wrapper">
-      <img src="static/images/3D_BG_Left.png" class="bg_image_left" />
-      <img src="static/images/3D_BG_Right.png" class="bg_image_right" />
       <header id="header">
-        <img src="static/images/Title.png" alt="SOT: Satellite Oribital Tracker" />
+        <img src="static/images/Title.png" alt="NASA's Interactive Satellite Viewer" /> <img src="static/images/NASA_logo.png" alt="NASA" class="float-right" />
       </header>
       <div id="main">
         <div id="cesiumContainer">
           <div class="popup" id="satellite_popup"></div>
           <div id="zoom_buttons" class="modal">
-            <span id="zoom_out"></span>
-            <span id="zoom_in"></span>
+            <img src="static/images/Zoom_out.png"
+                 id="zoom_out"
+                 title="Zoom Out"
+                 alt="Zoom Out"
+                 class="zoom_button" />
+            <img src="static/images/Zoom_in.png"
+                 id="zoom_in"
+                 title="Zoom In"
+                 alt="Zoom In"
+                 class="zoom_button" />
           </div>
           <div id="navigation_buttons" class="modal">
-            <span id="reset_button" class="hud_button"></span>
-            <span id="instructions_button" class="hud_button"></span>
-            <span id="display_button" class="hud_button"></span>
-            <span id="satellite_button" class="hud_button"></span>
-            <span id="fullscreen_button" class="hud_button"></span>
+            <img src="static/images/Refresh_1.png"
+                 id="reset_button"
+                 title="Reset View"
+                 alt="Reset View"
+                 class="hud_button"
+                 onmouseover="this.src='static/images/Refresh_2.png'"
+                 onmouseout="this.src='static/images/Refresh_1.png'"/>
+            <img src="static/images/Info_1.png"
+                 id="instructions_button"
+                 title="Instructions"
+                 alt="Instructions"
+                 class="hud_button"
+                 onmouseover="this.src='static/images/Info_2.png'"
+                 onmouseout="this.src='static/images/Info_1.png'"/>
+            <img src="static/images/Orbit_1.png"
+                 id="display_button"
+                 title="Display Options"
+                 alt="Display Options"
+                 class="hud_button"
+                 onmouseover="this.src='static/images/Orbit_2.png'"
+                 onmouseout="this.src='static/images/Orbit_1.png'"/>
+            <img src="static/images/Satellite_1.png"
+                 id="satellite_button"
+                 title="Select Satellites"
+                 alt="Select Satellites"
+                 class="hud_button"
+                 onmouseover="this.src='static/images/Satellite_2.png'"
+                 onmouseout="this.src='static/images/Satellite_1.png'"/>
+            <img src="static/images/Expand_1.png"
+                 id="fullscreen_button"
+                 title="Full Screen Toggle"
+                 alt="Full Screen Toggle"
+                 class="hud_button"
+                 onmouseover="this.src='static/images/Expand_2b.png'"
+                 onmouseout="this.src='static/images/Expand_1.png'"/>
           </div> <!-- navigation_buttons -->
           <!-- Cesium jQuery updates this with onResize at startup -->
           <canvas id="glCanvas" width="300" height="300" tabindex="1"></canvas>
           <div id="instructions" class="modal">
             <img src="static/images/close.png"
                  id="instructions_close"
-                 title="Close Button"
-                 alt="Close Button"
+                 title="Close Window"
+                 alt="Close Window"
                  class="close_button" />
             <h2>
               Instructions
@@ -79,8 +155,8 @@
           <div id="satellite_form" class="modal">
             <img src="static/images/close.png"
                  id="satellite_form_close"
-                 title="Close Button"
-                 alt="Close Button"
+                 title="Close Window"
+                 alt="Close Window"
                  class="close_button" />
             <!-- <input type="button" id="satellite_form_close" value="&times;" class="close_button" /> -->
             <form id="controls">
@@ -165,10 +241,10 @@
           <div id="map_display" class="modal">
             <img src="static/images/close.png"
                  id="map_display_close"
-                 title="Close Button"
-                 alt="Close Button"
+                 title="Close Window"
+                 alt="Close Window"
                  class="close_button" />
-            <h2>Global Display</h2>
+            <h2>Globe Display</h2>
             <div id="maps">
               <img src="static/images/Map_Displays.png" alt="Map Display"><br>
               <img src="static/images/Bing_1.png"
@@ -224,11 +300,24 @@
           <div id="satellite_display" class="modal">
             <img src="static/images/close.png"
                  id="satellite_display_close"
-                 title="Close Button"
-                 alt="Close Button"
+                 title="Close Window"
+                 alt="Close Window"
                  class="close_button" />
             <h2 id="satellite_name"></h2>
-            <p id="sat_data"></p>
+            <img src="static/images/Play_1.png"
+                 id="play_button"
+                 title="Play satellite location data"
+                 alt="Play satellite location data"
+                 class="play_button"
+                 onmouseover="this.src='static/images/Play_2.png'"
+                 onmouseout="this.src='static/images/Play_1.png'"/>
+            <img src="static/images/Pause_1.png"
+                 id="pause_button"
+                 title="Pause satellite location data"
+                 alt="Pause satellite location data"
+                 class="pause_button"
+                 onmouseover="this.src='static/images/Pause_2.png'"
+                 onmouseout="this.src='static/images/Pause_1.png'"/>
             <dl>
               <dt>ID</dt>
                 <dd id="satellite_id"></dd>
@@ -248,8 +337,9 @@
                 <dd id="satellite_height"></dd>
             </dl>
             <h3>More on <span id="satellite_name2"></span></h3>
-            <a id="science_url" href="#" target="nasascience">National Space Science Data Center</a>
-            <a id="nssdc_url" href="#" target="nssdc">Science Mission Directive</a>
+            <a id="science_url" href="#" target="nasascience">Science Mission Directorate</a>
+            <br>
+            <a id="nssdc_url" href="#" target="nssdc">National Space Science Data Center</a>
           </div> <!-- /satellite_display -->
         </div> <!-- /cesiumContainer -->
       </div> <!-- /main -->

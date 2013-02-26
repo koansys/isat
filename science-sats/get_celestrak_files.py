@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # Pull each Celestrak TLE file and save a local copy, a combined .txt file
+# In a separate process, well have to produce artifacts like SMD satellite file.
 # We aren't worrying about duplicates here, do it in postprocessing.
+# TODO:
+# - is there a way to find this list of files? or is it static?
 
 import urllib2
 

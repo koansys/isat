@@ -14,7 +14,7 @@
     var transitioner      = new Cesium.SceneTransitioner(scene, ellipsoid);
 
     // Constants
-    var CESIUM_TEXTURES_BASE = '/media/sot/cesium/Assets/Textures';
+    var CESIUM_TEXTURES_BASE = 'cesium/Assets/Textures';
     var SKYBOX_BASE          = CESIUM_TEXTURES_BASE + '/SkyBox';
     var CALC_INTERVAL_MS     = 1000;
 
@@ -22,6 +22,7 @@
     var WHICHCONST        = 84;   //
     var TYPERUN           = 'm';  // 'm'anual, 'c'atalog, 'v'erification
     var TYPEINPUT         = 'n';  // HACK: 'now'
+    var PLAY              = true;
 
     ///////////////////////////////////////////////////////////////////////////
     // Tile Providers
@@ -187,7 +188,7 @@
         }
         scene.getPrimitives().add(satBillboards);
 
-        image.src = '/media/sot/images/Satellite.png';
+        image.src = 'Images/Satellite.png';
         image.onload = function () {
             var textureAtlas = scene.getContext().createTextureAtlas({image: image}); // seems needed in onload()
             satBillboards.setTextureAtlas(textureAtlas);
@@ -206,7 +207,7 @@
             var up     = new Cesium.Cartesian3(0, 0, 1);
             // Put a cross where we are
             var image = new Image();
-            image.src = 'media/sot/images/icon_geolocation.png';
+            image.src = 'Images/icon_geolocation.png';
             image.onload = function () {
                 var billboards = new Cesium.BillboardCollection(); // how to make single?
                 var textureAtlas = scene.getContext().createTextureAtlas({image: image});
@@ -292,8 +293,7 @@
     }
 
     function onResize() {
-        //var headerHeight = document.getElementById('header').scrollHeight;
-        var headerHeight = document.getElementById('header').scrollHeight;
+        var headerHeight = document.getElementById('header').offsetHeight;
         var width = window.innerWidth - getScrollBarWidth();
         var height = window.innerHeight - headerHeight;
         // var height = cc.scrollHeight;
@@ -323,37 +323,28 @@
     document.getElementById('instructions_button').onclick = function () {
         if (document.getElementById('instructions').style.display === 'none' ||  !document.getElementById('instructions').style.display) {
             document.getElementById('instructions').style.display = 'block';
-            document.getElementById('instructions_button').style.backgroundImage = "url('/media/sot/images/Info_2.png')";
             document.getElementById('satellite_form').style.display = 'none';
-            document.getElementById('satellite_button').style.backgroundImage = "url('/media/sot/images/Satellite_1.png')";
             document.getElementById('map_display').style.display = 'none';
-            document.getElementById('display_button').style.backgroundImage = "url('/media/sot/images/Orbit_1.png')";
         }
         else {
             document.getElementById('instructions').style.display = 'none';
-            document.getElementById('instructions_button').style.backgroundImage = "url('/media/sot/images/Info_1.png')";
         }
     };
 
     // close Instructions Modal
     document.getElementById('instructions_close').onclick = function () {
         document.getElementById('instructions').style.display = 'none';
-            document.getElementById('instructions_button').style.backgroundImage = "url('/media/sot/images/Info_1.png')";
     };
 
     // Toggle Satellite
     document.getElementById('satellite_button').onclick = function () {
         if (document.getElementById('satellite_form').style.display === 'none' ||  !document.getElementById('satellite_form').style.display) {
             document.getElementById('satellite_form').style.display = 'block';
-            document.getElementById('satellite_button').style.backgroundImage = "url('/media/sot/images/Satellite_2.png')";
             document.getElementById('map_display').style.display = 'none';
-            document.getElementById('display_button').style.backgroundImage = "url('/media/sot/images/Orbit_1.png')";
             document.getElementById('instructions').style.display = 'none';
-            document.getElementById('instructions_button').style.backgroundImage = "url('/media/sot/images/Info_1.png')";
         }
         else {
             document.getElementById('satellite_form').style.display = 'none';
-            document.getElementById('satellite_button').style.backgroundImage = "url('/media/sot/images/Satellite_1.png')";
         }
     };
 
@@ -361,89 +352,30 @@
     // close Satellite Modal
     document.getElementById('satellite_form_close').onclick = function () {
         document.getElementById('satellite_form').style.display = 'none';
-            document.getElementById('satellite_button').style.backgroundImage = "url('/media/sot/images/Satellite_1.png')";
     };
 
     // Toggle Map Display Modal
     document.getElementById('display_button').onclick = function () {
         if (document.getElementById('map_display').style.display === 'none' ||  !document.getElementById('map_display').style.display) {
             document.getElementById('map_display').style.display = 'block';
-            document.getElementById('display_button').style.backgroundImage = "url('/media/sot/images/Orbit_2.png')";
             document.getElementById('satellite_form').style.display = 'none';
-            document.getElementById('satellite_button').style.backgroundImage = "url('/media/sot/images/Satellite_1.png')";
             document.getElementById('instructions').style.display = 'none';
-            document.getElementById('instructions_button').style.backgroundImage = "url('/media/sot/images/Info_1.png')";
         }
         else {
             document.getElementById('map_display').style.display = 'none';
-            document.getElementById('display_button').style.backgroundImage = "url('/media/sot/images/Orbit_1.png')";
         }
     };
 
     // Close Map Display Modal
     document.getElementById('map_display_close').onclick = function () {
         document.getElementById('map_display').style.display = 'none';
-        document.getElementById('display_button').style.backgroundImage = "url('/media/sot/images/Orbit_1.png')";
-    };
-
-    // Hover Over Reset Button
-    document.getElementById('reset_button').onmouseover = function () {
-        document.getElementById('reset_button').style.backgroundImage = "url('/media/sot/images/Refresh_2.png')";
-        document.getElementById('instructions_button').style.backgroundImage = "url('/media/sot/images/Info_1.png')";
-        document.getElementById('display_button').style.backgroundImage = "url('/media/sot/images/Orbit_1.png')";
-        document.getElementById('satellite_button').style.backgroundImage = "url('/media/sot/images/Satellite_1.png')";
-        document.getElementById('fullscreen_button').style.backgroundImage = "url('/media/sot/images/Expand_1.png')";
-    };
-
-    // Hover Over Instructions Button
-    document.getElementById('instructions_button').onmouseover = function () {
-        document.getElementById('reset_button').style.backgroundImage = "url('/media/sot/images/Refresh_1.png')";
-        document.getElementById('instructions_button').style.backgroundImage = "url('/media/sot/images/Info_2.png')";
-        document.getElementById('display_button').style.backgroundImage = "url('/media/sot/images/Orbit_1.png')";
-        document.getElementById('satellite_button').style.backgroundImage = "url('/media/sot/images/Satellite_1.png')";
-        document.getElementById('fullscreen_button').style.backgroundImage = "url('/media/sot/images/Expand_1.png')";
-    };
-
-    // Hover Over Display Button
-    document.getElementById('display_button').onmouseover = function () {
-        document.getElementById('reset_button').style.backgroundImage = "url('/media/sot/images/Refresh_1.png')";
-        document.getElementById('instructions_button').style.backgroundImage = "url('/media/sot/images/Info_1.png')";
-        document.getElementById('display_button').style.backgroundImage = "url('/media/sot/images/Orbit_2.png')";
-        document.getElementById('satellite_button').style.backgroundImage = "url('/media/sot/images/Satellite_1.png')";
-        document.getElementById('fullscreen_button').style.backgroundImage = "url('/media/sot/images/Expand_1.png')";
-    };
-
-    // Hover Over Satellite Button
-    document.getElementById('satellite_button').onmouseover = function () {
-        document.getElementById('reset_button').style.backgroundImage = "url('/media/sot/images/Refresh_1.png')";
-        document.getElementById('instructions_button').style.backgroundImage = "url('/media/sot/images/Info_1.png')";
-        document.getElementById('display_button').style.backgroundImage = "url('/media/sot/images/Orbit_1.png')";
-        document.getElementById('satellite_button').style.backgroundImage = "url('/media/sot/images/Satellite_2.png')";
-        document.getElementById('fullscreen_button').style.backgroundImage = "url('/media/sot/images/Expand_1.png')";
-    };
-
-    // Hover Over Fullscreen Button
-    document.getElementById('fullscreen_button').onmouseover = function () {
-        document.getElementById('reset_button').style.backgroundImage = "url('/media/sot/images/Refresh_1.png')";
-        document.getElementById('instructions_button').style.backgroundImage = "url('/media/sot/images/Info_1.png')";
-        document.getElementById('display_button').style.backgroundImage = "url('/media/sot/images/Orbit_1.png')";
-        document.getElementById('satellite_button').style.backgroundImage = "url('/media/sot/images/Satellite_1.png')";
-        document.getElementById('fullscreen_button').style.backgroundImage = "url('/media/sot/images/Expand_2b.png')";
-    };
-
-    // Reset Buttons
-    document.getElementById('navigation_buttons').onmouseout = function () {
-        document.getElementById('reset_button').style.backgroundImage = "url('/media/sot/images/Refresh_1.png')";
-        document.getElementById('instructions_button').style.backgroundImage = "url('/media/sot/images/Info_1.png')";
-        document.getElementById('display_button').style.backgroundImage = "url('/media/sot/images/Orbit_1.png')";
-        document.getElementById('satellite_button').style.backgroundImage = "url('/media/sot/images/Satellite_1.png')";
-        document.getElementById('fullscreen_button').style.backgroundImage = "url('/media/sot/images/Expand_1.png')";
     };
 
     // Close Satellite Information Modal
     document.getElementById('satellite_display_close').onclick = function () {
         document.getElementById('satellite_display').style.display = 'none';
         selectedSatelliteIdx = null;
+        PLAY = true;
     };
 
     // Toggle Fullscreen
@@ -464,11 +396,9 @@
             ||          el.msRequestFullScreen;
         if (fsEl && fsExit !== 'undefined' && fsExit) {
             fsExit.call(document);
-            document.getElementById('fullscreen_button').style.backgroundImage = "url('/media/sot/images/Expand_1.png')";
         } else {
             if (typeof fsRequest !== 'undefined' && fsRequest) {
                 fsRequest.call(el);
-                document.getElementById('fullscreen_button').style.backgroundImage = "url('/media/sot/images/Expand_2.png')";
             }
         }
         onResize();
@@ -490,13 +420,11 @@
                 if (pickedObject && pickedObject.satelliteName) { // Only show satellite, not Geo marker
                     satDiv.textContent = pickedObject.satelliteName;
                     satDiv.style.left = movement.endPosition.x + 'px';
-                    satDiv.style.top  = movement.endPosition.y + canvasTop - 24 + 'px'; // seems a bit high from mouse
+                    satDiv.style.top  = movement.endPosition.y + canvasTop - 50 + 'px'; // seems a bit high from mouse
                     satDiv.style.display = ''; // remove any 'none'
                     // The following used to work in <style> section, but stopped; why?
                     satDiv.style.position = 'absolute'; // vital to positioning near cursor
-                    satDiv.style.padding = '2px';
-                    satDiv.style.backgroundColor = '#909090';
-                    satDiv.style.color = 'black';
+                    satDiv.className = "modal";
                 }
                 else {
                     satDiv.style.display = 'none';
@@ -567,6 +495,7 @@
                     }
                     moveCamera();
                     showOrbit();
+                    displayStats();
                 }
             },
             Cesium.ScreenSpaceEventType.LEFT_CLICK // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
@@ -583,8 +512,31 @@
     // but that would require more images in the textureAtlas.
 
     document.getElementById('select_satellite').onchange = function () {
-        selectedSatelliteIdx = Number(this.value); // '16'
+        // TODO: var defs duped from satelliteClickDetails() above!
+        var scienceUrl = 'http://science.nasa.gov/missions/';
+        var nssdcUrl = 'http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=';
+        var satName, satDesig, scienceUrl, century, nssdcUrl;
+
         document.getElementById('satellite_form').style.display = 'none';
+        selectedSatelliteIdx = Number(this.value); // '16'
+        // set the HREF links in the More on... dialog2
+        // TODO: don't copy/paste replicate this code from above, make a function
+        satName = satData[selectedSatelliteIdx].name.toLowerCase(); // crres
+        satDesig = satData[selectedSatelliteIdx].intlDesig;
+        scienceUrl +=  scienceSlugify(satName) + '/';
+        document.getElementById('science_url').href = scienceUrl;
+        // mangle Intl Designator for NSSDC: 98067A -> 1998-067A
+        if (Number(satDesig.slice(0, 2)) < 20) { // heuristic from JTrack3D source code
+            century = '20';
+        }
+        else {
+            century = '19';
+        }
+        nssdcUrl += century + satDesig.slice(0, 2) + '-' + satDesig.slice(2);
+        document.getElementById('nssdc_url').href = nssdcUrl;
+
+        // TODO: Not sure why this has to be after the URL mangling
+        // but if it's before, we don't display the satellite details pane
         moveCamera();
         showOrbit();
     };
@@ -737,7 +689,7 @@
     // Switch which satellites are displayed.
     document.getElementById('select_satellite_group').onchange = function () {
         orbitTraces.removeAll();
-        getSatrecsFromTLEFile('/media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
+        getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
         populateSatelliteSelector();
         populateSatelliteBillboard();
     };
@@ -770,7 +722,7 @@
 
     showGeolocation(scene);
 
-    getSatrecsFromTLEFile('/media/sot/tle/' + document.getElementById('select_satellite_group').value + '.txt');
+    getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
     populateSatelliteSelector();
     populateSatelliteBillboard();
     satelliteHoverDisplay(scene); // should be self-invoked
@@ -778,6 +730,15 @@
 
     /////////////////////////////////////////////////////////////////////////////
     // Run the timeclock, drive the animations
+
+    // TOGGLE Play
+     document.getElementById('play_button').onclick = function () {
+        PLAY = true;
+     };
+     document.getElementById('pause_button').onclick = function () {
+        PLAY = false;
+     };
+
 
     setInterval(function () {
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
@@ -799,17 +760,21 @@
         var displayuNow = uhours + ':' + uminutes + ':' + useconds;
         document.getElementById('utc_time').innerHTML = displayuNow;
 
-        if (satrecs.length > 0) {
+        if (satrecs.length > 0 && PLAY) {
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
             updateSatelliteBillboards(sats.positions);
         }
 
-        if (selectedSatelliteIdx !== null) {
-            displayStats();
+        if (selectedSatelliteIdx !== null && PLAY) {
             showOrbit();
+            displayStats();
+        }
+
+        if (selectedSatelliteIdx !== null) {
         }
     }, CALC_INTERVAL_MS);
+
 
     // Loop the clock
 
