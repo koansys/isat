@@ -422,7 +422,7 @@
                 if (pickedObject && pickedObject.satelliteName) { // Only show satellite, not Geo marker
                     satDiv.textContent = pickedObject.satelliteName;
                     satDiv.style.left = movement.endPosition.x + 'px';
-                    satDiv.style.top  = movement.endPosition.y + canvasTop - 24 + 'px'; // seems a bit high from mouse
+                    satDiv.style.top  = movement.endPosition.y + canvasTop - 50 + 'px'; // seems a bit high from mouse
                     satDiv.style.display = ''; // remove any 'none'
                     // The following used to work in <style> section, but stopped; why?
                     satDiv.style.position = 'absolute'; // vital to positioning near cursor
