@@ -89,7 +89,9 @@
           <dd><b>Safari</b><br /> <a href="#">For Mac</a></dd>
         </dl>
       </div>
-      <a href="#" id="not_supported_close">Close</a>
+      <button id="not_supported_close"
+              title="Close: Not supported"
+              accesskey="c">Close</button>
     </div>
     <div id="satellite_form">
       <form id="controls">
@@ -170,6 +172,18 @@
           <legend>
             Satellite Information
           </legend>
+
+          <div id="play_pause_buttons">
+            <button id="play_button"
+                    accesskey="p"
+                    title="Update satellite information"
+                    type="button">Play</button>
+            <button id="pause_button"
+                    accesskey="s"
+                    title="Pause updating satellite information"
+                    type="button">Pause</button>
+          </div>
+
           <div id="date">Date</div>
           <table id="positions">
             <thead>
