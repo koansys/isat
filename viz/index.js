@@ -771,8 +771,6 @@
             displayStats();
         }
 
-        if (selectedSatelliteIdx !== null) {
-        }
     }, CALC_INTERVAL_MS);
 
 
