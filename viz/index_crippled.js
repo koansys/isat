@@ -118,10 +118,10 @@
         }
     }
 
-    getSatrecsFromTLEFile('tle/SMD.txt');
+    getSatrecsFromTLEFile('/media/sot/tle/SMD.txt');
     document.getElementById('select_satellite_group').onchange = function () {
         orbitTraces.removeAll();
-        getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
+        getSatrecsFromTLEFile('/media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
     };
 
     setInterval(computeStats, CALC_INTERVAL_MS);
