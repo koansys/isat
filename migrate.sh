@@ -14,4 +14,5 @@ cp -r $CURRENT_DIR/viz/static/images/* /repfiles/nasascience/media/sot/images
 cp -r $CURRENT_DIR/viz/static/js/* /repfiles/nasascience/media/sot/js
 cp -r $CURRENT_DIR/viz/tle/* /repfiles/nasascience/media/sot/tle
 cp $CURRENT_DIR/viz/index.js /repfiles/nasascience/media/sot/js/index.js
+cp $CURRENT_DIR/viz/index_crippled.js /repfiles/nasascience/media/sot/js/index_crippled.js
 cp $CURRENT_DIR/viz/tle.js /repfiles/nasascience/media/sot/js/tle.js

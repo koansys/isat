@@ -294,7 +294,7 @@
 
     function onResize() {
         var headerHeight = document.getElementById('header').offsetHeight;
-        var width = window.innerWidth - getScrollBarWidth();
+        var width = document.getElementById('header').offsetWidth - getScrollBarWidth();
         var height = window.innerHeight - headerHeight;
         // var height = cc.scrollHeight;
         if (canvas.width === width && canvas.height === height) {
@@ -399,6 +399,7 @@
         } else {
             if (typeof fsRequest !== 'undefined' && fsRequest) {
                 fsRequest.call(el);
+                document.getElementById('wrapper').style.width = '100%';
             }
         }
         onResize();
@@ -722,7 +723,7 @@
 
     showGeolocation(scene);
 
-    getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
+    getSatrecsFromTLEFile('/media/sot/tle/' + document.getElementById('select_satellite_group').value + '.txt');
     populateSatelliteSelector();
     populateSatelliteBillboard();
     satelliteHoverDisplay(scene); // should be self-invoked
@@ -734,31 +735,18 @@
     // TOGGLE Play
      document.getElementById('play_button').onclick = function () {
         PLAY = true;
+        document.getElementById('play_button').src = 'media/sot/images/Play_2.png';
+        document.getElementById('pause_button').src = 'media/sot/images/Pause_1.png';
      };
      document.getElementById('pause_button').onclick = function () {
         PLAY = false;
+        document.getElementById('pause_button').src = 'media/sot/images/Pause_2.png';
+        document.getElementById('play_button').src = 'media/sot/images/Play_1.png';
      };
 
 
     setInterval(function () {
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
-        var date = new Date();
-        var h = date.getHours();
-        var hours = (h < 10) ? '0' + h : h;
-        var m = date.getMinutes();
-        var minutes = (m < 10) ? '0' + m : m;
-        var s = date.getSeconds();
-        var seconds = (s < 10) ? '0' + s : s;
-        var displayNow = hours + ':' + minutes + ':' + seconds;
-        document.getElementById('local_time').innerHTML = displayNow;
-        var uh = date.getUTCHours();
-        var uhours = (uh < 10) ? '0' + uh : uh;
-        var um = date.getUTCMinutes();
-        var uminutes = (um < 10) ? '0' + um : um;
-        var us = date.getUTCSeconds();
-        var useconds = (us < 10) ? '0' + us : us;
-        var displayuNow = uhours + ':' + uminutes + ':' + useconds;
-        document.getElementById('utc_time').innerHTML = displayuNow;
 
         if (satrecs.length > 0 && PLAY) {
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock

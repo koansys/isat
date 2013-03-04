@@ -70,126 +70,128 @@
   </head>
 
   <body>
-    <div id="not_supported" class="modal">
-      <h1>Not Supported</h1>
-      <p>The Interactive Satellite Viewer does not support the browser you are currently using. Portions of our website may not display or function properly when used in this browser.</p>
-      <p>For the optimal experience, we recommend updating to the most recent version of one of the following supported browser.</p>
-      <p>To see just text data, close this popup.</p>
-      <p>Your browser does not support <span id="failure"></span>.</p>
+    <div id="wrapper">
+      <div id="not_supported" class="modal">
+        <h1>Not Supported</h1>
+        <p>The Interactive Satellite Viewer does not support the browser you are currently using. Portions of our website may not display or function properly when used in this browser.</p>
+        <p>For the optimal experience, we recommend updating to the most recent version of one of the following supported browser.</p>
+        <p>To see just text data, close this popup.</p>
+        <p>Your browser does not support <span id="failure"></span>.</p>
 
-      <div id="browser_list">
-        <dl>
-          <dt><img src="static/images/Chrome_Logo.png" alt="Chrome Browser" height="65px" width="65px"></dt>
-          <dd><b>Chrome</b><br /> <a href="#">For Windows</a> | <a href="#">For Mac</a></dd>
-          <dt><img src="static/images/Firefox_Logo.png" alt="Firefox Browser" height="65px" width="65px"></dt>
-          <dd><b>Firefox</b><br /> <a href="#">For Windows</a> | <a href="#">For Mac</a></dd>
-          <dt><img src="static/images/IE_Logo.png" alt="Internet Explorer Browser" height="65px" width="65px"></dt>
-          <dd><b>Internet Explorer</b><br /> <a href="#">For Windows</a> | <a href="#">For Mac</a></dd>
-          <dt><img src="static/images/Safari_Logo.png" alt="Safari Browser" height="65px" width="65px"></dt>
-          <dd><b>Safari</b><br /> <a href="#">For Mac</a></dd>
-        </dl>
+        <div id="browser_list">
+          <dl>
+            <dt><img src="static/images/Chrome_Logo.png" alt="Chrome Browser" height="65px" width="65px"></dt>
+            <dd><b>Chrome</b><br /> <a href="#">For Windows</a> | <a href="#">For Mac</a></dd>
+            <dt><img src="static/images/Firefox_Logo.png" alt="Firefox Browser" height="65px" width="65px"></dt>
+            <dd><b>Firefox</b><br /> <a href="#">For Windows</a> | <a href="#">For Mac</a></dd>
+            <dt><img src="static/images/IE_Logo.png" alt="Internet Explorer Browser" height="65px" width="65px"></dt>
+            <dd><b>Internet Explorer</b><br /> <a href="#">For Windows</a> | <a href="#">For Mac</a></dd>
+            <dt><img src="static/images/Safari_Logo.png" alt="Safari Browser" height="65px" width="65px"></dt>
+            <dd><b>Safari</b><br /> <a href="#">For Mac</a></dd>
+          </dl>
+        </div>
+        <a href="#" id="not_supported_close">Close</a>
       </div>
-      <a href="#" id="not_supported_close">Close</a>
-    </div>
-    <div id="satellite_form">
-      <form id="controls">
-        <fieldset>
-          <legend>
-            Select a Satellite:
-          </legend>
-          <dl id="controls_satellite">
-            <dt>
-              <label for="select_satellite_group">Satellite Group:</label>
-            </dt>
-            <dd>
-              <select id="select_satellite_group">
-                <option value="SMD">
-                  NASA Science
-                </option>
-                  <optgroup label="From Celestrak"></optgroup>
-                  <optgroup class="second_level" label="Special Interest">
-                    <option value="visual"> 100 (or so) Brightest</option>
-                    <option value="cosmos-2251-debris"> COSMOS 2251 Debris</option>
-                    <option value="1999-025"> FENGYUN 1C Debris</option>
-                    <option value="iridium-33-debris"> IRIDIUM 33 Debris</option>
-                    <option value="tle-new"> Last 30 Days' Launches</option>
-                    <option value="stations"> Space Stations</option>
-                    <!-- breeze-m r/b breakup (2012-044c) -->
-                  </optgroup>
-                  <optgroup class="second_level" label="Weather &amp; Earth Resources">
-                    <option value="dmc"> Disaster Monitoring</option>
-                    <option value="resource"> Earth Resources</option>
-                    <option value="goes"> GOES</option>
-                    <option value="noaa"> NOAA</option>
-                    <option value="sarsat"> Search &amp; Rescue (SARSAT)</option>
-                    <option value="tdrss"> Tracking and Data Relay Satellite</option>
-                    <option value="weather"> Weather</option>
-                  </optgroup>
-                  <optgroup class="second_level" label="Communications">
-                    <option value="amateur"> Amateur Radio</option>
-                    <option value="x-comm"> Experimental</option>
-                    <option value="geo"> Geostationary</option>
-                    <option value="globalstar"> Globalstar</option>
-                    <option value="gorizont"> Gorizont</option>
-                    <option value="intelsat"> Intelsat</option>
-                    <option value="iridium"> Iridium</option>
-                    <option value="molniya"> Molniya</option>
-                    <option value="other-comm"> Other</option>
-                    <option value="orbcomm"> Orbcomm</option>
-                    <option value="raduga"> Raduga</option>
-                  </optgroup>
-                  <optgroup class="second_level" label="Navigation">
-                    <option value="gps-ops"> GPS Operational</option>
-                    <option value="galileo"> Galileo</option>
-                    <option value="glo-ops"> Glonass Operational</option>
-                    <option value="nnss"> Navy Navigation Satellite System</option>
-                    <option value="musson"> Russian LEO Navigation</option>
-                    <option value="sbas"> Satellite-Based Augmentation System</option>
-                  </optgroup>
-                  <optgroup class="second_level" label="Scientific">
-                    <option value="education"> Education</option>
-                    <option value="engineering"> Engineering</option>
-                    <option value="geodetic"> Geodetic</option>
-                    <option value="science"> Space &amp; Earth Science</option>
-                  </optgroup>
-                  <optgroup class="second_level" label="Miscellaneous">
-                    <option value="cubesat"> CubeSats</option>
-                    <option value="military"> Miscellaneous Military</option>
-                    <option value="other"> Other</option>
-                    <option value="radar"> Radar Calibration</option>
-                  </optgroup>
-              </select>
-            </dd>
-          </dl> <!-- /controls_satellite -->
-        </fieldset>
-      </form>
-    </div> <!-- /satellite_form -->
-    <div id="statistics">
-      <form>
-        <fieldset>
-          <legend>
-            Satellite Information
-          </legend>
-          <div id="date">Date</div>
-          <table id="positions">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>ID</th>
-                <th>X Km</th>
-                <th>Y Km</th>
-                <th>Z Km</th>
-                <th>Velocity (BUG)</th>
-                <th>Latitude</th>
-                <th>Longitude (BUG)</th>
-                <th>Height Km/? (BUG)</th>
-              </tr>
-            </thead>
-            <!-- tbody destroyed and recreated by javascript -->
-          </table>
-        </fieldset>
-      </form>
-    </div> <!-- /statistics -->
-    <script src="index_crippled.js" type="text/javascript"></script>
+      <div id="satellite_form">
+        <form id="controls">
+          <fieldset>
+            <legend>
+              Select a Satellite:
+            </legend>
+            <dl id="controls_satellite">
+              <dt>
+                <label for="select_satellite_group">Satellite Group:</label>
+              </dt>
+              <dd>
+                <select id="select_satellite_group">
+                  <option value="SMD">
+                    NASA Science
+                  </option>
+                    <optgroup label="From Celestrak"></optgroup>
+                    <optgroup class="second_level" label="Special Interest">
+                      <option value="visual"> 100 (or so) Brightest</option>
+                      <option value="cosmos-2251-debris"> COSMOS 2251 Debris</option>
+                      <option value="1999-025"> FENGYUN 1C Debris</option>
+                      <option value="iridium-33-debris"> IRIDIUM 33 Debris</option>
+                      <option value="tle-new"> Last 30 Days' Launches</option>
+                      <option value="stations"> Space Stations</option>
+                      <!-- breeze-m r/b breakup (2012-044c) -->
+                    </optgroup>
+                    <optgroup class="second_level" label="Weather &amp; Earth Resources">
+                      <option value="dmc"> Disaster Monitoring</option>
+                      <option value="resource"> Earth Resources</option>
+                      <option value="goes"> GOES</option>
+                      <option value="noaa"> NOAA</option>
+                      <option value="sarsat"> Search &amp; Rescue (SARSAT)</option>
+                      <option value="tdrss"> Tracking and Data Relay Satellite</option>
+                      <option value="weather"> Weather</option>
+                    </optgroup>
+                    <optgroup class="second_level" label="Communications">
+                      <option value="amateur"> Amateur Radio</option>
+                      <option value="x-comm"> Experimental</option>
+                      <option value="geo"> Geostationary</option>
+                      <option value="globalstar"> Globalstar</option>
+                      <option value="gorizont"> Gorizont</option>
+                      <option value="intelsat"> Intelsat</option>
+                      <option value="iridium"> Iridium</option>
+                      <option value="molniya"> Molniya</option>
+                      <option value="other-comm"> Other</option>
+                      <option value="orbcomm"> Orbcomm</option>
+                      <option value="raduga"> Raduga</option>
+                    </optgroup>
+                    <optgroup class="second_level" label="Navigation">
+                      <option value="gps-ops"> GPS Operational</option>
+                      <option value="galileo"> Galileo</option>
+                      <option value="glo-ops"> Glonass Operational</option>
+                      <option value="nnss"> Navy Navigation Satellite System</option>
+                      <option value="musson"> Russian LEO Navigation</option>
+                      <option value="sbas"> Satellite-Based Augmentation System</option>
+                    </optgroup>
+                    <optgroup class="second_level" label="Scientific">
+                      <option value="education"> Education</option>
+                      <option value="engineering"> Engineering</option>
+                      <option value="geodetic"> Geodetic</option>
+                      <option value="science"> Space &amp; Earth Science</option>
+                    </optgroup>
+                    <optgroup class="second_level" label="Miscellaneous">
+                      <option value="cubesat"> CubeSats</option>
+                      <option value="military"> Miscellaneous Military</option>
+                      <option value="other"> Other</option>
+                      <option value="radar"> Radar Calibration</option>
+                    </optgroup>
+                </select>
+              </dd>
+            </dl> <!-- /controls_satellite -->
+          </fieldset>
+        </form>
+      </div> <!-- /satellite_form -->
+      <div id="statistics">
+        <form>
+          <fieldset>
+            <legend>
+              Satellite Information
+            </legend>
+            <div id="date">Date</div>
+            <table id="positions">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>ID</th>
+                  <th>X Km</th>
+                  <th>Y Km</th>
+                  <th>Z Km</th>
+                  <th>Velocity (BUG)</th>
+                  <th>Latitude</th>
+                  <th>Longitude (BUG)</th>
+                  <th>Height Km/? (BUG)</th>
+                </tr>
+              </thead>
+              <!-- tbody destroyed and recreated by javascript -->
+            </table>
+          </fieldset>
+        </form>
+      </div> <!-- /statistics -->
+      <script src="index_crippled.js" type="text/javascript"></script>
+    </div> <!-- /wrapper -->
   </body>
 </html>
