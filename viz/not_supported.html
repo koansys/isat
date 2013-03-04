@@ -30,48 +30,17 @@
     <script type="text/javascript" src="static/js/modernizr-2.6.2.min.js"></script> <!-- There is a minified one to use... -->
 
     <link rel="stylesheet" href="static/css/normalize.css">
-    <link rel="stylesheet" href="static/css/not_supported.css">
+    <link rel="stylesheet" href="static/css/main.css">
 
     <!--[if IE]>
     <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
     <script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
     <![endif]-->
-    <script type="text/javascript">
-      var QueryString = function () {
-        // This function is anonymous, is executed immediately and
-        // the return value is assigned to QueryString!
-        var query_string = {};
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
-          var pair = vars[i].split("=");
-            // If first entry with this name
-          if (typeof query_string[pair[0]] === "undefined") {
-            query_string[pair[0]] = pair[1];
-            // If second entry with this name
-          } else if (typeof query_string[pair[0]] === "string") {
-            var arr = [ query_string[pair[0]], pair[1] ];
-            query_string[pair[0]] = arr;
-            // If third or later entry with this name
-          } else {
-            query_string[pair[0]].push(pair[1]);
-          }
-        }
-          return query_string;
-      } ();
-      window.onload = function(){
-        document.getElementById('failure').innerHTML = QueryString.failure
-
-        document.getElementById('not_supported_close').onclick = function () {
-          document.getElementById('not_supported').style.display = 'none';
-        };
-      };
-    </script>
   </head>
 
   <body>
     <div id="wrapper">
-      <div id="not_supported" class="modal">
+      <div id="not_supported">
         <h1>Not Supported</h1>
         <p>The Interactive Satellite Viewer does not support the browser you are currently using. Portions of our website may not display or function properly when used in this browser.</p>
         <p>For the optimal experience, we recommend updating to the most recent version of one of the following supported browser.</p>
@@ -80,18 +49,27 @@
 
         <div id="browser_list">
           <dl>
-            <dt><img src="static/images/Chrome_Logo.png" alt="Chrome Browser" height="65px" width="65px"></dt>
-            <dd><b>Chrome</b><br /> <a href="#">For Windows</a> | <a href="#">For Mac</a></dd>
-            <dt><img src="static/images/Firefox_Logo.png" alt="Firefox Browser" height="65px" width="65px"></dt>
-            <dd><b>Firefox</b><br /> <a href="#">For Windows</a> | <a href="#">For Mac</a></dd>
-            <dt><img src="static/images/IE_Logo.png" alt="Internet Explorer Browser" height="65px" width="65px"></dt>
-            <dd><b>Internet Explorer</b><br /> <a href="#">For Windows</a> | <a href="#">For Mac</a></dd>
-            <dt><img src="static/images/Safari_Logo.png" alt="Safari Browser" height="65px" width="65px"></dt>
-            <dd><b>Safari</b><br /> <a href="#">For Mac</a></dd>
+            <dt>
+              <img src="static/images/Chrome_Logo.png"
+                   alt="Chrome Browser"
+                   height="65px" width="65px" />
+            </dt>
+            <dd>
+              <b>Chrome</b><br />
+              <a href="https://www.google.com/intl/en/chrome/browser/">For Windows, Mac, and Linux</a>
+            </dd>
+            <dt>
+              <img src="static/images/Firefox_Logo.png"
+                   alt="Firefox Browser"
+                   height="65px" width="65px" />
+            </dt>
+            <dd>
+              <b>Firefox</b><br />
+              <a href="http://www.mozilla.org/en-US/firefox/new/">For Windows, Mac, and Linux</a>
+            </dd>
           </dl>
-        </div>
-        <a href="#" id="not_supported_close">Close</a>
-      </div>
+        </div> <!-- /browswer_list -->
+      </div> <!-- /not-supported -->
       <div id="satellite_form">
         <form id="controls">
           <fieldset>
@@ -171,6 +149,18 @@
             <legend>
               Satellite Information
             </legend>
+
+            <div id="play_pause_buttons">
+              <button id="play_button"
+                      accesskey="p"
+                      title="Update satellite information"
+                      type="button">Play</button>
+              <button id="pause_button"
+                      accesskey="s"
+                      title="Pause updating satellite information"
+                      type="button">Pause</button>
+            </div>
+
             <div id="date">Date</div>
             <table id="positions">
               <thead>
@@ -180,10 +170,10 @@
                   <th>X Km</th>
                   <th>Y Km</th>
                   <th>Z Km</th>
-                  <th>Velocity (BUG)</th>
+                  <th>Velocity</th>
                   <th>Latitude</th>
-                  <th>Longitude (BUG)</th>
-                  <th>Height Km/? (BUG)</th>
+                  <th>Longitude</th>
+                  <th>Height</th>
                 </tr>
               </thead>
               <!-- tbody destroyed and recreated by javascript -->
@@ -191,7 +181,7 @@
           </fieldset>
         </form>
       </div> <!-- /statistics -->
-      <script src="index_crippled.js" type="text/javascript"></script>
     </div> <!-- /wrapper -->
+    <script src="index_crippled.js" type="text/javascript"></script>
   </body>
 </html>

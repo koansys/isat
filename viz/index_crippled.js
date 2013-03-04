@@ -1,5 +1,6 @@
-/*global document, window, console, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
+/*global document, window, console, setInterval, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
 (function () {
+    'use strict';
     var ellipsoid       = Cesium.Ellipsoid.WGS84;
     var clock           = new Cesium.Clock();
     var orbitTraces       = new Cesium.PolylineCollection(); // currently only one at a time
@@ -11,8 +12,19 @@
     var WHICHCONST      = 84;   //
     var TYPERUN         = 'm';  // 'm'anual, 'c'atalog, 'v'erification
     var TYPEINPUT       = 'n';  // HACK: 'now'
+    var PLAY            = true;
     var SAT_POSITIONS_MAX = 25; // Limit numer of positions displayed to save CPU
     var CALC_INTERVAL_MS  = 1000;
+
+    // TOGGLE Play
+    document.getElementById('play_button').onclick = function () {
+        PLAY = true;
+    };
+    document.getElementById('pause_button').onclick = function () {
+        PLAY = false;
+    };
+
+
 
     function getSatrecsFromTLEFile(fileName) {
         var tles = tle.parseFile(fileName);
@@ -92,12 +104,14 @@
         }
     }
 
-    function computeStats(){
+    function computeStats() {
         var currentTime = clock.tick();
         var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
 
-        document.getElementById('date').textContent = currentTime.toDate();
-        if (satrecs.length > 0) {
+        if (PLAY) {
+            document.getElementById('date').textContent = currentTime.toDate();
+        }
+        if (satrecs.length > 0 && PLAY) {
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
             displayPositions(sats);
@@ -110,6 +124,6 @@
         getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
     };
 
-    var displayStat = setInterval(computeStats, CALC_INTERVAL_MS);
+    setInterval(computeStats, CALC_INTERVAL_MS);
 
 }());
