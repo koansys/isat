@@ -446,7 +446,7 @@
         document.getElementById('satellite_display').style.display = 'block'; // show modal
         pos0 = sats.positions[satnum];                 // position of first satellite
         vel0 = sats.velocities[satnum];
-        vel0Carte = new Cesium.Cartesian3(Math.abs(vel0[0]), Math.abs(vel0[1]), Math.abs(vel0[2]));
+        vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
         carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
         // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
         carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
