@@ -19,7 +19,7 @@
     var CALC_INTERVAL_MS     = 1000;
 
     // HACK: force globals for SGP4
-    var WHICHCONST        = 84;   //
+    var WHICHCONST        = 72;   //
     var TYPERUN           = 'm';  // 'm'anual, 'c'atalog, 'v'erification
     var TYPEINPUT         = 'n';  // HACK: 'now'
     var PLAY              = true;
