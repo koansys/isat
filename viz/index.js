@@ -116,7 +116,7 @@
         satPositions = positions;
         return {'satrecs': satrecsOut,
                 'positions': positions,
-                'velocities': positions};
+                'velocities': velocities};
     }
 
     // Update the location of each satellite in the billboard.
@@ -456,7 +456,7 @@
         document.getElementById('satellite_x').innerHTML = carte.x.toFixed(0);
         document.getElementById('satellite_y').innerHTML = carte.y.toFixed(0);
         document.getElementById('satellite_z').innerHTML = carte.z.toFixed(0);
-        document.getElementById('satellite_velocity').innerHTML = vel0Carte.magnitude().toFixed(0);
+        document.getElementById('satellite_velocity').innerHTML = vel0Carte.magnitude().toFixed(3);
         document.getElementById('satellite_latitude').innerHTML = Cesium.Math.toDegrees(carto.latitude).toFixed(3);
         document.getElementById('satellite_longitude').innerHTML = Cesium.Math.toDegrees(carto.longitude).toFixed(3);
         document.getElementById('satellite_height').innerHTML = carto.height.toFixed(0);
