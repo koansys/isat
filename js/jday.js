@@ -42,3 +42,21 @@ function jday(yr, mon, day, hr, min, sec) {
         //  - 0.5 * sign(100.0 * yr + mon - 190002.5) + 0.5;
 }
 
+/**
+* Added functions to support finding geodetic position
+*/
+function ThetaG_JD(jd) {
+    var UT = 0.0, TU = 0.0, GMST = 0.0;
+    var secday = 8.6400E4;
+    var omega_E = 1.00273790934;
+    var twopi = 2.0 * Math.PI;
+        
+    UT = Frac(jd + 0.5);
+    jd = jd - UT;
+    TU = (jd - 2451545.0) / 36525;
+    GMST = 24110.54841 + TU * (8640184.812866 + TU * (0.093104 - TU * 6.2E-6));
+    GMST = Modulus(GMST + secday * omega_E * UT, secday);
+
+    return (twopi * GMST / secday);
+}
+

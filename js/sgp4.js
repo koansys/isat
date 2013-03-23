@@ -98,7 +98,15 @@
 //     vallado, crawford, hujsak, kelso  2006
 //  ----------------------------------------------------------------------------*/
 
-function sgp4(satrec, tsince) {
+//function sgp4(satrec, tsince) {
+function sgp4(satrec, time) {
+
+    /**
+    * Calculate time in minutes sice epoch
+    * 
+    * TODO: Is this accurate enough???????
+    */
+    tsince = (time - satrec.jdsatepoch) * 1440;
 
     // /* ------------------ set mathematical constants --------------- */
     var twopi = 2.0 * Math.PI,
@@ -383,6 +391,14 @@ function sgp4(satrec, tsince) {
         // printf("# decay condition //11.6f \n",mrt);
         satrec.error = 6;
     }
-
+    
+    var sat_geodetic = new geodetic_t();
+    
+    Calculate_LatLonAlt(time, r, sat_geodetic);
+    
+    satrec.lat = Degrees(sat_geodetic.lat);
+    satrec.lon = Degrees(sat_geodetic.lon);
+    satrec.alt = sat_geodetic.alt;
+    
     return [satrec, r, v];
 }

@@ -81,6 +81,9 @@
             startmfe = rets.shift();
             stopmfe  = rets.shift();
             deltamin = rets.shift();
+            satrec.lat = 0;
+            satrec.lon = 0;
+            satrec.lalt = 0;
             satrecs.push(satrec); // Don't need to sgp4(satrec, 0.0) to initialize state vector
         }
         // Returns nothing, sets globals: satrecs, satData
@@ -101,9 +104,10 @@
 
         for (satnum = 0, max = satrecs.length; satnum < max; satnum += 1) {
             satrecTmp = satrecs[satnum];
-            jdSat = new Cesium.JulianDate.fromTotalDays(satrecTmp.jdsatepoch);
-            minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
-            rets = sgp4(satrecs[satnum], minutesSinceEpoch);
+            jdSat = new Cesium.JulianDate();
+            var time = jdSat.getJulianDayNumber() + jdSat.getJulianTimeFraction();
+            rets = sgp4(satrecs[satnum], time);
+
             satrec = rets.shift();
             r = rets.shift();      // [1802,    3835,    5287] Km, not meters
             v = rets.shift();
@@ -457,9 +461,9 @@
         document.getElementById('satellite_y').innerHTML = carte.y.toFixed(0);
         document.getElementById('satellite_z').innerHTML = carte.z.toFixed(0);
         document.getElementById('satellite_velocity').innerHTML = vel0Carte.magnitude().toFixed(3);
-        document.getElementById('satellite_latitude').innerHTML = Cesium.Math.toDegrees(carto.latitude).toFixed(3);
-        document.getElementById('satellite_longitude').innerHTML = Cesium.Math.toDegrees(carto.longitude).toFixed(3);
-        document.getElementById('satellite_height').innerHTML = carto.height.toFixed(0);
+        document.getElementById('satellite_latitude').innerHTML = satrecs[satnum].lat.toFixed(3);
+        document.getElementById('satellite_longitude').innerHTML = satrecs[satnum].lon.toFixed(3);
+        document.getElementById('satellite_height').innerHTML = satrecs[satnum].alt.toFixed(3);
 
     }
 
@@ -624,10 +628,12 @@
         orbitTraces.modelMatrix = Cesium.Matrix4.fromRotationTranslation(Cesium.Transforms.computeTemeToPseudoFixedMatrix(now),
                                                                          Cesium.Cartesian3.ZERO);
 
+        
+        var time = new Cesium.JulianDate();                                                                         
         for (minutes = 0; minutes <= minutesPerOrbit; minutes += minutesPerPoint) {
             julianDate = now.addMinutes(minutes);
-            minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
-            rets = sgp4(satrec, minutesSinceEpoch);
+            var time = julianDate.getJulianDayNumber() + julianDate.getJulianTimeFraction();
+            rets = sgp4(satrec, time);
             satrec = rets.shift();
             r = rets.shift();      // [1802,    3835,    5287] Km, not meters
             position = new Cesium.Cartesian3(r[0], r[1], r[2]);  // becomes .x, .y, .z
