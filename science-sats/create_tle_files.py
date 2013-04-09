@@ -90,9 +90,9 @@ with open(COMBINED_NAME, 'w') as combined:
 
 # Overwrites COMBINDED.txt if there was no issue
 if(not WRITE_FAIL):
-    os.rename(TLE_END_PATH + COMBINED_NAME, TLE_END_PATH + 'COMBINED.txt')
+    os.rename(COMBINED_NAME, TLE_END_PATH + 'COMBINED.txt')
 else:
-    os.remove(TLE_END_PATH + COMBINED_NAME)
+    os.remove(COMBINED_NAME)
 
 scisats = {}
 scidivs = defaultdict(list)
