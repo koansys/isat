@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/local/bin/python
 
 # Pull each Celestrak TLE file and save a local copy, a combined .txt file
 
