@@ -20,7 +20,7 @@ import urllib2
 TLE_END_PATH = "/repfiles/nasascience/media/sot/tle/"
 
 CELESTRAK_BASE_URL = "http://www.celestrak.com/NORAD/elements/"
-COMBINED_NAME = "COMBINED-NEW.txt"
+COMBINED_NAME = TLE_END_PATH + "COMBINED-NEW.txt"
 
 WRITE_FAIL = False
 
@@ -76,7 +76,7 @@ files = {
 }
 
 # Create files from list above. Passes if not text file from URL.
-with open(TLE_END_PATH + COMBINED_NAME, 'w') as combined:
+with open(COMBINED_NAME, 'w') as combined:
     for fname, description in files.items():
         response = urllib2.urlopen(CELESTRAK_BASE_URL + fname)
         if (response.headers.getheader('content-type') == 'text/plain'):
