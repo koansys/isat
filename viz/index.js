@@ -19,7 +19,7 @@
     var CALC_INTERVAL_MS     = 1000;
 
     // HACK: force globals for SGP4
-    var WHICHCONST        = 84;   //
+    var WHICHCONST        = 72;   //
     var TYPERUN           = 'm';  // 'm'anual, 'c'atalog, 'v'erification
     var TYPEINPUT         = 'n';  // HACK: 'now'
     var PLAY              = true;
@@ -116,7 +116,7 @@
         satPositions = positions;
         return {'satrecs': satrecsOut,
                 'positions': positions,
-                'velocities': positions};
+                'velocities': velocities};
     }
 
     // Update the location of each satellite in the billboard.
@@ -447,7 +447,7 @@
         document.getElementById('satellite_display').style.display = 'block'; // show modal
         pos0 = sats.positions[satnum];                 // position of first satellite
         vel0 = sats.velocities[satnum];
-        vel0Carte = new Cesium.Cartesian3(Math.abs(vel0[0]), Math.abs(vel0[1]), Math.abs(vel0[2]));
+        vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
         carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
         // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
         carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
@@ -457,7 +457,7 @@
         document.getElementById('satellite_x').innerHTML = carte.x.toFixed(0);
         document.getElementById('satellite_y').innerHTML = carte.y.toFixed(0);
         document.getElementById('satellite_z').innerHTML = carte.z.toFixed(0);
-        document.getElementById('satellite_velocity').innerHTML = vel0Carte.magnitude().toFixed(0);
+        document.getElementById('satellite_velocity').innerHTML = vel0Carte.magnitude().toFixed(3);
         document.getElementById('satellite_latitude').innerHTML = Cesium.Math.toDegrees(carto.latitude).toFixed(3);
         document.getElementById('satellite_longitude').innerHTML = Cesium.Math.toDegrees(carto.longitude).toFixed(3);
         document.getElementById('satellite_height').innerHTML = carto.height.toFixed(0);
