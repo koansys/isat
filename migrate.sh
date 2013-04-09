@@ -16,3 +16,5 @@ cp -r $CURRENT_DIR/viz/tle/* /repfiles/nasascience/media/sot/tle
 cp $CURRENT_DIR/viz/index.js /repfiles/nasascience/media/sot/js/index.js
 cp $CURRENT_DIR/viz/index_crippled.js /repfiles/nasascience/media/sot/js/index_crippled.js
 cp $CURRENT_DIR/viz/tle.js /repfiles/nasascience/media/sot/js/tle.js
+cp $CURRENT_DIR/science-sats/NASA-Satellites-for-SkyWatch.csv /repfiles/nasascience/media/sot/tle/NASA-Satellites-for-SkyWatch.csv
+cp $CURRENT_DIR/science-sats/create_tle_files.py /repfiles/nasascience/media/sot/tle/create_tle_files.py
