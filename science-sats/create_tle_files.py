@@ -29,7 +29,7 @@ WRITE_FAIL = False
 #   Division, Name, Stuff
 #   Description, stuff
 # We will have to do some annoying parsing to get the right lines.
-SCI_CSV = 'NASA-Satellites-for-SkyWatch.csv'
+SCI_CSV = TLE_END_PATH + 'NASA-Satellites-for-SkyWatch.csv'
 
 CELESTRAK = TLE_END_PATH + 'COMBINED.txt'
 SMD_TLE_FILENAME = TLE_END_PATH + 'SMD.txt'
