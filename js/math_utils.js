@@ -37,4 +37,38 @@ function dot(a, b) {
 }
 
 
+/**
+* Added functions to support finding geodetic position
+*/
+function FMod2p(x) {
+    var i = 0;
+    var ret_val = 0.0;
+    var twopi = 2.0 * Math.PI;
+    
+    ret_val = x;
+    i = parseInt(ret_val / twopi);
+    ret_val -= i * twopi;
 
+    if (ret_val < 0.0)
+        ret_val += twopi;
+
+    return ret_val;
+}
+
+function Sqr(arg) {
+    return (arg * arg);
+}
+
+function Frac(arg) {
+    return(arg - Math.floor(arg));
+}
+
+function Modulus(arg1, arg2) {
+    return arg1 - (parseInt(arg1 / arg2)) * arg2;
+}
+
+function Degrees(arg) {
+    var deg2rad =  1.745329251994330E-2;
+    
+    return (arg / deg2rad);
+}

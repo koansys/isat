@@ -57,9 +57,9 @@
         var satnum, max, jdSat, minutesSinceEpoch, rets, satrec, r, v;
 
         for (satnum = 0, max = satrecs.length; satnum < max; satnum += 1) {
-            jdSat = new Cesium.JulianDate.fromTotalDays(satrecs[satnum].jdsatepoch);
-            minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
-            rets = sgp4(satrecs[satnum], minutesSinceEpoch);
+            jdSat = new Cesium.JulianDate();
+            var time = jdSat.getJulianDayNumber() + jdSat.getJulianTimeFraction();
+            rets = sgp4(satrecs[satnum], time);
             satrec = rets.shift();
             r = rets.shift();      // [1802,    3835,    5287] Km, not meters
             v = rets.shift();
@@ -98,9 +98,9 @@
             newRow.insertCell(-1).appendChild(document.createTextNode(carte.y.toFixed(0)));
             newRow.insertCell(-1).appendChild(document.createTextNode(carte.z.toFixed(0)));
             newRow.insertCell(-1).appendChild(document.createTextNode(vel0Carte.magnitude().toFixed(0)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.latitude).toFixed(3)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Math.toDegrees(carto.longitude).toFixed(3)));
-            newRow.insertCell(-1).appendChild(document.createTextNode(carto.height.toFixed(0)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(satrecs[satnum].lat.toFixed(3)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(satrecs[satnum].lon.toFixed(3)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(satrecs[satnum].alt.toFixed(3)));
         }
     }
 
