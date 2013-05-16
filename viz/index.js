@@ -1,4 +1,4 @@
-/*global document, window, setInterval, Cesium, Image, navigator, twoline2rv, sgp4, tle*/
+/*global document, window, setInterval, Cesium, Image, navigator, twoline2rv, sgp4, tle, gstime*/
 (function () {
     'use strict';
     var canvas            = document.getElementById('glCanvas');
@@ -424,7 +424,7 @@
                     satDiv.style.display = ''; // remove any 'none'
                     // The following used to work in <style> section, but stopped; why?
                     satDiv.style.position = 'absolute'; // vital to positioning near cursor
-                    satDiv.className = "modal";
+                    satDiv.className = 'modal';
                 }
                 else {
                     satDiv.style.display = 'none';
@@ -434,9 +434,61 @@
         );
     }
 
+
+    // TAKEN FROM ALEX's CODE...
+
+    var secday            = 86400;
+    var omegaE            = 1.00273790934;
+    var f                 = 3.35281066474748E-3;
+    var twopi             = 6.28318530717958623;
+    var pio2              = 1.57079632679489656;
+    var pi                = 3.14159265358979323;
+    var xkmper            = 6378.137;
+
+    function fMod2p(x) {
+        var i = 0;
+        var retVal = 0.0;
+
+        retVal = x;
+        i = parseInt(retVal / twopi, 10);
+        retVal -= i * twopi;
+
+        if (retVal < 0.0) {
+            retVal += twopi;
+        }
+
+        return retVal;
+    }
+
+    function calculateLatLonAlt(time, position, satellite) {
+        var r = 0.0, e2 = 0.0, phi = 0.0, c = 0.0, rad2degree = 57.295;
+        satellite.theta = Math.atan(position[1] / position[0]);
+
+        satellite.lonInRads = (satellite.theta - gstime(time));
+        r = Math.sqrt((position[0] * position[0]) + (position[1] * position[1]));
+        e2 = f * (2 - f);
+        satellite.latInRads = Math.atan(position[2] / r);
+
+        do {
+            phi = satellite.latInRads;
+            c = 1 / Math.sqrt(1 - e2 * (Math.sin(phi) * Math.sin(phi)));
+            satellite.latInRads = Math.atan((position[2] + xkmper * c * e2 * Math.sin(phi)) / r);
+
+        } while (Math.abs(satellite.latInRads - phi) >= 1E-10);
+
+        satellite.alt = r / Math.cos(satellite.latInRads) - xkmper * c;
+
+        if (satellite.latInRads > pio2) {
+            satellite.latInRads -= twopi;
+        }
+
+        satellite.latInDegrees = satellite.latInRads * rad2degree;
+        satellite.lonInDegrees = satellite.lonInRads * rad2degree;
+    }
+
     function displayStats() {
         var satnum = selectedSatelliteIdx; // fixed number to test...
-        var pos0, vel0, vel0Carte, carte, carto, sats;
+        var pos0, vel0, vel0Carte, latLonAlt, sats;
 
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
         if (satrecs.length > 0) {
@@ -447,21 +499,44 @@
         pos0 = sats.positions[satnum];                 // position of first satellite
         vel0 = sats.velocities[satnum];
         vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
-        carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
-        // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
-        carto = ellipsoid.cartesianToCartographic(carte); // BUG: Values are totally unrealistic, height=NaN
+        var time = now.getJulianDayNumber() + now.getJulianTimeFraction();
+        latLonAlt = calculateLatLonAlt(time, pos0, satrecs[satnum]);  // (time, position, satellite)
         document.getElementById('satellite_name').innerHTML = satData[satnum].name;
-        document.getElementById('satellite_name2').innerHTML = satData[satnum].name;
         document.getElementById('satellite_id').innerHTML = satData[satnum].noradId;
-        document.getElementById('satellite_x').innerHTML = carte.x.toFixed(0);
-        document.getElementById('satellite_y').innerHTML = carte.y.toFixed(0);
-        document.getElementById('satellite_z').innerHTML = carte.z.toFixed(0);
-        document.getElementById('satellite_velocity').innerHTML = vel0Carte.magnitude().toFixed(3);
-        document.getElementById('satellite_latitude').innerHTML = Cesium.Math.toDegrees(carto.latitude).toFixed(3);
-        document.getElementById('satellite_longitude').innerHTML = Cesium.Math.toDegrees(carto.longitude).toFixed(3);
-        document.getElementById('satellite_height').innerHTML = carto.height.toFixed(0);
+        var kmpers = vel0Carte.magnitude();
+        var mpers = kmpers * 0.621371;
+        document.getElementById('satellite_velocity_kms').innerHTML = kmpers.toFixed(3);
+        document.getElementById('satellite_velocity_ms').innerHTML = mpers.toFixed(3);
+        document.getElementById('satellite_latInDegrees').innerHTML = satrecs[satnum].latInDegrees.toFixed(3);
+        document.getElementById('satellite_lonInDegrees').innerHTML = satrecs[satnum].lonInDegrees.toFixed(3);
+        document.getElementById('satellite_latInRads').innerHTML = satrecs[satnum].latInRads.toFixed(3);
+        document.getElementById('satellite_lonInRads').innerHTML = satrecs[satnum].lonInRads.toFixed(3);
+        var heightkm = satrecs[satnum].alt;
+        var heightm = heightkm * 0.621371;
+        document.getElementById('satellite_height_km').innerHTML = heightkm.toFixed(3);
+        document.getElementById('satellite_height_m').innerHTML = heightm.toFixed(3);
+
+        var date = new Date();
+        var h = date.getHours();
+        var hours = (h < 10) ? '0' + h : h;
+        var m = date.getMinutes();
+        var minutes = (m < 10) ? '0' + m : m;
+        var s = date.getSeconds();
+        var seconds = (s < 10) ? '0' + s : s;
+        var displayNow = hours + ':' + minutes + ':' + seconds;
+        document.getElementById('local_time').innerHTML = displayNow;
+        var uh = date.getUTCHours();
+        var uhours = (uh < 10) ? '0' + uh : uh;
+        var um = date.getUTCMinutes();
+        var uminutes = (um < 10) ? '0' + um : um;
+        var us = date.getUTCSeconds();
+        var useconds = (us < 10) ? '0' + us : us;
+        var displayuNow = uhours + ':' + uminutes + ':' + useconds;
+        document.getElementById('utc_time').innerHTML = displayuNow;
 
     }
+
+
 
     // Clicking a satellite opens a page to Sciencce and NSSDC details
 
@@ -515,7 +590,7 @@
         // TODO: var defs duped from satelliteClickDetails() above!
         var scienceUrl = 'http://science.nasa.gov/missions/';
         var nssdcUrl = 'http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=';
-        var satName, satDesig, scienceUrl, century, nssdcUrl;
+        var satName, satDesig, century;
 
         document.getElementById('satellite_form').style.display = 'none';
         selectedSatelliteIdx = Number(this.value); // '16'
@@ -732,12 +807,12 @@
     // Run the timeclock, drive the animations
 
     // TOGGLE Play
-     document.getElementById('play_button').onclick = function () {
+    document.getElementById('play_button').onclick = function () {
         PLAY = true;
-     };
-     document.getElementById('pause_button').onclick = function () {
+    };
+    document.getElementById('pause_button').onclick = function () {
         PLAY = false;
-     };
+    };
 
 
     setInterval(function () {
