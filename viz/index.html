@@ -52,21 +52,7 @@
       Play_2.src = 'static/images/Play_2.png'
     </script>
 
-    <script type="text/javascript" src="../js/twoline2rv.js"></script>
-    <script type="text/javascript" src="../js/getgravc.js"></script>
-    <script type="text/javascript" src="../js/days2mdh.js"></script>
-    <script type="text/javascript" src="../js/jday.js"></script>
-    <script type="text/javascript" src="../js/sgp4init.js"></script>
-    <script type="text/javascript" src="../js/initl.js"></script>
-    <script type="text/javascript" src="../js/gstime.js"></script>
-    <script type="text/javascript" src="../js/sgp4.js"></script>
-
-    <script type="text/javascript" src="../js/dscom.js"></script>
-    <script type="text/javascript" src="../js/dpper.js"></script>
-    <script type="text/javascript" src="../js/dsinit.js"></script>
-    <script type="text/javascript" src="../js/dspace.js"></script>
-
-    <script type="text/javascript" src="tle.js"></script>
+    <script type="text/javascript" src="../js/isat.min.js"></script>
 
     <script type="text/javascript" src="cesium/Cesium.js"></script>
     <script type="text/javascript" src="static/js/modernizr-2.6.2.min.js"></script>
@@ -319,22 +305,28 @@
                  onmouseover="this.src='static/images/Pause_2.png'"
                  onmouseout="this.src='static/images/Pause_1.png'"/>
             <dl>
-              <dt>ID</dt>
+              <dt>Satellite Id</dt>
                 <dd id="satellite_id"></dd>
-              <dt>X Km</dt>
-                <dd id="satellite_x"></dd>
-              <dt>Y Km</dt>
-                <dd id="satellite_y"></dd>
-              <dt>Z Km</dt>
-                <dd id="satellite_z"></dd>
-              <dt>Velocity</dt>
-                <dd id="satellite_velocity"></dd>
-              <dt>Latitude</dt>
-                <dd id="satellite_latitude"></dd>
-              <dt>Longitude</dt>
-                <dd id="satellite_longitude"></dd>
-              <dt>Height</dt>
-                <dd id="satellite_height"></dd>
+              <dt>Local Time</dt>
+                <dd id="local_time"></dd>
+              <dt>UTC</dt>
+                <dd id="utc_time"></dd>
+              <dt>Velocity (km/s)</dt>
+                <dd id="satellite_velocity_kms"></dd>
+              <dt>Velocity (mi/s)</dt>
+                <dd id="satellite_velocity_ms"></dd>
+              <dt>Latitude (&deg;)</dt>
+                <dd id="satellite_latInDegrees"></dd>
+              <dt>Latitude (R)</dt>
+                <dd id="satellite_latInRads"></dd>
+              <dt>Longitude(&deg;)</dt>
+                <dd id="satellite_lonInDegrees"></dd>
+              <dt>Longitude(R)</dt>
+                <dd id="satellite_lonInRads"></dd>
+              <dt>Height (km)</dt>
+                <dd id="satellite_height_km"></dd>
+              <dt>Height (mi)</dt>
+                <dd id="satellite_height_m"></dd>
             </dl>
             <h3>More on <span id="satellite_name2"></span></h3>
             <a id="science_url" href="#" target="nasascience">Science Mission Directorate</a>
