@@ -434,36 +434,19 @@
         );
     }
 
-
-    // TAKEN FROM ALEX's CODE...
-
-    var secday            = 86400;
-    var omegaE            = 1.00273790934;
-    var f                 = 3.35281066474748E-3;
-    var twopi             = 6.28318530717958623;
-    var pio2              = 1.57079632679489656;
-    var pi                = 3.14159265358979323;
-    var xkmper            = 6378.137;
-
-    function fMod2p(x) {
-        var i = 0;
-        var retVal = 0.0;
-
-        retVal = x;
-        i = parseInt(retVal / twopi, 10);
-        retVal -= i * twopi;
-
-        if (retVal < 0.0) {
-            retVal += twopi;
-        }
-
-        return retVal;
-    }
-
     function calculateLatLonAlt(time, position, satellite) {
-        var r = 0.0, e2 = 0.0, phi = 0.0, c = 0.0, rad2degree = 57.295;
-        satellite.theta = Math.atan(position[1] / position[0]);
+        var r = 0.0,
+            e2 = 0.0,
+            phi = 0.0,
+            c = 0.0,
+            f = 3.35281066474748E-3,
+            twopi = 6.28318530717958623,
+            pio2 = 1.57079632679489656,
+            pi = 3.14159265358979323,
+            xkmper = 6378.137,
+            rad2degree = 57.295;
 
+        satellite.theta = Math.atan(position[1] / position[0]);
         satellite.lonInRads = (satellite.theta - gstime(time));
         r = Math.sqrt((position[0] * position[0]) + (position[1] * position[1]));
         e2 = f * (2 - f);
@@ -515,25 +498,6 @@
         var heightm = heightkm * 0.621371;
         document.getElementById('satellite_height_km').innerHTML = heightkm.toFixed(3);
         document.getElementById('satellite_height_m').innerHTML = heightm.toFixed(3);
-
-        var date = new Date();
-        var h = date.getHours();
-        var hours = (h < 10) ? '0' + h : h;
-        var m = date.getMinutes();
-        var minutes = (m < 10) ? '0' + m : m;
-        var s = date.getSeconds();
-        var seconds = (s < 10) ? '0' + s : s;
-        var displayNow = hours + ':' + minutes + ':' + seconds;
-        document.getElementById('local_time').innerHTML = displayNow;
-        var uh = date.getUTCHours();
-        var uhours = (uh < 10) ? '0' + uh : uh;
-        var um = date.getUTCMinutes();
-        var uminutes = (um < 10) ? '0' + um : um;
-        var us = date.getUTCSeconds();
-        var useconds = (us < 10) ? '0' + us : us;
-        var displayuNow = uhours + ':' + uminutes + ':' + useconds;
-        document.getElementById('utc_time').innerHTML = displayuNow;
-
     }
 
 
@@ -817,23 +781,6 @@
 
     setInterval(function () {
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
-        var date = new Date();
-        var h = date.getHours();
-        var hours = (h < 10) ? '0' + h : h;
-        var m = date.getMinutes();
-        var minutes = (m < 10) ? '0' + m : m;
-        var s = date.getSeconds();
-        var seconds = (s < 10) ? '0' + s : s;
-        var displayNow = hours + ':' + minutes + ':' + seconds;
-        document.getElementById('local_time').innerHTML = displayNow;
-        var uh = date.getUTCHours();
-        var uhours = (uh < 10) ? '0' + uh : uh;
-        var um = date.getUTCMinutes();
-        var uminutes = (um < 10) ? '0' + um : um;
-        var us = date.getUTCSeconds();
-        var useconds = (us < 10) ? '0' + us : us;
-        var displayuNow = uhours + ':' + uminutes + ':' + useconds;
-        document.getElementById('utc_time').innerHTML = displayuNow;
 
         if (satrecs.length > 0 && PLAY) {
             var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
