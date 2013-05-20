@@ -10,21 +10,7 @@
       opsmode = 'i'; //GLOBAL for intl, 'i'mproved
     </script>
 
-    <script type="text/javascript" src="../js/twoline2rv.js"></script>
-    <script type="text/javascript" src="../js/getgravc.js"></script>
-    <script type="text/javascript" src="../js/days2mdh.js"></script>
-    <script type="text/javascript" src="../js/jday.js"></script>
-    <script type="text/javascript" src="../js/sgp4init.js"></script>
-    <script type="text/javascript" src="../js/initl.js"></script>
-    <script type="text/javascript" src="../js/gstime.js"></script>
-    <script type="text/javascript" src="../js/sgp4.js"></script>
-
-    <script type="text/javascript" src="../js/dscom.js"></script>
-    <script type="text/javascript" src="../js/dpper.js"></script>
-    <script type="text/javascript" src="../js/dsinit.js"></script>
-    <script type="text/javascript" src="../js/dspace.js"></script>
-
-    <script type="text/javascript" src="tle.js"></script>
+    <script type="text/javascript" src="../js/isat.min.js"></script>
 
     <script type="text/javascript" src="cesium/Cesium.js"></script>
     <script type="text/javascript" src="static/js/modernizr-2.6.2.min.js"></script> <!-- There is a minified one to use... -->
@@ -167,13 +153,11 @@
                 <tr>
                   <th>Name</th>
                   <th>ID</th>
-                  <th>X Km</th>
-                  <th>Y Km</th>
-                  <th>Z Km</th>
                   <th>Velocity</th>
                   <th>Latitude</th>
                   <th>Longitude</th>
-                  <th>Height</th>
+                  <th>Height (Km)</th>
+                  <th>Height (M)</th>
                 </tr>
               </thead>
               <!-- tbody destroyed and recreated by javascript -->
