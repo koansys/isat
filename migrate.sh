@@ -6,7 +6,7 @@ mkdir /repfiles/nasascience/media/sot/cesium
 mkdir /repfiles/nasascience/media/sot/images
 mkdir /repfiles/nasascience/media/sot/css
 mkdir /repfiles/nasascience/media/sot/tle
-cp -r $CURRENT_DIR/js/* /repfiles/nasascience/media/sot/js
+cp -r $CURRENT_DIR/js/isat.min.js /repfiles/nasascience/media/sot/js/isat.min.js
 cp -r $CURRENT_DIR/viz/cesium/* /repfiles/nasascience/media/sot/cesium
 cp -r $CURRENT_DIR/viz/Images/* /repfiles/nasascience/media/sot/images
 cp -r $CURRENT_DIR/viz/static/css/* /repfiles/nasascience/media/sot/css
