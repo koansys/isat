@@ -493,8 +493,6 @@
         document.getElementById('satellite_velocity_ms').innerHTML = mpers.toFixed(3);
         document.getElementById('satellite_latInDegrees').innerHTML = satrecs[satnum].latInDegrees.toFixed(3);
         document.getElementById('satellite_lonInDegrees').innerHTML = satrecs[satnum].lonInDegrees.toFixed(3);
-        document.getElementById('satellite_latInRads').innerHTML = satrecs[satnum].latInRads.toFixed(3);
-        document.getElementById('satellite_lonInRads').innerHTML = satrecs[satnum].lonInRads.toFixed(3);
         var heightkm = satrecs[satnum].alt;
         var heightm = heightkm * 0.621371;
         document.getElementById('satellite_height_km').innerHTML = heightkm.toFixed(3);
