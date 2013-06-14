@@ -75,7 +75,22 @@
     }
 
 
-    function calculateLatLonAlt(time, position, satellite) {
+    function fMod2p(x) {
+        var i = 0;
+        var ret_val = 0.0;
+        var twopi = 2.0 * Math.PI;
+
+        ret_val = x;
+        i = parseInt(ret_val / twopi);
+        ret_val -= i * twopi;
+
+        if (ret_val < 0.0)
+            ret_val += twopi;
+
+        return ret_val;
+    }
+
+    function calcLatLonAlt(time, position, satellite) {
         var r = 0.0,
             e2 = 0.0,
             phi = 0.0,
@@ -87,16 +102,16 @@
             xkmper = 6378.137,
             rad2degree = 57.295;
 
-        satellite.theta = Math.atan(position[1] / position[0]);
-        satellite.lonInRads = (satellite.theta - gstime(time));
-        r = Math.sqrt((position[0] * position[0]) + (position[1] * position[1]));
+        satellite.theta = Math.atan2(position[1],position[0]);
+        satellite.lonInRads = fMod2p(satellite.theta - gstime(time));
+        r = Math.sqrt(Math.pow(position[0], 2) + Math.pow(position[1], 2));
         e2 = f * (2 - f);
-        satellite.latInRads = Math.atan(position[2] / r);
+        satellite.latInRads = Math.atan2(position[2], r);
 
         do {
             phi = satellite.latInRads;
-            c = 1 / Math.sqrt(1 - e2 * (Math.sin(phi) * Math.sin(phi)));
-            satellite.latInRads = Math.atan((position[2] + xkmper * c * e2 * Math.sin(phi)) / r);
+            c = 1 / Math.sqrt(1 - e2 * Math.pow(Math.sin(phi), 2));
+            satellite.latInRads = Math.atan2((position[2] + xkmper * c * e2 * Math.sin(phi)), r);
 
         } while (Math.abs(satellite.latInRads - phi) >= 1E-10);
 
@@ -104,6 +119,10 @@
 
         if (satellite.latInRads > pio2) {
             satellite.latInRads -= twopi;
+        }
+
+        if (satellite.lonInRads > pio2) {
+            satellite.lonInRads = -twopi + satellite.lonInRads;
         }
 
         satellite.latInDegrees = satellite.latInRads * rad2degree;
