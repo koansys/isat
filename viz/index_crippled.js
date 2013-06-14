@@ -142,7 +142,7 @@
         for (satnum = 0, max = satrecs.length; satnum < max && satnum < SAT_POSITIONS_MAX; satnum += 1) {
             pos0 = sats.positions[satnum];                 // position of first satellite
             vel0 = sats.velocities[satnum];
-            latLonAlt = calculateLatLonAlt(time, pos0, satrecs[satnum]);
+            latLonAlt = calculateLatLonAlt(time, satPositions[satnum], satrecs[satnum]);
             vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
             carte = new Cesium.Cartesian3(pos0[0], pos0[1], pos0[2]);
             // BUG: carto giving bad valus like -1.06, 0.88, -6351321 or NaN; radians instead of degrees?
