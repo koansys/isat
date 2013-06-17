@@ -8,6 +8,6 @@ function testWebGL() {
 Modernizr.load([
   {
     test : testWebGL(),
-    yep: '/media/sot/js/index.min.js',
+    yep: '/media/sot/js/index.min.js?v=061713114123',
     nope : '/media/sot/js/redirects/no_webgl.js'
   }]);
