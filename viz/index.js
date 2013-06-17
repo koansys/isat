@@ -480,7 +480,7 @@
             satellite.latInRads -= twopi;
         }
 
-        if (satellite.lonInRads > pio2) {
+        if (satellite.lonInRads > pi) {
             satellite.lonInRads = -twopi + satellite.lonInRads;
         }
 
