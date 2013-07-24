@@ -17,19 +17,36 @@ import logging
 import os
 import urllib2
 
-TLE_END_PATH = "/repfiles/nasascience/media/sot/tle/"
+TLE_END_PATH = "/repfiles/nasascience/media/sot/tle/"  # For Production
+# TLE_END_PATH = "tle/"  # for testing
 
 CELESTRAK_BASE_URL = "http://www.celestrak.com/NORAD/elements/"
 COMBINED_NAME = TLE_END_PATH + "COMBINED-NEW.txt"
 
 WRITE_FAIL = False
 
+
+# Algorithm to find latest `satellites.csv` in Fein CMS's medialibrary.
+folder = '/repfiles/nasascience/media/medialibrary'
+satellites = []
+for (dirpath, dirname, filenames) in os.walk(folder):
+    for file in filenames:
+        if file.endswith('satellites.csv'):
+            path = os.path.join(dirpath, file)
+            satellites.append({'path': path, 'mtime': os.stat(path).st_mtime})
+
+max_time = max(satellite['mtime'] for satellite in satellites)
+
+newest_csv_placement = next(index for (index, d) in enumerate(satellites) if d['mtime'] == max_time)
+
 # The CSV is (typical) a visually-formatted file with:
 #   HEADER LINE
 #   Division, Name, Stuff
 #   Description, stuff
 # We will have to do some annoying parsing to get the right lines.
-SCI_CSV = TLE_END_PATH + 'NASA-Satellites-for-SkyWatch.csv'
+# SCI_CSV = TLE_END_PATH + 'NASA-Satellites-for-SkyWatch.csv'  # For Production
+# SCI_CSV = 'satellites.csv'  # For Testing
+SCI_CSV = satellites[newest_csv_placement]['path']  # Admin accessible version
 
 CELESTRAK = TLE_END_PATH + 'COMBINED.txt'
 SMD_TLE_FILENAME = TLE_END_PATH + 'SMD.txt'
