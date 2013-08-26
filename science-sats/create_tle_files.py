@@ -25,13 +25,12 @@ COMBINED_NAME = TLE_END_PATH + "COMBINED-NEW.txt"
 
 WRITE_FAIL = False
 
-
 # Algorithm to find latest `satellites.csv` in Fein CMS's medialibrary.
 folder = '/repfiles/nasascience/media/medialibrary'
 satellites = []
 for (dirpath, dirname, filenames) in os.walk(folder):
     for file in filenames:
-        if file.endswith('satellites.csv'):
+        if file.startswith("satellites") and file.endswith(".csv"):
             path = os.path.join(dirpath, file)
             satellites.append({'path': path, 'mtime': os.stat(path).st_mtime})
 
