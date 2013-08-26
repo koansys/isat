@@ -118,7 +118,7 @@ with open(SCI_CSV) as sci_csv:
     reader = csv.DictReader(sci_csv)
     for row in reader:
         division = row['Division']
-        name = row['Name'].strip()
+        name = row['TLE'].strip()
         if division:
             scisats[name] = division
             scidivs[division].append(name)
