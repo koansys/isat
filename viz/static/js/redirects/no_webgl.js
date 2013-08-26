@@ -1,1 +1,1 @@
-window.location = "not_supported.html?failure=Webgl";
+window.location = "/iSat/iSAT-text-only/?failure=Webgl";
