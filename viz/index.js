@@ -14,7 +14,7 @@
     var transitioner      = new Cesium.SceneTransitioner(scene, ellipsoid);
 
     // Constants
-    var CESIUM_TEXTURES_BASE = 'cesium/Assets/Textures';
+    var CESIUM_TEXTURES_BASE = '/media/sot/cesium/Assets/Textures';
     var SKYBOX_BASE          = CESIUM_TEXTURES_BASE + '/SkyBox';
     var CALC_INTERVAL_MS     = 1000;
 
@@ -188,7 +188,7 @@
         }
         scene.getPrimitives().add(satBillboards);
 
-        image.src = 'Images/Satellite.png';
+        image.src = '/media/sot/images/Satellite.png';
         image.onload = function () {
             var textureAtlas = scene.getContext().createTextureAtlas({image: image}); // seems needed in onload()
             satBillboards.setTextureAtlas(textureAtlas);
@@ -207,7 +207,7 @@
             var up     = new Cesium.Cartesian3(0, 0, 1);
             // Put a cross where we are
             var image = new Image();
-            image.src = 'Images/icon_geolocation.png';
+            image.src = '/media/sot/images/icon_geolocation.png';
             image.onload = function () {
                 var billboards = new Cesium.BillboardCollection(); // how to make single?
                 var textureAtlas = scene.getContext().createTextureAtlas({image: image});
@@ -294,7 +294,7 @@
 
     function onResize() {
         var headerHeight = document.getElementById('header').offsetHeight;
-        var width = window.innerWidth - getScrollBarWidth();
+        var width = document.getElementById('header').offsetWidth - getScrollBarWidth();
         var height = window.innerHeight - headerHeight;
         // var height = cc.scrollHeight;
         if (canvas.width === width && canvas.height === height) {
@@ -399,6 +399,7 @@
         } else {
             if (typeof fsRequest !== 'undefined' && fsRequest) {
                 fsRequest.call(el);
+                document.getElementById('wrapper').style.width = '100%';
             }
         }
         onResize();
@@ -511,8 +512,6 @@
         document.getElementById('satellite_velocity_ms').innerHTML = mpers.toFixed(3);
         document.getElementById('satellite_latInDegrees').innerHTML = satrecs[satnum].latInDegrees.toFixed(3);
         document.getElementById('satellite_lonInDegrees').innerHTML = satrecs[satnum].lonInDegrees.toFixed(3);
-        document.getElementById('satellite_latInRads').innerHTML = satrecs[satnum].latInRads.toFixed(3);
-        document.getElementById('satellite_lonInRads').innerHTML = satrecs[satnum].lonInRads.toFixed(3);
         var heightkm = satrecs[satnum].alt;
         var heightm = heightkm * 0.621371;
         document.getElementById('satellite_height_km').innerHTML = heightkm.toFixed(3);
@@ -749,7 +748,7 @@
     // Switch which satellites are displayed.
     document.getElementById('select_satellite_group').onchange = function () {
         orbitTraces.removeAll();
-        getSatrecsFromTLEFile('tle/' + this.value + '.txt'); // TODO: security risk?
+        getSatrecsFromTLEFile('/media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
         populateSatelliteSelector();
         populateSatelliteBillboard();
     };
@@ -782,7 +781,7 @@
 
     showGeolocation(scene);
 
-    getSatrecsFromTLEFile('tle/' + document.getElementById('select_satellite_group').value + '.txt');
+    getSatrecsFromTLEFile('/media/sot/tle/' + document.getElementById('select_satellite_group').value + '.txt');
     populateSatelliteSelector();
     populateSatelliteBillboard();
     satelliteHoverDisplay(scene); // should be self-invoked

@@ -1,1 +1,0 @@
-window.location = "not_supported.html";

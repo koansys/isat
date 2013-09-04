@@ -1,19 +1,54 @@
-#!/usr/bin/env python
+#!/usr/local/bin/python
+
 # Pull each Celestrak TLE file and save a local copy, a combined .txt file
-# In a separate process, well have to produce artifacts like SMD satellite file.
+
+# Parse the CSV of Science satellites SMD wants by name, find satellite ID from
+# Celestrak files and create a SMD.txt file.
+
+# The names are unlikely to match perfectly -- parenthetical suffixes, etc
+
 # We aren't worrying about duplicates here, do it in postprocessing.
 # TODO:
 # - is there a way to find this list of files? or is it static?
 
+from collections import defaultdict
+import csv
+import logging
 import os
 import urllib2
 
-TLE_END_PATH = "/usr/local/src/koansys/isat/test_folder/"
+TLE_END_PATH = "/repfiles/nasascience/media/sot/tle/"  # For Production
+# TLE_END_PATH = "tle/"  # for testing
 
-CELESTRAC_BASE_URL = "http://www.celestrak.com/NORAD/elements/"
-COMBINED_NAME = "COMBINED-NEW.txt"
+CELESTRAK_BASE_URL = "http://www.celestrak.com/NORAD/elements/"
+COMBINED_NAME = TLE_END_PATH + "COMBINED-NEW.txt"
 
 WRITE_FAIL = False
+
+# Algorithm to find latest `satellites.csv` in Fein CMS's medialibrary.
+folder = '/repfiles/nasascience/media/medialibrary'
+satellites = []
+for (dirpath, dirname, filenames) in os.walk(folder):
+    for file in filenames:
+        if file.startswith("satellites") and file.endswith(".csv"):
+            path = os.path.join(dirpath, file)
+            satellites.append({'path': path, 'mtime': os.stat(path).st_mtime})
+
+max_time = max(satellite['mtime'] for satellite in satellites)
+
+newest_csv_placement = next(index for (index, d) in enumerate(satellites) if d['mtime'] == max_time)
+
+# The CSV is (typical) a visually-formatted file with:
+#   HEADER LINE
+#   Division, Name, Stuff
+#   Description, stuff
+# We will have to do some annoying parsing to get the right lines.
+# SCI_CSV = TLE_END_PATH + 'NASA-Satellites-for-SkyWatch.csv'  # For Production
+# SCI_CSV = 'satellites.csv'  # For Testing
+SCI_CSV = satellites[newest_csv_placement]['path']  # Admin accessible version
+
+CELESTRAK = TLE_END_PATH + 'COMBINED.txt'
+SMD_TLE_FILENAME = TLE_END_PATH + 'SMD.txt'
 
 files = {
     "tle-new.txt": "Last 30 Days' Launches",
@@ -56,9 +91,10 @@ files = {
     "other.txt": "Other",
 }
 
-with open(TLE_END_PATH + COMBINED_NAME, 'w') as combined:
+# Create files from list above. Passes if not text file from URL.
+with open(COMBINED_NAME, 'w') as combined:
     for fname, description in files.items():
-        response = urllib2.urlopen(CELESTRAC_BASE_URL + fname)
+        response = urllib2.urlopen(CELESTRAK_BASE_URL + fname)
         if (response.headers.getheader('content-type') == 'text/plain'):
             tles = response.read()
             with open(TLE_END_PATH + fname, 'w') as out:
@@ -68,36 +104,11 @@ with open(TLE_END_PATH + COMBINED_NAME, 'w') as combined:
             WRITE_FAIL = True
             pass
 
+# Overwrites COMBINDED.txt if there was no issue
 if(not WRITE_FAIL):
-    os.rename(TLE_END_PATH + COMBINED_NAME, TLE_END_PATH + 'COMBINED.txt')
+    os.rename(COMBINED_NAME, TLE_END_PATH + 'COMBINED.txt')
 else:
-    os.remove(TLE_END_PATH + COMBINED_NAME)
-
-
-# Parse the CSV of Science satellites SMD wants by name,
-# find satelite ID from Celestrak files.
-# The names are unlikely to match perfectly -- parenthetical suffixes, etc
-
-# The CSV is (typical) a visually-formatted file with:
-#   HEADER LINE
-#   Division, Name, Stuff
-#   Description, stuff
-# We will have to do some annoying parsing to get the right lines.
-
-# The TLE file is sets of 3 lines with Name, TLE1, TLE2; ID is 2nd field sans U
-#   GALILEO-PFM (GSAT0101)
-#   1 37846U 11060A   12293.53312491  .00000049  00000-0  00000-0 0  1435
-#   2 37846  54.7963 119.5777 0000994 319.0618  40.9779  1.70474628  6204
-
-# 2012-10-22: Found=35,  Not Found=164
-
-from collections import defaultdict
-import csv
-import logging
-
-SCI_CSV = 'NASA-Satellites-for-SkyWatch.csv'
-CELESTRAK = TLE_END_PATH + 'COMBINED.txt'
-SMD_TLE_FILENAME = TLE_END_PATH + 'SMD.txt'
+    os.remove(COMBINED_NAME)
 
 scisats = {}
 scidivs = defaultdict(list)
@@ -106,13 +117,12 @@ with open(SCI_CSV) as sci_csv:
     reader = csv.DictReader(sci_csv)
     for row in reader:
         division = row['Division']
-        name = row['Name'].strip()
+        name = row['TLE'].strip()
         if division:
             scisats[name] = division
             scidivs[division].append(name)
 
 # Get TLEs that we can look up by name from Celestrak
-
 tles_by_name = {}
 tles_by_id = {}
 with open(CELESTRAK) as celestrak:
@@ -129,14 +139,13 @@ with open(CELESTRAK) as celestrak:
             continue
         tle = {'name': name,
                'id': tid,
-               'tle1': tle1,        # don't really need
-               'tle2': tle2,        # don't really need
+               'tle1': tle1,
+               'tle2': tle2,
                }
         tles_by_name[name] = tle
         tles_by_id[id] = tle
 
 # Lookup Science names in Celestrak names
-
 found = 0
 notfound = 0
 founds = []

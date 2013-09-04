@@ -60,9 +60,10 @@ body {
 
 #wrap {
     margin:0 auto;
+    position: relative;
 }
 
-#header {
+#iSat_header {
     background: url(../images/Banner.jpg) repeat-x 0 0;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -71,6 +72,7 @@ body {
     height: 80px;
     border-bottom: 2px solid #4cf126;
     min-width: 800px;
+    max-width: 100%;
 }
 
 #controls dd {
@@ -182,7 +184,7 @@ legend {
     display: none;
     top: 195px;
     left: 10px;
-    width: 25%;
+    width: 400px;
 }
 
 #satellite_form {
@@ -195,6 +197,7 @@ legend {
     display: none;
     top: 195px;
     left: 10px;
+    width: 400px;
 }
 
 #satellite_display {
@@ -202,6 +205,7 @@ legend {
     top: 10px;
     right: 10px;
     width: 300px;
+    width: 400px;
 }
 
 #satellite_display dl {
@@ -256,6 +260,8 @@ legend {
     top: 90px;
     left: 10px;
     z-index: 10;
+    width: 400px;
+    text-align: center;
 }
 
 #zoom_buttons {
@@ -263,6 +269,8 @@ legend {
     top: 10px;
     left: 10px;
     z-index: 10;
+    width: 400px;
+    text-align: center;
 }
 
 .close_button {
@@ -273,6 +281,7 @@ legend {
     height: 70px;
     width: 70px;
     display: inline-block;
+    margin-left: 5px;
 }
 
 .second_level {

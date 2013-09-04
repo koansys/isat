@@ -1,0 +1,80 @@
+<div id="wrapper">
+<p>
+The Interactive Satellite Viewer does not support the browser you are currently using. Portions of our website may not display or function properly when used in this browser.</p>
+<p>
+For the optimal experience, we recommend updating to the most recent version of one of the following supported browser.</p>
+<table>
+<tbody>
+<tr>
+<td>
+<img alt="" src="/media/sot/images/Chrome_Logo.png" width="65px" /></td>
+<td>
+<b>Chrome</b><br />
+<a href="https://www.google.com/intl/en/chrome/browser/">For Windows, Mac, and Linux</a></td>
+<td>
+<img alt="" src="/media/sot/images/Firefox_Logo.png" width="65px" /></td>
+<td>
+<b>Firefox</b><br />
+<a href="http://www.mozilla.org/en-US/firefox/new/">For Windows, Mac, and Linux</a></td>
+</tr>
+</tbody>
+</table>
+<form action="">
+<fieldset>
+<legend><strong>Select a Satellite:</strong></legend> <label for="select_satellite_group">Satellite Group:</label> <select id="select_satellite_group"><option value="SMD">NASA Science</option><optgroup class="second_level" label="Special Interest"><option value="visual">100 (or so) Brightest</option><option value="cosmos-2251-debris">COSMOS 2251 Debris</option><option value="1999-025">FENGYUN 1C Debris</option><option value="iridium-33-debris">IRIDIUM 33 Debris</option><option value="tle-new">Last 30 Days&#39; Launches</option><option value="stations">Space Stations</option><!-- breeze-m r/b breakup (2012-044c) --></optgroup> <optgroup class="second_level" label="Weather &amp; Earth Resources"><option value="dmc">Disaster Monitoring</option><option value="resource">Earth Resources</option><option value="goes">GOES</option><option value="noaa">NOAA</option><option value="sarsat">Search &amp; Rescue (SARSAT)</option><option value="tdrss">Tracking and Data Relay Satellite</option><option value="weather">Weather</option></optgroup> <optgroup class="second_level" label="Communications"><option value="amateur">Amateur Radio</option><option value="x-comm">Experimental</option><option value="geo">Geostationary</option><option value="globalstar">Globalstar</option><option value="gorizont">Gorizont</option><option value="intelsat">Intelsat</option><option value="iridium">Iridium</option><option value="molniya">Molniya</option><option value="other-comm">Other</option><option value="orbcomm">Orbcomm</option><option value="raduga">Raduga</option></optgroup> <optgroup class="second_level" label="Navigation"><option value="gps-ops">GPS Operational</option><option value="galileo">Galileo</option><option value="glo-ops">Glonass Operational</option><option value="nnss">Navy Navigation Satellite System</option><option value="musson">Russian LEO Navigation</option><option value="sbas">Satellite-Based Augmentation System</option></optgroup> <optgroup class="second_level" label="Scientific"><option value="education">Education</option><option value="engineering">Engineering</option><option value="geodetic">Geodetic</option><option value="science">Space &amp; Earth Science</option></optgroup> <optgroup class="second_level" label="Miscellaneous"><option value="cubesat">CubeSats</option><option value="military">Miscellaneous Military</option><option value="other">Other</option><option value="radar">Radar Calibration</option></optgroup> </select></fieldset>
+</form>
+</div>
+<div>
+<form>
+<fieldset>
+<legend><strong>Satellite Information</strong></legend><button accesskey="p" id="play_button" title="Update satellite information" type="button">Play</button><button accesskey="s" id="pause_button" title="Pause updating satellite information" type="button">Pause</button><br />
+<div id="date">
+Date</div>
+<table border="0" cellpadding="1" cellspacing="1" id="positions" style="width: 650px;" summary="Satellite information">
+<thead>
+<tr>
+<th>
+Name</th>
+<th>
+ID</th>
+<th>
+X Km</th>
+<th>
+Y Km</th>
+<th>
+Z Km</th>
+<th>
+Velocity</th>
+<th>
+Latitude</th>
+<th>
+Longitude</th>
+<th>
+Height</th>
+</tr>
+</thead>
+<!-- tbody destroyed and recreated by javascript -->
+</table>
+</fieldset>
+</form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+opsmode = 'i';
+//]]>
+</script><script type="text/javascript" src="/media/sot/js/twoline2rv.js">
+</script><script type="text/javascript" src="/media/sot/js/getgravc.js">
+</script><script type="text/javascript" src="/media/sot/js/days2mdh.js">
+</script><script type="text/javascript" src="/media/sot/js/jday.js">
+</script><script type="text/javascript" src="/media/sot/js/sgp4init.js">
+</script><script type="text/javascript" src="/media/sot/js/initl.js">
+</script><script type="text/javascript" src="/media/sot/js/gstime.js">
+</script><script type="text/javascript" src="/media/sot/js/sgp4.js">
+</script><script type="text/javascript" src="/media/sot/js/dscom.js">
+</script><script type="text/javascript" src="/media/sot/js/dpper.js">
+</script><script type="text/javascript" src="/media/sot/js/dsinit.js">
+</script><script type="text/javascript" src="/media/sot/js/dspace.js">
+</script><script type="text/javascript" src="/media/sot/js/tle.js">
+</script><script type="text/javascript" src="/media/sot/cesium/Cesium.js">
+</script><script type="text/javascript" src="/media/sot/js/index_crippled.js">
+</script>
