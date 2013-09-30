@@ -1,0 +1,310 @@
+#content sup {
+bottom: 0.5em;
+font-size: 0.8em;
+position: relative;
+}
+
+#content sub {
+font-size: 0.8em;
+position: relative;
+top: 0.4em;
+}
+
+/* =============== FOR DROPDOWN MENU =================== */
+
+
+
+
+/*
+        GENERIC TABLE STYLES
+*************************************/
+
+
+#content table.table_generic {
+    border-collapse: collapse;
+    padding: 0;
+    border-bottom: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+}
+
+#content table.table_generic th,
+#content table.table_generic td {
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    padding: 5px;
+}
+
+#content table.table_generic th {
+    background: #CCCCCC;
+    font-weight: bold;
+}
+
+/*
+     IMAGE GALLERY TABLE STYLES
+*************************************/
+
+
+#content table.table_images td {
+        padding: 0;
+}
+
+#content table.table_images td img {
+        padding: 0;
+        border: 0;
+}
+
+/*
+            FOR KIDS STYLING TABLE
+****************************************/
+table.plain {
+    border-collapse: collapse;
+
+}
+
+table.plain td {
+    padding: 5px;
+}
+
+
+table.plain tr.even td {
+    background: #E8EEF6;
+}
+
+table.plain tr.odd td {
+    background: #FFFFFF;
+}
+
+
+
+/* EMAIL SUBSCRIPTION
+**********************************/
+#email-subscription-form.form-fields {
+    clear: both;
+}
+
+/*
+        CONTACT US page
+*************************************/
+#contact #content form input.submit {
+    margin-right: 280px;
+}
+
+
+/*
+CONTENT FONT SIZE INCREASED
+************************************/
+#content {
+    font-size: 1.2em;
+}
+#content_box p {
+    overflow: visible !important; /* FIXES BUG WITH PARAGRAPH TAGS AND FLOATING IMAGE/CAPTIONS */
+}
+
+
+
+
+/*
+            FIX CENTERING ISSUE WITH IMAGE CAPTIONS
+*****************************************************/
+.center  {
+    float: none;
+    margin-left: auto !important; ;
+    margin-right: auto !important; ;
+}
+
+
+/*
+            UNNECESSARY DATE FIELD HIDDEN
+*****************************************************/
+
+#page-division-bios.section-about-us ul.children p.date,
+#page-office-of-the-associate-administrator.section-about-us ul.children p.date {
+        display:none;
+}
+
+/*
+            TABLE CLASSES CREATED FOR ESSP PAGE BY MALIK
+****************************************************************** */
+#content table.essp_table_style {
+    border-bottom:2px solid #CCCCCC;
+    border-collapse:collapse;
+    padding:0;
+}
+#content table.essp_table_style th, #content table.essp_table_style td {
+    border-left:2px solid #AAAAAA;
+    border-top:2px solid #AAAAAA;
+    padding:5px;
+    text-align:center;
+}
+#content table.essp_table_style th {
+    background:none repeat scroll 0 0 #CCCCCC;
+    font-weight:bold;
+}
+
+/*========== Malik ======== */
+
+#home_astrophysics {
+      padding:0 10px 0 13px !important;
+}
+#home_heliophysics, #home_planets {
+      padding:0 9px 0px 13px !important;
+}
+#home_earth {
+     padding:0 10px 0 76px !important;
+}
+div.pod ul {
+     padding:0px 0 0 10px !important;
+}
+
+#search #content div.search_results {
+    width: 595px;
+    padding: 10px 0 0 0;
+    font-size: 1em;
+    color: #999999;
+}
+
+
+
+#search input#searchGadget {
+     margin-right:5px;
+}
+ /* ===================== DROP DOWN CSS - Malik ======================== */
+#nav_global #nav_secondary > li > a {
+    border-left:1px solid #999999;
+    border-right:1px solid #333333;
+    border-top:1px solid transparent;
+    padding:8px 10px 8px 9px;
+}
+
+#nav_global #nav_secondary > li:first-child > a {
+    border-left:0px solid #999999;
+}
+
+#nav_global #nav_secondary > li:last-child > a {
+    border-right:0px solid #999999;
+}
+
+
+#nav_global #nav_secondary li:hover {
+   text-decoration: none;
+}
+#nav_global #nav_secondary li.dropdown1 ul {
+   display: none;
+   width: 180px;
+}
+
+#nav_global #nav_secondary li.dropdown2 ul {
+   display: none;
+   width: 130px;
+}
+
+#nav_global #nav_secondary li.dropdown1 a:hover, #nav_global #nav_secondary li.dropdown2 a:hover {
+    text-decoration:none;
+}
+
+#nav_global #nav_secondary li:hover ul, #nav_global #nav_secondary li.hover ul {
+   display: block;
+   position: absolute;
+   margin: 0;
+   padding: 0;
+   -moz-border-radius: 0px 0px 10px 10px;
+    border-radius: 0px 0px 10px 10px;
+    background-color:#999;
+}
+
+#nav_global #nav_secondary li:hover li, #nav_global #nav_secondary li.hover li {
+   float: none;
+}
+
+#nav_global #nav_secondary li:hover li a, #nav_global #nav_secondary li.hover li a {
+   color: #fff;
+   text-decoration:none;
+}
+
+#nav_global #nav_secondary li li a:hover {
+   background-color: #535353;
+   text-decoration:none;
+}
+
+#nav_global #nav_secondary li li:last-child a:hover {
+    -moz-border-radius: 0px 0px 10px 10px;
+    border-radius: 0px 0px 10px 10px;
+}
+
+
+#nav_global #nav_secondary li.dropdown1, #nav_global #nav_secondary li.dropdown2 {
+    color:#FFFFFF;
+    display:block;
+    font-size:14px;
+    text-decoration:none;
+}
+
+#nav_global #nav_secondary li.dropdown1:hover, #nav_global #nav_secondary li.dropdown2:hover {
+    background-position: 0px -31px;
+}
+
+
+#nav_global #nav_secondary li.dropdown1 {
+    background: transparent url(/media/img/drop1back.gif) no-repeat 0px 1px;
+}
+
+#nav_global #nav_secondary li.dropdown2 {
+    background: transparent url(/media/img/drop2back.gif) no-repeat 0px 1px;
+}
+
+
+#nav_global #nav_secondary li.dropdown li a:hover {
+    background-color:#797878;
+}
+
+
+/*
+            SCIENCECASTS CUSTOMIZATION BY MIKE
+****************************************************************** */
+
+.sciCast_desc {
+        display: block;
+        padding: 0 72px;
+}
+
+.scTitleSmall h5 {
+        font-size:10px;
+}
+
+.twitter-follow-button {
+        padding: 0;
+}
+
+.scBarButtons {
+                display: block;
+        padding: 0 15px;
+}
+
+/* MSL Countdown Banner
+****************************************************************** */
+
+#banner div #MSLcounterWrapper {
+    width: 612;
+    height: 70px;
+    background: #000 url(/media/medialibrary/2012/07/24/bannerComp_MarsCuriosity.jpg) no-repeat right;
+    position: relative;
+}
+#banner div #MSLcounterText {
+    width: 194;
+    height: 14px;
+    color: #fff;
+    position: absolute;
+    left: 354px;
+    top: 6px;
+    font: bold 12px Arial, Helvetica, sans-serif;
+        background: none;
+}
+#banner div #MSLcounter {
+    width: 235;
+    height: 40px;
+    background-color: #ad8562;
+    position: absolute;
+    left: 310px;
+    top: 22px;
+    clip: rect(auto,auto,auto,43px);
+}

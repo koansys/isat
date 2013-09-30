@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: #000000;
+}
+
+#header_links,
+#search,
+#nav_global ul,
+#footer,
+#footer_links,
+#nav_local,
+.hide {
+    display: none;
+}
+
+
+#banner {
+
+}
+
+#banner a {
+    text-decoration: none;
+    font-size: 2em;
+}
+
+
+h1, h2, h3, h4, p {
+    margin: 1em;
+}
+
+
+
+table, th, td {
+    border: 1px solid #000000;
+}
+
+td {
+    padding: 5px;
+}
+
+.width_150 {
+    width: 150px;
+}
+
+.width_200 {
+    width: 200px;
+}
+
+.width_400 {
+    width: 95%;
+}
+
+.width_558 {
+    width: 95%;
+}
+
+.width_756 {
+    width: 95%;
+}
+
+.description {
+    text-align: justify;
+}
+
+.caption {
+    /*font-style: italic;*/
+    text-align: center;
+}
+
+ul {
+    padding-left: 1em;
+}
+
+ul li {
+    padding-left: 1em;
+}
+
+/* Styles which are specific to the mediafile embeds created by our editor */
+
+div.mediafile {
+    float:left;
+}
+
+div.mediafile,
+blockquote.mediafile,
+blockquote.caption {
+    background-color: white;
+    border: solid #CCCCCC 1px;
+    color: #666666;
+    color: black;
+    font-size: 0.9em;
+    margin: 15px;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.mediafile img {
+    border: 1px solid #CCCCCC;
+    display: block;
+    margin-bottom: 5px;
+    margin: auto;
+}
+
+.mediafile > div {
+    margin-top: .5em;
+}
+
+#mission_print_only ul {
+    margin-left: 1em;
+}
+
+#mission_print_only ul li {
+    list-style-type: disc;
+    margin-left: 2em;
+}
