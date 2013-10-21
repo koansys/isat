@@ -1,5 +1,6 @@
 #!/bin/bash
 CURRENT_DIR=`pwd`
+rm -rf /repfiles/nasascience/media/sot/*
 mkdir /repfiles/nasascience/media/sot/js
 mkdir /repfiles/nasascience/media/sot/cesium
 mkdir /repfiles/nasascience/media/sot/images
