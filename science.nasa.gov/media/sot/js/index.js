@@ -1,50 +1,50 @@
 /*global document, window, setInterval, Cesium, Image, navigator, twoline2rv, sgp4, tle, gstime*/
 (function () {
     'use strict';
-    var canvas            = document.getElementById('glCanvas');
-    var ellipsoid         = Cesium.Ellipsoid.WGS84;
-    var scene             = new Cesium.Scene(canvas);
-    var satBillboards     = new Cesium.BillboardCollection();
-    var cb                = new Cesium.CentralBody(ellipsoid);
-    var orbitTraces       = new Cesium.PolylineCollection(); // currently only one at a time
-    var satrecs           = [];   // populated from onclick file load
-    var satPositions      = [];   // calculated by updateSatrecsPosVel()
-    var satData           = [];   // list of satellite data and metadata
-    var selectedSatelliteIdx = null;
-    var transitioner      = new Cesium.SceneTransitioner(scene, ellipsoid);
+    var canvas                  = document.getElementById('glCanvas');
+    var ellipsoid               = Cesium.Ellipsoid.WGS84;
+    var scene                   = new Cesium.Scene(canvas);
+    var satBillboards           = new Cesium.BillboardCollection();
+    var cb                      = new Cesium.CentralBody(ellipsoid);
+    var orbitTraces             = new Cesium.PolylineCollection(); // currently only one at a time
+    var satrecs                 = [];   // populated from onclick file load
+    var satPositions            = [];   // calculated by updateSatrecsPosVel()
+    var satData                 = [];   // list of satellite data and metadata
+    var selectedSatelliteIdx    = null;
+    var transitioner            = new Cesium.SceneTransitioner(scene, ellipsoid);
 
     // Constants
-    var CESIUM_TEXTURES_BASE = 'media/sot/cesium/Assets/Textures';
-    var SKYBOX_BASE          = CESIUM_TEXTURES_BASE + '/SkyBox';
-    var CALC_INTERVAL_MS     = 1000;
+    var CESIUM_TEXTURES_BASE    = 'media/sot/cesium/Assets/Textures';
+    var SKYBOX_BASE             = CESIUM_TEXTURES_BASE + '/SkyBox';
+    var CALC_INTERVAL_MS        = 1000;
 
     // HACK: force globals for SGP4
-    var WHICHCONST        = 72;   //
-    var TYPERUN           = 'm';  // 'm'anual, 'c'atalog, 'v'erification
-    var TYPEINPUT         = 'n';  // HACK: 'now'
-    var PLAY              = true;
+    var WHICHCONST              = 72;   //
+    var TYPERUN                 = 'm';  // 'm'anual, 'c'atalog, 'v'erification
+    var TYPEINPUT               = 'n';  // HACK: 'now'
+    var PLAY                    = true;
 
     ///////////////////////////////////////////////////////////////////////////
     // Tile Providers
 
     var TILE_PROVIDERS = {
-        'bing' : new Cesium.BingMapsImageryProvider(// fails to detect 404 due to no net :-(
-            {url : 'http://dev.virtualearth.net',
-             mapStyle: Cesium.BingMapsStyle.AERIAL_WITH_LABELS
-            }),
-        'osm'  : new Cesium.OpenStreetMapImageryProvider(
-            {url    : 'http://otile1.mqcdn.com/tiles/1.0.0/osm'
-            }),
-        'static' : new Cesium.SingleTileImageryProvider(
-            {url: CESIUM_TEXTURES_BASE + '/NE2_LR_LC_SR_W_DR_2048.jpg'
-            }),
+        'bing': new Cesium.BingMapsImageryProvider({
+            url: 'http://dev.virtualearth.net',
+            mapStyle: Cesium.BingMapsStyle.AERIAL_WITH_LABELS
+        }),
+        'osm': new Cesium.OpenStreetMapImageryProvider({
+            url    : 'http://otile1.mqcdn.com/tiles/1.0.0/osm'
+        }),
+        'static': new Cesium.SingleTileImageryProvider({
+            url: CESIUM_TEXTURES_BASE + '/NE2_LR_LC_SR_W_DR_2048.jpg'
+        }),
         // Lots of ArcGIS products avaiable including .../World_Street_Map/MapServer
         // TODO: for now use AGI's proxy but we need to run our own to avoid:
         // "Cross-origin image load denied by Cross-Origin Resource Sharing policy."
-        'arcgis' : new Cesium.ArcGisMapServerImageryProvider(
-            {url: 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',
-             proxy: new Cesium.DefaultProxy('http://cesium.agi.com/proxy/')
-            })
+        'arcgis': new Cesium.ArcGisMapServerImageryProvider({
+            url: 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',
+            proxy: new Cesium.DefaultProxy('http://cesium.agi.com/proxy/')
+        })
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -144,8 +144,8 @@
     // Load the satellite names and keys into the selector, sorted by name
 
     function populateSatelliteSelector() {
-        var satSelect = document.getElementById('select_satellite');
-        var nameIdx = {};
+        var satSelect   = document.getElementById('select_satellite');
+        var nameIdx     = {};
         var satnum, max, option, satkeys;
 
         for (satnum = 0, max = satrecs.length; satnum < max; satnum += 1) {
@@ -261,37 +261,6 @@
     // In <canvas> tag our height and width can only be in pixels, not percent.
     // So wrap it in a div whose height/width we can query.
 
-    // function getScrollBarWidth() {
-    //     // getScrollBarWidth
-    //     // http://www.alexandre-gomes.com/?p=115
-    //     //
-    //     // Gives me scrollbar width for multi-browser support.
-    //     //
-    //     var inner = document.createElement('p');
-    //     inner.style.width = '100%';
-    //     inner.style.height = '200px';
-
-    //     var outer = document.createElement('div');
-    //     outer.style.position = 'absolute';
-    //     outer.style.top = '0px';
-    //     outer.style.left = '0px';
-    //     outer.style.visibility = 'hidden';
-    //     outer.style.width = '200px';
-    //     outer.style.height = '150px';
-    //     outer.style.overflow = 'hidden';
-    //     outer.appendChild(inner);
-
-    //     document.body.appendChild(outer);
-    //     var w1 = inner.offsetWidth;
-    //     outer.style.overflow = 'scroll';
-    //     var w2 = inner.offsetWidth;
-    //     if (w1 === w2) {
-    //         w2 = outer.clientWidth;
-    //     }
-    //     document.body.removeChild(outer);
-    //     return (w1 - w2);
-    // }
-
     function getScrollBarWidth() {
         var t = document.createElement('textarea');
         t.cols = 1;
@@ -334,58 +303,74 @@
     // Toggle Instructions Modal.
     document.getElementById('instructions_button').onclick = function () {
         if (document.getElementById('instructions').style.display === 'none' ||  !document.getElementById('instructions').style.display) {
-            document.getElementById('instructions').style.display = 'block';
-            document.getElementById('satellite_form').style.display = 'none';
-            document.getElementById('map_display').style.display = 'none';
+            // document.getElementById('instructions').style.display = 'block';
+            document.getElementById('instructions').setAttribute("style", "display:block");
+            // document.getElementById('satellite_form').style.display = 'none';
+            document.getElementById('satellite_form').setAttribute("style", "display:none");
+            // document.getElementById('map_display').style.display = 'none';
+            document.getElementById('map_display').setAttribute("style", "display:none");
         }
         else {
-            document.getElementById('instructions').style.display = 'none';
+            // document.getElementById('instructions').style.display = 'none';
+            document.getElementById('instructions').setAttribute("style", "display:none");
         }
     };
 
     // close Instructions Modal
     document.getElementById('instructions_close').onclick = function () {
-        document.getElementById('instructions').style.display = 'none';
+        // document.getElementById('instructions').style.display = 'none';
+        document.getElementById('instructions').setAttribute("style", "display:none");
     };
 
     // Toggle Satellite
     document.getElementById('satellite_button').onclick = function () {
         if (document.getElementById('satellite_form').style.display === 'none' ||  !document.getElementById('satellite_form').style.display) {
-            document.getElementById('satellite_form').style.display = 'block';
-            document.getElementById('map_display').style.display = 'none';
-            document.getElementById('instructions').style.display = 'none';
+            // document.getElementById('satellite_form').style.display = 'block';
+            document.getElementById('satellite_form').setAttribute("style", "display:block");
+            // document.getElementById('map_display').style.display = 'none';
+            document.getElementById('map_display').setAttribute("style", "display:none");
+            // document.getElementById('instructions').style.display = 'none';
+            document.getElementById('instructions').setAttribute("style", "display:none");
         }
         else {
-            document.getElementById('satellite_form').style.display = 'none';
+            // document.getElementById('satellite_form').style.display = 'none';
+            document.getElementById('satellite_form').setAttribute("style", "display:none");
         }
     };
 
 
     // close Satellite Modal
     document.getElementById('satellite_form_close').onclick = function () {
-        document.getElementById('satellite_form').style.display = 'none';
+        document.getElementById('satellite_form').setAttribute("style", "display:none");
+        // document.getElementById('satellite_form').style.display = 'none';
     };
 
     // Toggle Map Display Modal
     document.getElementById('display_button').onclick = function () {
         if (document.getElementById('map_display').style.display === 'none' ||  !document.getElementById('map_display').style.display) {
-            document.getElementById('map_display').style.display = 'block';
-            document.getElementById('satellite_form').style.display = 'none';
-            document.getElementById('instructions').style.display = 'none';
+            document.getElementById('map_display').setAttribute("style", "display:block");
+            // document.getElementById('map_display').style.display = 'block';
+            document.getElementById('satellite_form').setAttribute("style", "display:none");
+            // document.getElementById('satellite_form').style.display = 'none';
+            document.getElementById('instructions').setAttribute("style", "display:none");
+            // document.getElementById('instructions').style.display = 'none';
         }
         else {
-            document.getElementById('map_display').style.display = 'none';
+            document.getElementById('map_display').setAttribute("style", "display:none");
+            // document.getElementById('map_display').style.display = 'none';
         }
     };
 
     // Close Map Display Modal
     document.getElementById('map_display_close').onclick = function () {
-        document.getElementById('map_display').style.display = 'none';
+        document.getElementById('map_display').setAttribute("style", "display:none");
+        // document.getElementById('map_display').style.display = 'none';
     };
 
     // Close Satellite Information Modal
     document.getElementById('satellite_display_close').onclick = function () {
-        document.getElementById('satellite_display').style.display = 'none';
+        document.getElementById('satellite_display').setAttribute("style", "display:none");
+        // document.getElementById('satellite_display').style.display = 'none';
         selectedSatelliteIdx = null;
         PLAY = true;
     };
@@ -395,17 +380,10 @@
     // The W3C has living docs but the API is not standardized in browsers yet.
     // https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
     document.getElementById('fullscreen_button').onclick = function () {
-        var fsEl = document.fullscreenElement        // w3c
-            ||     document.webkitFullscreenElement
-            ||     document.mozFullScreenElement; // TODO: what for IE?
-        var fsExit = document.exitFullscreen         // w3c
-            ||       document.mozCancelFullScreen
-            ||       document.webkitExitFullscreen;  // TODO: what for IE?
-        var el = document.getElementById('wrapper'); // not just cesiumContainer
-        var fsRequest = el.requestFullscreen
-            ||          el.webkitRequestFullscreen
-            ||          el.mozRequestFullScreen
-            ||          el.msRequestFullScreen;
+        var fsEl = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement;
+        var fsExit = document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen;
+        var el = document.getElementById('wrapper');
+        var fsRequest = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullScreen;
         if (fsEl && fsExit !== 'undefined' && fsExit) {
             fsExit.call(document);
             document.getElementById('wrapper').removeAttribute('style');
@@ -457,8 +435,10 @@
         i = parseInt(ret_val / twopi);
         ret_val -= i * twopi;
 
-        if (ret_val < 0.0)
+        if (ret_val < 0.0){
             ret_val += twopi;
+        }
+
 
         return ret_val;
     }
@@ -511,7 +491,8 @@
             sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
             satrecs = sats.satrecs;                       // propagate [GLOBAL]
         }
-        document.getElementById('satellite_display').style.display = 'block'; // show modal
+        document.getElementById('satellite_display').setAttribute("style", "display:block"); // show modal
+        // document.getElementById('satellite_display').style.display = 'block'; // show modal
         pos0 = sats.positions[satnum];                 // position of first satellite
         vel0 = sats.velocities[satnum];
         vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
@@ -587,7 +568,8 @@
         var nssdcUrl = 'http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=';
         var satName, satDesig, century;
 
-        document.getElementById('satellite_form').style.display = 'none';
+        document.getElementById('satellite_form').setAttribute("style", "display:none");
+        // document.getElementById('satellite_form').style.display = 'none';
         selectedSatelliteIdx = Number(this.value); // '16'
         // set the HREF links in the More on... dialog2
         // TODO: don't copy/paste replicate this code from above, make a function
