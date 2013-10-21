@@ -1,0 +1,14 @@
+.filebrowser table th a {
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.filebrowser table a {
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.filebrowser table td {
+    font-size: 14px;
+    line-height: 17px;
+}
