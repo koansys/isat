@@ -8,6 +8,6 @@ function testWebGL() {
 Modernizr.load([
   {
     test : testWebGL(),
-    yep: '/media/sot/js/index.js?v=10212013131133',
-    nope : '/media/sot/js/index-crippled.js?v=10212013131133'
+    yep: '/media/sot/js/index.js?v=11122013120737',
+    nope : '/media/sot/js/index-crippled.js?v=11122013120737'
   }]);

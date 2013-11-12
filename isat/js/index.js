@@ -391,6 +391,7 @@
             if (typeof fsRequest !== 'undefined' && fsRequest) {
                 fsRequest.call(el);
                 document.getElementById('wrapper').setAttribute("style", "width:100%");
+                document.getElementById('wrapper').removeAttribute('background');
             }
         }
         onResize();
@@ -689,10 +690,30 @@
             rs.push(r);
         }
         orbitTraces.removeAll();
-        orbitTraces.add({positions: positions,
-                         width: 2, // pixels
-                         color: {red: 1.0, green: 0.0, blue: 0.8, alpha: 0.7} // pink shows well
-                        });
+        // orbitTraces.add({positions: positions,
+        //                  width: 2, // pixels
+        //                  color: {red: 1.0, green: 0.0, blue: 0.8, alpha: 0.7} // pink shows well
+        //                 });
+        // var traceMaterial = Cesium.Material.fromType('Color');
+        // traceMaterial.uniform.color = new Cesium.Color(1.0, 0.0, 0.8, 0.7);
+
+        var traceMaterial = new Cesium.Material({
+            fabric : {
+                type : 'Color',
+                uniforms : {
+                    color : {
+                        red : 1.0,
+                        green : 0.0,
+                        blue : 0.8,
+                        alpha : 0.7
+                    }
+                }
+            }
+        });
+        var trace = orbitTraces.add();
+        trace.setPositions(positions);
+        trace.setMaterial(traceMaterial);
+        trace.setWidth(2.0);
 
     }
 
