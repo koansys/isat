@@ -16,6 +16,10 @@ body {
     padding: 0 15px 1px 15px;
 }
 
+#backgroundShadow {
+    background: url(../../img/content_bg.png) repeat-y;
+}
+
 #iSat_header {
     background: url(../images/Banner.jpg) repeat-x 0 0;
     -webkit-background-size: cover;
@@ -49,13 +53,13 @@ body {
 }
 
 #instructions p {
-    padding: 5px;
+    margin: 5px;
 }
 
 h1 {
     font-size: 1.75em;
     font-weight:bold;
-    padding: 5px;
+    padding-left: 5px;
     /* google Iceland would be nice web font */
     font-family: impact, arial, trebuchet, verdana, sans-serif;
     font-style: oblique;
@@ -65,18 +69,20 @@ h1 {
 h2 {
     font-size: 1.5em;
     font-weight:bold;
-    padding: 5px;
+    padding-left: 5px;
 }
 h3 {
     font-size: 1.25em;
     font-weight:bold;
-    padding: 5px;
+    padding-left: 5px;
+    margin: 0.25em 0;
 }
 
 legend {
     font-size: 1.5em;
     font-weight:bold;
-    padding: 5px;
+    padding-left: 5px;
+    margin: 0.83em 0;
 }
 
 #cesiumContainer {
@@ -84,32 +90,32 @@ legend {
 }
 
 #reset_button {
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     display: inline-block;
 }
 
 #instructions_button {
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     display: inline-block;
 }
 
 #display_button {
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     display: inline-block;
 }
 
 #satellite_button {
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     display: inline-block;
 }
 
 #fullscreen_button {
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     display: inline-block;
 }
 
@@ -129,15 +135,15 @@ legend {
 
 #instructions {
     display: none;
-    top: 195px;
-    left: 10px;
+    top: 150px;
+    left: 5px;
     width: 400px;
 }
 
 #satellite_form {
     display: none;
-    top: 195px;
-    left: 10px;
+    top: 150px;
+    left: 5px;
 }
 
 #satellite_form fieldset {
@@ -146,9 +152,8 @@ legend {
 
 #map_display {
     display: none;
-    top: 195px;
-    left: 10px;
-    width: 400px;
+    top: 150px;
+    left: 5px;
 }
 
 #satellite_display {
@@ -158,8 +163,11 @@ legend {
     width: 300px;
 }
 
+
+
 #satellite_display dl {
     padding: 0.5em;
+    margin: 0px;
 }
 
 #satellite_display dt {
@@ -181,6 +189,7 @@ legend {
 #satellite_display a:link {
     color: #42d025;
     text-decoration:none;
+    padding-left: 5px;
 }
 
 #satellite_display a:visited {
@@ -207,10 +216,10 @@ legend {
 /* Buttons */
 #navigation_buttons {
     position: absolute;
-    top: 80px;
+    top: 70px;
     left: 5px;
     z-index: 10;
-    width: 400px;
+    width: 300px;
     text-align: center;
 }
 
@@ -219,18 +228,46 @@ legend {
     top: 10px;
     left: 5px;
     z-index: 10;
-    width: 400px;
+    width: 300px;
     text-align: center;
+}
+
+#zoom_out {
+    width: 150px;
 }
 
 #zoom_in {
     margin-left: -5px;
+    width: 150px;
+}
+
+#cesiumLogo {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
 }
 
 #isat_text_only {
     padding-left: 15px;
+    background: url(../../img/content_bg.png) repeat-y;
 }
 
+#controls fieldset {
+    margin: 0px;
+    padding: 0px;
+}
+
+#controls dl {
+    margin: 0px;
+}
+
+#controls dt {
+    padding-left: 5px;
+}
+
+#controls dd {
+    margin: 0 0 0 5px;
+}
 .close_button {
     float: right;
 }
