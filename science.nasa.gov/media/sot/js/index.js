@@ -59,13 +59,16 @@
     var query = window.location.search.substring(1);
     var variables = loadURIVariables(query);
 
-    if (variables['satellite'] !== undefined) {
-        console.log(variables['satellite']);
-        // selectedSatelliteIdx = variables['satellite'];
+    if (variables['group'] !== undefined) {
+        ORIGINAL_GROUP = variables['group'];
     }
 
-    if (variables['group'] !== undefined) {
-        console.log(variables['lat']);
+    for(var v in variables){
+        console.log(decodeURIComponent(v) + "=" + decodeURIComponent(variables[v]));
+    }
+
+    if (variables['satellite'] !== undefined) {
+        ORIGINAL_SATELLITE = variables['satellite'];
     }
 
     var TILE_PROVIDERS = {
@@ -96,8 +99,6 @@
 
     function getSatrecsFromTLEFile(fileName) {
         var satnum, max, rets, satrec, startmfe, stopmfe, deltamin;
-
-        history.pushState(null, null, '?group='+fileName);
 
         fileName = 'media/sot/tle/' + fileName + '.txt';
         var tles = tle.parseFile(fileName);
@@ -265,6 +266,7 @@
 
             // Point the camera at us and position it directly above us
             scene.getCamera().controller.lookAt(eye, target, up);
+            console.log("I badly moved the camera.");
         }
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(showGeo);
@@ -429,7 +431,7 @@
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
         if (satrecs.length > 0) {
             sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
-            satrecs = sats.satrecs;                       // propagate [GLOBAL]
+            satrecs = sats.satrecs;                   // propagate [GLOBAL]
         }
         document.getElementById('satellite_display').setAttribute("style", "display:block"); // show modal
         // document.getElementById('satellite_display').style.display = 'block'; // show modal
@@ -556,6 +558,7 @@
             }
         }
 
+        console.log("I moved the camera to pos = " + pos);
         if (scene.mode === Cesium.SceneMode.SCENE3D) {
             // TODO: *fly* to 'above' the satellite still looking at Earth
             // Transform to put me "over" satellite location.
@@ -593,6 +596,12 @@
         var positions = [];
         var rs = [];
         var satrec = satrecs[satIdx];
+        // var satrec;
+        // for(var i = 0; i < satrecs.length; i++){
+        //     if(satrecs[i]['satnum'] == ORIGINAL_SATELLITE){
+        //         satrec = satrecs[i];
+        //     }
+        // }
         var jdSat = new Cesium.JulianDate.fromTotalDays(satrec.jdsatepoch);
         var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
         var minutesPerOrbit = 2 * Math.PI / satrec.no;
@@ -722,21 +731,40 @@
     });
     scene.getPrimitives().add(orbitTraces);
 
-    //scene.getCamera().getControllers().get(0).spindleController.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
-    scene.getCamera().controller.lookAt(new Cesium.Cartesian3(4000000.0, -15000000.0,  10000000.0), // eye
-                                        Cesium.Cartesian3.ZERO, // target
-                                        new Cesium.Cartesian3(-0.1642824655609347,
-                                                              0.5596076102188919,
-                                                              0.8123118822806428)); // up
+    ////////////////////////
+    // This should first see if there's a satellite in url, if not, check for geolocation, else default.
+    //
 
-    showGeolocation(scene);
+    if(ORIGINAL_SATELLITE === 'null'){
+        showGeolocation(scene);
+    }
 
+    document.getElementById('select_satellite_group').value = ORIGINAL_GROUP;
+    // document.getElementById('select_satellite').value = ORIGINAL_SATELLITE;
     getSatrecsFromTLEFile(document.getElementById('select_satellite_group').value);
     populateSatelliteSelector();
     populateSatelliteBillboard();
     satelliteHoverDisplay(scene); // should be self-invoked
     satelliteClickDetails(scene); // should be self-invoked
-    window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
+
+    if(ORIGINAL_SATELLITE !== 'null'){
+        for(var i = 0; i < satrecs.length; i++){
+            if(satrecs[i]['satnum'] == ORIGINAL_SATELLITE){
+                selectedSatelliteIdx = i;
+                var now = new Cesium.JulianDate();
+                var sats = updateSatrecsPosVel(satrecs, now); // TODO: sgp4 needs minutesSinceEpoch from timeclock
+                updateSatelliteBillboards(sats.positions);
+                moveCamera();
+                showOrbit();
+            }
+        }
+        document.getElementById('select_satellite').value = selectedSatelliteIdx;
+    }
+    if(ORIGINAL_SATELLITE == 'null') {
+        window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
+    } else {
+        window.history.pushState(null, null, "?group="+ORIGINAL_GROUP+"&satellite="+ORIGINAL_SATELLITE);
+    }
 
     // Toggle Zoom Out
     document.getElementById('zoom_out').onclick = function () {
