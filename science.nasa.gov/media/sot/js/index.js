@@ -24,6 +24,11 @@
     var TYPEINPUT               = 'n';  // HACK: 'now'
     var PLAY                    = true;
 
+
+    // Global Variables for URL
+    var ORIGINAL_GROUP = 'smd';
+    var ORIGINAL_SATELLITE = 'null';
+
     ///////////////////////////////////////////////////////////////////////////
     // Tile Providers
 
@@ -500,6 +505,7 @@
         latLonAlt = calcLatLonAlt(time, satPositions[satnum], satrecs[satnum]);  // (time, position, satellite)
         document.getElementById('satellite_name').innerHTML = satData[satnum].name;
         document.getElementById('satellite_id').innerHTML = satData[satnum].noradId;
+        ORIGINAL_SATELLITE = satData[satnum].noradId;
         var kmpers = vel0Carte.magnitude();
         var mpers = kmpers * 0.621371;
         document.getElementById('satellite_velocity_kms').innerHTML = kmpers.toFixed(3);
@@ -694,6 +700,12 @@
                          color: {red: 1.0, green: 0.0, blue: 0.8, alpha: 0.7} // pink shows well
                         });
 
+        if(ORIGINAL_SATELLITE == 'null') {
+            window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
+        } else {
+            window.history.pushState(null, null, "?group="+ORIGINAL_GROUP+"&satellite="+ORIGINAL_SATELLITE);
+        }
+
     }
 
 
@@ -744,6 +756,8 @@
     document.getElementById('select_satellite_group').onchange = function () {
         orbitTraces.removeAll();
         getSatrecsFromTLEFile('media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
+        ORIGINAL_GROUP = this.value;
+        window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
         populateSatelliteSelector();
         populateSatelliteBillboard();
     };
@@ -781,6 +795,7 @@
     populateSatelliteBillboard();
     satelliteHoverDisplay(scene); // should be self-invoked
     satelliteClickDetails(scene); // should be self-invoked
+    window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
 
     /////////////////////////////////////////////////////////////////////////////
     // Run the timeclock, drive the animations
