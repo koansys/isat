@@ -37,7 +37,7 @@
         // This function is anonymous, is executed immediately and
         // the return value is assigned to QueryString!
         var query_string = {};
-        var query = window.location.search.substring(1);
+        var query = qs;
         var vars = query.split("&");
         for (var i=0;i<vars.length;i++) {
             var pair = vars[i].split("=");
@@ -61,10 +61,6 @@
 
     if (variables['group'] !== undefined) {
         ORIGINAL_GROUP = variables['group'];
-    }
-
-    for(var v in variables){
-        console.log(decodeURIComponent(v) + "=" + decodeURIComponent(variables[v]));
     }
 
     if (variables['satellite'] !== undefined) {
@@ -266,7 +262,6 @@
 
             // Point the camera at us and position it directly above us
             scene.getCamera().controller.lookAt(eye, target, up);
-            console.log("I badly moved the camera.");
         }
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(showGeo);
@@ -558,7 +553,6 @@
             }
         }
 
-        console.log("I moved the camera to pos = " + pos);
         if (scene.mode === Cesium.SceneMode.SCENE3D) {
             // TODO: *fly* to 'above' the satellite still looking at Earth
             // Transform to put me "over" satellite location.
@@ -760,7 +754,7 @@
         }
         document.getElementById('select_satellite').value = selectedSatelliteIdx;
     }
-    if(ORIGINAL_SATELLITE == 'null') {
+    if(ORIGINAL_SATELLITE === 'null') {
         window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
     } else {
         window.history.pushState(null, null, "?group="+ORIGINAL_GROUP+"&satellite="+ORIGINAL_SATELLITE);
