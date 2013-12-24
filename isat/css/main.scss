@@ -14,9 +14,6 @@ body {
 
 #wrapper {
     padding: 0 15px 1px 15px;
-}
-
-#backgroundShadow {
     background: url(../../img/content_bg.png) repeat-y;
 }
 
@@ -88,32 +85,32 @@ legend {
 }
 
 #reset_button {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     display: inline-block;
 }
 
 #instructions_button {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     display: inline-block;
 }
 
 #display_button {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     display: inline-block;
 }
 
 #satellite_button {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     display: inline-block;
 }
 
 #fullscreen_button {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     display: inline-block;
 }
 
@@ -211,10 +208,10 @@ legend {
 /* Buttons */
 #navigation_buttons {
     position: absolute;
-    top: 70px;
+    top: 80px;
     left: 5px;
     z-index: 10;
-    width: 300px;
+    width: 400px;
     text-align: center;
 }
 
@@ -223,23 +220,12 @@ legend {
     top: 10px;
     left: 5px;
     z-index: 10;
-    width: 300px;
+    width: 400px;
     text-align: center;
-}
-
-#zoom_out {
-    width: 150px;
 }
 
 #zoom_in {
     margin-left: -5px;
-    width: 150px;
-}
-
-#cesiumLogo {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
 }
 
 #isat_text_only {
