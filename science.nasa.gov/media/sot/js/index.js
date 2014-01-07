@@ -453,6 +453,9 @@
         var heightm = heightkm * 0.621371;
         document.getElementById('satellite_height_km').innerHTML = heightkm.toFixed(3);
         document.getElementById('satellite_height_m').innerHTML = heightm.toFixed(3);
+        if (ORIGINAL_GROUP !== 'SMD') {
+            document.getElementById('smd_info').setAttribute('style', 'display:none');
+        }
     }
 
 
