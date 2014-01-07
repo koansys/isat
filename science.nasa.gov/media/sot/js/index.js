@@ -25,51 +25,10 @@
     var PLAY                    = true;
 
     // Global Variables for URL
-    var ORIGINAL_GROUP = 'smd';
+    var ORIGINAL_GROUP = 'SMD';
     var ORIGINAL_SATELLITE = 'null';
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Tile Providers
-
-
-    function loadURIVariables(qs){
-        // This function is anonymous, is executed immediately and
-        // the return value is assigned to QueryString!
-        var query_string = {};
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
-            var pair = vars[i].split("=");
-                // If first entry with this name
-            if (typeof query_string[pair[0]] === "undefined") {
-                query_string[pair[0]] = pair[1];
-                // If second entry with this name
-            } else if (typeof query_string[pair[0]] === "string") {
-                var arr = [ query_string[pair[0]], pair[1] ];
-                query_string[pair[0]] = arr;
-                // If third or later entry with this name
-            } else {
-                query_string[pair[0]].push(pair[1]);
-            }
-        }
-        return query_string;
-    }
-
-    var query = window.location.search.substring(1);
-    var variables = loadURIVariables(query);
-
-    if (variables['group'] !== undefined) {
-        ORIGINAL_GROUP = variables['group'];
-    }
-
-    for(var v in variables){
-        console.log(decodeURIComponent(v) + "=" + decodeURIComponent(variables[v]));
-    }
-
-    if (variables['satellite'] !== undefined) {
-        ORIGINAL_SATELLITE = variables['satellite'];
-    }
-
+    // Dictionary of Map tile providers for Cesium
     var TILE_PROVIDERS = {
         'bing': new Cesium.BingMapsImageryProvider({
             url: 'http://dev.virtualearth.net',
@@ -127,6 +86,45 @@
         satelliteHoverDisplay(scene); // should be self-invoked
         satelliteClickDetails(scene); // should be self-invoked
     }
+
+    function checkURLVariables() {
+
+        // Function to find the current variables in the URL for permalinks.
+        function loadURIVariables(qs){
+            // This function is anonymous, is executed immediately and
+            // the return value is assigned to QueryString!
+            var query_string = {};
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                    // If first entry with this name
+                if (typeof query_string[pair[0]] === "undefined") {
+                    query_string[pair[0]] = pair[1];
+                    // If second entry with this name
+                } else if (typeof query_string[pair[0]] === "string") {
+                    var arr = [ query_string[pair[0]], pair[1] ];
+                    query_string[pair[0]] = arr;
+                    // If third or later entry with this name
+                } else {
+                    query_string[pair[0]].push(pair[1]);
+                }
+            }
+            return query_string;
+        };
+
+        var query = window.location.search.substring(1);
+        var variables = loadURIVariables(query);
+
+        if (variables['group'] !== undefined) {
+            ORIGINAL_GROUP = variables['group'];
+        }
+
+        if (variables['satellite'] !== undefined) {
+            ORIGINAL_SATELLITE = variables['satellite'];
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Satellite records and calculation
 
@@ -493,7 +491,13 @@
         }
     }
 
-
+    function changeURL() {
+        if(ORIGINAL_SATELLITE == 'null') {
+            window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
+        } else {
+            window.history.pushState(null, null, "?group="+ORIGINAL_GROUP+"&satellite="+ORIGINAL_SATELLITE);
+        }
+    }
 
     // Clicking a satellite opens a page to Sciencce and NSSDC details
 
@@ -528,6 +532,8 @@
                     moveCamera();
                     showOrbit();
                     displayStats();
+                    changeURL();
+
                 }
             },
             Cesium.ScreenSpaceEventType.LEFT_CLICK // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
@@ -570,8 +576,10 @@
 
         // TODO: Not sure why this has to be after the URL mangling
         // but if it's before, we don't display the satellite details pane
+        displayStats();
         moveCamera();
         showOrbit();
+        changeURL();
     };
 
     function moveCamera() {
@@ -679,13 +687,6 @@
         trace.setPositions(positions);
         trace.setMaterial(traceMaterial);
         trace.setWidth(2.0);
-
-        if(ORIGINAL_SATELLITE == 'null') {
-            window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
-        } else {
-            window.history.pushState(null, null, "?group="+ORIGINAL_GROUP+"&satellite="+ORIGINAL_SATELLITE);
-        }
-
     }
 
 
@@ -737,12 +738,13 @@
         orbitTraces.removeAll();
         getSatrecsFromTLEFile('media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
         ORIGINAL_GROUP = this.value;
+        ORIGINAL_SATELLITE = 'null';
+        selectedSatelliteIdx = null;
+        document.getElementById('satellite_display').setAttribute("style", "display:none");
         window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
         getSatrecsFromTLEFile(this.value); // TODO: security risk?
         populateSatelliteSelector();
         populateSatelliteBillboard();
-    };
-
         showGeolocation(scene);
     };
 
@@ -759,11 +761,12 @@
         }
         document.getElementById('select_satellite').value = selectedSatelliteIdx;
     }
+
     if(ORIGINAL_SATELLITE == 'null') {
         window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
-    } else {
-        window.history.pushState(null, null, "?group="+ORIGINAL_GROUP+"&satellite="+ORIGINAL_SATELLITE);
-    }
+    };
+
+
     //////////////////////////////////////////
     // UI Button actions
 
