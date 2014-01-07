@@ -24,7 +24,6 @@
     var TYPEINPUT               = 'n';  // HACK: 'now'
     var PLAY                    = true;
 
-
     // Global Variables for URL
     var ORIGINAL_GROUP = 'smd';
     var ORIGINAL_SATELLITE = 'null';
@@ -266,7 +265,6 @@
 
             // Point the camera at us and position it directly above us
             scene.getCamera().controller.lookAt(eye, target, up);
-            console.log("I badly moved the camera.");
         }
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(showGeo);
@@ -561,7 +559,6 @@
             }
         }
 
-        console.log("I moved the camera to pos = " + pos);
         if (scene.mode === Cesium.SceneMode.SCENE3D) {
             // TODO: *fly* to 'above' the satellite still looking at Earth
             // Transform to put me "over" satellite location.
@@ -627,12 +624,6 @@
             rs.push(r);
         }
         orbitTraces.removeAll();
-        // orbitTraces.add({positions: positions,
-        //                  width: 2, // pixels
-        //                  color: {red: 1.0, green: 0.0, blue: 0.8, alpha: 0.7} // pink shows well
-        //                 });
-        // var traceMaterial = Cesium.Material.fromType('Color');
-        // traceMaterial.uniform.color = new Cesium.Color(1.0, 0.0, 0.8, 0.7);
 
         var traceMaterial = new Cesium.Material({
             fabric : {
@@ -901,7 +892,6 @@
     document.getElementById('pause_button').onclick = function () {
         PLAY = false;
     };
-
 
     setInterval(function () {
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
