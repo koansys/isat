@@ -90,6 +90,43 @@
         })
     };
 
+    bootstrap();
+
+    // Function to get all basic views set on load.
+    function bootstrap() {
+        checkURLVariables();
+
+        // How do we tell if we can't get Bing, and substitute flat map with 'single'?
+        cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
+
+        scene.getPrimitives().setCentralBody(cb);
+        scene.skyAtmosphere = new Cesium.SkyAtmosphere(); // make globe stand out from skybox
+        scene.skyBox = new Cesium.SkyBox({
+            positiveX: SKYBOX_BASE + '/tycho2t3_80_px.jpg',
+            negativeX: SKYBOX_BASE + '/tycho2t3_80_mx.jpg',
+            positiveY: SKYBOX_BASE + '/tycho2t3_80_py.jpg',
+            negativeY: SKYBOX_BASE + '/tycho2t3_80_my.jpg',
+            positiveZ: SKYBOX_BASE + '/tycho2t3_80_pz.jpg',
+            negativeZ: SKYBOX_BASE + '/tycho2t3_80_mz.jpg'
+        });
+        scene.getPrimitives().add(orbitTraces);
+
+        ////////////////////////
+        // This should first see if there's a satellite in url, if not, check for geolocation, else default.
+        //
+
+        if(ORIGINAL_SATELLITE === 'null'){
+            showGeolocation(scene);
+        }
+
+        document.getElementById('select_satellite_group').value = ORIGINAL_GROUP;
+        // document.getElementById('select_satellite').value = ORIGINAL_SATELLITE;
+        getSatrecsFromTLEFile(document.getElementById('select_satellite_group').value);
+        populateSatelliteSelector();
+        populateSatelliteBillboard();
+        satelliteHoverDisplay(scene); // should be self-invoked
+        satelliteClickDetails(scene); // should be self-invoked
+    }
     ///////////////////////////////////////////////////////////////////////////
     // Satellite records and calculation
 
@@ -706,40 +743,8 @@
         populateSatelliteBillboard();
     };
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Fire it up
-
-    // How do we tell if we can't get Bing, and substitute flat map with 'single'?
-    //cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.osm); // TODO: get from HTML selector
-    cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
-
-    scene.getPrimitives().setCentralBody(cb);
-    scene.skyAtmosphere = new Cesium.SkyAtmosphere(); // make globe stand out from skybox
-    scene.skyBox = new Cesium.SkyBox({
-        positiveX: SKYBOX_BASE + '/tycho2t3_80_px.jpg',
-        negativeX: SKYBOX_BASE + '/tycho2t3_80_mx.jpg',
-        positiveY: SKYBOX_BASE + '/tycho2t3_80_py.jpg',
-        negativeY: SKYBOX_BASE + '/tycho2t3_80_my.jpg',
-        positiveZ: SKYBOX_BASE + '/tycho2t3_80_pz.jpg',
-        negativeZ: SKYBOX_BASE + '/tycho2t3_80_mz.jpg'
-    });
-    scene.getPrimitives().add(orbitTraces);
-
-    ////////////////////////
-    // This should first see if there's a satellite in url, if not, check for geolocation, else default.
-    //
-
-    if(ORIGINAL_SATELLITE === 'null'){
         showGeolocation(scene);
-    }
-
-    document.getElementById('select_satellite_group').value = ORIGINAL_GROUP;
-    // document.getElementById('select_satellite').value = ORIGINAL_SATELLITE;
-    getSatrecsFromTLEFile(document.getElementById('select_satellite_group').value);
-    populateSatelliteSelector();
-    populateSatelliteBillboard();
-    satelliteHoverDisplay(scene); // should be self-invoked
-    satelliteClickDetails(scene); // should be self-invoked
+    };
 
     if(ORIGINAL_SATELLITE !== 'null'){
         for(var i = 0; i < satrecs.length; i++){
