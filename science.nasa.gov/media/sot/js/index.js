@@ -24,49 +24,11 @@
     var TYPEINPUT               = 'n';  // HACK: 'now'
     var PLAY                    = true;
 
-
     // Global Variables for URL
-    var ORIGINAL_GROUP = 'smd';
+    var ORIGINAL_GROUP = 'SMD';
     var ORIGINAL_SATELLITE = 'null';
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Tile Providers
-
-
-    function loadURIVariables(qs){
-        // This function is anonymous, is executed immediately and
-        // the return value is assigned to QueryString!
-        var query_string = {};
-        var query = qs;
-        var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
-            var pair = vars[i].split("=");
-                // If first entry with this name
-            if (typeof query_string[pair[0]] === "undefined") {
-                query_string[pair[0]] = pair[1];
-                // If second entry with this name
-            } else if (typeof query_string[pair[0]] === "string") {
-                var arr = [ query_string[pair[0]], pair[1] ];
-                query_string[pair[0]] = arr;
-                // If third or later entry with this name
-            } else {
-                query_string[pair[0]].push(pair[1]);
-            }
-        }
-        return query_string;
-    }
-
-    var query = window.location.search.substring(1);
-    var variables = loadURIVariables(query);
-
-    if (variables['group'] !== undefined) {
-        ORIGINAL_GROUP = variables['group'];
-    }
-
-    if (variables['satellite'] !== undefined) {
-        ORIGINAL_SATELLITE = variables['satellite'];
-    }
-
+    // Dictionary of Map tile providers for Cesium
     var TILE_PROVIDERS = {
         'bing': new Cesium.BingMapsImageryProvider({
             url: 'http://dev.virtualearth.net',
@@ -86,6 +48,82 @@
             proxy: new Cesium.DefaultProxy('http://cesium.agi.com/proxy/')
         })
     };
+
+    bootstrap();
+
+    // Function to get all basic views set on load.
+    function bootstrap() {
+        checkURLVariables();
+
+        // How do we tell if we can't get Bing, and substitute flat map with 'single'?
+        cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
+
+        scene.getPrimitives().setCentralBody(cb);
+        scene.skyAtmosphere = new Cesium.SkyAtmosphere(); // make globe stand out from skybox
+        scene.skyBox = new Cesium.SkyBox({
+            positiveX: SKYBOX_BASE + '/tycho2t3_80_px.jpg',
+            negativeX: SKYBOX_BASE + '/tycho2t3_80_mx.jpg',
+            positiveY: SKYBOX_BASE + '/tycho2t3_80_py.jpg',
+            negativeY: SKYBOX_BASE + '/tycho2t3_80_my.jpg',
+            positiveZ: SKYBOX_BASE + '/tycho2t3_80_pz.jpg',
+            negativeZ: SKYBOX_BASE + '/tycho2t3_80_mz.jpg'
+        });
+        scene.getPrimitives().add(orbitTraces);
+
+        ////////////////////////
+        // This should first see if there's a satellite in url, if not, check for geolocation, else default.
+        //
+
+        if(ORIGINAL_SATELLITE === 'null'){
+            showGeolocation(scene);
+        }
+
+        document.getElementById('select_satellite_group').value = ORIGINAL_GROUP;
+        // document.getElementById('select_satellite').value = ORIGINAL_SATELLITE;
+        getSatrecsFromTLEFile(document.getElementById('select_satellite_group').value);
+        populateSatelliteSelector();
+        populateSatelliteBillboard();
+        satelliteHoverDisplay(scene); // should be self-invoked
+        satelliteClickDetails(scene); // should be self-invoked
+    }
+
+    function checkURLVariables() {
+
+        // Function to find the current variables in the URL for permalinks.
+        function loadURIVariables(qs){
+            // This function is anonymous, is executed immediately and
+            // the return value is assigned to QueryString!
+            var query_string = {};
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                    // If first entry with this name
+                if (typeof query_string[pair[0]] === "undefined") {
+                    query_string[pair[0]] = pair[1];
+                    // If second entry with this name
+                } else if (typeof query_string[pair[0]] === "string") {
+                    var arr = [ query_string[pair[0]], pair[1] ];
+                    query_string[pair[0]] = arr;
+                    // If third or later entry with this name
+                } else {
+                    query_string[pair[0]].push(pair[1]);
+                }
+            }
+            return query_string;
+        };
+
+        var query = window.location.search.substring(1);
+        var variables = loadURIVariables(query);
+
+        if (variables['group'] !== undefined) {
+            ORIGINAL_GROUP = variables['group'];
+        }
+
+        if (variables['satellite'] !== undefined) {
+            ORIGINAL_SATELLITE = variables['satellite'];
+        }
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Satellite records and calculation
@@ -303,19 +341,20 @@
     // In <canvas> tag our height and width can only be in pixels, not percent.
     // So wrap it in a div whose height/width we can query.
 
-    function getScrollBarWidth() {
-        var t = document.createElement('textarea');
-        t.cols = 1;
-        t.rows = 1;
-        t.style.visibility='hidden';
-        t.style.border='none';
-        document.body.appendChild(t);
-        var w = t.offsetWidth - t.clientWidth;
-        document.body.removeChild (t);
-        return w;
-    }
-
     function onResize() {
+
+        function getScrollBarWidth() {
+            var t = document.createElement('textarea');
+            t.cols = 1;
+            t.rows = 1;
+            t.style.visibility='hidden';
+            t.style.border='none';
+            document.body.appendChild(t);
+            var w = t.offsetWidth - t.clientWidth;
+            document.body.removeChild (t);
+            return w;
+        }
+
         var headerHeight = document.getElementById('iSat_header').offsetHeight;
         var width = document.getElementById('iSat_header').offsetWidth - getScrollBarWidth();
         var height = window.innerHeight - headerHeight;
@@ -448,9 +487,18 @@
         var heightm = heightkm * 0.621371;
         document.getElementById('satellite_height_km').innerHTML = heightkm.toFixed(3);
         document.getElementById('satellite_height_m').innerHTML = heightm.toFixed(3);
+        if (ORIGINAL_GROUP !== 'SMD') {
+            document.getElementById('smd_info').setAttribute('style', 'display:none');
+        }
     }
 
-
+    function changeURL() {
+        if(ORIGINAL_SATELLITE == 'null') {
+            window.history.replaceState(null, null, "?group="+ORIGINAL_GROUP);
+        } else {
+            window.history.replaceState(null, null, "?group="+ORIGINAL_GROUP+"&satellite="+ORIGINAL_SATELLITE);
+        }
+    }
 
     // Clicking a satellite opens a page to Sciencce and NSSDC details
 
@@ -485,6 +533,8 @@
                     moveCamera();
                     showOrbit();
                     displayStats();
+                    changeURL();
+
                 }
             },
             Cesium.ScreenSpaceEventType.LEFT_CLICK // MOVE, WHEEL, {LEFT|MIDDLE|RIGHT}_{CLICK|DOUBLE_CLICK|DOWN|UP}
@@ -527,8 +577,10 @@
 
         // TODO: Not sure why this has to be after the URL mangling
         // but if it's before, we don't display the satellite details pane
+        displayStats();
         moveCamera();
         showOrbit();
+        changeURL();
     };
 
     function moveCamera() {
@@ -618,12 +670,6 @@
             rs.push(r);
         }
         orbitTraces.removeAll();
-        // orbitTraces.add({positions: positions,
-        //                  width: 2, // pixels
-        //                  color: {red: 1.0, green: 0.0, blue: 0.8, alpha: 0.7} // pink shows well
-        //                 });
-        // var traceMaterial = Cesium.Material.fromType('Color');
-        // traceMaterial.uniform.color = new Cesium.Color(1.0, 0.0, 0.8, 0.7);
 
         var traceMaterial = new Cesium.Material({
             fabric : {
@@ -642,13 +688,6 @@
         trace.setPositions(positions);
         trace.setMaterial(traceMaterial);
         trace.setWidth(2.0);
-
-        if(ORIGINAL_SATELLITE == 'null') {
-            window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
-        } else {
-            window.history.pushState(null, null, "?group="+ORIGINAL_GROUP+"&satellite="+ORIGINAL_SATELLITE);
-        }
-
     }
 
 
@@ -700,46 +739,15 @@
         orbitTraces.removeAll();
         getSatrecsFromTLEFile('media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
         ORIGINAL_GROUP = this.value;
-        window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
+        ORIGINAL_SATELLITE = 'null';
+        selectedSatelliteIdx = null;
+        document.getElementById('satellite_display').setAttribute("style", "display:none");
+        window.history.replaceState(null, null, "?group="+ORIGINAL_GROUP);
         getSatrecsFromTLEFile(this.value); // TODO: security risk?
         populateSatelliteSelector();
         populateSatelliteBillboard();
-    };
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Fire it up
-
-    // How do we tell if we can't get Bing, and substitute flat map with 'single'?
-    //cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.osm); // TODO: get from HTML selector
-    cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
-
-    scene.getPrimitives().setCentralBody(cb);
-    scene.skyAtmosphere = new Cesium.SkyAtmosphere(); // make globe stand out from skybox
-    scene.skyBox = new Cesium.SkyBox({
-        positiveX: SKYBOX_BASE + '/tycho2t3_80_px.jpg',
-        negativeX: SKYBOX_BASE + '/tycho2t3_80_mx.jpg',
-        positiveY: SKYBOX_BASE + '/tycho2t3_80_py.jpg',
-        negativeY: SKYBOX_BASE + '/tycho2t3_80_my.jpg',
-        positiveZ: SKYBOX_BASE + '/tycho2t3_80_pz.jpg',
-        negativeZ: SKYBOX_BASE + '/tycho2t3_80_mz.jpg'
-    });
-    scene.getPrimitives().add(orbitTraces);
-
-    ////////////////////////
-    // This should first see if there's a satellite in url, if not, check for geolocation, else default.
-    //
-
-    if(ORIGINAL_SATELLITE === 'null'){
         showGeolocation(scene);
-    }
-
-    document.getElementById('select_satellite_group').value = ORIGINAL_GROUP;
-    // document.getElementById('select_satellite').value = ORIGINAL_SATELLITE;
-    getSatrecsFromTLEFile(document.getElementById('select_satellite_group').value);
-    populateSatelliteSelector();
-    populateSatelliteBillboard();
-    satelliteHoverDisplay(scene); // should be self-invoked
-    satelliteClickDetails(scene); // should be self-invoked
+    };
 
     if(ORIGINAL_SATELLITE !== 'null'){
         for(var i = 0; i < satrecs.length; i++){
@@ -754,11 +762,116 @@
         }
         document.getElementById('select_satellite').value = selectedSatelliteIdx;
     }
-    if(ORIGINAL_SATELLITE === 'null') {
-        window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
-    } else {
-        window.history.pushState(null, null, "?group="+ORIGINAL_GROUP+"&satellite="+ORIGINAL_SATELLITE);
-    }
+
+    if(ORIGINAL_SATELLITE == 'null') {
+        window.history.replaceState(null, null, "?group="+ORIGINAL_GROUP);
+    };
+
+
+    //////////////////////////////////////////
+    // UI Button actions
+
+    // reset Window
+    document.getElementById('reset_button').onclick = function () {
+        window.location.reload();
+    };
+
+    // Toggle Instructions Modal.
+    document.getElementById('instructions_button').onclick = function () {
+        if (document.getElementById('instructions').style.display === 'none' ||  !document.getElementById('instructions').style.display) {
+            // document.getElementById('instructions').style.display = 'block';
+            document.getElementById('instructions').setAttribute("style", "display:block");
+            // document.getElementById('satellite_form').style.display = 'none';
+            document.getElementById('satellite_form').setAttribute("style", "display:none");
+            // document.getElementById('map_display').style.display = 'none';
+            document.getElementById('map_display').setAttribute("style", "display:none");
+        }
+        else {
+            // document.getElementById('instructions').style.display = 'none';
+            document.getElementById('instructions').setAttribute("style", "display:none");
+        }
+    };
+
+    // close Instructions Modal
+    document.getElementById('instructions_close').onclick = function () {
+        // document.getElementById('instructions').style.display = 'none';
+        document.getElementById('instructions').setAttribute("style", "display:none");
+    };
+
+    // Toggle Satellite
+    document.getElementById('satellite_button').onclick = function () {
+        if (document.getElementById('satellite_form').style.display === 'none' ||  !document.getElementById('satellite_form').style.display) {
+            // document.getElementById('satellite_form').style.display = 'block';
+            document.getElementById('satellite_form').setAttribute("style", "display:block");
+            // document.getElementById('map_display').style.display = 'none';
+            document.getElementById('map_display').setAttribute("style", "display:none");
+            // document.getElementById('instructions').style.display = 'none';
+            document.getElementById('instructions').setAttribute("style", "display:none");
+        }
+        else {
+            // document.getElementById('satellite_form').style.display = 'none';
+            document.getElementById('satellite_form').setAttribute("style", "display:none");
+        }
+    };
+
+    // close Satellite Modal
+    document.getElementById('satellite_form_close').onclick = function () {
+        document.getElementById('satellite_form').setAttribute("style", "display:none");
+        // document.getElementById('satellite_form').style.display = 'none';
+    };
+
+    // Toggle Map Display Modal
+    document.getElementById('display_button').onclick = function () {
+        if (document.getElementById('map_display').style.display === 'none' ||  !document.getElementById('map_display').style.display) {
+            document.getElementById('map_display').setAttribute("style", "display:block");
+            // document.getElementById('map_display').style.display = 'block';
+            document.getElementById('satellite_form').setAttribute("style", "display:none");
+            // document.getElementById('satellite_form').style.display = 'none';
+            document.getElementById('instructions').setAttribute("style", "display:none");
+            // document.getElementById('instructions').style.display = 'none';
+        }
+        else {
+            document.getElementById('map_display').setAttribute("style", "display:none");
+            // document.getElementById('map_display').style.display = 'none';
+        }
+    };
+
+    // Close Map Display Modal
+    document.getElementById('map_display_close').onclick = function () {
+        document.getElementById('map_display').setAttribute("style", "display:none");
+        // document.getElementById('map_display').style.display = 'none';
+    };
+
+    // Close Satellite Information Modal
+    document.getElementById('satellite_display_close').onclick = function () {
+        document.getElementById('satellite_display').setAttribute("style", "display:none");
+        // document.getElementById('satellite_display').style.display = 'none';
+        selectedSatelliteIdx = null;
+        PLAY = true;
+    };
+
+    // Toggle Fullscreen
+    // Browser can exit via its own mechanism, e.g., ESCAPE key.
+    // The W3C has living docs but the API is not standardized in browsers yet.
+    // https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
+    document.getElementById('fullscreen_button').onclick = function () {
+        var fsEl = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement;
+        var fsExit = document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen;
+        var el = document.getElementById('wrapper');
+        var fsRequest = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullScreen;
+        if (fsEl && fsExit !== 'undefined' && fsExit) {
+            fsExit.call(document);
+            document.getElementById('wrapper').removeAttribute('style');
+        } else {
+            if (typeof fsRequest !== 'undefined' && fsRequest) {
+                fsRequest.call(el);
+                document.getElementById('wrapper').setAttribute("style", "width:100%");
+                document.getElementById('wrapper').removeAttribute('background');
+            }
+        }
+        onResize();
+    };
+
 
     // Toggle Zoom Out
     document.getElementById('zoom_out').onclick = function () {
@@ -788,7 +901,6 @@
     document.getElementById('pause_button').onclick = function () {
         PLAY = false;
     };
-
 
     setInterval(function () {
         var now = new Cesium.JulianDate(); // TODO> we'll want to base on tick and time-speedup
