@@ -341,19 +341,20 @@
     // In <canvas> tag our height and width can only be in pixels, not percent.
     // So wrap it in a div whose height/width we can query.
 
-    function getScrollBarWidth() {
-        var t = document.createElement('textarea');
-        t.cols = 1;
-        t.rows = 1;
-        t.style.visibility='hidden';
-        t.style.border='none';
-        document.body.appendChild(t);
-        var w = t.offsetWidth - t.clientWidth;
-        document.body.removeChild (t);
-        return w;
-    }
-
     function onResize() {
+
+        function getScrollBarWidth() {
+            var t = document.createElement('textarea');
+            t.cols = 1;
+            t.rows = 1;
+            t.style.visibility='hidden';
+            t.style.border='none';
+            document.body.appendChild(t);
+            var w = t.offsetWidth - t.clientWidth;
+            document.body.removeChild (t);
+            return w;
+        }
+
         var headerHeight = document.getElementById('iSat_header').offsetHeight;
         var width = document.getElementById('iSat_header').offsetWidth - getScrollBarWidth();
         var height = window.innerHeight - headerHeight;
