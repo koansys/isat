@@ -494,9 +494,9 @@
 
     function changeURL() {
         if(ORIGINAL_SATELLITE == 'null') {
-            window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
+            window.history.replaceState(null, null, "?group="+ORIGINAL_GROUP);
         } else {
-            window.history.pushState(null, null, "?group="+ORIGINAL_GROUP+"&satellite="+ORIGINAL_SATELLITE);
+            window.history.replaceState(null, null, "?group="+ORIGINAL_GROUP+"&satellite="+ORIGINAL_SATELLITE);
         }
     }
 
@@ -742,7 +742,7 @@
         ORIGINAL_SATELLITE = 'null';
         selectedSatelliteIdx = null;
         document.getElementById('satellite_display').setAttribute("style", "display:none");
-        window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
+        window.history.replaceState(null, null, "?group="+ORIGINAL_GROUP);
         getSatrecsFromTLEFile(this.value); // TODO: security risk?
         populateSatelliteSelector();
         populateSatelliteBillboard();
@@ -764,7 +764,7 @@
     }
 
     if(ORIGINAL_SATELLITE == 'null') {
-        window.history.pushState(null, null, "?group="+ORIGINAL_GROUP);
+        window.history.replaceState(null, null, "?group="+ORIGINAL_GROUP);
     };
 
 
