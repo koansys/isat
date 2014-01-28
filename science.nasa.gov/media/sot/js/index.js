@@ -35,7 +35,7 @@
             mapStyle: Cesium.BingMapsStyle.AERIAL_WITH_LABELS
         }),
         'osm': new Cesium.OpenStreetMapImageryProvider({
-            url    : 'http://otile1.mqcdn.com/tiles/1.0.0/osm'
+            url: 'http://otile1.mqcdn.com/tiles/1.0.0/osm'
         }),
         'static': new Cesium.SingleTileImageryProvider({
             url: CESIUM_TEXTURES_BASE + '/NE2_LR_LC_SR_W_DR_2048.jpg'
@@ -45,11 +45,9 @@
         // "Cross-origin image load denied by Cross-Origin Resource Sharing policy."
         'arcgis': new Cesium.ArcGisMapServerImageryProvider({
             url: 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',
-            proxy: new Cesium.DefaultProxy('http://cesium.agi.com/proxy/')
+            proxy: new Cesium.DefaultProxy('http://cesiumjs.org/proxy/')
         })
     };
-
-    bootstrap();
 
     // Function to get all basic views set on load.
     function bootstrap() {
@@ -87,6 +85,8 @@
         satelliteClickDetails(scene); // should be self-invoked
     }
 
+    bootstrap();
+    
     function checkURLVariables() {
 
         // Function to find the current variables in the URL for permalinks.
@@ -111,17 +111,17 @@
                 }
             }
             return query_string;
-        };
+        }
 
         var query = window.location.search.substring(1);
         var variables = loadURIVariables(query);
 
-        if (variables['group'] !== undefined) {
-            ORIGINAL_GROUP = variables['group'];
+        if (variables.group !== undefined) {
+            ORIGINAL_GROUP = variables.group;
         }
 
-        if (variables['satellite'] !== undefined) {
-            ORIGINAL_SATELLITE = variables['satellite'];
+        if (variables.satellite !== undefined) {
+            ORIGINAL_SATELLITE = variables.satellite;
         }
     }
 
@@ -402,24 +402,24 @@
         );
     }
 
-    function fMod2p(x) {
-        var i = 0;
-        var ret_val = 0.0;
-        var twopi = 2.0 * Math.PI;
-
-        ret_val = x;
-        i = parseInt(ret_val / twopi);
-        ret_val -= i * twopi;
-
-        if (ret_val < 0.0){
-            ret_val += twopi;
-        }
-
-
-        return ret_val;
-    }
-
     function calcLatLonAlt(time, position, satellite) {
+        function fMod2p(x) {
+            var i = 0;
+            var ret_val = 0.0;
+            var twopi = 2.0 * Math.PI;
+
+            ret_val = x;
+            i = parseInt(ret_val / twopi);
+            ret_val -= i * twopi;
+
+            if (ret_val < 0.0){
+                ret_val += twopi;
+            }
+
+
+            return ret_val;
+        }   
+
         var r = 0.0,
             e2 = 0.0,
             phi = 0.0,
@@ -468,7 +468,6 @@
             satrecs = sats.satrecs;                   // propagate [GLOBAL]
         }
         document.getElementById('satellite_display').setAttribute("style", "display:block"); // show modal
-        // document.getElementById('satellite_display').style.display = 'block'; // show modal
         pos0 = sats.positions[satnum];                 // position of first satellite
         vel0 = sats.velocities[satnum];
         vel0Carte = new Cesium.Cartesian3(vel0[0], vel0[1], vel0[2]);
@@ -481,13 +480,36 @@
         var mpers = kmpers * 0.621371;
         document.getElementById('satellite_velocity_kms').innerHTML = kmpers.toFixed(3);
         document.getElementById('satellite_velocity_ms').innerHTML = mpers.toFixed(3);
+
+        // Adding Lat/Lon to Satellite Display
         document.getElementById('satellite_latInDegrees').innerHTML = satrecs[satnum].latInDegrees.toFixed(3);
         document.getElementById('satellite_lonInDegrees').innerHTML = satrecs[satnum].lonInDegrees.toFixed(3);
+
+        // Converting calculated Altitude to Miles and adding both (KM and M) to Satellite Display
         var heightkm = satrecs[satnum].alt;
         var heightm = heightkm * 0.621371;
         document.getElementById('satellite_height_km').innerHTML = heightkm.toFixed(3);
         document.getElementById('satellite_height_m').innerHTML = heightm.toFixed(3);
-        if (ORIGINAL_GROUP !== 'SMD') {
+
+        // Adding URLs if group is SMD to Satellite Display.
+        if (ORIGINAL_GROUP === 'SMD') {
+            document.getElementById('smd_info').setAttribute('style', 'display:block');
+            // Computing SMD URL and adding it to Satellite Display
+            var scienceUrl = 'http://science.nasa.gov/missions/';
+            scienceUrl +=  scienceSlugify(satData[satnum].name) + '/';
+            document.getElementById('science_url').href = scienceUrl;
+
+            // Computing NSSDC URL and adding it to Satellite Display
+            var nssdcUrl = 'http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=';
+            var century;
+            if (Number(satData[satnum].intlDesig.slice(0, 2)) < 20) { // heuristic from JTrack3D source code
+                century = '20';
+            } else {
+                century = '19';
+            }
+            nssdcUrl += century + satData[satnum].intlDesig.slice(0, 2) + '-' + satData[satnum].intlDesig.slice(2);
+            document.getElementById('nssdc_url').href = nssdcUrl;
+        } else {
             document.getElementById('smd_info').setAttribute('style', 'display:none');
         }
     }
@@ -505,29 +527,11 @@
     function satelliteClickDetails(scene) {
         var handler = new Cesium.ScreenSpaceEventHandler(scene.getCanvas());
 
-        handler.setInputAction( // actionFunction, mouseEventType, eventModifierKey
-            function (click) {
+        handler.setInputAction( function (click) {  // actionFunction, mouseEventType, eventModifierKey
                 var pickedObject = scene.pick(click.position);
-                var scienceUrl = 'http://science.nasa.gov/missions/';
-                var nssdcUrl = 'http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=';
-                var satName, satDesig, century;
 
                 if (pickedObject) {
-                    satName  = pickedObject.satelliteName.toLowerCase();
-                    satDesig = pickedObject.satelliteDesignator;
                     if (typeof window !== 'undefined') {
-                        scienceUrl +=  scienceSlugify(satName) + '/';
-                        document.getElementById('science_url').href = scienceUrl;
-
-                        // mangle Intl Designator for NSSDC: 98067A -> 1998-067A
-                        if (Number(satDesig.slice(0, 2)) < 20) { // heuristic from JTrack3D source code
-                            century = '20';
-                        }
-                        else {
-                            century = '19';
-                        }
-                        nssdcUrl += century + satDesig.slice(0, 2) + '-' + satDesig.slice(2);
-                        document.getElementById('nssdc_url').href = nssdcUrl;
                         selectedSatelliteIdx = pickedObject.satelliteNum;
                     }
                     moveCamera();
@@ -551,32 +555,8 @@
     // but that would require more images in the textureAtlas.
 
     document.getElementById('select_satellite').onchange = function () {
-        // TODO: var defs duped from satelliteClickDetails() above!
-        var scienceUrl = 'http://science.nasa.gov/missions/';
-        var nssdcUrl = 'http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=';
-        var satName, satDesig, century;
-
         document.getElementById('satellite_form').setAttribute("style", "display:none");
-        // document.getElementById('satellite_form').style.display = 'none';
-        selectedSatelliteIdx = Number(this.value); // '16'
-        // set the HREF links in the More on... dialog2
-        // TODO: don't copy/paste replicate this code from above, make a function
-        satName = satData[selectedSatelliteIdx].name.toLowerCase(); // crres
-        satDesig = satData[selectedSatelliteIdx].intlDesig;
-        scienceUrl +=  scienceSlugify(satName) + '/';
-        document.getElementById('science_url').href = scienceUrl;
-        // mangle Intl Designator for NSSDC: 98067A -> 1998-067A
-        if (Number(satDesig.slice(0, 2)) < 20) { // heuristic from JTrack3D source code
-            century = '20';
-        }
-        else {
-            century = '19';
-        }
-        nssdcUrl += century + satDesig.slice(0, 2) + '-' + satDesig.slice(2);
-        document.getElementById('nssdc_url').href = nssdcUrl;
-
-        // TODO: Not sure why this has to be after the URL mangling
-        // but if it's before, we don't display the satellite details pane
+        selectedSatelliteIdx = Number(this.value);
         displayStats();
         moveCamera();
         showOrbit();

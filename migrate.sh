@@ -1,9 +1,9 @@
 #!/bin/bash
 CURRENT_DIR=`pwd`
-rm -rf /repfiles/nasascience/media/sot/js/
-rm -rf /repfiles/nasascience/media/sot/cesium/
-rm -rf /repfiles/nasascience/media/sot/images/
-rm -rf /repfiles/nasascience/media/sot/css/
+rm -rf /repfiles/nasascience/media/sot/js
+rm -rf /repfiles/nasascience/media/sot/cesium
+rm -rf /repfiles/nasascience/media/sot/images
+rm -rf /repfiles/nasascience/media/sot/css
 echo 'removed current files'
 mkdir /repfiles/nasascience/media/sot/js
 echo 'make folder for javascript'
