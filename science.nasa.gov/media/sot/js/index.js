@@ -45,12 +45,12 @@
         // "Cross-origin image load denied by Cross-Origin Resource Sharing policy."
         'arcgis': new Cesium.ArcGisMapServerImageryProvider({
             url: 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',
-            proxy: new Cesium.DefaultProxy('http://cesiumjs.org/proxy/')
+            proxy : Cesium.FeatureDetection.supportsCrossOriginImagery() ? undefined : new Cesium.DefaultProxy('http://cesiumjs.org/proxy/')
         })
     };
 
     // Function to get all basic views set on load.
-    function bootstrap() {
+    var bootstrap = function() {
         checkURLVariables();
 
         // How do we tell if we can't get Bing, and substitute flat map with 'single'?
@@ -83,9 +83,7 @@
         populateSatelliteBillboard();
         satelliteHoverDisplay(scene); // should be self-invoked
         satelliteClickDetails(scene); // should be self-invoked
-    }
-
-    bootstrap();
+    }();
     
     function checkURLVariables() {
 

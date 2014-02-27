@@ -14,7 +14,7 @@
     var transitioner            = new Cesium.SceneTransitioner(scene, ellipsoid);
 
     // Constants
-    var CESIUM_TEXTURES_BASE    = '/media/sot/cesium/Assets/Textures';
+    var CESIUM_TEXTURES_BASE    = 'media/sot/cesium/Assets/Textures';
     var SKYBOX_BASE             = CESIUM_TEXTURES_BASE + '/SkyBox';
     var CALC_INTERVAL_MS        = 1000;
 
@@ -45,12 +45,12 @@
         // "Cross-origin image load denied by Cross-Origin Resource Sharing policy."
         'arcgis': new Cesium.ArcGisMapServerImageryProvider({
             url: 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',
-            proxy: new Cesium.DefaultProxy('http://cesiumjs.org/proxy/')
+            proxy : Cesium.FeatureDetection.supportsCrossOriginImagery() ? undefined : new Cesium.DefaultProxy('http://cesiumjs.org/proxy/')
         })
     };
 
     // Function to get all basic views set on load.
-    function bootstrap() {
+    var bootstrap = function() {
         checkURLVariables();
 
         // How do we tell if we can't get Bing, and substitute flat map with 'single'?
@@ -83,9 +83,7 @@
         populateSatelliteBillboard();
         satelliteHoverDisplay(scene); // should be self-invoked
         satelliteClickDetails(scene); // should be self-invoked
-    }
-
-    bootstrap();
+    }();
     
     function checkURLVariables() {
 
@@ -134,7 +132,7 @@
     function getSatrecsFromTLEFile(fileName) {
         var satnum, max, rets, satrec, startmfe, stopmfe, deltamin;
 
-        fileName = '/media/sot/tle/' + fileName + '.txt';
+        fileName = 'media/sot/tle/' + fileName + '.txt';
         var tles = tle.parseFile(fileName);
 
         // Reset the globals
@@ -268,7 +266,7 @@
         }
         scene.getPrimitives().add(satBillboards);
 
-        image.src = '/media/sot/images/Satellite.png';
+        image.src = 'media/sot/images/Satellite.png';
         image.onload = function () {
             var textureAtlas = scene.getContext().createTextureAtlas({image: image}); // seems needed in onload()
             satBillboards.setTextureAtlas(textureAtlas);
@@ -287,7 +285,7 @@
             var up     = new Cesium.Cartesian3(0, 0, 1);
             // Put a cross where we are
             var image = new Image();
-            image.src = '/media/sot/images/icon_geolocation.png';
+            image.src = 'media/sot/images/icon_geolocation.png';
             image.onload = function () {
                 var billboards = new Cesium.BillboardCollection(); // how to make single?
                 var textureAtlas = scene.getContext().createTextureAtlas({image: image});
@@ -717,7 +715,7 @@
     // Switch which satellites are displayed.
     document.getElementById('select_satellite_group').onchange = function () {
         orbitTraces.removeAll();
-        getSatrecsFromTLEFile('/media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
+        getSatrecsFromTLEFile('media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
         ORIGINAL_GROUP = this.value;
         ORIGINAL_SATELLITE = 'null';
         selectedSatelliteIdx = null;
