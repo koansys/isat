@@ -59,12 +59,14 @@
         scene.primitives.centralBody = cb;
         scene.skyAtmosphere = new Cesium.SkyAtmosphere(); // make globe stand out from skybox
         scene.skyBox = new Cesium.SkyBox({
-            positiveX: SKYBOX_BASE + '/tycho2t3_80_px.jpg',
-            negativeX: SKYBOX_BASE + '/tycho2t3_80_mx.jpg',
-            positiveY: SKYBOX_BASE + '/tycho2t3_80_py.jpg',
-            negativeY: SKYBOX_BASE + '/tycho2t3_80_my.jpg',
-            positiveZ: SKYBOX_BASE + '/tycho2t3_80_pz.jpg',
-            negativeZ: SKYBOX_BASE + '/tycho2t3_80_mz.jpg'
+            sources : {
+                positiveX: SKYBOX_BASE + '/tycho2t3_80_px.jpg',
+                negativeX: SKYBOX_BASE + '/tycho2t3_80_mx.jpg',
+                positiveY: SKYBOX_BASE + '/tycho2t3_80_py.jpg',
+                negativeY: SKYBOX_BASE + '/tycho2t3_80_my.jpg',
+                positiveZ: SKYBOX_BASE + '/tycho2t3_80_pz.jpg',
+                negativeZ: SKYBOX_BASE + '/tycho2t3_80_mz.jpg'
+            }
         });
         scene.primitives.add(orbitTraces);
 

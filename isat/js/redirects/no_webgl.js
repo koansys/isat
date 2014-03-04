@@ -1,1 +1,0 @@
-window.location = "/iSat/iSAT-text-only/?failure=Webgl";
