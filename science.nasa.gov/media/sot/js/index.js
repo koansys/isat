@@ -54,9 +54,9 @@
         checkURLVariables();
 
         // How do we tell if we can't get Bing, and substitute flat map with 'single'?
-        cb.getImageryLayers().addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
+        cb.imageryLayers.addImageryProvider(TILE_PROVIDERS.bing); // TODO: get from HTML selector
 
-        scene.getPrimitives().setCentralBody(cb);
+        scene.primitives.centralBody = cb;
         scene.skyAtmosphere = new Cesium.SkyAtmosphere(); // make globe stand out from skybox
         scene.skyBox = new Cesium.SkyBox({
             positiveX: SKYBOX_BASE + '/tycho2t3_80_px.jpg',
@@ -66,7 +66,7 @@
             positiveZ: SKYBOX_BASE + '/tycho2t3_80_pz.jpg',
             negativeZ: SKYBOX_BASE + '/tycho2t3_80_mz.jpg'
         });
-        scene.getPrimitives().add(orbitTraces);
+        scene.primitives.add(orbitTraces);
 
         ////////////////////////
         // This should first see if there's a satellite in url, if not, check for geolocation, else default.
@@ -86,7 +86,7 @@
     }
 
     bootstrap();
-    
+
     function checkURLVariables() {
 
         // Function to find the current variables in the URL for permalinks.
@@ -266,12 +266,12 @@
             billboard.satelliteData       = satData[satnum];
             billboard.satelliteNum        = satnum;
         }
-        scene.getPrimitives().add(satBillboards);
+        scene.primitives.add(satBillboards);
 
         image.src = 'media/sot/images/Satellite.png';
         image.onload = function () {
-            var textureAtlas = scene.getContext().createTextureAtlas({image: image}); // seems needed in onload()
-            satBillboards.setTextureAtlas(textureAtlas);
+            var textureAtlas = scene.context.createTextureAtlas({image: image}); // seems needed in onload()
+            satBillboards.textureAtlas = textureAtlas;
         };
     }
 
@@ -290,16 +290,16 @@
             image.src = 'media/sot/images/icon_geolocation.png';
             image.onload = function () {
                 var billboards = new Cesium.BillboardCollection(); // how to make single?
-                var textureAtlas = scene.getContext().createTextureAtlas({image: image});
-                billboards.setTextureAtlas(textureAtlas);
+                var textureAtlas = scene.context.createTextureAtlas({image: image});
+                billboards.textureAtlas = textureAtlas;
                 billboards.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(target);
                 billboards.add({imageIndex: 0,
                                 position: new Cesium.Cartesian3(0.0, 0.0, 0.0)});
-                scene.getPrimitives().add(billboards);
+                scene.primitives.add(billboards);
             };
 
             // Point the camera at us and position it directly above us
-            scene.getCamera().controller.lookAt(eye, target, up);
+            scene.camera.controller.lookAt(eye, target, up);
         }
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(showGeo);
@@ -367,7 +367,7 @@
         var cc = document.getElementById('cesiumContainer');
         cc.width = width;
         cc.height = height;
-        scene.getCamera().frustum.aspectRatio = width / height;
+        scene.camera.frustum.aspectRatio = width / height;
     }
     window.addEventListener('resize', onResize, false);
     onResize();
@@ -378,7 +378,7 @@
     // TODO: scene and ellipsoid are global so why pass them in?
 
     function satelliteHoverDisplay(scene) {
-        var handler = new Cesium.ScreenSpaceEventHandler(scene.getCanvas());
+        var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
         handler.setInputAction( // actionFunction, mouseEventType, eventModifierKey
             function (movement) {
@@ -418,7 +418,7 @@
 
 
             return ret_val;
-        }   
+        }
 
         var r = 0.0,
             e2 = 0.0,
@@ -476,7 +476,7 @@
         document.getElementById('satellite_name').innerHTML = satData[satnum].name;
         document.getElementById('satellite_id').innerHTML = satData[satnum].noradId;
         ORIGINAL_SATELLITE = satData[satnum].noradId;
-        var kmpers = vel0Carte.magnitude();
+        var kmpers = Cesium.Cartesian3.magnitude(vel0Carte);
         var mpers = kmpers * 0.621371;
         document.getElementById('satellite_velocity_kms').innerHTML = kmpers.toFixed(3);
         document.getElementById('satellite_velocity_ms').innerHTML = mpers.toFixed(3);
@@ -525,14 +525,14 @@
     // Clicking a satellite opens a page to Sciencce and NSSDC details
 
     function satelliteClickDetails(scene) {
-        var handler = new Cesium.ScreenSpaceEventHandler(scene.getCanvas());
+        var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
         handler.setInputAction( function (click) {  // actionFunction, mouseEventType, eventModifierKey
                 var pickedObject = scene.pick(click.position);
 
                 if (pickedObject) {
                     if (typeof window !== 'undefined') {
-                        selectedSatelliteIdx = pickedObject.satelliteNum;
+                        selectedSatelliteIdx = pickedObject.primitive.satelliteNum;
                     }
                     moveCamera();
                     showOrbit();
@@ -569,7 +569,7 @@
         var up = new Cesium.Cartesian3(0, 0, 1);
         var billboard, bbnum, max, pos, eye;
 
-        for (bbnum = 0, max = satBillboards.getLength(); bbnum < max; bbnum += 1) {
+        for (bbnum = 0, max = satBillboards.length; bbnum < max; bbnum += 1) {
             billboard = satBillboards.get(bbnum);
             if (billboard.hasOwnProperty('isSelected')) {
                 delete billboard.isSelected;
@@ -588,12 +588,12 @@
         if (scene.mode === Cesium.SceneMode.SCENE3D) {
             // TODO: *fly* to 'above' the satellite still looking at Earth
             // Transform to put me "over" satellite location.
-            scene.getCamera().transform = Cesium.Matrix4.fromRotationTranslation(
+            scene.camera.transform = Cesium.Matrix4.fromRotationTranslation(
                 Cesium.Transforms.computeTemeToPseudoFixedMatrix(new Cesium.JulianDate()),
                 Cesium.Cartesian3.ZERO);
             eye = new Cesium.Cartesian3.clone(pos);
-            eye = eye.multiplyByScalar(2); // Zoom out a bit from the satellite
-            scene.getCamera().controller.lookAt(eye, target, up);
+            eye = Cesium.Cartesian3.multiplyByScalar(eye, 2);
+            scene.camera.controller.lookAt(eye, target, up);
         }
     }
 
@@ -644,8 +644,7 @@
             rets = sgp4(satrec, minutesSinceEpoch);
             satrec = rets.shift();
             r = rets.shift();      // [1802,    3835,    5287] Km, not meters
-            position = new Cesium.Cartesian3(r[0], r[1], r[2]);  // becomes .x, .y, .z
-            position = position.multiplyByScalar(1000); // Km to meters
+            position = new Cesium.Cartesian3(r[0] * 1000, r[1] * 1000, r[2] * 1000);  // becomes .x, .y, .z
             positions.push(position);
             rs.push(r);
         }
@@ -679,8 +678,8 @@
     function switchTileProviders(provider) {
         var ilNew = TILE_PROVIDERS[provider];
         if (ilNew) {
-            cb.getImageryLayers().removeAll();
-            cb.getImageryLayers().addImageryProvider(ilNew);
+            cb.imageryLayers.removeAll();
+            cb.imageryLayers.addImageryProvider(ilNew);
         }
     }
 
@@ -855,19 +854,19 @@
 
     // Toggle Zoom Out
     document.getElementById('zoom_out').onclick = function () {
-        var cameraHeight = ellipsoid.cartesianToCartographic(scene.getCamera().position).height;
+        var cameraHeight = ellipsoid.cartesianToCartographic(scene.camera.position).height;
         var moveRate = cameraHeight / 10.0;
         if (scene.mode === Cesium.SceneMode.SCENE3D) {
-            scene.getCamera().controller.moveBackward(moveRate);
+            scene.camera.controller.moveBackward(moveRate);
         }
     };
 
     // Toggle Zoom In
     document.getElementById('zoom_in').onclick = function () {
-        var cameraHeight = ellipsoid.cartesianToCartographic(scene.getCamera().position).height;
+        var cameraHeight = ellipsoid.cartesianToCartographic(scene.camera.position).height;
         var moveRate = cameraHeight / 10.0;
         if (scene.mode === Cesium.SceneMode.SCENE3D) {
-            scene.getCamera().controller.moveForward(moveRate);
+            scene.camera.controller.moveForward(moveRate);
         }
     };
 
