@@ -1,25 +1,26 @@
 #!/bin/bash
 CURRENT_DIR=`pwd`
-rm -fr isat
-echo 'removed current files'
-mkdir isat
-mkdir isat/js
+rm -fr isat_temp
+echo 'removed isat_temp/'
+mkdir isat_temp
+echo 'make folder for isat_temp'
+mkdir isat_temp/js
 echo 'make folder for javascript'
-mkdir isat/cesium
+mkdir isat_temp/cesium
 echo 'make folder for Cesium'
-mkdir isat/images
+mkdir isat_temp/images
 echo 'make folder for images'
-mkdir isat/css
+mkdir isat_temp/css
 echo 'make folder for css'
-cp -r $CURRENT_DIR/science.nasa.gov/media/sot/cesium/* isat/cesium
+cp -r $CURRENT_DIR/science.nasa.gov/media/sot/cesium/* isat_temp/cesium
 echo 'copied Cesium over'
-cp -r $CURRENT_DIR/science.nasa.gov/media/sot/css/* isat/css
+cp -r $CURRENT_DIR/science.nasa.gov/media/sot/css/* isat_temp/css
 echo 'copied css over'
-cp -r $CURRENT_DIR/science.nasa.gov/media/sot/images/* isat/images
+cp -r $CURRENT_DIR/science.nasa.gov/media/sot/images/* isat_temp/images
 echo 'copied images over'
-cp -r $CURRENT_DIR/science.nasa.gov/media/sot/js/* isat/js
+cp -r $CURRENT_DIR/science.nasa.gov/media/sot/js/* isat_temp/js
 echo 'copied javascript over'
-cp $CURRENT_DIR/science.nasa.gov/index.html isat/index.html
+cp $CURRENT_DIR/science.nasa.gov/index.html isat_temp/index.html
 echo 'copied index.html over'
 
-perl -p -i -e 's|media/sot|/media/sot|g' isat/index.html isat/js/index.js isat/js/modernizr_load.js
+perl -p -i -e 's|media/sot|/media/sot|g' isat_temp/index.html isat/js/index.js isat/js/modernizr_load.js
