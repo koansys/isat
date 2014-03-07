@@ -22,4 +22,4 @@ echo 'copied javascript over'
 cp $CURRENT_DIR/science.nasa.gov/index.html isat/index.html
 echo 'copied index.html over'
 
-perl -p -i -e 's|media/sot|/media/sot\g' index.html js/index.js js/modernizr_load.js
+perl -p -i -e 's|media/sot|/media/sot|g' index.html js/index.js js/modernizr_load.js
