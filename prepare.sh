@@ -1,10 +1,6 @@
 #!/bin/bash
 CURRENT_DIR=`pwd`
-rm -rf isat/cesium
-rm -rf isat/css
-rm -rf isat/images
-rm -rf isat/js
-rm -fr isat/tle
+rm -fr isat
 echo 'removed current files'
 mkdir isat
 mkdir isat/js
@@ -25,3 +21,5 @@ cp -r $CURRENT_DIR/science.nasa.gov/media/sot/js/* isat/js
 echo 'copied javascript over'
 cp $CURRENT_DIR/science.nasa.gov/index.html isat/index.html
 echo 'copied index.html over'
+
+perl -p -i -e 's|media/sot|/media/sot\g' index.html js/index.js js/modernizr_load.js
