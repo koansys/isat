@@ -3,9 +3,10 @@ CURRENT_DIR=`pwd`
 rm -rf isat/cesium
 rm -rf isat/css
 rm -rf isat/images
-rm -rf isat/js      
+rm -rf isat/js
 rm -fr isat/tle
 echo 'removed current files'
+mkdir isat
 mkdir isat/js
 echo 'make folder for javascript'
 mkdir isat/cesium
