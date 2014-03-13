@@ -251,7 +251,7 @@ jQuery(document).ready(function ($) {
     }
 
     function clearMap () {
-      for(var i = 0; i < GLOBAL_MARKERS.lenght; i++) {
+      for(var i = 0; i < GLOBAL_MARKERS.length; i++) {
         GLOBAL_MARKERS[i].setMap(null);
       }
     }
@@ -259,8 +259,8 @@ jQuery(document).ready(function ($) {
     getSatrecsFromTLEFile('media/sot/tle/SMD.txt');
     document.getElementById('select_satellite_group').onchange = function () {
         getSatrecsFromTLEFile('media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
-        GLOBAL_MARKERS = [];
         clearMap();
+        GLOBAL_MARKERS = [];
     };
 
     setInterval(computeStats, CALC_INTERVAL_MS);
