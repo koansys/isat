@@ -1,9 +1,8 @@
 /*global document, window, console, setInterval, Cesium, Image, navigator, twoline2rv, sgp4, tle, gstime*/
-(function () {
+jQuery(document).ready(function ($) {
     'use strict';
     var ellipsoid       = Cesium.Ellipsoid.WGS84;
     var clock           = new Cesium.Clock();
-    var orbitTraces       = new Cesium.PolylineCollection(); // currently only one at a time
     var satrecs         = [];   // populated from onclick file load
     var satdesigs       = [];   // populated from onclick file load
     var satnames        = [];   // populated from onclick file load
@@ -15,6 +14,7 @@
     var PLAY            = true;
     var SAT_POSITIONS_MAX = 25; // Limit numer of positions displayed to save CPU
     var CALC_INTERVAL_MS  = 1000;
+    var GLOBAL_MARKERS = [];
 
     // TOGGLE Play
     document.getElementById('play_button').onclick = function () {
@@ -23,8 +23,6 @@
     document.getElementById('pause_button').onclick = function () {
         PLAY = false;
     };
-
-
 
     function getSatrecsFromTLEFile(fileName) {
         var tles = tle.parseFile(fileName);
@@ -129,6 +127,18 @@
         satellite.lonInDegrees = satellite.lonInRads * rad2degree;
     }
 
+    var gmap;
+    var mapOptions = {
+      zoom: 2,
+      center: new google.maps.LatLng("0", "0"),
+      scrollwheel: false,
+      disableDefaultUI: true,
+      mapTypeId: google.maps.MapTypeId.TERRAIN
+    }
+    var map_initialization = (function () {
+        gmap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    })();
+
     function displayPositions(time, sats) {
         var positionTable = document.getElementById('positions');
         var tbody = positionTable.getElementsByTagName('tbody')[0];
@@ -150,14 +160,42 @@
             newRow = tbody.insertRow(-1);
             newRow.insertCell(-1).appendChild(document.createTextNode(satnames[satnum]));
             newRow.insertCell(-1).appendChild(document.createTextNode(satids[satnum]));
-            newRow.insertCell(-1).appendChild(document.createTextNode(vel0Carte.magnitude().toFixed(0)));
+            newRow.insertCell(-1).appendChild(document.createTextNode(Cesium.Cartesian3.magnitude(vel0Carte).toFixed(0)));
             newRow.insertCell(-1).appendChild(document.createTextNode(satrecs[satnum].latInDegrees.toFixed(3)));
             newRow.insertCell(-1).appendChild(document.createTextNode(satrecs[satnum].lonInDegrees.toFixed(3)));
             var heightkm = satrecs[satnum].alt;
             var heightm = heightkm * 0.621371;
             newRow.insertCell(-1).appendChild(document.createTextNode(heightkm.toFixed(3)));
             newRow.insertCell(-1).appendChild(document.createTextNode(heightm.toFixed(3)));
+
+            if(GLOBAL_MARKERS[satnum] === undefined) {
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(satrecs[satnum].latInDegrees, satrecs[satnum].lonInDegrees),
+                    map: gmap,
+                    title: satnames[satnum],
+                    icon: 'media/sot/images/Satellite.png'
+                });
+                GLOBAL_MARKERS[satnum] = marker;
+                (function() {
+                    var index = satnum;
+                    var iw =  new google.maps.InfoWindow({content: GLOBAL_MARKERS[index].title});
+                    google.maps.event.addListener(GLOBAL_MARKERS[index], "mouseover", function (e) {
+                      iw.open(gmap, this);
+                    });
+                    google.maps.event.addListener(GLOBAL_MARKERS[index], "mouseout", function (e) {
+                      iw.close(gmap, this);
+                    });
+                })();
+            } else {
+              GLOBAL_MARKERS[satnum].setPosition(new google.maps.LatLng(satrecs[satnum].latInDegrees, satrecs[satnum].lonInDegrees));
+            }
         }
+    }
+
+    for(var j = 0; j < GLOBAL_MARKERS.length; j++) {
+        google.maps.event.addListener(GLOBAL_MARKERS[j], "click", function (e) {
+            new google.maps.InfoWindow({content: GLOBAL_MARKERS[j].title}).open(gmap, this);
+        });
     }
 
     function computeStats() {
@@ -175,12 +213,18 @@
         }
     }
 
-    getSatrecsFromTLEFile('/media/sot/tle/SMD.txt');
+    function clearMap () {
+      for(var i = 0; i < GLOBAL_MARKERS.lenght; i++) {
+        GLOBAL_MARKERS[i].setMap(null);
+      }
+    }
+
+    getSatrecsFromTLEFile('media/sot/tle/SMD.txt');
     document.getElementById('select_satellite_group').onchange = function () {
-        orbitTraces.removeAll();
-        getSatrecsFromTLEFile('/media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
+        getSatrecsFromTLEFile('media/sot/tle/' + this.value + '.txt'); // TODO: security risk?
+        GLOBAL_MARKERS = [];
+        clearMap();
     };
 
     setInterval(computeStats, CALC_INTERVAL_MS);
-
 }());
