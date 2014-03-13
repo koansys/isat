@@ -119,37 +119,38 @@
         <p>Your browser does not support <span id="failure"></span>.</p>
 
         <div id="browser_list">
-          <dl>
-            <dt>
-              <img src="media/sot/images/Chrome_Logo.png"
-                   alt="Chrome Browser"
-                   height="65px" width="65px" />
-            </dt>
-            <dd>
-              <b>Chrome</b><br />
-              <a href="https://www.google.com/intl/en/chrome/browser/">For Windows, Mac, and Linux</a>
-            </dd>
-            <dt>
-              <img src="media/sot/images/Firefox_Logo.png"
-                   alt="Firefox Browser"
-                   height="65px" width="65px" />
-            </dt>
-            <dd>
-              <b>Firefox</b><br />
-              <a href="http://www.mozilla.org/en-US/firefox/new/">For Windows, Mac, and Linux</a>
-            </dd>
-          </dl>
+            <table border="0">
+                <tr>
+                    <td style="vertical-align:middle">
+                        <img src="media/sot/images/Chrome_Logo.png"
+                            alt="Chrome Browser"
+                            height="65px" width="65px" />
+                    </td>
+                    <td style="vertical-align:middle">
+                        <b>Chrome</b><br />
+                        <a href="https://www.google.com/intl/en/chrome/browser/">For Windows, Mac, and Linux</a>
+                    </td>
+                    <td style="vertical-align:middle">
+                        <img src="media/sot/images/Firefox_Logo.png"
+                            alt="Firefox Browser"
+                            height="65px" width="65px" />
+                    </td>
+                    <td style="vertical-align:middle">
+                        <b>Firefox</b><br />
+                        <a href="http://www.mozilla.org/en-US/firefox/new/">For Windows, Mac, and Linux</a>
+                    </td>
+                </tr>
+            </table>
         </div> <!-- /browswer_list -->
       </div> <!-- /not-supported -->
+      <div id="map-canvas"></div>
+      <div><h2>Satellite Information</h2></div>
       <div id="satellite_form">
         <form id="controls">
           <fieldset>
-            <legend>
-              Select a Satellite:
-            </legend>
             <dl id="controls_satellite">
               <dt>
-                <label for="select_satellite_group">Satellite Group:</label>
+                <label for="select_satellite_group">Select a Satellite Group:</label>
               </dt>
               <dd>
                 <select id="select_satellite_group">
@@ -215,12 +216,6 @@
         </form>
       </div> <!-- /satellite_form -->
       <div id="statistics">
-        <form>
-          <fieldset>
-            <legend>
-              Satellite Information
-            </legend>
-
             <div id="play_pause_buttons">
               <button id="play_button"
                       accesskey="p"
@@ -231,7 +226,6 @@
                       title="Pause updating satellite information"
                       type="button">Pause</button>
             </div>
-      <div id="map-canvas"></div>
 
             <div id="date">Date</div>
             <table id="positions">
