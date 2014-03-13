@@ -79,7 +79,7 @@ jQuery(document).ready(function ($) {
         var twopi = 2.0 * Math.PI;
 
         ret_val = x;
-        i = parseInt(ret_val / twopi);
+        i = parseInt(ret_val / twopi, 10);
         ret_val -= i * twopi;
 
         if (ret_val < 0.0)
@@ -134,7 +134,7 @@ jQuery(document).ready(function ($) {
       scrollwheel: false,
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.TERRAIN
-    }
+    };
     var map_initialization = (function () {
         gmap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     })();
@@ -143,6 +143,20 @@ jQuery(document).ready(function ($) {
         var positionTable = document.getElementById('positions');
         var tbody = positionTable.getElementsByTagName('tbody')[0];
         var satnum, max, pos0, vel0, vel0Carte, carte, carto, newRow, latLonAlt;
+
+        function add_listeners(satnum) {
+            var index = satnum;
+            var iw =  new google.maps.InfoWindow({content: GLOBAL_MARKERS[index].title});
+
+            google.maps.event.addListener(GLOBAL_MARKERS[index], "mouseover", function (e) {
+                iw.open(gmap, this);
+                showOrbit(index);
+            });
+            google.maps.event.addListener(GLOBAL_MARKERS[index], "mouseout", function (e) {
+                iw.close(gmap, this);
+                orbit.setMap(null);
+            });
+        }
 
         if (typeof tbody !== 'undefined' && tbody !== null) {
             positionTable.removeChild(tbody);
@@ -176,18 +190,7 @@ jQuery(document).ready(function ($) {
                     icon: 'media/sot/images/Satellite.png'
                 });
                 GLOBAL_MARKERS[satnum] = marker;
-                (function() {
-                    var index = satnum;
-                    var iw =  new google.maps.InfoWindow({content: GLOBAL_MARKERS[index].title});
-                    google.maps.event.addListener(GLOBAL_MARKERS[index], "mouseover", function (e) {
-                        iw.open(gmap, this);
-                        showOrbit(index);
-                    });
-                    google.maps.event.addListener(GLOBAL_MARKERS[index], "mouseout", function (e) {
-                        iw.close(gmap, this);
-                        orbit.setMap(null);
-                    });
-                })();
+                add_listeners(satnum);
             } else {
               GLOBAL_MARKERS[satnum].setPosition(new google.maps.LatLng(satrecs[satnum].latInDegrees, satrecs[satnum].lonInDegrees));
             }
@@ -201,7 +204,7 @@ jQuery(document).ready(function ($) {
 
       var satrec = satrecs[satnum];
       var jdSat = new Cesium.JulianDate.fromTotalDays(satrec.jdsatepoch);
-      var now = new Cesium.JulianDate;
+      var now = new Cesium.JulianDate();
 
       var minutesPerOrbit = 2 * Math.PI / satrec.no;
       var pointsPerOrbit = 144;
