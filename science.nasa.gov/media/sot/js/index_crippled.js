@@ -127,7 +127,7 @@ jQuery(document).ready(function ($) {
         satellite.lonInDegrees = satellite.lonInRads * rad2degree;
     }
 
-    var gmap;
+    var gmap, orbit;
     var mapOptions = {
       zoom: 2,
       center: new google.maps.LatLng("0", "0"),
@@ -180,10 +180,12 @@ jQuery(document).ready(function ($) {
                     var index = satnum;
                     var iw =  new google.maps.InfoWindow({content: GLOBAL_MARKERS[index].title});
                     google.maps.event.addListener(GLOBAL_MARKERS[index], "mouseover", function (e) {
-                      iw.open(gmap, this);
+                        iw.open(gmap, this);
+                        showOrbit(index);
                     });
                     google.maps.event.addListener(GLOBAL_MARKERS[index], "mouseout", function (e) {
-                      iw.close(gmap, this);
+                        iw.close(gmap, this);
+                        orbit.setMap(null);
                     });
                 })();
             } else {
@@ -192,12 +194,47 @@ jQuery(document).ready(function ($) {
         }
     }
 
-    for(var j = 0; j < GLOBAL_MARKERS.length; j++) {
-        google.maps.event.addListener(GLOBAL_MARKERS[j], "click", function (e) {
-            new google.maps.InfoWindow({content: GLOBAL_MARKERS[j].title}).open(gmap, this);
-        });
-    }
+    function showOrbit(satnum) {
+      var latLons = [];
+      var positions = [];
+      var rs = [];
 
+      var satrec = satrecs[satnum];
+      var jdSat = new Cesium.JulianDate.fromTotalDays(satrec.jdsatepoch);
+      var now = new Cesium.JulianDate;
+
+      var minutesPerOrbit = 2 * Math.PI / satrec.no;
+      var pointsPerOrbit = 144;
+
+      var minutesPerPoint = minutesPerOrbit / pointsPerOrbit;
+      var minutes, julianDate, minutesSinceEpoch, rets, r, position;
+
+      for (minutes = 0; minutes <= minutesPerOrbit; minutes += minutesPerPoint) {
+        julianDate = now.addMinutes(minutes);
+        minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
+        rets = sgp4(satrec, minutesSinceEpoch);
+        satrec = rets.shift();
+        r = rets.shift();
+        position = new Cesium.Cartesian3(r[0], r[1], r[2]);
+        //var latLonAlt = calcLatLonAlt(julianDate, satPositions[satnum], satrec);
+        var p = [position.x, position.y, position.z];
+        var time = now.getJulianDayNumber() + now.getJulianTimeFraction();
+        var latLonAlt = calcLatLonAlt(time, p, satrec);
+
+        latLons.push(new google.maps.LatLng(satrec.latInDegrees, satrec.lonInDegrees));
+      }
+
+      orbit = new google.maps.Polyline({
+          path: latLons,
+          geodesic: true,
+          strokeColor: "#FF00CC",
+          strokeOpacity: 0.7,
+          strokeWeight: 2
+      });
+
+      orbit.setMap(gmap);
+
+    }
     function computeStats() {
         var currentTime = clock.tick();
         var now = new Cesium.JulianDate(); // TODO: we'll want to base on tick and time-speedup
