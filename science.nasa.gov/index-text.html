@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta http-equiv="imagetoolbar" content="no" />
+  <meta name="google-site-verification" content="XXXXXXXX" />
+  <title>
+    Interactive Satellite Tracker (iSat)
+  </title>
+  <link rel="stylesheet" href="media/css/combined.min.css?1374773120" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="media/css/print.css?1374773120" type="text/css" media="print" charset="utf-8" />
+  <link rel="stylesheet" href="media/css/combined.min.css?1374773120" type="text/css" media="handheld" charset="utf-8" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript">
+  </script>
+  <script src="media/js/federated-analytics.js?1374773120" type="text/javascript">
+  </script>
+  <!-- ********** BEGINNING OF sot_extra_head.html ********** -->
+    <script type="text/javascript">
+      opsmode = 'i';
+    </script>
+    <script type="text/javascript" src="media/sot/js/isat.min.js"></script>
+
+    <script type="text/javascript" src="media/sot/cesium/Cesium.js"></script>
+
+    <link rel="stylesheet" href="media/sot/css/not_supported.css" />
+    <script type="text/javascript" charset="utf-8" src="https://maps.googleapis.com/maps/api/js?sensor=false">
+    </script>
+  <!-- ********** END OF sot_extra_head.html ********** -->
+  <link rel="stylesheet" href="media/custom/custom.css" type="text/css" media="all" charset="utf-8">
+  <script src="media/custom/custom.js" type="text/javascript" charset="utf-8">
+  </script>
+</head>
+<body >
+  <div class="hide">
+    <a href="#content">Skip to Main Content</a>
+  </div> <!-- /.hide -->
+  <div id="container">
+    <div id="header">
+      <div id="nasa">
+        <a href="http://www.nasa.gov">
+          <span class="hide">Header</span>
+        </a>
+      </div>
+      <div id="header_links">
+        <ul>
+          <li><a href="http://www.nasa.gov" title="NASA.gov">Visit NASA.gov</a></li>
+          <li><a href="/connect/">Connect</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+        </ul>
+        <ul>
+          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href="/sitemap/">Site Map</a></li>
+          </ul>
+        </div>
+      <div id="search">
+        <form id="searchform" name="searchform" action="/search/">
+          <div class="LSBox">
+            <label for="searchGadget" class="hiddenStructure">Search Site</label>
+            <input autocomplete="off" name="q" size="18" title="NASA Science Live Search" accesskey="4" id="searchGadget" type="text" class="clear_on_focus" />
+            <button class="searchButton" type="submit">Go!</button>
+            <div id="LSResult"></div>
+          </div>
+        </form>
+      </div> <!-- /#search -->
+      <span class="clear"></span>
+    </div>
+    <div id="nav_global">
+      <ul>
+        <li class="first"><a href="/">Home</a></li>
+        <li><a href="/big-questions/">Big Questions</a></li>
+        <li id="nav_global_li_earth"><a href="/earth-science/">Earth</a></li>
+        <li id="nav_global_li_helio"><a href="/heliophysics/">Heliophysics</a></li>
+        <li id="nav_global_li_planets"><a href="/planetary-science/">Planets</a></li>
+        <li id="nav_global_li_astro"><a href="/astrophysics/">Astrophysics</a></li>
+        <li><a href="/missions/">Missions</a></li>
+        <li><a href="/technology/">Technology</a></li>
+        <li class="last"><a href="/science-news/">Science News</a></li>
+      </ul>
+      <div id="banner" class="clear">
+        <a href="/"></a>
+      </div>
+      <ul id="nav_secondary">
+        <li>
+          <a href="/science-committee/">NAC Science Committee</a>
+        </li>
+        <li class="dropdown1" style="width:178px;">
+          <a>NASA Science for ...</a>
+          <ul>
+            <li><a href = "/researchers/">Researchers</a></li>
+            <li><a href = "/citizen-scientists/">Citizen Scientists</a></li>
+            <li><a href = "/educators/">Educators</a></li>
+            <li><a href = "http://missionscience.nasa.gov">Teens</a></li>
+            <li><a href = "/kids/">Kids</a></li>
+          </ul>
+        </li>
+        <li class="dropdown1" style="width:180px;">
+          <a>NASA Celebrates ...</a>
+          <ul>
+            <li><a href = "/chemistry/">International Year of Chemistry</a></li>
+            <li><a href = "http://solarsystem.nasa.gov/yss/">Solar System</a></li>
+            <li><a href = "http://science.nasa.gov/venus-transit/">Venus Transit</a></li>
+            <li><a href = "http://science.nasa.gov/nasa-earth-day-2012/">NASA Earth Day 2012</a></li>
+            <li><a href = "http://science.nasa.gov/nasa-agu/">NASA AGU</a></li>
+          </ul>
+        </li>
+        <li><a href="/about-us/">About Us</a></li>
+      </ul>
+      <span class="clear"></span>
+    </div>
+    <!-- ********** BEGINNING OF sot_body.html ********** -->
+    <div id="wrapper">
+      <div id="not_supported">
+        <h1>Not Supported</h1>
+        <p>The Interactive Satellite Viewer does not support the browser you are currently using. Portions of our website may not display or function properly when used in this browser.</p>
+        <p>For the optimal experience, we recommend updating to the most recent version of one of the following supported browser.</p>
+        <p>To see just text data, close this popup.</p>
+        <p>Your browser does not support <span id="failure"></span>.</p>
+
+        <div id="browser_list">
+          <dl>
+            <dt>
+              <img src="media/sot/images/Chrome_Logo.png"
+                   alt="Chrome Browser"
+                   height="65px" width="65px" />
+            </dt>
+            <dd>
+              <b>Chrome</b><br />
+              <a href="https://www.google.com/intl/en/chrome/browser/">For Windows, Mac, and Linux</a>
+            </dd>
+            <dt>
+              <img src="media/sot/images/Firefox_Logo.png"
+                   alt="Firefox Browser"
+                   height="65px" width="65px" />
+            </dt>
+            <dd>
+              <b>Firefox</b><br />
+              <a href="http://www.mozilla.org/en-US/firefox/new/">For Windows, Mac, and Linux</a>
+            </dd>
+          </dl>
+        </div> <!-- /browswer_list -->
+      </div> <!-- /not-supported -->
+      <div id="satellite_form">
+        <form id="controls">
+          <fieldset>
+            <legend>
+              Select a Satellite:
+            </legend>
+            <dl id="controls_satellite">
+              <dt>
+                <label for="select_satellite_group">Satellite Group:</label>
+              </dt>
+              <dd>
+                <select id="select_satellite_group">
+                  <option value="SMD">
+                    NASA Science
+                  </option>
+                    <optgroup label="From Celestrak"></optgroup>
+                    <optgroup class="second_level" label="Special Interest">
+                      <option value="visual"> 100 (or so) Brightest</option>
+                      <option value="cosmos-2251-debris"> COSMOS 2251 Debris</option>
+                      <option value="1999-025"> FENGYUN 1C Debris</option>
+                      <option value="iridium-33-debris"> IRIDIUM 33 Debris</option>
+                      <option value="tle-new"> Last 30 Days' Launches</option>
+                      <option value="stations"> Space Stations</option>
+                      <!-- breeze-m r/b breakup (2012-044c) -->
+                    </optgroup>
+                    <optgroup class="second_level" label="Weather &amp; Earth Resources">
+                      <option value="dmc"> Disaster Monitoring</option>
+                      <option value="resource"> Earth Resources</option>
+                      <option value="goes"> GOES</option>
+                      <option value="noaa"> NOAA</option>
+                      <option value="sarsat"> Search &amp; Rescue (SARSAT)</option>
+                      <option value="tdrss"> Tracking and Data Relay Satellite</option>
+                      <option value="weather"> Weather</option>
+                    </optgroup>
+                    <optgroup class="second_level" label="Communications">
+                      <option value="amateur"> Amateur Radio</option>
+                      <option value="x-comm"> Experimental</option>
+                      <option value="geo"> Geostationary</option>
+                      <option value="globalstar"> Globalstar</option>
+                      <option value="gorizont"> Gorizont</option>
+                      <option value="intelsat"> Intelsat</option>
+                      <option value="iridium"> Iridium</option>
+                      <option value="molniya"> Molniya</option>
+                      <option value="other-comm"> Other</option>
+                      <option value="orbcomm"> Orbcomm</option>
+                      <option value="raduga"> Raduga</option>
+                    </optgroup>
+                    <optgroup class="second_level" label="Navigation">
+                      <option value="gps-ops"> GPS Operational</option>
+                      <option value="galileo"> Galileo</option>
+                      <option value="glo-ops"> Glonass Operational</option>
+                      <option value="nnss"> Navy Navigation Satellite System</option>
+                      <option value="musson"> Russian LEO Navigation</option>
+                      <option value="sbas"> Satellite-Based Augmentation System</option>
+                    </optgroup>
+                    <optgroup class="second_level" label="Scientific">
+                      <option value="education"> Education</option>
+                      <option value="engineering"> Engineering</option>
+                      <option value="geodetic"> Geodetic</option>
+                      <option value="science"> Space &amp; Earth Science</option>
+                    </optgroup>
+                    <optgroup class="second_level" label="Miscellaneous">
+                      <option value="cubesat"> CubeSats</option>
+                      <option value="military"> Miscellaneous Military</option>
+                      <option value="other"> Other</option>
+                      <option value="radar"> Radar Calibration</option>
+                    </optgroup>
+                </select>
+              </dd>
+            </dl> <!-- /controls_satellite -->
+          </fieldset>
+        </form>
+      </div> <!-- /satellite_form -->
+      <div id="statistics">
+        <form>
+          <fieldset>
+            <legend>
+              Satellite Information
+            </legend>
+
+            <div id="play_pause_buttons">
+              <button id="play_button"
+                      accesskey="p"
+                      title="Update satellite information"
+                      type="button">Play</button>
+              <button id="pause_button"
+                      accesskey="s"
+                      title="Pause updating satellite information"
+                      type="button">Pause</button>
+            </div>
+      <div id="map-canvas"></div>
+
+            <div id="date">Date</div>
+            <table id="positions">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>ID</th>
+                  <th>Velocity</th>
+                  <th>Latitude</th>
+                  <th>Longitude</th>
+                  <th>Height (Km)</th>
+                  <th>Height (M)</th>
+                </tr>
+              </thead>
+              <!-- tbody destroyed and recreated by javascript -->
+            </table>
+          </fieldset>
+        </form>
+      </div> <!-- /statistics -->
+    </div>
+    <!-- ********** END OF sot_body.html ********** -->
+    <div id="footer">
+      <div>
+        <ul>
+          <li><a href="http://www.hq.nasa.gov/office/pao/FOIA/agency/">Freedom of Information Act</a></li>
+          <li><a href="http://www.nasa.gov/about/budget/index.html">Budgets, Strategic Plans and Accountability Reports</a></li>
+          <li><a href="http://www.whitehouse.gov/sites/default/files/national_space_policy_6-28-10.pdf">National Space Policy</a> (PDF)</li>
+          <li><a href="http://www.nasa.gov/about/highlights/HP_Privacy.html">Privacy Policy and Important Notices</a></li>
+          <li><a href="http://www.hq.nasa.gov/office/oig/hq/hotline.html">Inspector General Hotline</a></li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li><a href="http://www.hq.nasa.gov/office/codee/nofear.html">Equal Employment Opportunity Data Posted Pursuant to the No Fear Act</a></li>
+          <li><a href="http://www.nasa.gov/about/contact/information_inventories_schedules.html">Information-Dissemination Priorities and Inventories</a></li>
+          <li><a href="http://www.usa.gov/">USA.gov</a></li>
+          <li><a href="http://www.whitehouse.gov/omb/expectmore/">ExpectMore.gov</a></li>
+        </ul>
+      </div>
+      <div class="page_info">
+        <a href="http://www.nasa.gov" class="nasalogo"><span class="hide">National Aeronautics and Space Administration</span></a> NASA Official: <span id="nasa-official">Ruth Netting</span>
+        <br />
+        <a href="/contact/">Send us your comments!</a>
+        <br />
+        Last Updated: March 7, 2013<br />
+        <ul>
+          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href="/sitemap/">Site Map</a></li>
+          <li><a href="http://www.adobe.com/products/acrobat/readstep2.html?promoid=BUIGO">Adobe Reader</a></li>
+        </ul>
+        <span class="clear"></span>
+      </div> <!-- /.page_info -->
+    </div> <!-- /#footer -->
+    <div id="footer_bottom">
+    </div>
+    <div id="footer_links" class="clear">
+      <a href="/">Home</a>
+      <a href="/big-questions/">Big Questions</a>
+      <a href="/earth-science/">Earth</a>
+      <a href="/heliophysics/">Heliophysics</a>
+      <a href="/planetary-science/">Planets</a>
+      <a href="/astrophysics/">Astrophysics</a>
+      <a href="/missions/">Missions</a>
+      <a href="/technology/">Technology</a>
+      <a href="/science-news/">Science News</a>
+      <br />
+      <a href="/researchers/">For Researchers</a>
+      <a href="/educators/">For Educators</a>
+      <a href="/kids/">For Kids</a>
+      <a href="/citizen-scientists/">Citizen Scientists</a>
+      <a href="/ask-a-scientist/">Ask a Scientist</a>
+      <br />
+      <br />
+    </div> <!-- /#footer_links -->
+  </div> <!-- /#container -->
+  <script src="media/js/base.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="media/sot/js/index_crippled.js"></script>
+</body>
+</html>
