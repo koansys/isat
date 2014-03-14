@@ -16,18 +16,6 @@
   </script>
   <script src="media/js/federated-analytics.js?1374773120" type="text/javascript">
   </script>
-  <!-- ********** BEGINNING OF sot_extra_head.html ********** -->
-    <script type="text/javascript">
-      opsmode = 'i';
-    </script>
-    <script type="text/javascript" src="media/sot/js/isat.min.js"></script>
-
-    <script type="text/javascript" src="media/sot/cesium/Cesium.js"></script>
-
-    <link rel="stylesheet" href="media/sot/css/not_supported.css" />
-    <script type="text/javascript" charset="utf-8" src="https://maps.googleapis.com/maps/api/js?sensor=false">
-    </script>
-  <!-- ********** END OF sot_extra_head.html ********** -->
   <link rel="stylesheet" href="media/custom/custom.css" type="text/css" media="all" charset="utf-8">
   <script src="media/custom/custom.js" type="text/javascript" charset="utf-8">
   </script>
@@ -109,12 +97,12 @@
       </ul>
       <span class="clear"></span>
     </div>
-    <!-- ********** BEGINNING OF sot_body.html ********** -->
+    <!-- ********** BEGINNING OF iSat-no-webgl content block ********** -->
     <div id="wrapper">
       <div id="not_supported">
         <h1>Not Supported</h1>
 
-        <p id="webgl-disabled"></p>
+        <span id="webgl-disabled"></span>
         <script type="text/javascript">
           // If we have a WebGLRenderingContext but no canvas context, it's disabled
           var context = !!window.WebGLRenderingContext;
@@ -122,13 +110,13 @@
           var webgl = null;
           try {
            webgl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-          } 
+          }
           catch(e) {}
           if (context && ! webgl) {
-            document.getElementById('webgl-disabled').innerHTML = 'It looks '
+              document.getElementById('webgl-disabled').innerHTML = '<p>It looks '
             + 'like your browser has support for WebGL graphics, but that it '
             + 'has been disabled. Try enabling WebGL and then return to the '
-            + 'original <a href="http://science.nasa.gov/iSat/">iSat</a> page.';
+            + 'original <a href="http://science.nasa.gov/iSat/">iSat</a> page.</p>';
 
           }
         </script>
@@ -137,34 +125,11 @@
           The Interactive Satellite Viewer does not support the
           browser you are curently using. iSat requires a browser
           with WebGL graphics. For the optimal experience, we
-          recommend updating to the most recent version of one of the
-          following supported browser.
+          recommend updating to the most recent version of
+          <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a>
+          or
+          <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>.
         </p>
-
-        <div id="browser_list">
-            <table border="0">
-                <tr>
-                    <td style="vertical-align:middle">
-                        <img src="media/sot/images/Chrome_Logo.png"
-                            alt="Chrome Browser"
-                            height="65px" width="65px" />
-                    </td>
-                    <td style="vertical-align:middle">
-                        <b>Chrome</b><br />
-                        <a href="https://www.google.com/intl/en/chrome/browser/">For Windows, Mac, and Linux</a>
-                    </td>
-                    <td style="vertical-align:middle">
-                        <img src="media/sot/images/Firefox_Logo.png"
-                            alt="Firefox Browser"
-                            height="65px" width="65px" />
-                    </td>
-                    <td style="vertical-align:middle">
-                        <b>Firefox</b><br />
-                        <a href="http://www.mozilla.org/en-US/firefox/new/">For Windows, Mac, and Linux</a>
-                    </td>
-                </tr>
-            </table>
-        </div> <!-- /browswer_list -->
 
         <p>
           Below, we present a 2D representation instead of the
@@ -173,15 +138,12 @@
         </p>
       </div> <!-- /not-supported -->
 
-      <div id="map-canvas"></div>
-      <div><h2>Satellite Information</h2></div>
-
       <div id="satellite_form">
         <form id="controls">
           <fieldset>
             <dl id="controls_satellite">
               <dt>
-                <label for="select_satellite_group">Select a Satellite Group:</label>
+              <label for="select_satellite_group"><h2>Select a Satellite Group</h2></label>
               </dt>
               <dd>
                 <select id="select_satellite_group">
@@ -246,20 +208,23 @@
           </fieldset>
         </form>
       </div> <!-- /satellite_form -->
+      <div id="play_pause_buttons">
+        <button id="play_button"
+                accesskey="p"
+                title="Update satellite information"
+                type="button">Play</button>
+        <button id="pause_button"
+                accesskey="s"
+                title="Pause updating satellite information"
+                type="button">Pause</button>
+      </div>
+      <div id="map-canvas"></div>
+      <div><h2>Satellite Information</h2></div>
+
       <div id="statistics">
-            <div id="play_pause_buttons">
-              <button id="play_button"
-                      accesskey="p"
-                      title="Update satellite information"
-                      type="button">Play</button>
-              <button id="pause_button"
-                      accesskey="s"
-                      title="Pause updating satellite information"
-                      type="button">Pause</button>
-            </div>
 
             <div id="date">Date</div>
-            <table id="positions">
+            <table id="positions" style="width:100%">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -277,7 +242,18 @@
         </form>
       </div> <!-- /statistics -->
     </div>
-    <!-- ********** END OF sot_body.html ********** -->
+    <link rel="stylesheet" href="media/sot/css/not_supported.css" />
+    <script type="text/javascript">
+      opsmode = 'i';
+    </script>
+    <script type="text/javascript" src="media/sot/js/isat.min.js"></script>
+
+    <script type="text/javascript" src="media/sot/cesium/Cesium.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="https://maps.googleapis.com/maps/api/js?sensor=false">
+    </script>
+    <script type="text/javascript" src="media/sot/js/index_no_webgl.js"></script>
+    <!-- ********** END OF iSat-no-webgl content block ********** -->
     <div id="footer">
       <div>
         <ul>
@@ -333,6 +309,5 @@
     </div> <!-- /#footer_links -->
   </div> <!-- /#container -->
   <script src="media/js/base.min.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript" src="media/sot/js/index_crippled.js"></script>
 </body>
 </html>

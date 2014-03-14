@@ -1,4 +1,4 @@
-/*global document, window, console, setInterval, Cesium, Image, navigator, twoline2rv, sgp4, tle, gstime*/
+/*global document, window, console, setInterval, Cesium, Image, navigator, twoline2rv, sgp4, tle, gstime, google*/
 jQuery(document).ready(function ($) {
     'use strict';
     var ellipsoid       = Cesium.Ellipsoid.WGS84;
@@ -12,7 +12,7 @@ jQuery(document).ready(function ($) {
     var TYPERUN         = 'm';  // 'm'anual, 'c'atalog, 'v'erification
     var TYPEINPUT       = 'n';  // HACK: 'now'
     var PLAY            = true;
-    var SAT_POSITIONS_MAX = 25; // Limit numer of positions displayed to save CPU
+    var SAT_POSITIONS_MAX = 250; // Limit numer of positions displayed to save CPU
     var CALC_INTERVAL_MS  = 1000;
     var GLOBAL_MARKERS = [];
 
@@ -75,17 +75,18 @@ jQuery(document).ready(function ($) {
 
     function fMod2p(x) {
         var i = 0;
-        var ret_val = 0.0;
+        var retVal = 0.0;
         var twopi = 2.0 * Math.PI;
 
-        ret_val = x;
-        i = parseInt(ret_val / twopi, 10);
-        ret_val -= i * twopi;
+        retVal = x;
+        i = parseInt(retVal / twopi, 10);
+        retVal -= i * twopi;
 
-        if (ret_val < 0.0)
-            ret_val += twopi;
+        if (retVal < 0.0) {
+            retVal += twopi;
+        }
 
-        return ret_val;
+        return retVal;
     }
 
     function calcLatLonAlt(time, position, satellite) {
@@ -129,13 +130,13 @@ jQuery(document).ready(function ($) {
 
     var gmap, orbit;
     var mapOptions = {
-      zoom: 2,
-      center: new google.maps.LatLng("0", "0"),
-      scrollwheel: false,
-      disableDefaultUI: true,
-      mapTypeId: google.maps.MapTypeId.TERRAIN
+        zoom: 2,
+        center: new google.maps.LatLng('0', '0'),
+        scrollwheel: false,
+        disableDefaultUI: true,
+        mapTypeId: google.maps.MapTypeId.TERRAIN
     };
-    var map_initialization = (function () {
+    var mapInitialization = (function () {
         gmap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     })();
 
@@ -144,15 +145,15 @@ jQuery(document).ready(function ($) {
         var tbody = positionTable.getElementsByTagName('tbody')[0];
         var satnum, max, pos0, vel0, vel0Carte, carte, carto, newRow, latLonAlt;
 
-        function add_listeners(satnum) {
+        function addListeners(satnum) {
             var index = satnum;
             var iw =  new google.maps.InfoWindow({content: GLOBAL_MARKERS[index].title});
 
-            google.maps.event.addListener(GLOBAL_MARKERS[index], "mouseover", function (e) {
+            google.maps.event.addListener(GLOBAL_MARKERS[index], 'mouseover', function () {
                 iw.open(gmap, this);
                 showOrbit(index);
             });
-            google.maps.event.addListener(GLOBAL_MARKERS[index], "mouseout", function (e) {
+            google.maps.event.addListener(GLOBAL_MARKERS[index], 'mouseout', function () {
                 iw.close(gmap, this);
                 orbit.setMap(null);
             });
@@ -190,52 +191,50 @@ jQuery(document).ready(function ($) {
                     icon: 'media/sot/images/Satellite.png'
                 });
                 GLOBAL_MARKERS[satnum] = marker;
-                add_listeners(satnum);
+                addListeners(satnum);
             } else {
-              GLOBAL_MARKERS[satnum].setPosition(new google.maps.LatLng(satrecs[satnum].latInDegrees, satrecs[satnum].lonInDegrees));
+                GLOBAL_MARKERS[satnum].setPosition(new google.maps.LatLng(satrecs[satnum].latInDegrees, satrecs[satnum].lonInDegrees));
             }
         }
     }
 
     function showOrbit(satnum) {
-      var latLons = [];
-      var positions = [];
-      var rs = [];
+        var latLons = [];
 
-      var satrec = satrecs[satnum];
-      var jdSat = new Cesium.JulianDate.fromTotalDays(satrec.jdsatepoch);
-      var now = new Cesium.JulianDate();
+        var satrec = satrecs[satnum];
+        var jdSat = new Cesium.JulianDate.fromTotalDays(satrec.jdsatepoch);
+        var now = new Cesium.JulianDate();
 
-      var minutesPerOrbit = 2 * Math.PI / satrec.no;
-      var pointsPerOrbit = 144;
+        var minutesPerOrbit = 2 * Math.PI / satrec.no;
+        var pointsPerOrbit = 144;
 
-      var minutesPerPoint = minutesPerOrbit / pointsPerOrbit;
-      var minutes, julianDate, minutesSinceEpoch, rets, r, position;
+        var minutesPerPoint = minutesPerOrbit / pointsPerOrbit;
+        var minutes, julianDate, minutesSinceEpoch, rets, r, position;
 
-      for (minutes = 0; minutes <= minutesPerOrbit; minutes += minutesPerPoint) {
-        julianDate = now.addMinutes(minutes);
-        minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
-        rets = sgp4(satrec, minutesSinceEpoch);
-        satrec = rets.shift();
-        r = rets.shift();
-        position = new Cesium.Cartesian3(r[0], r[1], r[2]);
-        //var latLonAlt = calcLatLonAlt(julianDate, satPositions[satnum], satrec);
-        var p = [position.x, position.y, position.z];
-        var time = now.getJulianDayNumber() + now.getJulianTimeFraction();
-        var latLonAlt = calcLatLonAlt(time, p, satrec);
+        for (minutes = 0; minutes <= minutesPerOrbit; minutes += minutesPerPoint) {
+            julianDate = now.addMinutes(minutes);
+            minutesSinceEpoch = jdSat.getMinutesDifference(julianDate);
+            rets = sgp4(satrec, minutesSinceEpoch);
+            satrec = rets.shift();
+            r = rets.shift();
+            position = new Cesium.Cartesian3(r[0], r[1], r[2]);
+            //var latLonAlt = calcLatLonAlt(julianDate, satPositions[satnum], satrec);
+            var p = [position.x, position.y, position.z];
+            var time = now.getJulianDayNumber() + now.getJulianTimeFraction();
+            calcLatLonAlt(time, p, satrec);
 
-        latLons.push(new google.maps.LatLng(satrec.latInDegrees, satrec.lonInDegrees));
-      }
+            latLons.push(new google.maps.LatLng(satrec.latInDegrees, satrec.lonInDegrees));
+        }
 
-      orbit = new google.maps.Polyline({
-          path: latLons,
-          geodesic: true,
-          strokeColor: "#FF00CC",
-          strokeOpacity: 0.7,
-          strokeWeight: 2
-      });
+        orbit = new google.maps.Polyline({
+            path: latLons,
+            geodesic: true,
+            strokeColor: '#FF00CC',
+            strokeOpacity: 0.7,
+            strokeWeight: 2
+        });
 
-      orbit.setMap(gmap);
+        orbit.setMap(gmap);
 
     }
     function computeStats() {
@@ -254,9 +253,9 @@ jQuery(document).ready(function ($) {
     }
 
     function clearMap () {
-      for(var i = 0; i < GLOBAL_MARKERS.length; i++) {
-        GLOBAL_MARKERS[i].setMap(null);
-      }
+        for(var i = 0; i < GLOBAL_MARKERS.length; i+=1) {
+            GLOBAL_MARKERS[i].setMap(null);
+        }
     }
 
     getSatrecsFromTLEFile('media/sot/tle/SMD.txt');

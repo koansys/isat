@@ -7,27 +7,16 @@ table td, table th {
 
 table td {
   text-align: right; }
-
-#browser_list dt {
-  float: left;
-  clear: left;
-  width: 100px;
-  text-align: right;
-  font-weight: bold;
-  color: white; }
-
-#browser_list dd {
-  margin: 0 0 0 110px;
-  padding-top: 10px;
-  display: block;
-  height: 75px; }
-
 body {
   font-family: Sans-Serif;
   padding: 15px; }
 
 form {
   padding-bottom: 15px; }
+
+h1, h2, p {
+  padding: 10px 0 10px 0;
+}
 
 #date {
   padding: 10px 0 10px 0; }
@@ -64,6 +53,11 @@ form {
   margin-right: auto;
   height: 512px;
   width: 100%;
+  border: 5px solid #CCC;
+  margin: 10px 0 10px 0;
 }
 
-#browser_list table {border: none;}
+#browser_list {
+  text-align: center;
+  margin: 10px 0 10px 0;
+}
