@@ -24,7 +24,7 @@ echo 'copied javascript over'
 cp $CURRENT_DIR/science.nasa.gov/index.html $ISAT_DIR/index.html
 echo 'copied index.html over'
 
-perl -p -i -e 's|media/sot|/media/sot|g' $ISAT_DIR/index.html $ISAT_DIR/js/index.js $ISAT_DIR/js/modernizr_load.js
+perl -p -i -e 's|media/sot|/media/sot|g' $ISAT_DIR/index.html $ISAT_DIR/js/index.js $ISAT_DIR/js/index_no_webgl.js $ISAT_DIR/js/modernizr_load.js
 
 dt=`date +'%Y%m%d%H%M%S'`
 
