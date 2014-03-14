@@ -34,6 +34,7 @@ jQuery(document).ready(function ($) {
         satdesigs = [];
         satids = [];
 
+        tles.sort();            // sort by name (0th element) to improve table
         for (satnum = 0, max = tles.length; satnum < max; satnum += 1) {
             satnames[satnum] = tles[satnum][0].trim();        // Name: (ISS (ZARYA))
             satdesigs[satnum] = tles[satnum][1].slice(9, 17); // Intl Designator YYNNNPPP (98067A)
