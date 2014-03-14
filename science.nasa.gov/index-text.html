@@ -113,10 +113,33 @@
     <div id="wrapper">
       <div id="not_supported">
         <h1>Not Supported</h1>
-        <p>The Interactive Satellite Viewer does not support the browser you are currently using. Portions of our website may not display or function properly when used in this browser.</p>
-        <p>For the optimal experience, we recommend updating to the most recent version of one of the following supported browser.</p>
-        <p>To see just text data, close this popup.</p>
-        <p>Your browser does not support <span id="failure"></span>.</p>
+
+        <p id="webgl-disabled"></p>
+        <script type="text/javascript">
+          // If we have a WebGLRenderingContext but no canvas context, it's disabled
+          var context = !!window.WebGLRenderingContext;
+          var canvas = document.createElement('canvas');
+          var webgl = null;
+          try {
+           webgl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+          } 
+          catch(e) {}
+          if (context && ! webgl) {
+            document.getElementById('webgl-disabled').innerHTML = 'It looks '
+            + 'like your browser has support for WebGL graphics, but that it '
+            + 'has been disabled. Try enabling WebGL and then return to the '
+            + 'original <a href="http://science.nasa.gov/iSat/">iSat</a> page.';
+
+          }
+        </script>
+
+        <p>
+          The Interactive Satellite Viewer does not support the
+          browser you are curently using. iSat requires a browser
+          with WebGL graphics. For the optimal experience, we
+          recommend updating to the most recent version of one of the
+          following supported browser.
+        </p>
 
         <div id="browser_list">
             <table border="0">
@@ -142,9 +165,17 @@
                 </tr>
             </table>
         </div> <!-- /browswer_list -->
+
+        <p>
+          Below, we present a 2D representation instead of the
+          interactive 3D view you would get with WebGL. You can hover
+          over a satellite to reveal its name and show an orbit trace.
+        </p>
       </div> <!-- /not-supported -->
+
       <div id="map-canvas"></div>
       <div><h2>Satellite Information</h2></div>
+
       <div id="satellite_form">
         <form id="controls">
           <fieldset>
