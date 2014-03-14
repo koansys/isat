@@ -24,6 +24,22 @@ jQuery(document).ready(function ($) {
         PLAY = false;
     };
 
+    // If we have a WebGLRenderingContext but no canvas context, it's disabled
+    var context = !!window.WebGLRenderingContext;
+    var canvas = document.createElement('canvas');
+    var webgl = null;
+    try {
+        webgl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    }
+    catch(e) {}
+    if (context && ! webgl) {
+        document.getElementById('webgl-disabled').innerHTML = '<p>It looks '
+        + 'like your browser has support for WebGL graphics, but that it '
+        + 'has been disabled. Try enabling WebGL and then return to the '
+        + 'original <a href="http://science.nasa.gov/iSat/">iSat</a> page.</p>';
+
+    }
+
     function getSatrecsFromTLEFile(fileName) {
         var tles = tle.parseFile(fileName);
         var satnum, max, rets, satrec, startmfe, stopmfe, deltamin;
