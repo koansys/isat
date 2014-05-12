@@ -1,0 +1,28 @@
+# How to develop and run this code.
+
+In the top level directory:
+
+    $ npm install
+
+This will install the dependencies.
+
+Run jasmine like so:
+
+	$ grunt dev
+
+And open the test runner like so:
+
+	open http://localhost:9999/jasmine/SpecRunner.html
+
+
+Then you can run the tests against saucelabs with your key and secret like so:
+
+	$ export SAUCE_USERNAME=YOUR-SAUCE-USERNAME
+	$ export SAUCE_ACCESS_KEY=YOUR-SAUCE-API-KEY
+
+   $  curl -X POST https://saucelabs.com/rest/v1/koansys-oss/js-tests \
+   		-u $SAUCE_USERNAME:$SAUCE_ACCESS_KEY \
+   		-d platforms='[["Windows 8", "internet explorer", "10"], \
+   			["OS X 10.9", "safari", "7"], ["Linux", "chrome", "34"]]' \
+   		-d url="https://18748f50.ngrok.com/jasmine/SpecRunner.html" \
+		-d framework=jasmine && echo
