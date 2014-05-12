@@ -4,22 +4,22 @@ This documents the existing hierarchy of files so when we refactor we know
 what moves where, and why:
 
     isat
-  	├── AIAA-2006-6753
-  	├── doc
-  	├── hierarchy.txt
-  	├── iSatUpdate.sh
-  	├── js
-  	├── LICENSE.txt
-  	├── mcallgraph.py
-  	├── Miura_Thesis_CD
-  	├── move_iSat.sh
-  	├── README.rst
-  	├── science.nasa.gov
-  	├── science-sats
-  	├── screenshot.png
-  	├── tests
-  	├── TODO.rst
-  	└── viz
+    ├── AIAA-2006-6753
+    ├── doc
+    ├── hierarchy.txt
+    ├── iSatUpdate.sh
+    ├── js
+    ├── LICENSE.txt
+    ├── mcallgraph.py
+    ├── Miura_Thesis_CD
+    ├── move_iSat.sh
+    ├── README.rst
+    ├── science.nasa.gov
+    ├── science-sats
+    ├── screenshot.png
+    ├── tests
+    ├── TODO.rst
+    └── viz
 
 ## Directories
 
@@ -130,8 +130,6 @@ Here is a directory with a python script and a text file. I guess the python scr
     └── verify_results.py
 
 
-
-
 ## Files
 
 ### LICENSE.txt
@@ -148,10 +146,16 @@ Not too sure. Looks like it prints a list of modules. I suppose that would be a 
 
 ### move_iSat.sh
 
+Looks like it is only two lines different than iSatUpdate.sh. So which is used for what when? Why are there two?
 
 ### README.rst
 
+Derp. README.
+
 ### screenshot.png
+
+Just some propaganda.
 
 ### TODO.rst
 
+These are some TODOs that are in some state mtime 2012/09/25, about 18 months before this.
