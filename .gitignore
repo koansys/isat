@@ -18,3 +18,5 @@
 /dox-matlab/
 isat/
 /.DS_Store
+node_modules/
+/sauce_connect.log*
