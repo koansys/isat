@@ -1,7 +1,31 @@
 # How to develop and run this code.
 
+## Ubuntu
+
+We need node and npm for this. So lets setup a virtualenv like atmosphere.
+
+First make sure you have the basics installed (which you prolly do if you have done any developing at all.):
+
+    $ sudo apt-get update
+    $ sudo apt-get install build-essential libssl-dev
+
+Next we'll install the venv equivalent:
+
+    $ curl https://raw.githubusercontent.com/creationix/nvm/v0.7.0/install.sh | sh
+
+See https://github.com/creationix/nvm for more about nvm
+
+Then setup node and npm:
+
+    $ nvm install 0.11.13
+    $ nvm alias default 0.11.13
+    $ nvm use default
+
 In the top level directory:
 
+    ## For global access to grunt commands
+    $ npm install -g grunt grunt-cli
+    ## Installs our depedencies for isat
     $ npm install
 
 This will install the dependencies.
@@ -19,10 +43,7 @@ Then you can run the tests against saucelabs with your key and secret like so:
 
 	$ export SAUCE_USERNAME=YOUR-SAUCE-USERNAME
 	$ export SAUCE_ACCESS_KEY=YOUR-SAUCE-API-KEY
+  ## Start local server, open sauce tunnel, and run remote browsers against it
+  $ grunt test
 
-   $  curl -X POST https://saucelabs.com/rest/v1/koansys-oss/js-tests \
-   		-u $SAUCE_USERNAME:$SAUCE_ACCESS_KEY \
-   		-d platforms='[["Windows 8", "internet explorer", "10"], \
-   			["OS X 10.9", "safari", "7"], ["Linux", "chrome", "34"]]' \
-   		-d url="https://18748f50.ngrok.com/jasmine/SpecRunner.html" \
-		-d framework=jasmine && echo
+That's it.
