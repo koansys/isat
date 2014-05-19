@@ -2,6 +2,12 @@
  SOT: Satellite Orbit Tracker
 ==============================
 
+.. raw:: html
+
+    <a href="https://saucelabs.com/u/koansys-oss">
+      <img src="https://saucelabs.com/browser-matrix/koansys-oss.svg" alt="Selenium Tests Status" />
+    </a>
+
 Goal
 ====
 
