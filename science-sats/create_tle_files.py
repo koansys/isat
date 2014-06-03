@@ -36,7 +36,8 @@ for (dirpath, dirname, filenames) in os.walk(folder):
 
 max_time = max(satellite['mtime'] for satellite in satellites)
 
-newest_csv_placement = next(index for (index, d) in enumerate(satellites) if d['mtime'] == max_time)
+newest_csv_placement = next(
+    index for (index, d) in enumerate(satellites) if d['mtime'] == max_time)
 
 # The CSV is (typical) a visually-formatted file with:
 #   HEADER LINE
@@ -153,7 +154,7 @@ notfounds = []
 for sciname in scisats:
     sciname_up = sciname.upper()
     if sciname_up in tles_by_name:
-        #print sciname, tles_by_name[sciname_up]
+        # print sciname, tles_by_name[sciname_up]
         founds.append(tles_by_name[sciname_up])
         found += 1
     else:
@@ -163,6 +164,7 @@ for sciname in scisats:
 # Output our found sats as a TLE filex1
 with open(SMD_TLE_FILENAME, 'w') as smd_tles:
     for sat in founds:
-        smd_tles.write("%-24s\r\n" % sat['name'])  # DOS line endings match tle1, tle2
+        # DOS line endings match tle1, tle2
+        smd_tles.write("%-24s\r\n" % sat['name'])
         smd_tles.write(sat['tle1'])
         smd_tles.write(sat['tle2'])

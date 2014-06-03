@@ -1,0 +1,161 @@
+# Hierarchy of isat files
+
+This documents the existing hierarchy of files so when we refactor we know
+what moves where, and why:
+
+    isat
+    ├── AIAA-2006-6753
+    ├── doc
+    ├── hierarchy.txt
+    ├── iSatUpdate.sh
+    ├── js
+    ├── LICENSE.txt
+    ├── mcallgraph.py
+    ├── Miura_Thesis_CD
+    ├── move_iSat.sh
+    ├── README.rst
+    ├── science.nasa.gov
+    ├── science-sats
+    ├── screenshot.png
+    ├── tests
+    ├── TODO.rst
+    └── viz
+
+## Directories
+
+### AIAA-2006-6753
+
+AIAA-2006-6753 is the reference fortran/mat code and translations to c++, java, and pascal:
+
+    AIAA-2006-6753
+    ├── cpp
+    ├── for
+    ├── java
+    ├── mat
+    ├── pas
+    ├── sgp4_CodeReadme.pdf
+    └── SGP4-VER.TLE
+
+### doc
+
+doc is where documatation lives. Currently there are some rest docs recording Chris Shenton's initial JS porting work to run in browsers:
+
+    doc
+    ├── browser-version-support.csv
+    ├── browser-version-support.numbers
+    ├── building-cesium.rst
+    ├── PROBLEMS.rst
+    ├── running-and-verification.rst
+    ├── running-with-apache.rst
+    ├── sgp4-satellite-calculation.rst
+    └── visualization-using-cesium.rst
+
+
+### js
+
+This is where the SGP4 JS library lives. Currently it is all direct translations of the ???? code. This should become a reusable sgp4 lib.
+
+### Miura_Thesis_CD
+
+This is the original SGP4 matlab code and a thesis paper.
+
+### science.nasa.gov
+
+This is the directory where code for running isat under SCHWA lives:
+
+    science.nasa.gov/
+    ├── index.html
+    ├── index-no-webgl.html
+    └── media
+        ├── css
+        │   ├── combined.min.css
+        │   └── print.css
+        ├── custom
+        │   ├── custom.css
+        │   └── custom.js
+        ├── img
+        │   └── content_bg.png
+        ├── js
+        │   ├── base.min.js
+        │   └── federated-analytics.js
+        └── sot
+            ├── cesium
+            ├── css
+            ├── images
+            ├── js
+            └── tle
+
+
+The interesting bits here live under media:
+
+    science.nasa.gov/media/
+    ├── css
+    ├── custom
+    ├── img
+    ├── js
+    └── sot
+
+I am unclear on why there are extra nested bits, but the most important things appear to be in sot here:
+
+    science.nasa.gov/media/sot
+    ├── cesium
+    ├── css
+    ├── images
+    ├── js
+    └── tle
+
+Here is the Cesium library, some sass/css * *is it specific???* to sot,  the tle files and our isat specific JS libraries.
+
+
+### science-sats
+
+This directory contains some files related to getting SMD sat data from somewhere. This data is generated somewhere:
+
+    science-sats/
+    ├── create_tle_files.py
+    ├── find_science_ids.py
+    ├── get_celestrak_files.py
+    ├── get_science_sats.py
+    ├── missions_mission_titles_phases.csv
+    ├── NASA-Satellites-for-SkyWatch.csv
+    └── skywatch-picklist.info
+
+
+### tests
+
+Here is a directory with a python script and a text file. I guess the python script compares something to the VERIFICATION-RESULTS-DATA.txt text:
+
+    tests/
+    ├── VERIFICATION-RESULTS-DATA.txt
+    └── verify_results.py
+
+
+## Files
+
+### LICENSE.txt
+
+Derp. The license.
+
+### iSatUpdate.sh
+
+Looks like it copies files around. Not sure where or when this is used. Perhaps on the server?
+
+### mcallgraph.py
+
+Not too sure. Looks like it prints a list of modules. I suppose that would be a call graph, some exploration when spelunking the original matlab code. Generates
+
+### move_iSat.sh
+
+Looks like it is only two lines different than iSatUpdate.sh. So which is used for what when? Why are there two?
+
+### README.rst
+
+Derp. README.
+
+### screenshot.png
+
+Just some propaganda.
+
+### TODO.rst
+
+These are some TODOs that are in some state mtime 2012/09/25, about 18 months before this.
