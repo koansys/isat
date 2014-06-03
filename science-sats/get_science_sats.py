@@ -10,7 +10,7 @@
 # We will have to do some annoying parsing to get the right lines.
 
 # The TLE file is sets of 3 lines with Name, TLE1, TLE2; ID is 2nd field sans U
-#   GALILEO-PFM (GSAT0101)  
+#   GALILEO-PFM (GSAT0101)
 #   1 37846U 11060A   12293.53312491  .00000049  00000-0  00000-0 0  1435
 #   2 37846  54.7963 119.5777 0000994 319.0618  40.9779  1.70474628  6204
 
@@ -53,7 +53,8 @@ with open(CELESTRAK) as celestrak:
             tid = tle2.split()[1]
         except IndexError, e:
             logging.warning("Can't split to find ID in TLE2: %s" % tle2)
-            import pdb; pdb.set_trace()
+            import pdb
+            pdb.set_trace()
             continue
         tle = {'name': name,
                'id': tid,
@@ -73,7 +74,7 @@ notfounds = []
 for sciname in scisats:
     sciname_up = sciname.upper()
     if sciname_up in tles_by_name:
-        #print sciname, tles_by_name[sciname_up]
+        # print sciname, tles_by_name[sciname_up]
         founds.append(tles_by_name[sciname_up])
         found += 1
     else:
@@ -86,7 +87,7 @@ print sorted(notfounds)
 # Output our found sats as a TLE filex1
 with open(SMD_TLE_FILENAME, 'w') as smd_tles:
     for sat in founds:
-        smd_tles.write("%-24s\r\n" % sat['name']) # DOS line endings match tle1, tle2
+        # DOS line endings match tle1, tle2
+        smd_tles.write("%-24s\r\n" % sat['name'])
         smd_tles.write(sat['tle1'])
         smd_tles.write(sat['tle2'])
-
