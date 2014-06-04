@@ -11,7 +11,7 @@
 
 |build status|_
 
-.. |build status| image:: https://secure.travis-ci.org/koansys/isat.png?branch=master
+.. |build status| image:: https://travis-ci.org/koansys/isat.svg?branch=master
     :alt: Travis Build Status
 .. _build status: http://travis-ci.org/koansys/isat
 
