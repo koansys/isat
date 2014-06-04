@@ -46,6 +46,18 @@ module.exports = function(grunt) {
                         "video-upload-on-pass": false
                     },
                     onTestComplete: function(result){
+                        /* returning undefined doesn't alter the test result
+                           but returning true or false does.
+                           See: https://github.com/axemclion/grunt-saucelabs
+
+                           We return true if result.passed is undefined to
+                           gloss over spurious errors from saucelabs.
+                           See: https://github.com/admc/wd/issues/86 which is
+                           all I could find about it.
+
+                           Everything else gets unaltered results.
+
+                        */
                         if (result.passed === undefined) {
                             return true;
                         } else {
