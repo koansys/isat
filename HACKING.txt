@@ -63,8 +63,10 @@ Again these instructions are for Ubuntu:
 Once travis installs do this in the top level of the repo
 
     $ . ~/AeroFS/.saucelabs/koansys-oss
-    $ travis encrypt SAUCE_USERNAME=$SAUCE_USERNAME --add env.global
-    $ travis encrypt SAUCE_ACCESS_KEY=$SAUCE_ACCESS_KEY --add env.global
+    $ travis encrypt SAUCE_USERNAME=$SAUCE_USERNAME --add env.global \
+        -r koansys/isat
+    $ travis encrypt SAUCE_ACCESS_KEY=$SAUCE_ACCESS_KEY --add env.global \
+        -r koansys/isat
 
 Then log into travis-ci.org and enable the repo under accounts.
 

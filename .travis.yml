@@ -4,9 +4,9 @@ node_js:
 before_script:
 - npm install -g grunt-cli
 - git submodule update --init --recursive
+notifications:
+  irc: irc.freenode.org#koansys
 env:
   global:
-  - secure: XvxyVmi6kCRgKBeS//G+xY2VpZLxF0qJyZ3oL5653af/71yJuxTHp1oNw9IEuoHM2nviWxs8ky6aPmy3ok1cP5Qqk7Rm3eP4zP1oRi2jQt06AFdRNtuQldzaq8wETKeB3bcOi1/Szxy+X3SkIKTbjZSAnzhyaUfT1bJMnr770bU=
-  - secure: CzEMqcDeS3hlca34Z4l0ahfebrMU4BcLfFoPIC5l8DNISQ9cRlG4eNxKDVOQWXX0Q7yEsLfebI4GRfw54lBIPLnrrzTtLC665D8/f0+FVQuzKvsk/Vi1PCv5iuCmIBuzQJOcw8MiCO6w/QatmJQAFzKeCT0kZn4V4LeFViuskq4=
-notifications:
-  irc: "irc.freenode.org#koansys"
+  - secure: XSCtBuiZ2WC39TzwlaNGrW7pevUrRVpYkR7hUPH6EUpChamOArrerG1XJQV6yl060h3KLV1B4eZDrFW9e1HCLL4WmOkX5Pi0ixgtxpypluI3Bm94Cq0L8u75zGd6rv4aCMQExPwdOXQ6prvoa8ya+g4k2FJHnNCK1yBFnspfrK4=
+  - secure: UZa/nq8KrGtFwkdQDYiIYnMGk56aunDvFwXfHQVQlmUVAgoVagQImfhGvYQPrGSWQAa1+pgRPKDIDhuqKt6wcSJes+j1XApbvkJnZaWEpL7qhBfdvULn7ZD5lfJLuqdlOC/LWkVk6y74JyOE1ZfhWIKJ+LjOf+Bzvj96UBvMXkk=
