@@ -40,8 +40,18 @@ module.exports = function(grunt) {
                     build: process.env.TRAVIS_JOB_ID,
                     concurrency: 3,
                     browsers: browsers,
-                    testname: "pasta tests",
-                    tags: ["master"]
+                    testname: "iSat Unit tests",
+                    tags: ["master"],
+                    sauceConfig: {
+                        "video-upload-on-pass": false
+                    },
+                    onTestComplete: function(result){
+                        if (result.passed === undefined) {
+                            return true;
+                        } else {
+                           return undefined;
+                        }
+                    }
                 }
             }
         },
