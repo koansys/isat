@@ -4,7 +4,7 @@
 
 |sauce status|_
 
-.. |sauce status| image:: https://saucelabs.com/browser-matrix/koansys-oss.svg"
+.. |sauce status| image:: https://saucelabs.com/browser-matrix/koansys-oss.svg
     :alt: Selenium Tests Status
 .. _sauce status: https://saucelabs.com/u/koansys-oss
 
