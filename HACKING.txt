@@ -47,3 +47,30 @@ Then you can run the tests against saucelabs with your key and secret like so:
   $ grunt test
 
 That's it.
+
+## Travis CI setup notes
+
+This is not specifically hacking but to support hacking:)
+
+Again these instructions are for Ubuntu:
+
+    $ curl -sSL https://get.rvm.io | bash -s stable --ruby
+    $ echo "alias rvmify="source /home/robrien/.rvm/scripts/rvm" >> ~/.profile
+    $ source ~/.profile
+    $ rvmify
+    $ gem install travis
+
+Once travis installs do this in the top level of the repo
+
+    $ . ~/AeroFS/.saucelabs/koansys-oss
+    $ travis encrypt SAUCE_USERNAME=$SAUCE_USERNAME --add env.global
+    $ travis encrypt SAUCE_ACCESS_KEY=$SAUCE_ACCESS_KEY --add env.global
+
+
+The following didn't work.
+
+    # $ sudo apt-get install python-software-properties
+    # $ sudo apt-add-repository ppa:brightbox/ruby-ng
+    # $ sudo apt-get update
+    # $ sudo apt-get install ruby2.1 ruby-switch
+    # $ sudo ruby-switch --set ruby2.1
