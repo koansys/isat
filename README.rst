@@ -2,11 +2,19 @@
  SOT: Satellite Orbit Tracker
 ==============================
 
-.. raw:: html
+|sauce status|_
 
-    <a href="https://saucelabs.com/u/koansys-oss">
-      <img src="https://saucelabs.com/browser-matrix/koansys-oss.svg" alt="Selenium Tests Status" />
-    </a>
+.. |sauce status| image:: https://saucelabs.com/browser-matrix/koansys-oss.svg"
+    :alt: Selenium Tests Status
+.. _sauce status: https://saucelabs.com/u/koansys-oss
+
+
+|build status|_
+
+.. |build status| image:: https://secure.travis-ci.org/koansys/isat.png?branch=master
+    :alt: Travis Build Status
+.. _build status: http://travis-ci.org/koansys/isat
+
 
 Goal
 ====
