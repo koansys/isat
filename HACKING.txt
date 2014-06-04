@@ -66,6 +66,7 @@ Once travis installs do this in the top level of the repo
     $ travis encrypt SAUCE_USERNAME=$SAUCE_USERNAME --add env.global
     $ travis encrypt SAUCE_ACCESS_KEY=$SAUCE_ACCESS_KEY --add env.global
 
+Then log into travis-ci.org and enable the repo under accounts.
 
 The following didn't work.
 
