@@ -15,8 +15,6 @@
     :alt: Travis Build Status
 .. _build status: http://travis-ci.org/koansys/isat
 
-**NB**: unknown means it is building currently
-
 
 Goal
 ====
