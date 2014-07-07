@@ -6,8 +6,8 @@
 require.config({
     baseUrl: '../sgp4/lib/',
     paths: {
-        tests: 'tests',
-        vendor: 'vendor'
+        tests: '../tests',
+        vendor: '../vendor'
         // lib: 'lib'
     }
-})
+});

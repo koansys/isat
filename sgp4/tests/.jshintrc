@@ -5,7 +5,10 @@
   "esnext": true,
   "globals": {"describe": true,
               "expect": true,
-              "it": true
+              "it": true,
+              "define": true,
+              "beforeEach": true,
+              "require": true
               },
   "globalstrict": true,
   "quotmark": true,
