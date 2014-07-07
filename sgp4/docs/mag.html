@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>angl.js</title>
+  <title>mag.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -46,7 +46,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>angl.js</h1>
+                  <h1>mag.js</h1>
               </div>
           </li>
         
@@ -61,7 +61,9 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-pi">"use strict"</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-pi">"use strict"</span>;
+
+define(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span></pre></div></div>
             
         </li>
         
@@ -72,7 +74,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <h2 id="angl">angl</h2>
+              <h2 id="mag">mag</h2>
 
             </div>
             
@@ -85,7 +87,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <pre><code>θ = angl(vec1,vec2);
+              <pre><code>mag = (vec);
 </code></pre>
             </div>
             
@@ -98,52 +100,23 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>function angl calculates the angle between two vectors. The output is
-set to 999999.1 to indicate an undefined value. Be sure to check for
-this at the output phase.</p>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-5">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
-              </div>
-              <p><strong>TODO:</strong> Can we just use an undefined value?</p>
+              <p> this function finds the magnitude of a vector.  the tolerance is set to
+   0.000001, thus the 1.0e-12 for the squared test of underflows.</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>
-define ([<span class="hljs-string">"mag"</span>, <span class="hljs-string">'mutils'</span>],
-    <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(mag, mutils)</span> {</span>
-        <span class="hljs-keyword">return</span> {
-            angl: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(vec1, vec2)</span> {</span>
-                <span class="hljs-keyword">var</span> SMALL     = <span class="hljs-number">0.00000001</span>,
-                    UNDEFINED = <span class="hljs-number">999999.1</span>,
-                    magv1     = mag(vec1),
-                    magv2     = mag(vec2),
-                    temp,
-                    theta;
+	<span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(vec)</span> {</span>
+	    <span class="hljs-keyword">var</span> temp = vec[<span class="hljs-number">0</span>] * vec[<span class="hljs-number">0</span>] + vec[<span class="hljs-number">1</span>] * vec[<span class="hljs-number">1</span>] + vec[<span class="hljs-number">2</span>] * vec[<span class="hljs-number">2</span>],
+	        mymag = <span class="hljs-number">0.0</span>;
 
-                <span class="hljs-keyword">if</span> (magv1 * magv2 &gt; SMALL * SMALL) {
-                    temp = mutils.dot(vec1, vec2) / (magv1 * magv2);
-                    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.abs(temp) &gt; <span class="hljs-number">1.0</span>) {
-                        temp = sign(temp) * <span class="hljs-number">1.0</span>;
-                    }
-                    theta = <span class="hljs-built_in">Math</span>.acos(temp);
-                }
-                <span class="hljs-keyword">else</span> {
-                    theta = UNDEFINED;
-                }
-                <span class="hljs-keyword">return</span> theta;
-            }
-        }
-    }
-);</pre></div></div>
+	    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.abs(temp) &gt;= <span class="hljs-number">1.0e-16</span>) {
+	        mymag = <span class="hljs-built_in">Math</span>.sqrt(temp);
+	    }
+	    <span class="hljs-keyword">return</span> mymag;
+	}
+
+});</pre></div></div>
             
         </li>
         
