@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>newtonnu.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="angl.html">
+                angl.js
+              </a>
+            
+              
+              <a class="source" href="constastro.html">
+                constastro.js
+              </a>
+            
+              
+              <a class="source" href="mag.html">
+                mag.js
+              </a>
+            
+              
+              <a class="source" href="mutils.html">
+                mutils.js
+              </a>
+            
+              
+              <a class="source" href="newtonnu.html">
+                newtonnu.js
+              </a>
+            
+              
+              <a class="source" href="pasta.html">
+                pasta.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>newtonnu.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-pi">"use strict"</span>;
+
+define([], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> {
+        sinh: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(val)</span> </span>{
+            <span class="hljs-keyword">return</span> (<span class="hljs-built_in">Math</span>.pow(<span class="hljs-built_in">Math</span>.E, val) - <span class="hljs-built_in">Math</span>.pow(<span class="hljs-built_in">Math</span>.E, -val)) / <span class="hljs-number">2</span>;
+        },
+
+        asinh: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(val)</span> </span>{
+            <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.log(val + <span class="hljs-built_in">Math</span>.sqrt(val * val + <span class="hljs-number">1</span>));
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2 id="newtonnu">newtonnu</h2>
+<pre><code>[e0,m] = newtonnu ( ecc,nu );
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    newtonnu: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(ecc, nu)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>this function solves keplers equation when the true anomaly is known.
+the mean and eccentric, parabolic, or hyperbolic anomaly is also found.
+the parabolic limit at 168 is arbitrary. the hyperbolic anomaly is also
+limited. the hyperbolic sine is used because it’s not double valued.
+   inputs          description                    range / units
+       ecc         - eccentricity                   0.0  to
+       nu          - true anomaly                   -2pi to 2pi rad</p>
+<p>   outputs       :
+       e0          - eccentric anomaly              0.0  to 2pi rad       153.02 deg
+       m           - mean anomaly                   0.0  to 2pi rad       151.7425 deg</p>
+<p>   locals        :
+       e1          - eccentric anomaly, next value  rad
+       sine        - sine of e
+       cose        - cosine of e
+       ktr         - index</p>
+<p>   coupling      :
+       arcsinh     - arc hyperbolic sine
+       sinh        - hyperbolic sine</p>
+<p>   references    :
+       vallado       2007, 85, alg 5</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> e0 = <span class="hljs-number">999999.9</span>,
+            m = <span class="hljs-number">999999.9</span>,
+            small = <span class="hljs-number">0.00000001</span>,
+            sine, cose;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <h1 id="circular">circular</h1>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.abs(ecc) &lt; small) {
+            m  = nu;
+            e0 = nu;
+        }
+        <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <h1 id="elliptical">elliptical</h1>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> (ecc &lt; <span class="hljs-number">1.0</span> - small) {
+                sine = (<span class="hljs-built_in">Math</span>.sqrt(<span class="hljs-number">1.0</span> - ecc * ecc) * <span class="hljs-built_in">Math</span>.sin(nu)) / (<span class="hljs-number">1.0</span> + ecc * <span class="hljs-built_in">Math</span>.cos(nu));
+                cose = (ecc + <span class="hljs-built_in">Math</span>.cos(nu)) / (<span class="hljs-number">1.0</span> + ecc * <span class="hljs-built_in">Math</span>.cos(nu));
+                e0  = <span class="hljs-built_in">Math</span>.atan2(sine, cose);
+                m   = e0 - ecc * <span class="hljs-built_in">Math</span>.sin(e0);
+            }
+            <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <h1 id="hyperbolic">hyperbolic</h1>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                <span class="hljs-keyword">if</span> (ecc &gt; <span class="hljs-number">1.0</span> + small) {
+                    <span class="hljs-keyword">if</span> ((ecc &gt; <span class="hljs-number">1.0</span>) &amp;&amp;
+                        (<span class="hljs-built_in">Math</span>.abs(nu) + <span class="hljs-number">0.00001</span> &lt; <span class="hljs-built_in">Math</span>.PI - <span class="hljs-built_in">Math</span>.acos(<span class="hljs-number">1.0</span> / ecc))) {
+                        sine = (<span class="hljs-built_in">Math</span>.sqrt(ecc * ecc - <span class="hljs-number">1.0</span>) * <span class="hljs-built_in">Math</span>.sin(nu)) / (<span class="hljs-number">1.0</span> + ecc * <span class="hljs-built_in">Math</span>.cos(nu));
+                        e0   = <span class="hljs-keyword">this</span>.asinh(sine);
+                        m    = ecc * <span class="hljs-keyword">this</span>.sinh(e0) - e0;
+                    }
+                    <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <h1 id="parabolic">parabolic</h1>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.abs(nu) &lt; <span class="hljs-number">168.0</span> * <span class="hljs-built_in">Math</span>.PI / <span class="hljs-number">180.0</span>) {
+                            e0 = <span class="hljs-built_in">Math</span>.tan(nu * <span class="hljs-number">0.5</span>);
+                            m  = e0 + (e0 * e0 * e0) / <span class="hljs-number">3.0</span>;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        <span class="hljs-keyword">if</span> (ecc &lt; <span class="hljs-number">1.0</span>) {
+            m = m % (<span class="hljs-number">2.0</span> * <span class="hljs-built_in">Math</span>.PI);
+            <span class="hljs-keyword">if</span> (m &lt; <span class="hljs-number">0.0</span>) {
+                m = m + <span class="hljs-number">2.0</span> * <span class="hljs-built_in">Math</span>.PI;
+            }
+            e0 = e0 % (<span class="hljs-number">2.0</span> * <span class="hljs-built_in">Math</span>.PI);
+        }
+
+        <span class="hljs-keyword">return</span> [e0, m];
+        }
+    }
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
