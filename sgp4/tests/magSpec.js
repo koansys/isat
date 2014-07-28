@@ -37,7 +37,6 @@ describe("mag: values from testmat.m run", function() {
 
 	beforeEach(function(done) {
 		require(["../lib/mag", "tests/testing"], function(mag, testing) {
-			console.log(testing);
 			fut = mag;
 			t = testing;
 			done();
