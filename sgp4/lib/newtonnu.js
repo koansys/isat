@@ -1,6 +1,5 @@
 "use strict";
 
-
 define([], function() {
     return {
         sinh: function (val) {
@@ -81,6 +80,7 @@ define([], function() {
             }
         }
 
+
         if (ecc < 1.0) {
             m = m % (2.0 * Math.PI);
             if (m < 0.0) {
@@ -91,5 +91,5 @@ define([], function() {
 
         return [e0, m];
         }
-    }
+    };
 });
