@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>constants.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="angl.html">
+                angl.js
+              </a>
+            
+              
+              <a class="source" href="constants.html">
+                constants.js
+              </a>
+            
+              
+              <a class="source" href="mag.html">
+                mag.js
+              </a>
+            
+              
+              <a class="source" href="mutils.html">
+                mutils.js
+              </a>
+            
+              
+              <a class="source" href="newtonnu.html">
+                newtonnu.js
+              </a>
+            
+              
+              <a class="source" href="pasta.html">
+                pasta.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>constants.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-pi">"use strict"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2 id="constastro">constastro</h2>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+define([], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>We define some in this scope so that we can reference them in the returned
+object without converting them to functions (otherwise there is no <code>this</code>.)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> re = <span class="hljs-number">6378.137</span>,               <span class="hljs-comment">//km</span>
+        flat = <span class="hljs-number">1.0</span> / <span class="hljs-number">298.257223563</span>,
+        omegaearth = <span class="hljs-number">7.292115e-11</span>,   <span class="hljs-comment">//rad/s</span>
+        eccearth = <span class="hljs-built_in">Math</span>.sqrt(<span class="hljs-number">2.0</span> * flat - flat * flat),
+        mu = <span class="hljs-number">398600.4418</span>,
+        tusec = <span class="hljs-built_in">Math</span>.sqrt(<span class="hljs-built_in">Math</span>.pow(re, <span class="hljs-number">3</span>) / mu),
+        velkmps = <span class="hljs-built_in">Math</span>.sqrt(mu / re),
+        nm2m = <span class="hljs-number">1852</span>,
+        ft2m = <span class="hljs-number">0.3048</span>;
+
+    <span class="hljs-keyword">return</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <h1 id="physical-constants">Physical Constants</h1>
+<p>WGS-84/EGM-96 constants used here</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        re: re,   <span class="hljs-comment">// km</span>
+        flat: flat,
+        omegaearth: omegaearth,     <span class="hljs-comment">// rad/s</span>
+        mu: mu,      <span class="hljs-comment">// km3/s2</span>
+        mum: <span class="hljs-number">3.986004418e14</span>,   <span class="hljs-comment">// m3/s2</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>derived constants from the base values</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        eccearth: eccearth,
+        eccearthsqrd: eccearth * eccearth,
+
+        renm: re / nm2m,
+        reft: re * <span class="hljs-number">1000.0</span> / ft2m,
+
+        tusec: tusec,
+        tumin: tusec / <span class="hljs-number">60.0</span>,
+        tuday: tusec / <span class="hljs-number">86400.0</span>,
+
+        omegaearthradptu : omegaearth * tusec,
+        omegaearthradpmin: omegaearth * <span class="hljs-number">60.0</span>,
+
+        velkmps: velkmps,
+        velftps: velkmps * <span class="hljs-number">1000.0</span> / ft2m,
+        velradpmin: velkmps * <span class="hljs-number">60.0</span> / re,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>for afspc
+velkmps1: velradpmin<em>6378.135/60.0   7.90537051051763
+mu1: velkmps</em>velkmps*6378.135        3.986003602567418e+005</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        degpsec: (<span class="hljs-number">180.0</span> / <span class="hljs-built_in">Math</span>.PI) / tusec,
+        radpday: <span class="hljs-number">2.0</span> * <span class="hljs-built_in">Math</span>.PI * <span class="hljs-number">1.002737909350795</span>,
+
+        speedoflight: <span class="hljs-number">2.99792458e8</span>, <span class="hljs-comment">// m/s</span>
+        au: <span class="hljs-number">149597870.0</span>,      <span class="hljs-comment">// km</span>
+        earth2moon: <span class="hljs-number">384400.0</span>, <span class="hljs-comment">// km</span>
+        moonradius:   <span class="hljs-number">1738.0</span>, <span class="hljs-comment">// km</span>
+        sunradius : <span class="hljs-number">696000.0</span>, <span class="hljs-comment">// km</span>
+
+        masssun: <span class="hljs-number">1.9891e30</span>,
+        massearth: <span class="hljs-number">5.9742e24</span>,
+        massmoon: <span class="hljs-number">7.3483e22</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>From constmath</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        small: <span class="hljs-number">0.00000001</span>,
+
+        infinite   : <span class="hljs-number">999999.9</span>,
+        UNDEFINED  : <span class="hljs-number">999999.1</span>,       <span class="hljs-comment">// lowercase is JavaScript reserved word</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <h1 id="mathematical">Mathematical</h1>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        rad        : <span class="hljs-number">180.0</span> / <span class="hljs-built_in">Math</span>.PI,
+        twopi      : <span class="hljs-number">2.0</span> * <span class="hljs-built_in">Math</span>.PI,
+        halfpi     : <span class="hljs-built_in">Math</span>.PI * <span class="hljs-number">0.5</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <h1 id="conversions">Conversions</h1>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        ft2m       : ft2m,
+        mile2m     : <span class="hljs-number">1609.344</span>,
+        nm2m       : nm2m,
+        mile2ft    : <span class="hljs-number">5280</span>,
+        mileph2kmph: <span class="hljs-number">0.44704</span>,
+        nmph2kmph  : <span class="hljs-number">0.5144444</span>
+    };
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
