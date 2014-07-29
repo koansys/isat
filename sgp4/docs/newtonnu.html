@@ -29,6 +29,16 @@
               </a>
             
               
+              <a class="source" href="days2mdh.html">
+                days2mdh.js
+              </a>
+            
+              
+              <a class="source" href="jday.html">
+                jday.js
+              </a>
+            
+              
               <a class="source" href="mag.html">
                 mag.js
               </a>
@@ -41,11 +51,6 @@
               
               <a class="source" href="newtonnu.html">
                 newtonnu.js
-              </a>
-            
-              
-              <a class="source" href="pasta.html">
-                pasta.js
               </a>
             
           </div>
@@ -93,11 +98,8 @@ define([], <span class="hljs-function"><span class="hljs-keyword">function</span
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
               <h2 id="newtonnu">newtonnu</h2>
-<pre><code>[e0,m] = newtonnu ( ecc,nu );
-</code></pre>
+
             </div>
-            
-            <div class="content"><div class='highlight'><pre>    newtonnu: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(ecc, nu)</span> </span>{</pre></div></div>
             
         </li>
         
@@ -107,6 +109,21 @@ define([], <span class="hljs-function"><span class="hljs-keyword">function</span
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <pre><code>[e0,m] = newtonnu ( ecc,nu );
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    newtonnu: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(ecc, nu)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
               <p>this function solves keplers equation when the true anomaly is known.
 the mean and eccentric, parabolic, or hyperbolic anomaly is also found.
@@ -139,14 +156,26 @@ limited. the hyperbolic sine is used because it’s not double valued.
         </li>
         
         
-        <li id="section-4">
+        <li id="section-5">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
+                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <h1 id="circular">circular</h1>
 
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              
             </div>
             
             <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.abs(ecc) &lt; small) {
@@ -158,14 +187,26 @@ limited. the hyperbolic sine is used because it’s not double valued.
         </li>
         
         
-        <li id="section-5">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <h1 id="elliptical">elliptical</h1>
 
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              
             </div>
             
             <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> (ecc &lt; <span class="hljs-number">1.0</span> - small) {
@@ -179,14 +220,26 @@ limited. the hyperbolic sine is used because it’s not double valued.
         </li>
         
         
-        <li id="section-6">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <h1 id="hyperbolic">hyperbolic</h1>
 
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              
             </div>
             
             <div class="content"><div class='highlight'><pre>                <span class="hljs-keyword">if</span> (ecc &gt; <span class="hljs-number">1.0</span> + small) {
@@ -201,14 +254,26 @@ limited. the hyperbolic sine is used because it’s not double valued.
         </li>
         
         
-        <li id="section-7">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <h1 id="parabolic">parabolic</h1>
 
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              
             </div>
             
             <div class="content"><div class='highlight'><pre>                        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.abs(nu) &lt; <span class="hljs-number">168.0</span> * <span class="hljs-built_in">Math</span>.PI / <span class="hljs-number">180.0</span>) {
