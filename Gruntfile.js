@@ -58,8 +58,7 @@ module.exports = function(grunt) {
                            Everything else gets unaltered results.
 
                         */
-                        // Something is reversed somewhere. Must find it...
-                        if (result.passed === false) {
+                        if (result.passed === undefined) {
                             return true;
                         } else {
                            return undefined;
