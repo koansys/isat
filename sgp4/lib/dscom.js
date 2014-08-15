@@ -1,80 +1,23 @@
 "use strict";
-// -----------------------------------------------------------------------------
-//
-//                            procedure dscom
-//
-//   this procedure provides deep space common items used by both the secular
-//     and periodics subroutines.  input is provided as shown. this routine
-//     used to be called dpper, but the functions inside weren't well organized.
-//
-// Author:
-//   Jeff Beck
-//   beckja@alumni.lehigh.edu
-//   1.0 (aug 7, 2006) - update for paper dav
-// original comments from Vallado C++ version:
-//   author        : david vallado                  719-573-2600   28 jun 2005
-//
-//   inputs        :
-//     epoch       -
-//     ep          - eccentricity
-//     argpp       - argument of perigee
-//     tc          -
-//     inclp       - inclination
-//     nodep       - right ascension of ascending node
-//     np          - mean motion
-//
-//   outputs       :
-//     sinim  , cosim  , sinomm , cosomm , snodm  , cnodm
-//     day         -
-//     e3          -
-//     ee2         -
-//     em          - eccentricity
-//     emsq        - eccentricity squared
-//     gam         -
-//     peo         -
-//     pgho        -
-//     pho         -
-//     pinco       -
-//     plo         -
-//     rtemsq      -
-//     se2, se3         -
-//     sgh2, sgh3, sgh4        -
-//     sh2, sh3, si2, si3, sl2, sl3, sl4         -
-//     s1, s2, s3, s4, s5, s6, s7          -
-//     ss1, ss2, ss3, ss4, ss5, ss6, ss7, sz1, sz2, sz3         -
-//     sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33        -
-//     xgh2, xgh3, xgh4, xh2, xh3, xi2, xi3, xl2, xl3, xl4         -
-//     nm          - mean motion
-//     z1, z2, z3, z11, z12, z13, z21, z22, z23, z31, z32, z33         -
-//     zmol        -
-//     zmos        -
-//
-//   locals        :
-//     a1, a2, a3, a4, a5, a6, a7, a8, a9, a10         -
-//     betasq      -
-//     cc          -
-//     ctem, stem        -
-//     x1, x2, x3, x4, x5, x6, x7, x8          -
-//     xnodce      -
-//     xnoi        -
-//     zcosg  , zsing  , zcosgl , zsingl , zcosh  , zsinh  , zcoshl , zsinhl ,
-//     zcosi  , zsini  , zcosil , zsinil ,
-//     zx          -
-//     zy          -
-//
-//   coupling      :
-//     none.
-//
-//   references    :
-//     hoots, roehrich, norad spacetrack report #3 1980
-//     hoots, norad spacetrack report #6 1986
-//     hoots, schumacher and glover 2004
-//     vallado, crawford, hujsak, kelso  2006
-//  ----------------------------------------------------------------------------*/
 
 define([], function(){
+    // procedure dscom
+    // ===============
+    // This procedure provides deep space common items used by both the secular
+    // and periodics subroutines.  input is provided as shown. this routine
+    // used to be called dpper, but the functions inside weren't well organized.
 
     return function (epoch, ep, argpp, tc, inclp, nodep, np) {
+        // inputs:
+        //
+        //     epoch       -
+        //     ep          - eccentricity
+        //     argpp       - argument of perigee
+        //     tc          -
+        //     inclp       - inclination
+        //     nodep       - right ascension of ascending node
+        //     np          - mean motion
+        //
         // constants
         // ----------
         var zes     =  0.01675,
@@ -88,6 +31,19 @@ define([], function(){
         twopi   =  2.0 * Math.PI,
             // local variables
             // ---------------
+            // locals:
+            //
+            //     a1, a2, a3, a4, a5, a6, a7, a8, a9, a10         -
+            //     betasq      -
+            //     cc          -
+            //     ctem, stem        -
+            //     x1, x2, x3, x4, x5, x6, x7, x8          -
+            //     xnodce      -
+            //     xnoi        -
+            //     zcosg  , zsing  , zcosgl , zsingl , zcosh  , zsinh  , zcoshl , zsinhl ,
+            //     zcosi  , zsini  , zcosil , zsinil ,
+            //     zx          -
+            //     zy          -
             nm     = np,
             em     = ep,
             snodm  = Math.sin(nodep),
@@ -262,5 +218,31 @@ define([], function(){
         sz1, sz2, sz3, sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33, xgh2, xgh3,
         xgh4, xh2, xh3, xi2, xi3, xl2, xl3, xl4, nm, z1, z2, z3, z11, z12, z13, z21, z22,
         z23, z31, z32, z33, zmol, zmos];
+        // outputs:
+        //
+        //     sinim  , cosim  , sinomm , cosomm , snodm  , cnodm
+        //     day         -
+        //     e3          -
+        //     ee2         -
+        //     em          - eccentricity
+        //     emsq        - eccentricity squared
+        //     gam         -
+        //     peo         -
+        //     pgho        -
+        //     pho         -
+        //     pinco       -
+        //     plo         -
+        //     rtemsq      -
+        //     se2, se3         -
+        //     sgh2, sgh3, sgh4        -
+        //     sh2, sh3, si2, si3, sl2, sl3, sl4         -
+        //     s1, s2, s3, s4, s5, s6, s7          -
+        //     ss1, ss2, ss3, ss4, ss5, ss6, ss7, sz1, sz2, sz3         -
+        //     sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33        -
+        //     xgh2, xgh3, xgh4, xh2, xh3, xi2, xi3, xl2, xl3, xl4         -
+        //     nm          - mean motion
+        //     z1, z2, z3, z11, z12, z13, z21, z22, z23, z31, z32, z33         -
+        //     zmol        -
+        //     zmos        -
     };
 });
