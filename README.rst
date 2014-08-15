@@ -15,6 +15,12 @@
     :alt: Travis Build Status
 .. _build status: http://travis-ci.org/koansys/isat
 
+|kanban status|_
+
+.. |kanban status| image:: https://badge.waffle.io/koansys/isat.png?label=ready&title=Ready
+	:alt: 'Stories in Ready'
+
+.. _kanban status: https://waffle.io/koansys/isat
 
 Goal
 ====
