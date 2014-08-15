@@ -70,17 +70,18 @@
 //  ----------------------------------------------------------------------------*/
 
 define ([], function(){
+	var opsmode;
 	return function (e3,     ee2,    peo,    pgho,   pho,    pinco,  plo,    se2,
 					 se3,    sgh2,   sgh3,   sgh4,   sh2,    sh3,    si2,    si3,
 					 sl2,    sl3,    sl4,    t,      xgh2,   xgh3,   xgh4,   xh2,
 					 xh3,    xi2,    xi3,    xl2,    xl3,    xl4,    zmol,
 					 zmos,   inclo,  init,   ep,     inclp,  nodep, argpp,  mp) {
 
-						 if (typeof(opsmode) === 'undefined') {
-							 throw Error("Global opsmode is undefined, must be 'a' or 'i'");
+						 if (typeof(opsmode) === "undefined") {
+							 opsmode = "i";
 						 }
-						 if ((opsmode !== 'a') && (opsmode !== 'i')) {
-							 throw Error("Global must be 'a' or 'i' but opsmode=" + opsmode);
+						 if ((opsmode !== "a") && (opsmode !== "i")) {
+							 throw new Error("opsmode must be \"a\" or \"i\" but opsmode=" + opsmode);
 						 }
 
 						 var twopi = 2.0 * Math.PI,
@@ -97,7 +98,7 @@ define ([], function(){
 
 						 // /* --------------- calculate time varying periodics ----------- */
 						 // // be sure that the initial call has time set to zero
-						 if (init === 'y') {
+						 if (init === "y") {
 							 zm = zmos;
 						 }
 
@@ -111,7 +112,7 @@ define ([], function(){
 						 sghs  = sgh2 * f2 + sgh3 * f3 + sgh4 * sinzf;
 						 shs   = sh2 * f2 + sh3 * f3;
 						 zm    = zmol + znl * t;
-						 if (init === 'y') {
+						 if (init === "y") {
 							 zm = zmol;
 						 }
 						 zf    = zm + 2.0 * zel * Math.sin(zm);
@@ -129,7 +130,7 @@ define ([], function(){
 						 pgh   = sghs + sghl;
 						 ph    = shs + shll;
 
-						 if (init === 'n') {
+						 if (init === "n") {
 							 //  0.2 rad = 11.45916 deg
 							 pe    = pe - peo;
 							 pinc  = pinc - pinco;
@@ -170,7 +171,7 @@ define ([], function(){
 								 nodep  = nodep % twopi;
 								 // sgp4fix for afspc written intrinsic functions
 								 // nodep used without a trigonometric function ahead
-								 if ((nodep < 0.0) && (opsmode === 'a')) {
+								 if ((nodep < 0.0) && (opsmode === "a")) {
 									 nodep = nodep + twopi;
 								 }
 								 xls    = mp + argpp + cosip * nodep;
@@ -180,7 +181,7 @@ define ([], function(){
 								 nodep  = Math.atan2(alfdp, betdp);
 								 // sgp4fix for afspc written intrinsic functions
 								 // nodep used without a trigonometric function ahead
-								 if ((nodep < 0.0) && (opsmode === 'a')) {
+								 if ((nodep < 0.0) && (opsmode === "a")) {
 									 nodep = nodep + twopi;
 								 }
 								 if (Math.abs(xnoh - nodep) > Math.PI) {
@@ -194,7 +195,7 @@ define ([], function(){
 								 mp    = mp + pl;
 								 argpp = xls - mp - cosip * nodep;
 							 }
-						 } // if init == 'n'
+						 } // if init == "n"
 
 						 return [ep, inclp, nodep, argpp,  mp];
 					 };

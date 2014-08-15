@@ -1,7 +1,5 @@
 "use strict";
 
-var opsmode = "i"; // boo!
-
 describe("dpper", function(){
     var TOL = 0.000001, rets, ep, inclp, nodep, argpp, mp;
 
