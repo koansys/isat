@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>getgravc.js</title>
+  <title>gstime.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -91,7 +91,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>getgravc.js</h1>
+                  <h1>gstime.js</h1>
               </div>
           </li>
         
@@ -108,8 +108,7 @@
             
             <div class="content"><div class='highlight'><pre><span class="hljs-pi">"use strict"</span>;
 
-
-define([], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{</pre></div></div>
+define ([], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{</pre></div></div>
             
         </li>
         
@@ -120,7 +119,7 @@ define([], <span class="hljs-function"><span class="hljs-keyword">function</span
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <h1 id="function-getgravc">function getgravc</h1>
+              <h1 id="gstime">gstime</h1>
 
             </div>
             
@@ -133,21 +132,12 @@ define([], <span class="hljs-function"><span class="hljs-keyword">function</span
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <pre><code>{tumin,
- mu,
- radiusearthkm,
- xke,
- j2,
- j3,
- j4,
- j3oj2   } = getgravc(whichconst);
-</code></pre><p><code>getgravc</code> function gets constants for the propagator. note that mu is identified to
-facilitiate comparisons with newer models.</p>
+              <p><code>gstime</code> finds the greenwich sidereal time (iau-82).
+    gst = gstime(jdut1);</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>
-    <span class="hljs-keyword">return</span>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(constDef)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(jdut1)</span> </span>{</pre></div></div>
             
         </li>
         
@@ -158,16 +148,9 @@ facilitiate comparisons with newer models.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p> inputs        :
-   whichconst  - which set of constants to use  721, 72, 84</p>
+              <h2 id="inputs-description-range-units">inputs - description - range / units</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>
-        <span class="hljs-keyword">var</span> mu, radiusearthkm, xke, tumin, j2, j3, j4, j3oj2;
-
-        <span class="hljs-keyword">switch</span> (constDef) {
-        <span class="hljs-keyword">case</span> <span class="hljs-number">721</span>:</pre></div></div>
             
         </li>
         
@@ -178,20 +161,13 @@ facilitiate comparisons with newer models.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>wgs-72 low precision str#3 constants</p>
-
+              <pre><code>jdut1 - julian date of ut1 - days from <span class="hljs-number">4713</span> bc
+</code></pre>
             </div>
             
-            <div class="content"><div class='highlight'><pre>            mu     = <span class="hljs-number">398600.79964</span>;        <span class="hljs-comment">// in km3 / s2</span>
-            radiusearthkm = <span class="hljs-number">6378.135</span>;     <span class="hljs-comment">// km</span>
-            xke    = <span class="hljs-number">0.0743669161</span>;
-            tumin  = <span class="hljs-number">1.0</span> / xke;
-            j2     =   <span class="hljs-number">0.001082616</span>;
-            j3     =  -<span class="hljs-number">0.00000253881</span>;
-            j4     =  -<span class="hljs-number">0.00000165597</span>;
-            j3oj2  =  j3 / j2;
-            <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">case</span> <span class="hljs-number">72</span>:</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> twopi      = <span class="hljs-number">2.0</span> * <span class="hljs-built_in">Math</span>.PI,
+        deg2rad    = <span class="hljs-built_in">Math</span>.PI / <span class="hljs-number">180.0</span>,
+        tut1, temp;</pre></div></div>
             
         </li>
         
@@ -202,20 +178,9 @@ facilitiate comparisons with newer models.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>wgs-72 constants</p>
+              <h2 id="locals">locals</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>            mu     = <span class="hljs-number">398600.8</span>;            <span class="hljs-comment">// in km3 / s2</span>
-            radiusearthkm = <span class="hljs-number">6378.135</span>;     <span class="hljs-comment">// km</span>
-            xke    = <span class="hljs-number">60.0</span> / <span class="hljs-built_in">Math</span>.sqrt(radiusearthkm * radiusearthkm * radiusearthkm / mu);
-            tumin  = <span class="hljs-number">1.0</span> / xke;
-            j2     =   <span class="hljs-number">0.001082616</span>;
-            j3     =  -<span class="hljs-number">0.00000253881</span>;
-            j4     =  -<span class="hljs-number">0.00000165597</span>;
-            j3oj2  =  j3 / j2;
-            <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">case</span> <span class="hljs-number">84</span>:</pre></div></div>
             
         </li>
         
@@ -226,20 +191,10 @@ facilitiate comparisons with newer models.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>wgs-84 constants</p>
-
+              <pre><code>temp        - temporary variable <span class="hljs-keyword">for</span> reals   rad
+tut1        - julian centuries from the jan <span class="hljs-number">1</span>, <span class="hljs-number">2000</span> <span class="hljs-number">12</span> h epoch (ut1)
+</code></pre>
             </div>
-            
-            <div class="content"><div class='highlight'><pre>            mu     = <span class="hljs-number">398600.5</span>;            <span class="hljs-comment">// in km3 / s2</span>
-            radiusearthkm = <span class="hljs-number">6378.137</span>;     <span class="hljs-comment">// km</span>
-            xke    = <span class="hljs-number">60.0</span> / <span class="hljs-built_in">Math</span>.sqrt(radiusearthkm * radiusearthkm * radiusearthkm / mu);
-            tumin  = <span class="hljs-number">1.0</span> / xke;
-            j2     =   <span class="hljs-number">0.00108262998905</span>;
-            j3     =  -<span class="hljs-number">0.00000253215306</span>;
-            j4     =  -<span class="hljs-number">0.00000161098761</span>;
-            j3oj2  =  j3 / j2;
-            <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">default</span>:</pre></div></div>
             
         </li>
         
@@ -250,13 +205,9 @@ facilitiate comparisons with newer models.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p>TODO: Maybe console log?</p>
-<p>alert(‘getgravc: unknown gravity option: ‘ + constDef);</p>
+              <h2 id="implementation">implementation</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">throw</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"getgravc: unknown gravity option: "</span> + constDef);
-        }</pre></div></div>
             
         </li>
         
@@ -267,9 +218,13 @@ facilitiate comparisons with newer models.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <h2 id="outputs">outputs</h2>
-
+              
             </div>
+            
+            <div class="content"><div class='highlight'><pre>        tut1 = (jdut1 - <span class="hljs-number">2451545.0</span>) / <span class="hljs-number">36525.0</span>;
+
+        temp = -<span class="hljs-number">6.2e-6</span> * tut1 * tut1 * tut1 + <span class="hljs-number">0.093104</span> * tut1 * tut1 +
+        (<span class="hljs-number">876600.0</span> * <span class="hljs-number">3600.0</span> + <span class="hljs-number">8640184.812866</span>) * tut1 + <span class="hljs-number">67310.54841</span>;</pre></div></div>
             
         </li>
         
@@ -280,26 +235,69 @@ facilitiate comparisons with newer models.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <pre><code>{
-tumin       - minutes <span class="hljs-keyword">in</span> one time unit
-mu          - earth gravitational parameter
-radiusearthkm - radius of the earth <span class="hljs-keyword">in</span> km
-xke         - reciprocal of tumin
-j2, j3, j4  - un-normalized zonal harmonic values
-j3oj2       - j3 divided by j2
-}
+              <p>360/86400 = 1/240, to deg, to rad</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        temp = (temp * deg2rad / <span class="hljs-number">240.0</span>) % twopi;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <h2 id="check-quadrants">check quadrants</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (temp &lt; <span class="hljs-number">0.0</span>) {
+            temp = temp + twopi;
+        }
+        <span class="hljs-keyword">return</span> temp;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <h2 id="outputs">outputs</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <pre><code>gst - greenwich sidereal time - <span class="hljs-number">0</span> to <span class="hljs-number">2</span>pi rad
 </code></pre>
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> {tumin: tumin,
-                mu: mu,
-                radiusearthkm: radiusearthkm,
-                xke: xke,
-                j2: j2,
-                j3: j3,
-                j4: j4,
-                j3toj2: j3oj2};
-    };
+            <div class="content"><div class='highlight'><pre>    };
 });</pre></div></div>
             
         </li>
