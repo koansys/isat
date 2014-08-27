@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>dspace.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="angl.html">
+                angl.js
+              </a>
+            
+              
+              <a class="source" href="constants.html">
+                constants.js
+              </a>
+            
+              
+              <a class="source" href="days2mdh.html">
+                days2mdh.js
+              </a>
+            
+              
+              <a class="source" href="dpper.html">
+                dpper.js
+              </a>
+            
+              
+              <a class="source" href="dscom.html">
+                dscom.js
+              </a>
+            
+              
+              <a class="source" href="dsinit.html">
+                dsinit.js
+              </a>
+            
+              
+              <a class="source" href="dspace.html">
+                dspace.js
+              </a>
+            
+              
+              <a class="source" href="getgravc.html">
+                getgravc.js
+              </a>
+            
+              
+              <a class="source" href="jday.html">
+                jday.js
+              </a>
+            
+              
+              <a class="source" href="mag.html">
+                mag.js
+              </a>
+            
+              
+              <a class="source" href="mutils.html">
+                mutils.js
+              </a>
+            
+              
+              <a class="source" href="newtonnu.html">
+                newtonnu.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>dspace.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-pi">"use strict"</span>;
+
+define([], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h1 id="function-dspace">function dspace</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p><code>dspace</code> provides deep space contributions to mean elements for
+perturbing third body.  these effects have been averaged over one
+revolution of the sun and moon.  for earth resonance effects, the
+effects have been averaged over no revolutions of the satellite.
+(mean motion)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(
+</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <h2 id="inputs">inputs</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <pre><code>d2201,
+d2211,
+d3210,
+d3222,
+d4410,
+d4422,
+d5220,
+d5232,
+d5421,
+d5433       -
+dedt        -
+del1, del2, del3  -
+didt        -
+dmdt        -
+dnodt       -
+domdt       -
+irez        - flag <span class="hljs-keyword">for</span> resonance           <span class="hljs-number">0</span>-none, <span class="hljs-number">1</span>-one day, <span class="hljs-number">2</span>-half day
+argpo       - argument of perigee
+argpdot     - argument of perigee dot (rate)
+t           - time
+tc          -
+gsto        - gst
+xfact       -
+xlamo       -
+no          - mean motion
+atime       -
+em          - eccentricity
+ft          -
+argpm       - argument of perigee
+inclm       - inclination
+xli         -
+mm          - mean anomaly
+xni         - mean motion
+nodem      - right ascension of ascending node
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        d2201,  d2211,  d3210,  d3222,  d4410,  d4422,  d5220,
+        d5232,  d5421,  d5433,  dedt,   del1,   del2,   del3,
+        didt,   dmdt,   dnodt,  domdt,  irez,   argpo,  argpdot,
+        t,      tc,     gsto,   xfact,  xlamo,  no,     atime,
+        em,     argpm,  inclm,  xli,    mm,     xni,    nodem,
+        nm) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <h2 id="locals">locals</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <pre><code>delt
+ft
+theta
+x2li
+x2omi
+xl
+xldot
+xnddt
+xndt
+xomi
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> twopi = <span class="hljs-number">2.0</span> * <span class="hljs-built_in">Math</span>.PI,
+        fasx2 = <span class="hljs-number">0.13130908</span>,
+        fasx4 = <span class="hljs-number">2.8843198</span>,
+        fasx6 = <span class="hljs-number">0.37448087</span>,
+        g22   = <span class="hljs-number">5.7686396</span>,
+        g32   = <span class="hljs-number">0.95240898</span>,
+        g44   = <span class="hljs-number">1.8014998</span>,
+        g52   = <span class="hljs-number">1.0508330</span>,
+        g54   = <span class="hljs-number">4.4108898</span>,
+        rptim = <span class="hljs-number">4.37526908801129966e-3</span>,
+        stepp =    <span class="hljs-number">720.0</span>,
+        stepn =   -<span class="hljs-number">720.0</span>,
+        step2 = <span class="hljs-number">259200.0</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <h2 id="calculate-deep-space-resonance-effects">calculate deep space resonance effects</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        dndt   = <span class="hljs-number">0.0</span>,
+        theta  = (gsto + tc * rptim) % twopi,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>defined elsewhere</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        ft,
+        delt,
+        iretn, iret,
+        xndt, xldot, xnddt,
+        xomi, x2omi, x2li,
+        xl;
+
+        em     = em + dedt * t;
+        inclm  = inclm + didt * t;
+        argpm  = argpm + domdt * t;
+        nodem  = nodem + dnodt * t;
+        mm     = mm + dmdt * t;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>sgp4fix for negative inclinations
+the following if statement should be commented out</p>
+<pre><code><span class="hljs-keyword">if</span> (inclm &lt; <span class="hljs-number">0.0</span>)
+{
+   inclm  = -inclm;
+   argpm  = argpm - pi;
+   nodem = nodem + pi;
+ }
+</code></pre>
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>update resonances : numerical (euler-maclaurin) integration</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <h2 id="epoch-restart">epoch restart</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>sgp4fix for propagator problems
+the following integration works for negative time steps and periods
+the specific changes are unknown because the original code was so convoluted</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>sgp4fix take out atime = 0.0 and fix for faster operation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        ft    = <span class="hljs-number">0.0</span>;
+
+        <span class="hljs-keyword">if</span> (irez !== <span class="hljs-number">0</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>sgp4fix streamline check</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> ((atime === <span class="hljs-number">0.0</span>) || (t * atime &lt;= <span class="hljs-number">0.0</span>) || (<span class="hljs-built_in">Math</span>.abs(t) &lt; <span class="hljs-built_in">Math</span>.abs(atime))) {
+                atime  = <span class="hljs-number">0.0</span>;
+                xni    = no;
+                xli    = xlamo;
+            }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>sgp4fix move check outside loop</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> (t &gt;= <span class="hljs-number">0.0</span>) {
+                delt = stepp;
+            }
+            <span class="hljs-keyword">else</span> {
+                delt = stepn;
+            }
+
+            iretn = <span class="hljs-number">381</span>; <span class="hljs-comment">//// added for do loop</span>
+            iret  =   <span class="hljs-number">0</span>; <span class="hljs-comment">//// added for loop</span>
+            <span class="hljs-keyword">while</span> (iretn === <span class="hljs-number">381</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <ul>
+<li>dot terms calculated *</li>
+</ul>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <h2 id="near-synchronous-resonance-terms">near - synchronous resonance terms</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                <span class="hljs-keyword">if</span> (irez !== <span class="hljs-number">2</span>) {
+                    xndt  = del1 * <span class="hljs-built_in">Math</span>.sin(xli - fasx2) + del2 * <span class="hljs-built_in">Math</span>.sin(<span class="hljs-number">2.0</span> * (xli - fasx4)) +
+                    del3 * <span class="hljs-built_in">Math</span>.sin(<span class="hljs-number">3.0</span> * (xli - fasx6));
+                    xldot = xni + xfact;
+                    xnddt = del1 * <span class="hljs-built_in">Math</span>.cos(xli - fasx2) +
+                    <span class="hljs-number">2.0</span> * del2 * <span class="hljs-built_in">Math</span>.cos(<span class="hljs-number">2.0</span> * (xli - fasx4)) +
+                    <span class="hljs-number">3.0</span> * del3 * <span class="hljs-built_in">Math</span>.cos(<span class="hljs-number">3.0</span> * (xli - fasx6));
+                    xnddt = xnddt * xldot;
+                }
+                <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <h2 id="near-half-day-resonance-terms">near - half-day resonance terms</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    xomi  = argpo + argpdot * atime;
+                    x2omi = xomi + xomi;
+                    x2li  = xli + xli;
+                    xndt  =
+                    d2201 * <span class="hljs-built_in">Math</span>.sin(x2omi + xli - g22)  + d2211 * <span class="hljs-built_in">Math</span>.sin(xli - g22) +
+                    d3210 * <span class="hljs-built_in">Math</span>.sin(xomi + xli - g32)   + d3222 * <span class="hljs-built_in">Math</span>.sin(-xomi + xli - g32) +
+                    d4410 * <span class="hljs-built_in">Math</span>.sin(x2omi + x2li - g44) + d4422 * <span class="hljs-built_in">Math</span>.sin(x2li - g44) +
+                    d5220 * <span class="hljs-built_in">Math</span>.sin(xomi + xli - g52)   + d5232 * <span class="hljs-built_in">Math</span>.sin(-xomi + xli - g52) +
+                    d5421 * <span class="hljs-built_in">Math</span>.sin(xomi + x2li - g54)  + d5433 * <span class="hljs-built_in">Math</span>.sin(-xomi + x2li - g54);
+                    xldot = xni + xfact;
+                    xnddt =
+                    d2201 * <span class="hljs-built_in">Math</span>.cos(x2omi + xli - g22) + d2211 * <span class="hljs-built_in">Math</span>.cos(xli - g22) +
+                    d3210 * <span class="hljs-built_in">Math</span>.cos(xomi + xli - g32)  + d3222 * <span class="hljs-built_in">Math</span>.cos(-xomi + xli - g32) +
+                    d5220 * <span class="hljs-built_in">Math</span>.cos(xomi + xli - g52)  + d5232 * <span class="hljs-built_in">Math</span>.cos(-xomi + xli - g52) +
+                    <span class="hljs-number">2.0</span> * (d4410 * <span class="hljs-built_in">Math</span>.cos(x2omi + x2li - g44) +
+                     d4422 * <span class="hljs-built_in">Math</span>.cos(x2li - g44) + d5421 * <span class="hljs-built_in">Math</span>.cos(xomi + x2li - g54) +
+                     d5433 * <span class="hljs-built_in">Math</span>.cos(-xomi + x2li - g54));
+                    xnddt = xnddt * xldot;
+                }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <h2 id="integrator">integrator</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>sgp4fix move end checks to end of routine</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>               <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.abs(t - atime) &gt;= stepp) {
+                iret  = <span class="hljs-number">0</span>;
+                iretn = <span class="hljs-number">381</span>;
+            }
+            <span class="hljs-keyword">else</span> {
+                ft    = t - atime;
+                iretn = <span class="hljs-number">0</span>;
+            }
+
+            <span class="hljs-keyword">if</span> (iretn === <span class="hljs-number">381</span>) {
+                xli   = xli + xldot * delt + xndt * step2;
+                xni   = xni + xndt * delt + xnddt * step2;
+                atime = atime + delt;
+            }
+            } <span class="hljs-comment">// while iretn = 381</span>
+
+            nm = xni + xndt * ft + xnddt * ft * ft * <span class="hljs-number">0.5</span>;
+            xl = xli + xldot * ft + xndt * ft * ft * <span class="hljs-number">0.5</span>;
+            <span class="hljs-keyword">if</span> (irez !== <span class="hljs-number">1</span>) {
+                mm   = xl - <span class="hljs-number">2.0</span> * nodem + <span class="hljs-number">2.0</span> * theta;
+                dndt = nm - no;
+            }
+            <span class="hljs-keyword">else</span> {
+                mm   = xl - nodem - argpm + theta;
+                dndt = nm - no;
+            }
+            nm = no + dndt;
+        }
+
+    <span class="hljs-keyword">return</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <h2 id="outputs">outputs</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p><code>dspace</code> returns an object with thte following properties:</p>
+<pre><code>atime       -
+em          - eccentricity
+argpm       - argument of perigee
+inclm       - inclination
+xli         -
+mm          - mean anomaly
+xni         -
+nodem      - right ascension of ascending node
+dndt        -
+nm          - mean motion
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        atime: atime,
+        em: em,
+        argpm: argpm,
+        inclm: inclm,
+        xli: xli,
+        mm: mm,
+        xni: xni,
+        nodem: nodem,
+        dndt: dndt,
+        nm: nm
+       };
+    };
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
