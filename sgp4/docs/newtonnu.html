@@ -44,6 +44,16 @@
               </a>
             
               
+              <a class="source" href="dsinit.html">
+                dsinit.js
+              </a>
+            
+              
+              <a class="source" href="dspace.html">
+                dspace.js
+              </a>
+            
+              
               <a class="source" href="getgravc.html">
                 getgravc.js
               </a>
@@ -93,13 +103,13 @@
             
             <div class="content"><div class='highlight'><pre><span class="hljs-pi">"use strict"</span>;
 
-define([], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+define([], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">return</span> {
-        sinh: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(val)</span> </span>{
+        sinh: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(val)</span> {</span>
             <span class="hljs-keyword">return</span> (<span class="hljs-built_in">Math</span>.pow(<span class="hljs-built_in">Math</span>.E, val) - <span class="hljs-built_in">Math</span>.pow(<span class="hljs-built_in">Math</span>.E, -val)) / <span class="hljs-number">2</span>;
         },
 
-        asinh: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(val)</span> </span>{
+        asinh: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(val)</span> {</span>
             <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.log(val + <span class="hljs-built_in">Math</span>.sqrt(val * val + <span class="hljs-number">1</span>));
     },</pre></div></div>
             
@@ -129,7 +139,7 @@ define([], <span class="hljs-function"><span class="hljs-keyword">function</span
 </code></pre>
             </div>
             
-            <div class="content"><div class='highlight'><pre>    newtonnu: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(ecc, nu)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    newtonnu: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(ecc, nu)</span> {</span></pre></div></div>
             
         </li>
         
