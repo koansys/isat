@@ -64,6 +64,11 @@
               </a>
             
               
+              <a class="source" href="initl.html">
+                initl.js
+              </a>
+            
+              
               <a class="source" href="invjday.html">
                 invjday.js
               </a>
@@ -137,7 +142,7 @@
               </div>
               <p>Converts the day of the year, days, to the equivalent month
 day, hour, minute and second.</p>
-<pre><code>[mon,day,hr,minute,sec] = days2mdh ( year,days);
+<pre><code>{year, mon, day, hour, minute,sec} = days2mdh ( year,days);
 </code></pre>
             </div>
             
@@ -318,11 +323,25 @@ But it should be fine here, for positve numbers.</p>
         hr     = <span class="hljs-built_in">Math</span>.floor(temp);
         temp   = (temp - hr) * <span class="hljs-number">60.0</span>;
         minute = <span class="hljs-built_in">Math</span>.floor(temp);
-        sec    = (temp - minute) * <span class="hljs-number">60.0</span>;
+        sec    = (temp - minute) * <span class="hljs-number">60.0</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>TODO: What is this?</p>
 
-        julianday = jday(year, mon, day, hr, minute, sec);
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        julianday = jday(year, mon, day, hr, minute, sec);
 
         <span class="hljs-keyword">return</span> {
+            year: year,
             mon: mon,
             day: day,
             hour: hr,

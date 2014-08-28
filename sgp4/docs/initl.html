@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>initl.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="angl.html">
+                angl.js
+              </a>
+            
+              
+              <a class="source" href="constants.html">
+                constants.js
+              </a>
+            
+              
+              <a class="source" href="days2mdh.html">
+                days2mdh.js
+              </a>
+            
+              
+              <a class="source" href="dpper.html">
+                dpper.js
+              </a>
+            
+              
+              <a class="source" href="dscom.html">
+                dscom.js
+              </a>
+            
+              
+              <a class="source" href="dsinit.html">
+                dsinit.js
+              </a>
+            
+              
+              <a class="source" href="dspace.html">
+                dspace.js
+              </a>
+            
+              
+              <a class="source" href="getgravc.html">
+                getgravc.js
+              </a>
+            
+              
+              <a class="source" href="gstime.html">
+                gstime.js
+              </a>
+            
+              
+              <a class="source" href="initl.html">
+                initl.js
+              </a>
+            
+              
+              <a class="source" href="invjday.html">
+                invjday.js
+              </a>
+            
+              
+              <a class="source" href="jday.html">
+                jday.js
+              </a>
+            
+              
+              <a class="source" href="mag.html">
+                mag.js
+              </a>
+            
+              
+              <a class="source" href="mutils.html">
+                mutils.js
+              </a>
+            
+              
+              <a class="source" href="newtonnu.html">
+                newtonnu.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>initl.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-pi">"use strict"</span>;
+
+
+define ([<span class="hljs-string">"gstime"</span>, <span class="hljs-string">"getgravc"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(gstime, getgravc)</span></span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h1 id="initl">initl</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p><code>initl</code> initializes the spg4 propagator. all the initialization is
+ consolidated here instead of having multiple loops inside other routines.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(ecco, epoch, inclo, no, satn, constDef)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <h1 id="inputs">inputs</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <pre><code>ecco        - eccentricity                    <span class="hljs-number">0.0</span> - <span class="hljs-number">1.0</span>
+epoch       - epoch time <span class="hljs-keyword">in</span> days from jan <span class="hljs-number">0</span>, <span class="hljs-number">1950.</span> <span class="hljs-number">0</span> hr
+inclo       - inclination of satellite
+no          - mean motion of satellite
+satn        - satellite number
+gc          - getgravc constants
+</code></pre>
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <h2 id="wgs-72-earth-constants">wgs-72 earth constants</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>sgp4fix identify constants and allow alternate values</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p><em>MATLAB</em>:</p>
+<p>global tumin mu radiusearthkm xke j2 j3 j4 j3oj2
+<em>not used</em>: tumin, mu, radiusearth, j3, j4, j3oj2
+global opsmode</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> opsmode === <span class="hljs-string">"undefined"</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>TODO: Is it OK to do this instead of throwing an error?
+This change also set an undefined var <code>opsmode</code> below.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            opsmode = <span class="hljs-string">"i"</span>; <span class="hljs-comment">// Just assume improved mode if not set.</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>throw Error(“opsmode undefined”);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        }
+
+
+        <span class="hljs-keyword">var</span> x2o3   = <span class="hljs-number">2.0</span> / <span class="hljs-number">3.0</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <h2 id="locals">locals</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <pre><code>ak          -
+d1          -
+del         -
+adel        -
+po          -
+c
+opsmode
+</code></pre><h2 id="calculate-auxillary-epoch-quantities">calculate auxillary epoch quantities</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            c = getgravc(constDef),
+            opsmode,
+            eccsq  = ecco * ecco,
+            omeosq = <span class="hljs-number">1.0</span> - eccsq,
+            rteosq = <span class="hljs-built_in">Math</span>.sqrt(omeosq),
+            cosio  = <span class="hljs-built_in">Math</span>.cos(inclo),
+            cosio2 = cosio * cosio,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <h2 id="un-kozai-the-mean-motion">un-kozai the mean motion</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            ak    = <span class="hljs-built_in">Math</span>.pow(c.xke / no, x2o3),
+            d1    = <span class="hljs-number">0.75</span> * c.j2 * (<span class="hljs-number">3.0</span> * cosio2 - <span class="hljs-number">1.0</span>) / (rteosq * omeosq),
+            del   = d1 / (ak * ak),
+            adel  = ak * (<span class="hljs-number">1.0</span> - del * del - del *
+             (<span class="hljs-number">1.0</span> / <span class="hljs-number">3.0</span> + <span class="hljs-number">134.0</span> * del * del / <span class="hljs-number">81.0</span>)),</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p><strong>defined elsewhere</strong> <em>TODO: but where?</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            ao, sinio, po, con42, con41, ainv, einv, posq, rp, method,
+            gsto, ts70, ids70, tfrac, c1, thgr70, fk5r, twopi, c1p2p;
+
+            del   = d1 / (adel * adel);
+            no    = no / (<span class="hljs-number">1.0</span> + del);
+
+            ao    = <span class="hljs-built_in">Math</span>.pow(c.xke / no, x2o3);
+            sinio = <span class="hljs-built_in">Math</span>.sin(inclo);
+            po    = ao * omeosq;
+            con42 = <span class="hljs-number">1.0</span> - <span class="hljs-number">5.0</span> * cosio2;
+            con41 = -con42 - cosio2 - cosio2;
+            ainv  = <span class="hljs-number">1.0</span> / ao;
+            einv  = <span class="hljs-number">1.0</span> / ecco;
+            posq  = po * po;
+            rp    = ao * (<span class="hljs-number">1.0</span> - ecco);
+            method = <span class="hljs-string">"n"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>sgp4fix modern approach to finding sidereal time</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span>  (opsmode !== <span class="hljs-string">"a"</span>) {
+            gsto = gstime(epoch + <span class="hljs-number">2433281.5</span>); <span class="hljs-comment">// EXTERNAL gstime()</span>
+        }
+        <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>sgp4fix use old way of finding gst
+count integer number of days from 0 jan 1970</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            ts70   = epoch - <span class="hljs-number">7305.0</span>;
+            ids70  = <span class="hljs-built_in">Math</span>.floor(ts70 + <span class="hljs-number">1.0e-8</span>);
+            tfrac  = ts70 - ids70;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>find greenwich location at epoch</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            c1     = <span class="hljs-number">1.72027916940703639e-2</span>;
+            thgr70 = <span class="hljs-number">1.7321343856509374</span>;
+            fk5r   = <span class="hljs-number">5.07551419432269442e-15</span>;
+            twopi  = <span class="hljs-number">6.283185307179586</span>;
+            c1p2p  = c1 + twopi;
+            gsto   = (thgr70 + c1 * ids70 + c1p2p * tfrac + ts70 * ts70 * fk5r) % twopi;
+        }
+
+        <span class="hljs-keyword">if</span> (gsto &lt; <span class="hljs-number">0.0</span>) {
+            gsto = gsto + twopi;
+        }
+
+        <span class="hljs-keyword">return</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <h2 id="outputs">outputs</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p><code>initl</code> returns an object with the following attributes.</p>
+<pre><code>ainv        - <span class="hljs-number">1.0</span> / a
+ao          - semi major axis
+con41       -
+con42       - <span class="hljs-number">1.0</span> - <span class="hljs-number">5.0</span> cos(i)
+cosio       - cosine of inclination
+cosio2      - cosio squared
+einv        - <span class="hljs-number">1.0</span> / e
+eccsq       - eccentricity squared
+method      - flag <span class="hljs-keyword">for</span> deep space                    <span class="hljs-string">'d'</span>, <span class="hljs-string">'n'</span>
+omeosq      - <span class="hljs-number">1.0</span> - ecco * ecco
+posq        - semi-parameter squared
+rp          - radius of perigee
+rteosq      - square root of (<span class="hljs-number">1.0</span> - ecco*ecco)
+sinio       - sine of inclination
+gsto        - gst at time of observation               rad
+no          - mean motion of satellite
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            ainv: ainv,
+            ao: ao,
+            con41: con41,
+            con42: con42,
+            cosio: cosio,
+            cosio2: cosio2,
+            einv: einv,
+            eccsq: eccsq,
+            method: method,
+            omeosq: omeosq,
+            posq: posq,
+            rp: rp,
+            rteosq: rteosq,
+            sinio: sinio,
+            gsto: gsto,
+            no: no
+        };
+    };
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
