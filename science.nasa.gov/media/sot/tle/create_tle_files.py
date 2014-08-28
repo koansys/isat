@@ -25,12 +25,14 @@ from collections import defaultdict
 import csv
 import logging
 import os
+import re
 import urllib2
 
 CELESTRAK_BASE_URL = "http://www.celestrak.com/NORAD/elements/"
 TLE_OUTPUT_BASE_PATH = "/repfiles/nasascience/media/sot/tle/"  # For Production
 SCIENCE_SATELLITES_FOLDER = '/repfiles/nasascience/media/medialibrary'
-N2YO_URL = 'http://www.n2yo.com/satellite/?s=%s'
+N2YO_QUERY_URL = 'http://www.n2yo.com/satellite/?s=%s'
+CELESTRAK_TLE_QUERY_URL = 'http://www.celestrak.com/cgi-bin/TLE.pl?CATNR=%s'
 
 # We really want a way to read the names of all the TLE .txt files from Celestrak
 # so we don't have to hard code them here; how?
@@ -114,7 +116,7 @@ def get_smd_norads(science_satellites_folder):
         for row in reader:
             if row['Nonoperational'].strip():
                 continue
-            norad = row['NORAD'].strip()
+            norad = row['NORAD'].strip().zfill(5) # zero-prefix to match Celestrak TLE files
             cospar = row['COSPAR'].strip()
             if not norad:
                 logging.info('SMD CSV has no NORAD, skipping: %s' % row)
@@ -156,9 +158,6 @@ def main(tle_output_base_path=TLE_OUTPUT_BASE_PATH, science_satellites_folder=SC
         os.remove(COMBINED_PATH_TMP)
 
     # Get TLEs that we can look up by name from Celestrak
-    #CUBESAT XI-IV (CO-57)
-    #1 27848U 03031J   14237.28345355  .00000112  00000-0  71266-4 0  9415
-    #2 27848  98.7088 244.8110 0010806  85.2134  36.7572 14.21225139578313
 
     tles_by_name = {}
     tles_by_norad = {}
@@ -168,8 +167,8 @@ def main(tle_output_base_path=TLE_OUTPUT_BASE_PATH, science_satellites_folder=SC
         # TODO: Why does this exit properly?
         while True:                 # need to find EOF
             name = combined.readline().strip()
-            if not name:
-                logging.warning('##### got empty name, breaking')
+            if not name:        # we've hit the end of file
+                logging.info('Got empty name from COMBINED file, must have hit end of file, breaking out')
                 break
             tle1 = combined.readline()
             tle2 = combined.readline()
@@ -188,7 +187,7 @@ def main(tle_output_base_path=TLE_OUTPUT_BASE_PATH, science_satellites_folder=SC
             # TODO: can't I just append the TLE if it's in smd_norads?
             # That won't help us identify missing SMD NORADs?
             if norad in smd_norads:
-                #logging.info('COMBINED has SMD NORAD=%s name=%s' % (norad, name))
+                #ahlogging.info('COMBINED has SMD NORAD=%s name=%s' % (norad, name))
                 combined_smds[norad] = tle # TODO: does this match what we get post-processing?
 
     # Lookup SMD NORAD IDs in Celestrak TLEs
@@ -208,6 +207,23 @@ def main(tle_output_base_path=TLE_OUTPUT_BASE_PATH, science_satellites_folder=SC
     if combined_smds != found2:
         logging.error('combined != nfound2')
         import pdb; pdb.set_trace()
+
+    # Look for notfounds TLEs; Celestrak gives 3 lines, N2yo only 2.
+    # TODO: add these to our found2 dict so we can write a more complete SMD file
+    re_pre_tle = re.compile(r'<PRE>(.+)</PRE>', re.DOTALL | re.IGNORECASE)
+    for norad in notfounds:
+        resp = urllib2.urlopen(CELESTRAK_TLE_QUERY_URL % norad)
+        if resp.getcode() != 200:
+            logging.warning('Celestrak not found norad=%s code=%s' % (norad, resp.getcode()))
+        else:
+            text = resp.read()
+            if 'No TLE found' in text:
+                logging.warning('Celestrak norad=%s no TLE found (%s)' % (norad, notfounds[norad]))
+            else:
+                m = re_pre_tle.search(text)
+                if m:
+                    tle = m.group(1).strip().splitlines()[:3]
+                    logging.info('Celestrak norad=%s: %s' % (norad, tle))
 
     # Output our found sats as a TLE filex1
     with open(SMD_TLE_FILENAME, 'w') as smd_tles:
