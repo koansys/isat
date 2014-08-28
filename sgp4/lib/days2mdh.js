@@ -5,7 +5,7 @@
 // Converts the day of the year, days, to the equivalent month
 // day, hour, minute and second.
 //
-//     [mon,day,hr,minute,sec] = days2mdh ( year,days);
+//     {year, mon, day, hour, minute,sec} = days2mdh ( year,days);
 //
 
 //
@@ -75,8 +75,16 @@ define(["jday"], function(jday){
         minute = Math.floor(temp);
         sec    = (temp - minute) * 60.0;
 
+        // TODO: What is this?
         julianday = jday(year, mon, day, hr, minute, sec);
 
-        return [mon, day, hr, minute, sec];
+        return {
+            year: year,
+            mon: mon,
+            day: day,
+            hour: hr,
+            minute: minute,
+            sec: sec
+        };
     };
 });
