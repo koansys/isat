@@ -6,6 +6,8 @@ before_script:
 - git submodule update --init --recursive
 notifications:
   irc: irc.freenode.org#koansys
+  email:
+  	- info+travisci-isat@koansys.com
 env:
   global:
   - secure: XSCtBuiZ2WC39TzwlaNGrW7pevUrRVpYkR7hUPH6EUpChamOArrerG1XJQV6yl060h3KLV1B4eZDrFW9e1HCLL4WmOkX5Pi0ixgtxpypluI3Bm94Cq0L8u75zGd6rv4aCMQExPwdOXQ6prvoa8ya+g4k2FJHnNCK1yBFnspfrK4=
