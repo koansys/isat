@@ -2,26 +2,6 @@
  SOT: Satellite Orbit Tracker
 ==============================
 
-|sauce status|_
-
-.. |sauce status| image:: https://saucelabs.com/browser-matrix/koansys-oss.svg
-    :alt: Selenium Tests Status
-.. _sauce status: https://saucelabs.com/u/koansys-oss
-
-
-|build status|_
-
-.. |build status| image:: https://travis-ci.org/koansys/isat.svg?branch=master
-    :alt: Travis Build Status
-.. _build status: http://travis-ci.org/koansys/isat
-
-|kanban status|_
-
-.. |kanban status| image:: https://badge.waffle.io/koansys/isat.png?label=ready&title=Ready
-	:alt: 'Stories in Ready'
-
-.. _kanban status: https://waffle.io/koansys/isat
-
 Goal
 ====
 
