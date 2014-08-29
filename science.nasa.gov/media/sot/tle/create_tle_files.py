@@ -228,7 +228,7 @@ def main(tle_output_base_path=TLE_OUTPUT_BASE_PATH, science_satellites_folder=SC
                                      'tle2': tle_lines[2].strip(),
                                      'norad': norad,
                            }
-                    logging.info('Celestrak search found norad=%s: %s' % (norad, tle))
+                    logging.info('Celestrak search found norad=%s: %s' % (norad, found2[norad]))
 
     # Output our found sats as a TLE filex1
     with open(SMD_TLE_FILENAME, 'w') as smd_tles:
