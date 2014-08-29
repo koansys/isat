@@ -12,7 +12,8 @@
     "grunt-cli": "~0.1.13",
     "grunt-saucelabs": "~8.3.1",
     "grunt-contrib-connect": "~0.8.0",
-    "grunt-contrib-watch": "~0.6.1"
+    "grunt-contrib-watch": "~0.6.1",
+    "request": "~2.40.0"
   },
   "scripts": {
     "test": "grunt test"
