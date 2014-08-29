@@ -6,13 +6,12 @@ var request = require("request");
 
 module.exports = function(grunt) {
     var browsers = [
-        {platform: "linux", browserName: "chrome", version: "37"},
         {platform: "linux", browserName: "chrome", version: "36"},
         {platform: "linux", browserName: "chrome", version: "35"},
         {platform: "linux", browserName: "firefox", version: "31"},
         {platform: "linux", browserName: "firefox", version: "30"},
         {platform: "linux", browserName: "firefox", version: "29"},
-        {platform: "WIN8.1", browserName: "firefox", version: "29"},
+        {platform: "WIN8.1", browserName: "firefox", version: "31"},
         {platform: "WIN8.1", browserName: "chrome", version: "36"},
         {platform: "WIN8.1", browserName: "internet explorer", version: "11"},
         {platform: "WIN8", browserName: "internet explorer", version: "10"},
