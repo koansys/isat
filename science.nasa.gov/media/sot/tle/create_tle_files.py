@@ -199,10 +199,10 @@ def main(tle_output_base_path=TLE_OUTPUT_BASE_PATH, science_satellites_folder=SC
             founds.append(tles_by_norad[smd_norad])
             found2[smd_norad] = tles_by_norad[smd_norad]
         else:
-            logging.warning('SMD NOT found norad=%s row=%s' % (smd_norad, smd_row))
+            logging.warning('SMD NOT found in Celestrak TLE files norad=%s row=%s' % (smd_norad, smd_row))
             notfounds[smd_norad] = smd_row
 
-    logging.info('norad found=%d found2=%d notfound=%d' % (len(founds), len(found2), len(notfounds)))
+    logging.info('TALLY1 norad found=%d found2=%d notfound=%d' % (len(founds), len(found2), len(notfounds)))
 
     if combined_smds != found2:
         logging.error('combined != nfound2')
@@ -222,15 +222,23 @@ def main(tle_output_base_path=TLE_OUTPUT_BASE_PATH, science_satellites_folder=SC
             else:
                 m = re_pre_tle.search(text)
                 if m:
-                    tle = m.group(1).strip().splitlines()[:3]
-                    logging.info('Celestrak norad=%s: %s' % (norad, tle))
+                    tle_lines = m.group(1).strip().splitlines()[:3]
+                    found2[norad] = {'name': tle_lines[0].strip(),
+                                     'tle1': tle_lines[1].strip(),
+                                     'tle2': tle_lines[2].strip(),
+                                     'norad': norad,
+                           }
+                    logging.info('Celestrak search found norad=%s: %s' % (norad, tle))
 
     # Output our found sats as a TLE filex1
     with open(SMD_TLE_FILENAME, 'w') as smd_tles:
         for norad, tle in found2.items():
-            smd_tles.write("%-24s\r\n" % tle['name'])  # DOS line endings match tle1, tle2
-            smd_tles.write(tle['tle1'])
-            smd_tles.write(tle['tle2'])
+            smd_tles.writelines([
+                "%-24s\n" % tle['name'],
+                '%-69s\n' % tle['tle1'].strip(),
+                '%-69s\n' % tle['tle2'].strip(),
+            ])
+    logging.info('TALLY2 smd_tles found2=%d' % len(found2))
 
 if __name__ == '__main__':
     # Default to the paths used on the Django server so the cron job doesn't break.
