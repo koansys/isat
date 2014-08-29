@@ -1,69 +1,85 @@
-/*global module, process*/
+/*global module, process, require*/
 
 "use strict";
 
+var request = require("request");
+
 module.exports = function(grunt) {
     var browsers = [
-        {platform: "linux", browserName: "chrome", version: "34"},
+        {platform: "linux", browserName: "chrome", version: "37"},
+        {platform: "linux", browserName: "chrome", version: "36"},
+        {platform: "linux", browserName: "chrome", version: "35"},
+        {platform: "linux", browserName: "firefox", version: "31"},
+        {platform: "linux", browserName: "firefox", version: "30"},
         {platform: "linux", browserName: "firefox", version: "29"},
         {platform: "WIN8.1", browserName: "firefox", version: "29"},
-        {platform: "WIN8.1", browserName: "chrome", version: "34"},
+        {platform: "WIN8.1", browserName: "chrome", version: "36"},
         {platform: "WIN8.1", browserName: "internet explorer", version: "11"},
         {platform: "WIN8", browserName: "internet explorer", version: "10"},
         // {platform: "WIN7", browserName: "internet explorer", version: "9"},
         {platform: "WIN7", browserName: "internet explorer", version: "10"},
         // {platform: "VISTA", browserName: "internet explorer", version: "9"},
         {platform: "OS X 10.8", browserName: "safari", version: "6"},
-        {platform: "OS X 10.8", browserName: "chrome", version: "34"},
-        {platform: "OS X 10.9", browserName: "chrome", version: "34"},
+        {platform: "OS X 10.8", browserName: "chrome", version: "35"},
+        {platform: "OS X 10.9", browserName: "chrome", version: "35"},
         {platform: "OS X 10.9", browserName: "safari", version: "7"},
         {platform: "OS X 10.9", browserName: "firefox", version: "28"},
+        {platform: "OS X 10.9", browserName: "firefox", version: "29"},
+        {platform: "OS X 10.9", browserName: "firefox", version: "30"},
         {platform: "OS X 10.9", browserName: "iphone", version: "7.1"},
-        {platform: "linux", browserName: "android", version: "4.3"}
+        {platform: "linux", browserName: "android", version: "4.3"},
+        {platform: "linux", browserName: "android", version: "4.4"}
         ];
 
 
-    grunt.initConfig({
-        connect: {
-            server: {
-                options: {
-                    base: "",
-                    port: 9999
+        grunt.initConfig({
+            connect: {
+                server: {
+                    options: {
+                        base: "",
+                        port: 9999
+                    }
                 }
-            }
-        },
-        "saucelabs-jasmine": {
-            all: {
-                options: {
-                    urls: ["http://127.0.0.1:9999/jasmine/SpecRunner.html"],
-                    tunnelTimeout: 5,
-                    build: process.env.TRAVIS_JOB_ID,
-                    concurrency: 3,
-                    browsers: browsers,
-                    testname: "iSat Unit tests",
-                    tags: ["master"],
-                    sauceConfig: {
-                        "video-upload-on-pass": false
-                    },
-                    onTestComplete: function(result){
-                        /* returning undefined doesn't alter the test result
-                           but returning true or false does.
-                           See: https://github.com/axemclion/grunt-saucelabs
+            },
+            "saucelabs-jasmine": {
+                all: {
+                    options: {
+                        urls: ["http://127.0.0.1:9999/jasmine/SpecRunner.html"],
+                        tunnelTimeout: 5,
+                        build: process.env.TRAVIS_JOB_ID,
+                        concurrency: 3,
+                        browsers: browsers,
+                        testname: "iSat Unit tests",
+                        tags: ["master"],
+                        sauceConfig: {
+                            "video-upload-on-pass": false
+                        },
+                        onTestComplete: function(result, cb){
+                         // returning undefined doesn't alter the test result
+                         //   but returning true or false does.
+                         //   See: https://github.com/axemclion/grunt-saucelabs
 
-                           We return true if result.passed is undefined to
-                           gloss over spurious errors from saucelabs.
-                           See: https://github.com/admc/wd/issues/86 which is
-                           all I could find about it.
-
-                           Everything else gets unaltered results.
-
-                        */
-                        // Something is reversed somewhere. Must find it...
-                        if (result.passed === false) {
-                            return true;
+                        var user = process.env.SAUCE_USERNAME;
+                        var pass = process.env.SAUCE_ACCESS_KEY;
+                        request.put({
+                            url: ["https://saucelabs.com/rest/v1", user, "jobs", result.job_id].join("/"),
+                            auth: { user: user, pass: pass },
+                            json: { passed: !result.passed }
+                        }, function (error, response, body) {
+                          if (error) {
+                            cb(error);
+                        } else if (response.statusCode !== 200) {
+                            cb(new Error("Unexpected response status:" + response.statusCode));
                         } else {
-                           return undefined;
+                            cb(null, !result.passed);
                         }
+                        body=body; // Shuts up JSHint
+                    });
+                        // if (result.passed === false) {
+                        //     cb(null, true);
+                        // } else {
+                        //    cb(null,undefined);
+                        // }
                     }
                 }
             }
