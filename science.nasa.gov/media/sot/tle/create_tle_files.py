@@ -1,24 +1,18 @@
 #!/usr/bin/env python
+
 # Copy TLE files from Celestrak, generate COMBINED.txt and SMD.txt based
 # on list of missions from CSV with slug, name, norad id, cospar id, comment
+
+# TLE sources:
 # We can get a .txt or .xls file with satellites and long names, NORAD and COSPAR
 # http://www.ucsusa.org/assets/documents/nwgs/UCS_Satellite_Database_2-1-14.txt
 # http://www.ucsusa.org/assets/documents/nwgs/UCS_Satellite_Database_2-1-14.xls
 # http://celestrak.com/pub/satcat.txt (see adjacent format desc)
 # Sadly, the n2yo.com site provides the most complete data on operational and
 # decayed satellites; combine this with science.nasa.gov/missions/ and NSSDC.
-###############################################################################
-
-# Pull each Celestrak TLE file and save a local copy, a combined .txt file
-
-# Parse the CSV of Science satellites SMD wants by name, find satellite ID from
-# Celestrak files and create a SMD.txt file.
-
-# The names are unlikely to match perfectly -- parenthetical suffixes, etc
-
-# We aren't worrying about duplicates here, do it in postprocessing.
-# TODO:
-# - is there a way to find this list of files? or is it static?
+# Space-track.org has solid info but requies auth and policy prevents reuse!
+# API docs: https://www.space-track.org/documentation#/api
+# https://www.space-track.org/basicspacedata/query/class/tle_latest/ORDINAL/1/format/3le
 
 import argparse
 from collections import defaultdict
@@ -30,12 +24,15 @@ import urllib2
 
 CELESTRAK_BASE_URL = "http://www.celestrak.com/NORAD/elements/"
 TLE_OUTPUT_BASE_PATH = "/repfiles/nasascience/media/sot/tle/"  # For Production
+SMD_OUTPUT_FILENAME = 'SMD.txt'
 SCIENCE_SATELLITES_FOLDER = '/repfiles/nasascience/media/medialibrary'
 N2YO_QUERY_URL = 'http://www.n2yo.com/satellite/?s=%s'
 CELESTRAK_TLE_QUERY_URL = 'http://www.celestrak.com/cgi-bin/TLE.pl?CATNR=%s'
+CELESTRAK_TLE_RE = re.compile(r'<PRE>(.+)</PRE>', re.DOTALL | re.IGNORECASE)
 
-# We really want a way to read the names of all the TLE .txt files from Celestrak
-# so we don't have to hard code them here; how?
+# TODO: is there a way to find this list of files? or is it static?
+# We really want a way to read the names of all the TLE .txt files
+# from Celestrak so we don't have to hard code them here; how?
 
 CELESTRAK_FILES = {
     "tle-new.txt": "Last 30 Days' Launches",
@@ -124,125 +121,99 @@ def get_smd_norads(science_satellites_folder):
             smd_norads[norad] = row
     return smd_norads
 
-
-def main(tle_output_base_path=TLE_OUTPUT_BASE_PATH, science_satellites_folder=SCIENCE_SATELLITES_FOLDER):
-    COMBINED_PATH_TMP = os.path.join(tle_output_base_path, "COMBINED-NEW.txt")
-    COMBINED_PATH     = os.path.join(tle_output_base_path, "COMBINED.txt")
-    SMD_TLE_FILENAME  = os.path.join(tle_output_base_path, 'SMD.txt')
-
-    smd_norads = get_smd_norads(science_satellites_folder)
-
-    # Copy TLE files from Celestrak; pass if not text file from URL.
-    write_fail = False
-    try:
-        with open(COMBINED_PATH_TMP, 'w') as combined:
-            for fname, description in CELESTRAK_FILES.items():
-                logging.info('Getting Celestrak file=%s' % fname)
-                response = urllib2.urlopen(CELESTRAK_BASE_URL + fname)
-                if (response.headers.getheader('content-type') == 'text/plain'):
-                    tles = response.read()
-                    with open(os.path.join(tle_output_base_path, fname), 'w') as out:
-                        out.write(tles)
-                    combined.write(tles)
-                else:
-                    write_fail = True
-                    logging.error('Getting Celestrak file=%s FAILED' % fname)
-                    pass
-    except IOError, e:
-        raise IOError('Could not write to TLE destination=%s: %s' % (tle_output_base_path, e))
-
-    # Only replace COMBINDED.txt if there was no issue
-    if not write_fail:
-        os.rename(COMBINED_PATH_TMP, COMBINED_PATH)
-    else:
-        os.remove(COMBINED_PATH_TMP)
-
-    # Get TLEs that we can look up by name from Celestrak
-
-    tles_by_name = {}
+def get_celestrak_tles(tle_output_base_path):
+    """Copy TLE files from Celestrak and return deduped TLEs by NORAD.
+    Side Effect: creates TLE files in the output dir.
+    Pass on any non-text file returned.
+    """
     tles_by_norad = {}
-    tles_by_id = {}
-    combined_smds = {}
-    with open(COMBINED_PATH, 'rU') as combined:
-        # TODO: Why does this exit properly?
-        while True:                 # need to find EOF
-            name = combined.readline().strip()
-            if not name:        # we've hit the end of file
-                logging.info('Got empty name from COMBINED file, must have hit end of file, breaking out')
-                break
-            tle1 = combined.readline()
-            tle2 = combined.readline()
-            try:
-                norad = tle2.split()[1]
-            except IndexError, e:
-                logging.warning("Can't split to find NORAD ID in TLE2: %s" % tle2)
-                continue
-            tle = {'name': name,
-                   'norad': norad,
-                   'tle1': tle1,
-                   'tle2': tle2,
-                   }
-            tles_by_name[name] = tle
-            tles_by_norad[norad] = tle # TODO: unused; why copy TLE
-            # TODO: can't I just append the TLE if it's in smd_norads?
-            # That won't help us identify missing SMD NORADs?
-            if norad in smd_norads:
-                #ahlogging.info('COMBINED has SMD NORAD=%s name=%s' % (norad, name))
-                combined_smds[norad] = tle # TODO: does this match what we get post-processing?
+    for fname, description in CELESTRAK_FILES.items():
+        logging.info('Getting Celestrak file=%s' % fname)
+        response = urllib2.urlopen(CELESTRAK_BASE_URL + fname)
+        # Celestrak returns HTTP 200 for a not-found file with text/html and JS redirect!
+        # Look for text/plain indicating a good file.
+        if (response.headers.getheader('content-type') != 'text/plain'):
+            logging.warning('Did not get Celestrak text/plain file=%s (skipping)' % fname)
+            continue
+        tle_lines = response.readlines()
+        tle_out_path = os.path.join(tle_output_base_path, fname)
+        try:
+            with open(tle_out_path, 'w') as out:
+                out.writelines(tle_lines)
+        except IOError, e:
+            raise IOError('Could not write to TLE destination=%s: %s' % (tle_output_base_path, e))
+        while tle_lines:
+            tle = {'name': tle_lines.pop(0).strip(),
+                   'tle1': tle_lines.pop(0).strip(),
+                   'tle2': tle_lines.pop(0).strip()}
+            norad = tle['tle2'].split()[1]
+            tles_by_norad[norad] = tle
+    return tles_by_norad
 
-    # Lookup SMD NORAD IDs in Celestrak TLEs
-    founds = []
-    notfounds = {}
-    found2 = {}
-    for smd_norad, smd_row in smd_norads.items():
-        if smd_norad in tles_by_norad:
-            founds.append(tles_by_norad[smd_norad])
-            found2[smd_norad] = tles_by_norad[smd_norad]
-        else:
-            logging.warning('SMD NOT found in Celestrak TLE files norad=%s row=%s' % (smd_norad, smd_row))
-            notfounds[smd_norad] = smd_row
+def get_smd_tles(smd_norads, tles_by_norad):
+    """Return SMD TLEs by correlating NORAD IDs with Celestrac TLEs.
+    """
+    smd_tles = {}
+    for norad, tle in tles_by_norad.items():
+        if norad in smd_norads:
+            logging.info('Celestrak has SMD NORAD=%s name=%s' % (norad, tle['name']))
+            smd_tles[norad] = tle
+    return smd_tles
 
-    logging.info('TALLY1 norad found=%d found2=%d notfound=%d' % (len(founds), len(found2), len(notfounds)))
-
-    if combined_smds != found2:
-        logging.error('combined != nfound2')
-        import pdb; pdb.set_trace()
-
-    # Look for notfounds TLEs; Celestrak gives 3 lines, N2yo only 2.
-    # TODO: add these to our found2 dict so we can write a more complete SMD file
-    re_pre_tle = re.compile(r'<PRE>(.+)</PRE>', re.DOTALL | re.IGNORECASE)
-    for norad in notfounds:
+def find_missing_smd_tles(smd_norads, smd_tles):
+    """Identify missing SMD TLEs, query Celestrak for them, return any found.
+    """
+    smd_found_tles = {}
+    smd_missing = set(smd_norads) - set(smd_tles)
+    logging.info('SMD missing: %s' % smd_missing)
+    for norad in smd_missing:
         resp = urllib2.urlopen(CELESTRAK_TLE_QUERY_URL % norad)
         if resp.getcode() != 200:
-            logging.warning('Celestrak not found norad=%s code=%s' % (norad, resp.getcode()))
+            logging.warning('Celestrak not found norad=%s HTTP code=%s' % (norad, resp.getcode()))
         else:
             text = resp.read()
             if 'No TLE found' in text:
-                logging.warning('Celestrak norad=%s no TLE found (%s)' % (norad, notfounds[norad]))
+                logging.warning('Celestrak no TLE found in search norad=%s (%s)' % (norad, smd_norads[norad]))
             else:
-                m = re_pre_tle.search(text)
+                m = CELESTRAK_TLE_RE.search(text)
                 if m:
                     tle_lines = m.group(1).strip().splitlines()[:3]
-                    found2[norad] = {'name': tle_lines[0].strip(),
-                                     'tle1': tle_lines[1].strip(),
-                                     'tle2': tle_lines[2].strip(),
-                                     'norad': norad,
-                           }
-                    logging.info('Celestrak search found norad=%s: %s' % (norad, found2[norad]))
+                    smd_tles[norad] = {'name': tle_lines[0].strip(),
+                                       'tle1': tle_lines[1].strip(),
+                                       'tle2': tle_lines[2].strip(),
+                    }
+                    logging.info('Celestrak search found norad=%s: %s' % (norad, smd_tles[norad]))
+    return smd_found_tles
 
-    # Output our found sats as a TLE filex1
-    with open(SMD_TLE_FILENAME, 'w') as smd_tles:
-        for norad, tle in found2.items():
-            smd_tles.writelines([
+def write_smd_tles_file(smd_tles, tle_output_base_path):
+    """Write TLEs (sorted by NORAD, date equivalent) to output file.
+    We might want it by Name, but that's a UI issue.
+    """
+    smd_tles_file = os.path.join(tle_output_base_path, SMD_OUTPUT_FILENAME)
+    with open(smd_tles_file, 'w') as smd_tles_file:
+        for norad, tle in sorted(smd_tles.items()):
+            smd_tles_file.writelines([
                 "%-24s\n" % tle['name'],
-                '%-69s\n' % tle['tle1'].strip(),
-                '%-69s\n' % tle['tle2'].strip(),
+                '%-69s\n' % tle['tle1'],
+                '%-69s\n' % tle['tle2'],
             ])
-    logging.info('TALLY2 smd_tles found2=%d' % len(found2))
+
+def main(tle_output_base_path=TLE_OUTPUT_BASE_PATH, science_satellites_folder=SCIENCE_SATELLITES_FOLDER):
+    smd_norads = get_smd_norads(science_satellites_folder)
+    tles_by_norad = get_celestrak_tles(tle_output_base_path)
+    smd_tles = get_smd_tles(smd_norads, tles_by_norad)
+    logging.info('TALLY1 TLEs celestrak=%d smd=%d' % (len(tles_by_norad), len(smd_tles)))
+
+    smd_tles_found = find_missing_smd_tles(smd_norads, smd_tles)
+    smd_tles.update(smd_tles_found)
+    logging.info('TALLY2 TLEs celestrak=%d smd=%d' % (len(tles_by_norad), len(smd_tles)))
+
+    write_smd_tles_file(smd_tles, tle_output_base_path)
 
 if __name__ == '__main__':
     # Default to the paths used on the Django server so the cron job doesn't break.
-    # Override for testing by passing options, e.g., -t /tmp/tle -s smd_folder
+    # Override for testing by passing options, e.g.,
+    #   ./create_tle_files.py --tle-dir /tmp/tle/ --smd-csv ~/Downloads/
 
     parser = argparse.ArgumentParser(description='Copy TLEs from Celestrak, build COMBINED.txt file, and SMD.txt file from NASA Science CSV missions list.')
     parser.add_argument('-t', '--tle-dir', default=TLE_OUTPUT_BASE_PATH,
