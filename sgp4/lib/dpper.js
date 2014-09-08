@@ -175,13 +175,20 @@ define ([], function(){
 							 }
 						 } // if init == "n"
 
-						// outputs:
-						//
+						// outputs
+						// =======
+						// dpper returns an object with the following attributes.
 						//     ep          - eccentricity                           0.0 - 1.0
 						//     inclp       - inclination
 						//     nodep       - right ascension of ascending node
 						//     argpp       - argument of perigee
 						//     mp          - mean anomaly
-						 return [ep, inclp, nodep, argpp,  mp];
+						 return {
+						 	ep: ep,
+						 	inclp: inclp,
+						 	nodep: nodep,
+						 	argpp: argpp,
+						 	mp: mp
+						 };
 					 };
 });

@@ -93,6 +93,11 @@
                 newtonnu.js
               </a>
             
+              
+              <a class="source" href="sgp4.html">
+                sgp4.js
+              </a>
+            
           </div>
         </li>
       </ul>
@@ -438,16 +443,35 @@ nodep used without a trigonometric function ahead</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>outputs:</p>
-<pre><code>ep          - eccentricity                           <span class="hljs-number">0.0</span> - <span class="hljs-number">1.0</span>
-inclp       - inclination
-nodep       - right ascension of ascending node
-argpp       - argument of perigee
-mp          - mean anomaly
-</code></pre>
+              <h1 id="outputs">outputs</h1>
+
             </div>
             
-            <div class="content"><div class='highlight'><pre>						 <span class="hljs-keyword">return</span> [ep, inclp, nodep, argpp,  mp];
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>dpper returns an object with the following attributes.
+    ep          - eccentricity                           0.0 - 1.0
+    inclp       - inclination
+    nodep       - right ascension of ascending node
+    argpp       - argument of perigee
+    mp          - mean anomaly</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>						 <span class="hljs-keyword">return</span> {
+						 	ep: ep,
+						 	inclp: inclp,
+						 	nodep: nodep,
+						 	argpp: argpp,
+						 	mp: mp
+						 };
 					 };
 });</pre></div></div>
             
