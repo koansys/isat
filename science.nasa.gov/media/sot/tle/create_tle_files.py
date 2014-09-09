@@ -14,10 +14,10 @@
 # API docs: https://www.space-track.org/documentation#/api
 # https://www.space-track.org/basicspacedata/query/class/tle_latest/ORDINAL/1/format/3le
 
-import argparse
 from collections import defaultdict
 import csv
 import logging
+import optparse
 import os
 import re
 import urllib2
@@ -221,13 +221,10 @@ if __name__ == '__main__':
     # Override for testing by passing options, e.g.,
     #   ./create_tle_files.py --tle-dir /tmp/tle/ --smd-csv ~/Downloads/
 
-    parser = argparse.ArgumentParser(description='Copy TLEs from Celestrak, build COMBINED.txt file, and SMD.txt file from NASA Science CSV missions list.')
-    parser.add_argument('-t', '--tle-dir', default=TLE_OUTPUT_BASE_PATH,
+    parser = optparse.OptionParser(description='Copy TLEs from Celestrak, build COMBINED.txt file, and SMD.txt file from NASA Science CSV missions list.')
+    parser.add_option('-t', '--tle-dir', default=TLE_OUTPUT_BASE_PATH,
                         help='Directory to save the TLEs; must exist (default="%s", for testing, maybe /tmp/tle)' % TLE_OUTPUT_BASE_PATH)
-    parser.add_argument('-s', '--smd-csv', default=SCIENCE_SATELLITES_FOLDER,
+    parser.add_option('-s', '--smd-csv', default=SCIENCE_SATELLITES_FOLDER,
                         help='Path to SMD Missions CSV with URL slug, name, NORAD id, COSPAR id, Comment (default="%s", for testing maybe /tmp/smd_folder' %  SCIENCE_SATELLITES_FOLDER)
-    args = parser.parse_args()
-    main(tle_output_base_path=args.tle_dir, science_satellites_folder=args.smd_csv)
-
-
-
+    (opts, args) = parser.parse_args()
+    main(tle_output_base_path=opts.tle_dir, science_satellites_folder=opts.smd_csv)
