@@ -24,6 +24,8 @@ import urllib2
 
 CELESTRAK_BASE_URL = "http://www.celestrak.com/NORAD/elements/"
 TLE_OUTPUT_BASE_PATH = "/repfiles/nasascience/media/sot/tle/"  # For Production
+SMD_SATELLITES_NORAD_BASENAME = 'smd-satellites-norad'
+SMD_SATELLITES_NORAD_SUFFIX = '.csv'
 SMD_OUTPUT_FILENAME = 'SMD.txt'
 SCIENCE_SATELLITES_FOLDER = '/repfiles/nasascience/media/medialibrary'
 N2YO_QUERY_URL = 'http://www.n2yo.com/satellite/?s=%s'
@@ -79,20 +81,22 @@ CELESTRAK_FILES = {
 logging.basicConfig(level=logging.INFO)
 
 def get_sci_csv_path(folder):
-    """Find latest by date `satellites.csv` in Fein CMS's medialibrary.
-    Subsequent ones get underscore suffixes, like medialibrary/2013/08/26/satellites__.csv
+    """Find latest by date 'smd-satellites-norad*.csv' in Fein CMS's medialibrary.
+    Subsequent ones get underscore suffixes, like medialibrary/2013/08/26/smd-satellites-norad__.csv
     """
+    smd_satellite_norad_pattern = SMD_SATELLITES_NORAD_BASENAME + '*' + SMD_SATELLITES_NORAD_SUFFIX
     if not os.path.isdir(folder):
-        raise RuntimeError('Could not find SMD "satellite*.csv" folder=%s' % folder)
+        raise RuntimeError('Could not find SMD "%s" folder=%s' %
+                           (smd_satellite_norad_pattern, folder))
     satellites = []
     for (dirpath, dirname, filenames) in os.walk(folder):
         for file in filenames:
-            if file.startswith("satellites") and file.endswith(".csv"):
+            if file.startswith(SMD_SATELLITES_NORAD_BASENAME) and file.endswith(SMD_SATELLITES_NORAD_SUFFIX):
                 path = os.path.join(dirpath, file)
                 satellites.append({'path': path, 'mtime': os.stat(path).st_mtime})
                 logging.info('Found satellites*.csv: path=%s' % path)
     if not satellites:
-        raise RuntimeError('Could not find any SMD "satellite*.csv" file under folder=%s' % folder)
+        raise RuntimeError('Could not find any SMD "%s" file under folder=%s' % (smd_satellite_norad_pattern, folder))
     max_time = max(satellite['mtime'] for satellite in satellites)
     newest_csv_placement = next(index for (index, d) in enumerate(satellites) if d['mtime'] == max_time)
     sci_csv = satellites[newest_csv_placement]['path']
@@ -126,6 +130,8 @@ def get_celestrak_tles(tle_output_base_path):
     Side Effect: creates TLE files in the output dir.
     Pass on any non-text file returned.
     """
+    if not os.path.isdir(tle_output_base_path):
+        raise IOError('No TLE output directory=%s' % tle_output_base_path)
     tles_by_norad = {}
     for fname, description in CELESTRAK_FILES.items():
         logging.info('Getting Celestrak file=%s' % fname)
@@ -222,5 +228,6 @@ if __name__ == '__main__':
                         help='Path to SMD Missions CSV with URL slug, name, NORAD id, COSPAR id, Comment (default="%s", for testing maybe /tmp/smd_folder' %  SCIENCE_SATELLITES_FOLDER)
     args = parser.parse_args()
     main(tle_output_base_path=args.tle_dir, science_satellites_folder=args.smd_csv)
+
 
 
