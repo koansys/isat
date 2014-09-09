@@ -15,7 +15,7 @@ define (["gstime", "getgravc"], function(gstime, getgravc){
         //     inclo       - inclination of satellite
         //     no          - mean motion of satellite
         //     satn        - satellite number
-        //     gc          - getgravc constants
+        //     constDef    - getgravc constant definition
 
         // wgs-72 earth constants
         // -----------------------
