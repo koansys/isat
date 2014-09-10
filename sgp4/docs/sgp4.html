@@ -141,6 +141,9 @@
 
             </div>
             
+            <div class="content"><div class='highlight'><pre>
+define ([<span class="hljs-string">"dpper"</span>, <span class="hljs-string">"dspace"</span>, <span class="hljs-string">"getgravc"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(dpper, dspace, getgravc)</span></span>{</pre></div></div>
+            
         </li>
         
         
@@ -150,15 +153,9 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>  coupling      :
-    getgravconst
-    dpper
-    dspace</p>
+              <h1 id="sgp4">sgp4</h1>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>
-define ([<span class="hljs-string">"dpper"</span>, <span class="hljs-string">"dspace"</span>, <span class="hljs-string">"getgravc"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(dpper, dspace, getgravc)</span></span>{</pre></div></div>
             
         </li>
         
@@ -168,19 +165,6 @@ define ([<span class="hljs-string">"dpper"</span>, <span class="hljs-string">"ds
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <h1 id="sgp4">sgp4</h1>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-5">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p>function <code>sgp4</code> is the sgp4 prediction model from space command. this
 is an updated and combined version of sgp4 and sdp4, which were
@@ -196,11 +180,11 @@ history and development of the code.</p>
         </li>
         
         
-        <li id="section-6">
+        <li id="section-5">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <h2 id="inputs">inputs</h2>
 
@@ -209,11 +193,11 @@ history and development of the code.</p>
         </li>
         
         
-        <li id="section-7">
+        <li id="section-6">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <pre><code>satrec    - initialised structure from sgp4init() call.
 tsince    - time eince epoch (minutes)
@@ -228,11 +212,11 @@ constDef    - getgravc constant definition
         </li>
         
         
-        <li id="section-8">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <pre><code>am          -
 axnl, aynl        -
@@ -289,11 +273,11 @@ np          -
         </li>
         
         
-        <li id="section-9">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>sgp4fix divisor for divide by zero check on inclination
 the old check used 1.0 + Math.cos(pi-1.0e-9), but then compared
@@ -307,18 +291,17 @@ consistancy</p>
         </li>
         
         
-        <li id="section-10">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <p>sgp4fix identify constants and allow alternate values
-TODO: remove global tumin mu radiusearthkm xke j2 j3 j4 gc.j3oj2</p>
+              <p>sgp4fix identify constants and allow alternate values</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        gc, dsp,<span class="hljs-comment">// tumin, mu, radiusearthkm, xke, j2, j3, j4, gc.j3oj2,</span>
+            <div class="content"><div class='highlight'><pre>        gc, dsp,
         dsppc, <span class="hljs-comment">// deep space long period periodic contributions</span>
         vkmpersec,
         xmdf, argpdf, nodedf, argpm, mm, t2, nodem, tempa, tempe, templ,
@@ -337,17 +320,35 @@ TODO: remove global tumin mu radiusearthkm xke j2 j3 j4 gc.j3oj2</p>
         </li>
         
         
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>TODO: how do we get <code>whichconst</code> from the caller? or (shudder) globals?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        gc = getgravc(constDef); <span class="hljs-comment">// TODO: sucks to have to call this all the time</span>
+        vkmpersec     = gc.radiusearthkm * gc.xke / <span class="hljs-number">60.0</span>;</pre></div></div>
+            
+        </li>
+        
+        
         <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>TODO: how do we get <code>whichconst</code> from the caller? or (shudder) globals?</p>
+              <p>clear sgp4 error flag
+satrec.t     = tsince/1440; //TODO: ????</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        gc = getgravc(constDef); <span class="hljs-comment">// TODO: sucks to have to call this all the time</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>        satrec.t     = tsince;
+        satrec.error = <span class="hljs-number">0</span>;</pre></div></div>
             
         </li>
         
@@ -358,47 +359,7 @@ TODO: remove global tumin mu radiusearthkm xke j2 j3 j4 gc.j3oj2</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>tumin               = rets.shift();
-mu                  = rets.shift();
-radiusearthkm       = rets.shift();
-xke                 = rets.shift();
-j2                  = rets.shift();
-j3                  = rets.shift();
-j4                  = rets.shift();
-gc.j3oj2               = rets.shift();</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>
-        vkmpersec     = gc.radiusearthkm * gc.xke / <span class="hljs-number">60.0</span>;</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-13">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
-              </div>
-              <p>/<em> ——————————- clear sgp4 error flag ————————- </em>/
-satrec.t     = tsince/1440;</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>        satrec.t     = tsince;
-        satrec.error = <span class="hljs-number">0</span>;</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-14">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
-              </div>
-              <p>/<em> ———- update for secular gravity and atmospheric drag ——- </em>/</p>
+              <p>update for secular gravity and atmospheric drag</p>
 
             </div>
             
@@ -461,11 +422,11 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-15">
+        <li id="section-13">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
               <pre><code>  fprintf(<span class="hljs-number">1</span>,<span class="hljs-string">'# error nm //f\n'</span>, nm);
 </code></pre>
@@ -480,11 +441,11 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-16">
+        <li id="section-14">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>fix tolerance for error recognition</p>
 
@@ -495,11 +456,11 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-17">
+        <li id="section-15">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <p>fprintf(1,’# error em //f\n’, em);</p>
 
@@ -511,11 +472,11 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-18">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>  sgp4fix change test condition for eccentricity</p>
 
@@ -536,13 +497,13 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
-              <p>/<em> ————————- compute extra mean quantities ——————- </em>/</p>
+              <p>compute extra mean quantities</p>
 
             </div>
             
@@ -552,13 +513,13 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-20">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
-              <p>/<em> —————————— add lunar-solar periodics ——————— </em>/</p>
+              <p>add lunar-solar periodics</p>
 
             </div>
             
@@ -574,11 +535,11 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-21">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>deep space long period periodic contributions</p>
 
@@ -607,35 +568,21 @@ satrec.t     = tsince/1440;</p>
                 nodep = nodep + <span class="hljs-built_in">Math</span>.PI;
                 argpp  = argpp - <span class="hljs-built_in">Math</span>.PI;
             }
-            <span class="hljs-keyword">if</span> ((ep &lt; <span class="hljs-number">0.0</span>) || (ep &gt; <span class="hljs-number">1.0</span>)) {</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-22">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
-              </div>
-              <p>fprintf(1,’# error ep //f\n’, ep);</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>                satrec.error = <span class="hljs-number">3</span>;
+            <span class="hljs-keyword">if</span> ((ep &lt; <span class="hljs-number">0.0</span>) || (ep &gt; <span class="hljs-number">1.0</span>)) {
+                satrec.error = <span class="hljs-number">3</span>;
             }
         }                           <span class="hljs-comment">// if method = d</span></pre></div></div>
             
         </li>
         
         
-        <li id="section-23">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
-              <p>/<em> —————————— long period periodics ————————— </em>/</p>
+              <p>long period periodics</p>
 
             </div>
             
@@ -647,11 +594,11 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-24">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>sgp4fix for divide by zero with xinco = 180 deg</p>
 
@@ -672,13 +619,13 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-25">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
-              <p>/<em> ——————————- solve kepler’s equation ———————- </em>/</p>
+              <p>solve kepler’s equation</p>
 
             </div>
             
@@ -690,11 +637,11 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-26">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>  sgp4fix for kepler iteration
   the following iteration needs better limits on corrections</p>
@@ -721,13 +668,13 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-27">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
-              <p>/<em> ——————- short period preliminary quantities —————- </em>/</p>
+              <p>short period preliminary quantities</p>
 
             </div>
             
@@ -740,11 +687,11 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-28">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <p>fprintf(1,’# error pl //f\n’, pl);</p>
 
@@ -755,11 +702,11 @@ satrec.t     = tsince/1440;</p>
         </li>
         
         
-        <li id="section-29">
+        <li id="section-26">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>WTF is this in MATLAB? ‘;’ makes it columnar array
 r = [0;0;0];
@@ -786,11 +733,11 @@ v = [0;0;0];</p>
         </li>
         
         
-        <li id="section-30">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-30">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p>TODO: Verify j2 here</p>
 
@@ -802,13 +749,13 @@ v = [0;0;0];</p>
         </li>
         
         
-        <li id="section-31">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-31">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
-              <p>/<em> ——————— update for short period periodics —————— </em>/</p>
+              <p>update for short period periodics</p>
 
             </div>
             
@@ -817,7 +764,7 @@ v = [0;0;0];</p>
                 satrec.con41  = <span class="hljs-number">3.0</span> * cosisq - <span class="hljs-number">1.0</span>;
                 satrec.x1mth2 = <span class="hljs-number">1.0</span> - cosisq;
                 satrec.x7thm1 = <span class="hljs-number">7.0</span> * cosisq - <span class="hljs-number">1.0</span>;
-            }
+            }[]
             mrt   = rl * (<span class="hljs-number">1.0</span> - <span class="hljs-number">1.5</span> * temp2 * betal * satrec.con41) +
                 <span class="hljs-number">0.5</span> * temp1 * satrec.x1mth2 * cos2u;
             su    = su - <span class="hljs-number">0.25</span> * temp2 * satrec.x7thm1 * sin2u;
@@ -830,13 +777,13 @@ v = [0;0;0];</p>
         </li>
         
         
-        <li id="section-32">
+        <li id="section-29">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-32">&#182;</a>
+                <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
-              <p>/<em> ——————————- orientation vectors —————————- </em>/</p>
+              <p>orientation vectors</p>
 
             </div>
             
@@ -858,13 +805,13 @@ v = [0;0;0];</p>
         </li>
         
         
-        <li id="section-33">
+        <li id="section-30">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-33">&#182;</a>
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
-              <p>/<em> ————- position and velocity (in km and km/sec) ————— </em>/</p>
+              <p>position and velocity (in km and km/sec)</p>
 
             </div>
             
@@ -874,16 +821,16 @@ v = [0;0;0];</p>
             v[<span class="hljs-number">0</span>] = (mvt * ux + rvdot * vx) * vkmpersec;
             v[<span class="hljs-number">1</span>] = (mvt * uy + rvdot * vy) * vkmpersec;
             v[<span class="hljs-number">2</span>] = (mvt * uz + rvdot * vz) * vkmpersec;
-        }<span class="hljs-comment">// if pl &gt; 0</span></pre></div></div>
+        } <span class="hljs-comment">// if pl &gt; 0</span></pre></div></div>
             
         </li>
         
         
-        <li id="section-34">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-34">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <p>sgp4fix for decaying satellites</p>
 
@@ -894,11 +841,11 @@ v = [0;0;0];</p>
         </li>
         
         
-        <li id="section-35">
+        <li id="section-32">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-35">&#182;</a>
+                <a class="pilcrow" href="#section-32">&#182;</a>
               </div>
               <p>printf(“# decay condition //11.6f \n”,mrt);</p>
 
@@ -910,11 +857,11 @@ v = [0;0;0];</p>
         </li>
         
         
-        <li id="section-36">
+        <li id="section-33">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-36">&#182;</a>
+                <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
               <h2 id="outputs">outputs</h2>
 
@@ -923,11 +870,11 @@ v = [0;0;0];</p>
         </li>
         
         
-        <li id="section-37">
+        <li id="section-34">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-37">&#182;</a>
+                <a class="pilcrow" href="#section-34">&#182;</a>
               </div>
               <pre><code>r           - position vector                     km
 v           - velocity                            km/sec

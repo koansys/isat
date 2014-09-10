@@ -8,12 +8,6 @@
 //    methodology from the aiaa paper (2006) describing the history and
 //    development of the code.
 
-//
-//   coupling      :
-//     getgravconst
-//     dpper
-//     dspace
-
 define (["dpper", "dspace", "getgravc"], function(dpper, dspace, getgravc){
     // sgp4
     // ====
@@ -89,8 +83,7 @@ define (["dpper", "dspace", "getgravc"], function(dpper, dspace, getgravc){
             temp4    =   1.5e-12,
 
         // sgp4fix identify constants and allow alternate values
-        // TODO: remove global tumin mu radiusearthkm xke j2 j3 j4 gc.j3oj2
-        gc, dsp,// tumin, mu, radiusearthkm, xke, j2, j3, j4, gc.j3oj2,
+        gc, dsp,
         dsppc, // deep space long period periodic contributions
         vkmpersec,
         xmdf, argpdf, nodedf, argpm, mm, t2, nodem, tempa, tempe, templ,
@@ -108,23 +101,14 @@ define (["dpper", "dspace", "getgravc"], function(dpper, dspace, getgravc){
 
         // TODO: how do we get `whichconst` from the caller? or (shudder) globals?
         gc = getgravc(constDef); // TODO: sucks to have to call this all the time
-        // tumin               = rets.shift();
-        // mu                  = rets.shift();
-        // radiusearthkm       = rets.shift();
-        // xke                 = rets.shift();
-        // j2                  = rets.shift();
-        // j3                  = rets.shift();
-        // j4                  = rets.shift();
-        // gc.j3oj2               = rets.shift();
-
         vkmpersec     = gc.radiusearthkm * gc.xke / 60.0;
 
-        // /* --------------------- clear sgp4 error flag ----------------- */
-        //satrec.t     = tsince/1440;
+        // clear sgp4 error flag
+        //satrec.t     = tsince/1440; //TODO: ????
         satrec.t     = tsince;
         satrec.error = 0;
 
-        // /* ------- update for secular gravity and atmospheric drag ----- */
+        // update for secular gravity and atmospheric drag
         xmdf    = satrec.mo + satrec.mdot * satrec.t;
         argpdf  = satrec.argpo + satrec.argpdot * satrec.t;
         nodedf  = satrec.nodeo + satrec.nodedot * satrec.t;
@@ -205,11 +189,11 @@ define (["dpper", "dspace", "getgravc"], function(dpper, dspace, getgravc){
         xlm    = xlm % twopi;
         mm     = (xlm - argpm - nodem) % twopi;
 
-        // /* ----------------- compute extra mean quantities ------------- */
+        // compute extra mean quantities
         sinim = Math.sin(inclm);
         cosim = Math.cos(inclm);
 
-        // /* -------------------- add lunar-solar periodics -------------- */
+        // add lunar-solar periodics
         ep     = em;
         xincp  = inclm;
         argpp  = argpm;
@@ -243,12 +227,11 @@ define (["dpper", "dspace", "getgravc"], function(dpper, dspace, getgravc){
                 argpp  = argpp - Math.PI;
             }
             if ((ep < 0.0) || (ep > 1.0)) {
-                //fprintf(1,'# error ep //f\n', ep);
                 satrec.error = 3;
             }
         }                           // if method = d
 
-        // /* -------------------- long period periodics ------------------ */
+        // long period periodics
         if (satrec.method === "d") {
             sinip =  Math.sin(xincp);
             cosip =  Math.cos(xincp);
@@ -266,7 +249,7 @@ define (["dpper", "dspace", "getgravc"], function(dpper, dspace, getgravc){
         aynl = ep * Math.sin(argpp) + temp * satrec.aycof;
         xl   = mp + argpp + nodep + temp * satrec.xlcof * axnl;
 
-        // /* --------------------- solve kepler's equation --------------- */
+        // solve kepler's equation
         u    = (xl - nodep) % twopi;
         eo1  = u;
         tem5 = 9999.9;
@@ -290,7 +273,7 @@ define (["dpper", "dspace", "getgravc"], function(dpper, dspace, getgravc){
             ktr = ktr + 1;
         }
 
-        // /* ------------- short period preliminary quantities ----------- */
+        // short period preliminary quantities
         ecose = axnl * coseo1 + aynl * sineo1;
         esine = axnl * sineo1 - aynl * coseo1;
         el2   = axnl * axnl + aynl * aynl;
@@ -320,13 +303,13 @@ define (["dpper", "dspace", "getgravc"], function(dpper, dspace, getgravc){
             temp1  = 0.5 * gc.j2 * temp;
             temp2  = temp1 * temp;
 
-            // /* -------------- update for short period periodics ------------ */
+            // update for short period periodics
             if (satrec.method === "d") {
                 cosisq = cosip * cosip;
                 satrec.con41  = 3.0 * cosisq - 1.0;
                 satrec.x1mth2 = 1.0 - cosisq;
                 satrec.x7thm1 = 7.0 * cosisq - 1.0;
-            }
+            }[]
             mrt   = rl * (1.0 - 1.5 * temp2 * betal * satrec.con41) +
                 0.5 * temp1 * satrec.x1mth2 * cos2u;
             su    = su - 0.25 * temp2 * satrec.x7thm1 * sin2u;
@@ -336,7 +319,7 @@ define (["dpper", "dspace", "getgravc"], function(dpper, dspace, getgravc){
             rvdot = rvdotl + nm * temp1 * (satrec.x1mth2 * cos2u +
                                            1.5 * satrec.con41) / gc.xke;
 
-            // /* --------------------- orientation vectors ------------------- */
+            // orientation vectors
             sinsu =  Math.sin(su);
             cossu =  Math.cos(su);
             snod  =  Math.sin(xnode);
@@ -352,14 +335,14 @@ define (["dpper", "dspace", "getgravc"], function(dpper, dspace, getgravc){
             vy    =  xmy * cossu - snod * sinsu;
             vz    =  sini * cossu;
 
-            // /* --------- position and velocity (in km and km/sec) ---------- */
+            // position and velocity (in km and km/sec)
             r[0] = (mrt * ux) * gc.radiusearthkm;
             r[1] = (mrt * uy) * gc.radiusearthkm;
             r[2] = (mrt * uz) * gc.radiusearthkm;
             v[0] = (mvt * ux + rvdot * vx) * vkmpersec;
             v[1] = (mvt * uy + rvdot * vy) * vkmpersec;
             v[2] = (mvt * uz + rvdot * vz) * vkmpersec;
-        }// if pl > 0
+        } // if pl > 0
 
         // sgp4fix for decaying satellites
         if (mrt < 1.0) {
