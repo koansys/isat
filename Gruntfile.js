@@ -57,7 +57,8 @@ module.exports = function(grunt) {
                         testname: "iSat Unit tests",
                         tags: ["master"],
                         sauceConfig: {
-                            "video-upload-on-pass": false
+                            "video-upload-on-pass": false,
+                            "idle-timeout": 600
                         },
                         onTestComplete: function(result, cb){
                          // returning undefined doesn't alter the test result
