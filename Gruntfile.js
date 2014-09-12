@@ -48,6 +48,12 @@ module.exports = function(grunt) {
                         build: process.env.TRAVIS_JOB_ID,
                         concurrency: 3,
                         browsers: browsers,
+                        capabilities: {
+                            browserName: "chrome",
+                            "chromeOptions":{
+                                args: ["--test-type"]
+                            }
+                        },
                         testname: "iSat Unit tests",
                         tags: ["master"],
                         sauceConfig: {
