@@ -44,7 +44,7 @@ module.exports = function(grunt) {
                 all: {
                     options: {
                         urls: ["http://127.0.0.1:9999/jasmine/SpecRunner.html"],
-                        tunnelTimeout: 5,
+                        tunnelTimeout: 15,
                         build: process.env.TRAVIS_JOB_ID,
                         concurrency: 3,
                         browsers: browsers,
@@ -57,8 +57,8 @@ module.exports = function(grunt) {
                         testname: "iSat Unit tests",
                         tags: ["master"],
                         sauceConfig: {
-                            "video-upload-on-pass": false,
-                            "idle-timeout": 600
+                            "video-upload-on-pass": false //,
+                            // "idle-timeout": 600
                         },
                         onTestComplete: function(result, cb){
                          // returning undefined doesn't alter the test result
