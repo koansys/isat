@@ -6,7 +6,8 @@
   "globals": {"mag": true,
               "dot": true,
               "sign": true,
-              "define": true
+              "define": true,
+              "alert": true
               },
   "globalstrict": true,
   "quotmark": true,
