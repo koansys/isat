@@ -212,6 +212,8 @@ define([], function(){
         xh2  =  -2.0 * s2 * z22;
         xh3  =  -2.0 * s2 * (z23 - z21);
 
+        // TODO: FIXME: Make this return an object and update callers to take an
+        // TODO: FIXME: as a return value.
         return [sinim, cosim, sinomm, cosomm, snodm, cnodm, day, e3, ee2, em, emsq, gam,
         peo, pgho, pho, pinco, plo, rtemsq, se2, se3, sgh2, sgh3, sgh4, sh2, sh3, si2,
         si3, sl2, sl3, sl4, s1, s2, s3, s4, s5, s6, s7, ss1, ss2, ss3, ss4, ss5, ss6, ss7,
