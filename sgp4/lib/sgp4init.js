@@ -87,22 +87,18 @@
 
 define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
     function(dscom, dpper, dsinit, getgravc, initl, sgp4){
-
     return function(constDef, satrec, xbstar, xecco, epoch,
       xargpo, xinclo, xmo, xno, xnodeo) {
         var gc, // getgravc return
-        // tumin, mu, radiusearthkm, xke, j2, j3, gc.j4, gc.j3oj2,
         ss, qzms2t, x2o3, temp4,
         dpv, // dpper return
         dscv, // dscom return
         dsiv, // dsinit return
         iv, // initl return
         pv, // sgp4 return
-        // ao, con42, cosio, cosio2, eccsq, omeosq, posq, rp, iv.rteosq, sinio,
         sfour, qzms24, perige, pinvsq, tsi, etasq, eeta, psisq, coef, coef1, cc2, cc3,
         cosio4, temp1, temp2, temp3, xhdot1, xpidot,
         tc, inclm,
-        // dscomvars,
         sinim, cosim, sinomm, cosomm, snodm, cnodm, day, em, emsq, gam, rtemsq,
         s1, s2, s3, s4, s5, s6, s7, ss1, ss2, ss3, ss4, ss5, ss6, ss7,
         sz1, sz2, sz3, sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33,
@@ -110,7 +106,6 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
         argpm, nodem, mm,
         dndt,
         cc1sq, temp;
-        // r, v;
 
     // /* ------------------------ initialization --------------------- */
     // /* ----------- set all near earth variables to zero ------------ */
@@ -231,6 +226,7 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
     // [iv.ainv,  ao,     satrec.con41,   con42,  cosio,  cosio2, einv,   eccsq,
     //        satrec.method,  omeosq, posq,   rp,     iv.rteosq, sinio,
     //        satrec.gsto,    satrec.no]
+
     iv = initl(satrec.ecco, epoch, satrec.inclo, satrec.no, satrec.satnum, constDef);
     satrec.gsto   = iv.gsto;
     satrec.no     = iv.no;
@@ -510,11 +506,11 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
               15.0 * cc1sq * (2.0 * satrec.d2 + cc1sq));
         }
     } // if omeosq = 0
-
     // /* finally propogate to zero epoch to initialise all others. */
     // TODO: What if satrec.error != 0? Then we just return the satrec without
     // TODO: sgp4 model applied? Smells a little to me...
     if (satrec.error === 0) {
+
         pv = sgp4(satrec, 0.0, constDef);
         satrec  = pv.satrec;
         // TODO: We don't use these after this, can we just delete them?
@@ -522,6 +518,7 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
         // v       = rets.shift();
     }
     satrec.init = "n";
+
     return satrec; // MATLAB returns an unnecessary list "[satrec]", don"t do it here
 };
 });
