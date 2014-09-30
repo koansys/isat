@@ -103,6 +103,16 @@
                 sgp4.js
               </a>
             
+              
+              <a class="source" href="sgp4init.html">
+                sgp4init.js
+              </a>
+            
+              
+              <a class="source" href="twoline2rv.html">
+                twoline2rv.js
+              </a>
+            
           </div>
         </li>
       </ul>
@@ -535,14 +545,7 @@ zy          -
         xgh3 =   <span class="hljs-number">2.0</span> * s4 * (z33 - z31);
         xgh4 = -<span class="hljs-number">18.0</span> * s4 * zel;
         xh2  =  -<span class="hljs-number">2.0</span> * s2 * z22;
-        xh3  =  -<span class="hljs-number">2.0</span> * s2 * (z23 - z21);
-
-        <span class="hljs-keyword">return</span> [sinim, cosim, sinomm, cosomm, snodm, cnodm, day, e3, ee2, em, emsq, gam,
-        peo, pgho, pho, pinco, plo, rtemsq, se2, se3, sgh2, sgh3, sgh4, sh2, sh3, si2,
-        si3, sl2, sl3, sl4, s1, s2, s3, s4, s5, s6, s7, ss1, ss2, ss3, ss4, ss5, ss6, ss7,
-        sz1, sz2, sz3, sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33, xgh2, xgh3,
-        xgh4, xh2, xh3, xi2, xi3, xl2, xl3, xl4, nm, z1, z2, z3, z11, z12, z13, z21, z22,
-        z23, z31, z32, z33, zmol, zmos];</pre></div></div>
+        xh3  =  -<span class="hljs-number">2.0</span> * s2 * (z23 - z21);</pre></div></div>
             
         </li>
         
@@ -552,6 +555,27 @@ zy          -
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>TODO: FIXME: Make this return an object and update callers to take an
+TODO: FIXME: as a return value.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> [sinim, cosim, sinomm, cosomm, snodm, cnodm, day, e3, ee2, em, emsq, gam,
+        peo, pgho, pho, pinco, plo, rtemsq, se2, se3, sgh2, sgh3, sgh4, sh2, sh3, si2,
+        si3, sl2, sl3, sl4, s1, s2, s3, s4, s5, s6, s7, ss1, ss2, ss3, ss4, ss5, ss6, ss7,
+        sz1, sz2, sz3, sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33, xgh2, xgh3,
+        xgh4, xh2, xh3, xi2, xi3, xl2, xl3, xl4, nm, z1, z2, z3, z11, z12, z13, z21, z22,
+        z23, z31, z32, z33, zmol, zmos];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>outputs:</p>
 <pre><code>sinim  , cosim  , sinomm , cosomm , snodm  , cnodm

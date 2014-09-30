@@ -1,94 +1,64 @@
 "use strict";
 
-// -----------------------------------------------------------------------------
+// sgp4init
+// ========
 //
-//                              procedure sgp4init
-//
-//   this procedure initializes variables for sgp4.
-//
-// Author:
-//   Jeff Beck
-//   beckja@alumni.lehigh.edu
-//   1.0 (aug 7, 2006) - update for paper dav
-// original comments from Vallado C++ version:
-//   author        : david vallado                  719-573-2600   28 jun 2005
-//
-//   inputs        :
-//     satn        - satellite number
-//     bstar       - sgp4 type drag coefficient              kg/m2er
-//     ecco        - eccentricity
-//     epoch       - epoch time in days from jan 0, 1950. 0 hr
-//     argpo       - argument of perigee (output if ds)
-//     inclo       - inclination
-//     mo          - mean anomaly (output if ds)
-//     no          - mean motion
-//     nodeo      - right ascension of ascending node
-//
-//   outputs       :
-//     satrec      - common values for subsequent calls
-//     return code - non-zero on error.
-//                    1 - mean elements, ecc >= 1.0 or ecc < -0.001 or a < 0.95 er
-//                    2 - mean motion less than 0.0
-//                    3 - pert elements, ecc < 0.0  or  ecc > 1.0
-//                    4 - semi-latus rectum < 0.0
-//                    5 - epoch elements are sub-orbital
-//                    6 - satellite has decayed
-//
-//   locals        :
-//     CNODM  , SNODM  , COSIM  , SINIM  , COSOMM , SINOMM
-//     Cc1sq  , Cc2    , Cc3
-//     Coef   , Coef1
-//     cosio4      -
-//     day         -
-//     dndt        -
-//     em          - eccentricity
-//     emsq        - eccentricity squared
-//     eeta        -
-//     etasq       -
-//     gam         -
-//     argpm       - argument of perigee
-//     ndem        -
-//     inclm       - inclination
-//     mm          - mean anomaly
-//     nm          - mean motion
-//     perige      - perigee
-//     pinvsq      -
-//     psisq       -
-//     qzms24      -
-//     rtemsq      -
-//     s1, s2, s3, s4, s5, s6, s7          -
-//     sfour       -
-//     ss1, ss2, ss3, ss4, ss5, ss6, ss7         -
-//     sz1, sz2, sz3
-//     sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33        -
-//     tc          -
-//     temp        -
-//     temp1, temp2, temp3       -
-//     tsi         -
-//     xpidot      -
-//     xhdot1      -
-//     z1, z2, z3          -
-//     z11, z12, z13, z21, z22, z23, z31, z32, z33         -
-//
-//   coupling      :
-//     getgravconst
-//     initl       -
-//     dscom       -
-//     dpper       -
-//     dsinit      -
-//     sgp4        -
-//
-//   references    :
-//     hoots, roehrich, norad spacetrack report #3 1980
-//     hoots, norad spacetrack report #6 1986
-//     hoots, schumacher and glover 2004
-//     vallado, crawford, hujsak, kelso  2006
-//  ----------------------------------------------------------------------------*/
+// `sgp4init` initializes variables for sgp4.
 
 define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
-    function(dscom, dpper, dsinit, getgravc, initl, sgp4){
+        function(dscom, dpper, dsinit, getgravc, initl, sgp4){
+
+    // inputs
+    // ------
+    //     satn        - satellite number
+    //     bstar       - sgp4 type drag coefficient              kg/m2er
+    //     ecco        - eccentricity
+    //     epoch       - epoch time in days from jan 0, 1950. 0 hr
+    //     argpo       - argument of perigee (output if ds)
+    //     inclo       - inclination
+    //     mo          - mean anomaly (output if ds)
+    //     no          - mean motion
+    //     nodeo      - right ascension of ascending node
     return function(constDef, satrec, xbstar, xecco, epoch,
       xargpo, xinclo, xmo, xno, xnodeo) {
+
+        // locals
+        // ------
+        //     CNODM  , SNODM  , COSIM  , SINIM  , COSOMM , SINOMM
+        //     Cc1sq  , Cc2    , Cc3
+        //     Coef   , Coef1
+        //     cosio4      -
+        //     day         -
+        //     dndt        -
+        //     em          - eccentricity
+        //     emsq        - eccentricity squared
+        //     eeta        -
+        //     etasq       -
+        //     gam         -
+        //     argpm       - argument of perigee
+        //     ndem        -
+        //     inclm       - inclination
+        //     mm          - mean anomaly
+        //     nm          - mean motion
+        //     perige      - perigee
+        //     pinvsq      -
+        //     psisq       -
+        //     qzms24      -
+        //     rtemsq      -
+        //     s1, s2, s3, s4, s5, s6, s7          -
+        //     sfour       -
+        //     ss1, ss2, ss3, ss4, ss5, ss6, ss7         -
+        //     sz1, sz2, sz3
+        //     sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33        -
+        //     tc          -
+        //     temp        -
+        //     temp1, temp2, temp3       -
+        //     tsi         -
+        //     xpidot      -
+        //     xhdot1      -
+        //     z1, z2, z3          -
+        //     z11, z12, z13, z21, z22, z23, z31, z32, z33         -
+
         var gc, // getgravc return
         ss, qzms2t, x2o3, temp4,
         dpv, // dpper return
@@ -107,8 +77,9 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
         dndt,
         cc1sq, temp;
 
-    // /* ------------------------ initialization --------------------- */
-    // /* ----------- set all near earth variables to zero ------------ */
+    // **Initialization**
+    //
+    // *Set all near earth variables to zero.*
     satrec.isimp   = 0;
     satrec.method = "n";
     satrec.aycof    = 0.0;
@@ -136,7 +107,7 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
     satrec.xlcof   = 0.0;
     satrec.xmcof  = 0.0;
     satrec.nodecf  = 0.0;
-    // /* ----------- set all deep space variables to zero ------------ */
+    // *Set all deep space variables to zero.*
     satrec.irez  = 0;
     satrec.d2201 = 0.0;
     satrec.d2211 = 0.0;
@@ -194,10 +165,10 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
     satrec.xli   = 0.0;
     satrec.xni   = 0.0;
 
-    // sgp4fix - note the following variables are also passed directly via satrec.
-    // it is possible to streamline the sgp4init call by deleting the "x"
-    // variables, but the user would need to set the satrec.* values first. we
-    // include the additional assignment in case twoline2rv is not used.
+    // **sgp4fix** - note the following variables are also passed directly via satrec.
+    // it is possible to streamline the `sgp4init` call by deleting the `x`
+    // variables, but the user would need to set the `satrec.*` values first. we
+    // include the additional assignment in case `twoline2rv` is not used.
     satrec.bstar      = xbstar;
     satrec.ecco       = xecco;
     satrec.argpo      = xargpo;
@@ -206,27 +177,23 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
     satrec.no         = xno;
     satrec.nodeo      = xnodeo;
 
-    //     /* -------------------- wgs-72 earth constants ----------------- */
-    //     // sgp4fix identify constants and allow alternate values
-
-    // [tumin, mu, radiusearthkm, xke, j2, j3, gc.j4, gc.j3oj2] = getgravc( whichconst );
+    // **wgs-72 earth constants**
+    //
+    // `sgp4fix` *identify constants and allow alternate values.*
     gc = getgravc(constDef);
 
     ss     = 78.0 / gc.radiusearthkm + 1.0;
     qzms2t = Math.pow((120.0 - 78.0) / gc.radiusearthkm, 4);
     x2o3   =  2.0 / 3.0;
-    // sgp4fix divisor for divide by zero check on inclination
+    // `sgp4fix divisor` for divide by zero check on inclination
     // the old check used 1.0 + cos(pi-1.0e-9), but then compared it to
-    // 1.5 e-12, so the threshold was changed to 1.5e-12 for consistancy
+    // 1.5 e-12, so the threshold was changed to 1.5e-12 for consistancy.
     temp4    =   1.5e-12;
 
     satrec.init = "y";
     satrec.t    = 0.0;
 
-    // [iv.ainv,  ao,     satrec.con41,   con42,  cosio,  cosio2, einv,   eccsq,
-    //        satrec.method,  omeosq, posq,   rp,     iv.rteosq, sinio,
-    //        satrec.gsto,    satrec.no]
-
+    // `initl` *call.*
     iv = initl(satrec.ecco, epoch, satrec.inclo, satrec.no, satrec.satnum, constDef);
     satrec.gsto   = iv.gsto;
     satrec.no     = iv.no;
@@ -234,7 +201,6 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
     satrec.error = 0;
 
     if (iv.rp < 1.0) {
-        //   printf("# *** satn//d epoch elts sub-orbital ***\n" = rets[]; satn);
         satrec.error = 5;
     }
 
@@ -248,7 +214,7 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
         qzms24 = qzms2t;
         perige = (iv.rp - 1.0) * gc.radiusearthkm;
 
-        // /* - for perigees below 156 km, s and qoms2t are altered - */
+        // *For perigees below 156 km, s and qoms2t are altered.*
         if (perige < 156.0) {
             sfour = perige - 78.0;
             if (perige < 98.0) {
@@ -304,7 +270,7 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
         satrec.nodecf  = 3.5 * iv.omeosq * xhdot1 * satrec.cc1;
         satrec.t2cof   = 1.5 * satrec.cc1;
 
-        // sgp4fix for divide by zero with xinco = 180 deg
+        // `sgp4fix` *for divide by zero with xinco = 180 deg*
         if (Math.abs(iv.cosio + 1.0) > 1.5e-12) {
             satrec.xlcof = -0.25 * gc.j3oj2 * iv.sinio *
             (3.0 + 5.0 * iv.cosio) / (1.0 + iv.cosio);
@@ -318,23 +284,13 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
         satrec.sinmao  = Math.sin(satrec.mo);
         satrec.x7thm1  = 7.0 * iv.cosio2 - 1.0;
 
-        // /* --------------- deep space initialization ------------- */
+        // **Deep space initialization**
         if ((2 * Math.PI / satrec.no) >= 225.0) {
             satrec.method = "d";
             satrec.isimp  = 1;
             tc    =  0.0;
             inclm = satrec.inclo;
 
-            // [sinim,cosim,sinomm,cosomm,snodm,cnodm,day,satrec.e3,satrec.ee2,
-            // em,emsq,gam,satrec.peo,satrec.pgho,satrec.pho,satrec.pinco,
-            // satrec.plo,rtemsq,satrec.se2,satrec.se3,satrec.sgh2,
-            // satrec.sgh3,satrec.sgh4,satrec.sh2,satrec.sh3,satrec.si2,
-            // satrec.si3,satrec.sl2,satrec.sl3,satrec.sl4,s1,s2,s3,s4,s5,
-            // s6,s7,ss1,ss2,ss3,ss4,ss5,ss6,ss7,sz1,sz2,sz3,sz11,sz12,
-            // sz13,sz21,sz22,sz23,sz31,sz32,sz33,satrec.xgh2,satrec.xgh3,
-            // satrec.xgh4,satrec.xh2,satrec.xh3,satrec.xi2,satrec.xi3,
-            // satrec.xl2,satrec.xl3,satrec.xl4,nm,z1,z2,z3,z11,z12,z13,
-            // z21,z22,z23,z31,z32,z33,satrec.zmol,satrec.zmos] =
             dscv = dscom(epoch, satrec.ecco, satrec.argpo, tc, satrec.inclo,
               satrec.nodeo, satrec.no);
             sinim           = dscv.shift();
@@ -420,8 +376,7 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
             satrec.zmos     = dscv.shift();
 
 
-
-            //[satrec.ecco,satrec.inclo,satrec.nodeo,satrec.argpo,satrec.mo]
+            // `dpper` **invocation**
             dpv = dpper(satrec.e3, satrec.ee2, satrec.peo, satrec.pgho,
                satrec.pho, satrec.pinco, satrec.plo, satrec.se2, satrec.se3,
                satrec.sgh2, satrec.sgh3, satrec.sgh4, satrec.sh2, satrec.sh3,
@@ -441,26 +396,11 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
             nodem  = 0.0;
             mm     = 0.0;
 
-            // [em,argpm,inclm,mm,nm,nodem,satrec.irez,satrec.atime,
-            // satrec.d2201,satrec.d2211,satrec.d3210,satrec.d3222,
-            // satrec.d4410,satrec.d4422,satrec.d5220,satrec.d5232,
-            // satrec.d5421,satrec.d5433,satrec.dedt,satrec.didt,
-            // satrec.dmdt,dndt,satrec.dnodt,satrec.domdt,satrec.del1,
-            // satrec.del2,satrec.del3,
-            // //ses,sghl,sghs,sgs,shl,shs,sis,sls,theta,
-            // satrec.xfact,satrec.xlamo,satrec.xli,satrec.xni]
-
             dsiv = dsinit(cosim, emsq, satrec.argpo, s1, s2, s3, s4, s5, sinim, ss1, ss2, ss3,
               ss4, ss5, sz1, sz3, sz11, sz13, sz21, sz23, sz31, sz33, satrec.t, tc,
               satrec.gsto, satrec.mo, satrec.mdot, satrec.no, satrec.nodeo,
               satrec.nodedot, xpidot, z1, z3, z11, z13, z21, z23, z31, z33, em,
               argpm, inclm, mm, nm, nodem, satrec.ecco, iv.eccsq);
-            // em                  = rets.shift();
-            // argpm		= rets.shift();
-            // inclm		= rets.shift();
-            // mm                  = rets.shift();
-            // nm                  = rets.shift();
-            // nodem		= rets.shift();
             satrec.irez         = dsiv.irez;
             satrec.atime	= dsiv.atime;
             satrec.d2201	= dsiv.d2201;
@@ -482,14 +422,13 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
             satrec.del1         = dsiv.del1;
             satrec.del2         = dsiv.del2;
             satrec.del3         = dsiv.del3;
-            //ses,sghl,sghs,sgs,shl,shs,sis,sls,theta,
             satrec.xfact	= dsiv.xfact;
             satrec.xlamo	= dsiv.xlamo;
             satrec.xli          = dsiv.xli;
             satrec.xni          = dsiv.xni;
         }
 
-        // /* ----------- set variables if not deep space ----------- */
+        // *Set variables if not deep space.*
         if (satrec.isimp !== 1) {
             cc1sq          = satrec.cc1 * satrec.cc1;
             satrec.d2    = 4.0 * iv.ao * tsi * cc1sq;
@@ -506,7 +445,8 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
               15.0 * cc1sq * (2.0 * satrec.d2 + cc1sq));
         }
     } // if omeosq = 0
-    // /* finally propogate to zero epoch to initialise all others. */
+    // *Finally propogate to zero epoch to initialise all others.*
+    //
     // TODO: What if satrec.error != 0? Then we just return the satrec without
     // TODO: sgp4 model applied? Smells a little to me...
     if (satrec.error === 0) {
@@ -518,7 +458,19 @@ define(["dscom", "dpper", "dsinit", "getgravc", "initl", "sgp4"],
         // v       = rets.shift();
     }
     satrec.init = "n";
-
+    // outputs
+    // -------
+    //     satrec      - common values for subsequent calls
+    //     return code - non-zero on error.
+    //                    1 - mean elements, ecc >= 1.0 or ecc < -0.001 or a < 0.95 er
+    //                    2 - mean motion less than 0.0
+    //                    3 - pert elements, ecc < 0.0  or  ecc > 1.0
+    //                    4 - semi-latus rectum < 0.0
+    //                    5 - epoch elements are sub-orbital
+    //                    6 - satellite has decayed
+    //
+    // TODO: This return code I think was for cli. Could be we need to return an
+    // TODO: error. But would that be satrec.error rather than a list?
     return satrec; // MATLAB returns an unnecessary list "[satrec]", don"t do it here
 };
 });

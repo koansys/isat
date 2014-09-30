@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>sgp4init.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="angl.html">
+                angl.js
+              </a>
+            
+              
+              <a class="source" href="constants.html">
+                constants.js
+              </a>
+            
+              
+              <a class="source" href="days2mdh.html">
+                days2mdh.js
+              </a>
+            
+              
+              <a class="source" href="dpper.html">
+                dpper.js
+              </a>
+            
+              
+              <a class="source" href="dscom.html">
+                dscom.js
+              </a>
+            
+              
+              <a class="source" href="dsinit.html">
+                dsinit.js
+              </a>
+            
+              
+              <a class="source" href="dspace.html">
+                dspace.js
+              </a>
+            
+              
+              <a class="source" href="getgravc.html">
+                getgravc.js
+              </a>
+            
+              
+              <a class="source" href="gstime.html">
+                gstime.js
+              </a>
+            
+              
+              <a class="source" href="initl.html">
+                initl.js
+              </a>
+            
+              
+              <a class="source" href="invjday.html">
+                invjday.js
+              </a>
+            
+              
+              <a class="source" href="jday.html">
+                jday.js
+              </a>
+            
+              
+              <a class="source" href="mag.html">
+                mag.js
+              </a>
+            
+              
+              <a class="source" href="mutils.html">
+                mutils.js
+              </a>
+            
+              
+              <a class="source" href="newtonnu.html">
+                newtonnu.js
+              </a>
+            
+              
+              <a class="source" href="rv2coe.html">
+                rv2coe.js
+              </a>
+            
+              
+              <a class="source" href="sgp4.html">
+                sgp4.js
+              </a>
+            
+              
+              <a class="source" href="sgp4init.html">
+                sgp4init.js
+              </a>
+            
+              
+              <a class="source" href="twoline2rv.html">
+                twoline2rv.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>sgp4init.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-pi">"use strict"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h1 id="sgp4init">sgp4init</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p><code>sgp4init</code> initializes variables for sgp4.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+define([<span class="hljs-string">"dscom"</span>, <span class="hljs-string">"dpper"</span>, <span class="hljs-string">"dsinit"</span>, <span class="hljs-string">"getgravc"</span>, <span class="hljs-string">"initl"</span>, <span class="hljs-string">"sgp4"</span>],
+        <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(dscom, dpper, dsinit, getgravc, initl, sgp4)</span></span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <h2 id="inputs">inputs</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <pre><code>satn        - satellite number
+bstar       - sgp4 type drag coefficient              kg/m2er
+ecco        - eccentricity
+epoch       - epoch time <span class="hljs-keyword">in</span> days from jan <span class="hljs-number">0</span>, <span class="hljs-number">1950.</span> <span class="hljs-number">0</span> hr
+argpo       - argument of perigee (output <span class="hljs-keyword">if</span> ds)
+inclo       - inclination
+mo          - mean anomaly (output <span class="hljs-keyword">if</span> ds)
+no          - mean motion
+nodeo      - right ascension of ascending node
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(constDef, satrec, xbstar, xecco, epoch,
+      xargpo, xinclo, xmo, xno, xnodeo)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <h2 id="locals">locals</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <pre><code>CNODM  , SNODM  , COSIM  , SINIM  , COSOMM , SINOMM
+Cc1sq  , Cc2    , Cc3
+Coef   , Coef1
+cosio4      -
+day         -
+dndt        -
+em          - eccentricity
+emsq        - eccentricity squared
+eeta        -
+etasq       -
+gam         -
+argpm       - argument of perigee
+ndem        -
+inclm       - inclination
+mm          - mean anomaly
+nm          - mean motion
+perige      - perigee
+pinvsq      -
+psisq       -
+qzms24      -
+rtemsq      -
+s1, s2, s3, s4, s5, s6, s7          -
+sfour       -
+ss1, ss2, ss3, ss4, ss5, ss6, ss7         -
+sz1, sz2, sz3
+sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33        -
+tc          -
+temp        -
+temp1, temp2, temp3       -
+tsi         -
+xpidot      -
+xhdot1      -
+z1, z2, z3          -
+z11, z12, z13, z21, z22, z23, z31, z32, z33         -
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+        <span class="hljs-keyword">var</span> gc, <span class="hljs-comment">// getgravc return</span>
+        ss, qzms2t, x2o3, temp4,
+        dpv, <span class="hljs-comment">// dpper return</span>
+        dscv, <span class="hljs-comment">// dscom return</span>
+        dsiv, <span class="hljs-comment">// dsinit return</span>
+        iv, <span class="hljs-comment">// initl return</span>
+        pv, <span class="hljs-comment">// sgp4 return</span>
+        sfour, qzms24, perige, pinvsq, tsi, etasq, eeta, psisq, coef, coef1, cc2, cc3,
+        cosio4, temp1, temp2, temp3, xhdot1, xpidot,
+        tc, inclm,
+        sinim, cosim, sinomm, cosomm, snodm, cnodm, day, em, emsq, gam, rtemsq,
+        s1, s2, s3, s4, s5, s6, s7, ss1, ss2, ss3, ss4, ss5, ss6, ss7,
+        sz1, sz2, sz3, sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33,
+        nm, z1, z2, z3, z11, z12, z13, z21, z22, z23, z31, z32, z33,
+        argpm, nodem, mm,
+        dndt,
+        cc1sq, temp;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p><strong>Initialization</strong></p>
+<p><em>Set all near earth variables to zero.</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    satrec.isimp   = <span class="hljs-number">0</span>;
+    satrec.method = <span class="hljs-string">"n"</span>;
+    satrec.aycof    = <span class="hljs-number">0.0</span>;
+    satrec.con41   = <span class="hljs-number">0.0</span>;
+    satrec.cc1    = <span class="hljs-number">0.0</span>;
+    satrec.cc4      = <span class="hljs-number">0.0</span>;
+    satrec.cc5     = <span class="hljs-number">0.0</span>;
+    satrec.d2     = <span class="hljs-number">0.0</span>;
+    satrec.d3       = <span class="hljs-number">0.0</span>;
+    satrec.d4      = <span class="hljs-number">0.0</span>;
+    satrec.delmo  = <span class="hljs-number">0.0</span>;
+    satrec.eta      = <span class="hljs-number">0.0</span>;
+    satrec.argpdot = <span class="hljs-number">0.0</span>;
+    satrec.omgcof = <span class="hljs-number">0.0</span>;
+    satrec.sinmao   = <span class="hljs-number">0.0</span>;
+    satrec.t       = <span class="hljs-number">0.0</span>;
+    satrec.t2cof  = <span class="hljs-number">0.0</span>;
+    satrec.t3cof    = <span class="hljs-number">0.0</span>;
+    satrec.t4cof   = <span class="hljs-number">0.0</span>;
+    satrec.t5cof  = <span class="hljs-number">0.0</span>;
+    satrec.x1mth2   = <span class="hljs-number">0.0</span>;
+    satrec.x7thm1  = <span class="hljs-number">0.0</span>;
+    satrec.mdot   = <span class="hljs-number">0.0</span>;
+    satrec.nodedot = <span class="hljs-number">0.0</span>;
+    satrec.xlcof   = <span class="hljs-number">0.0</span>;
+    satrec.xmcof  = <span class="hljs-number">0.0</span>;
+    satrec.nodecf  = <span class="hljs-number">0.0</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p><em>Set all deep space variables to zero.</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    satrec.irez  = <span class="hljs-number">0</span>;
+    satrec.d2201 = <span class="hljs-number">0.0</span>;
+    satrec.d2211 = <span class="hljs-number">0.0</span>;
+    satrec.d3210 = <span class="hljs-number">0.0</span>;
+    satrec.d3222 = <span class="hljs-number">0.0</span>;
+    satrec.d4410 = <span class="hljs-number">0.0</span>;
+    satrec.d4422 = <span class="hljs-number">0.0</span>;
+    satrec.d5220 = <span class="hljs-number">0.0</span>;
+    satrec.d5232 = <span class="hljs-number">0.0</span>;
+    satrec.d5421 = <span class="hljs-number">0.0</span>;
+    satrec.d5433 = <span class="hljs-number">0.0</span>;
+    satrec.dedt  = <span class="hljs-number">0.0</span>;
+    satrec.del1  = <span class="hljs-number">0.0</span>;
+    satrec.del2  = <span class="hljs-number">0.0</span>;
+    satrec.del3  = <span class="hljs-number">0.0</span>;
+    satrec.didt  = <span class="hljs-number">0.0</span>;
+    satrec.dmdt  = <span class="hljs-number">0.0</span>;
+    satrec.dnodt = <span class="hljs-number">0.0</span>;
+    satrec.domdt = <span class="hljs-number">0.0</span>;
+    satrec.e3    = <span class="hljs-number">0.0</span>;
+    satrec.ee2   = <span class="hljs-number">0.0</span>;
+    satrec.peo   = <span class="hljs-number">0.0</span>;
+    satrec.pgho  = <span class="hljs-number">0.0</span>;
+    satrec.pho   = <span class="hljs-number">0.0</span>;
+    satrec.pinco = <span class="hljs-number">0.0</span>;
+    satrec.plo   = <span class="hljs-number">0.0</span>;
+    satrec.se2   = <span class="hljs-number">0.0</span>;
+    satrec.se3   = <span class="hljs-number">0.0</span>;
+    satrec.sgh2  = <span class="hljs-number">0.0</span>;
+    satrec.sgh3  = <span class="hljs-number">0.0</span>;
+    satrec.sgh4  = <span class="hljs-number">0.0</span>;
+    satrec.sh2   = <span class="hljs-number">0.0</span>;
+    satrec.sh3   = <span class="hljs-number">0.0</span>;
+    satrec.si2   = <span class="hljs-number">0.0</span>;
+    satrec.si3   = <span class="hljs-number">0.0</span>;
+    satrec.sl2   = <span class="hljs-number">0.0</span>;
+    satrec.sl3   = <span class="hljs-number">0.0</span>;
+    satrec.sl4   = <span class="hljs-number">0.0</span>;
+    satrec.gsto  = <span class="hljs-number">0.0</span>;
+    satrec.xfact = <span class="hljs-number">0.0</span>;
+    satrec.xgh2  = <span class="hljs-number">0.0</span>;
+    satrec.xgh3  = <span class="hljs-number">0.0</span>;
+    satrec.xgh4  = <span class="hljs-number">0.0</span>;
+    satrec.xh2   = <span class="hljs-number">0.0</span>;
+    satrec.xh3   = <span class="hljs-number">0.0</span>;
+    satrec.xi2   = <span class="hljs-number">0.0</span>;
+    satrec.xi3   = <span class="hljs-number">0.0</span>;
+    satrec.xl2   = <span class="hljs-number">0.0</span>;
+    satrec.xl3   = <span class="hljs-number">0.0</span>;
+    satrec.xl4   = <span class="hljs-number">0.0</span>;
+    satrec.xlamo = <span class="hljs-number">0.0</span>;
+    satrec.zmol  = <span class="hljs-number">0.0</span>;
+    satrec.zmos  = <span class="hljs-number">0.0</span>;
+    satrec.atime = <span class="hljs-number">0.0</span>;
+    satrec.xli   = <span class="hljs-number">0.0</span>;
+    satrec.xni   = <span class="hljs-number">0.0</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p><strong>sgp4fix</strong> - note the following variables are also passed directly via satrec.
+it is possible to streamline the <code>sgp4init</code> call by deleting the <code>x</code>
+variables, but the user would need to set the <code>satrec.*</code> values first. we
+include the additional assignment in case <code>twoline2rv</code> is not used.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    satrec.bstar      = xbstar;
+    satrec.ecco       = xecco;
+    satrec.argpo      = xargpo;
+    satrec.inclo      = xinclo;
+    satrec.mo         = xmo;
+    satrec.no         = xno;
+    satrec.nodeo      = xnodeo;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p><strong>wgs-72 earth constants</strong></p>
+<p><code>sgp4fix</code> <em>identify constants and allow alternate values.</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    gc = getgravc(constDef);
+
+    ss     = <span class="hljs-number">78.0</span> / gc.radiusearthkm + <span class="hljs-number">1.0</span>;
+    qzms2t = <span class="hljs-built_in">Math</span>.pow((<span class="hljs-number">120.0</span> - <span class="hljs-number">78.0</span>) / gc.radiusearthkm, <span class="hljs-number">4</span>);
+    x2o3   =  <span class="hljs-number">2.0</span> / <span class="hljs-number">3.0</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p><code>sgp4fix divisor</code> for divide by zero check on inclination
+the old check used 1.0 + cos(pi-1.0e-9), but then compared it to
+1.5 e-12, so the threshold was changed to 1.5e-12 for consistancy.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    temp4    =   <span class="hljs-number">1.5e-12</span>;
+
+    satrec.init = <span class="hljs-string">"y"</span>;
+    satrec.t    = <span class="hljs-number">0.0</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p><code>initl</code> <em>call.</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    iv = initl(satrec.ecco, epoch, satrec.inclo, satrec.no, satrec.satnum, constDef);
+    satrec.gsto   = iv.gsto;
+    satrec.no     = iv.no;
+
+    satrec.error = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">if</span> (iv.rp &lt; <span class="hljs-number">1.0</span>) {
+        satrec.error = <span class="hljs-number">5</span>;
+    }
+
+    <span class="hljs-keyword">if</span> ((iv.omeosq &gt;= <span class="hljs-number">0.0</span>) || (satrec.no &gt;= <span class="hljs-number">0.0</span>)) {
+        satrec.isimp = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">if</span> (iv.rp &lt; (<span class="hljs-number">220.0</span> / gc.radiusearthkm + <span class="hljs-number">1.0</span>)) {
+            satrec.isimp = <span class="hljs-number">1</span>;
+        }
+        sfour  = ss;
+        qzms24 = qzms2t;
+        perige = (iv.rp - <span class="hljs-number">1.0</span>) * gc.radiusearthkm;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p><em>For perigees below 156 km, s and qoms2t are altered.</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (perige &lt; <span class="hljs-number">156.0</span>) {
+            sfour = perige - <span class="hljs-number">78.0</span>;
+            <span class="hljs-keyword">if</span> (perige &lt; <span class="hljs-number">98.0</span>) {
+                sfour = <span class="hljs-number">20.0</span>;
+            }
+            qzms24 = <span class="hljs-built_in">Math</span>.pow((<span class="hljs-number">120.0</span> - sfour) / gc.radiusearthkm, <span class="hljs-number">4.0</span>);
+            sfour  = sfour / gc.radiusearthkm + <span class="hljs-number">1.0</span>;
+        }
+        pinvsq = <span class="hljs-number">1.0</span> / iv.posq;
+
+        tsi  = <span class="hljs-number">1.0</span> / (iv.ao - sfour);
+        satrec.eta  = iv.ao * satrec.ecco * tsi;
+        etasq = satrec.eta * satrec.eta;
+        eeta  = satrec.ecco * satrec.eta;
+        psisq = <span class="hljs-built_in">Math</span>.abs(<span class="hljs-number">1.0</span> - etasq);
+        coef  = qzms24 * <span class="hljs-built_in">Math</span>.pow(tsi, <span class="hljs-number">4.0</span>);
+        coef1 = coef / <span class="hljs-built_in">Math</span>.pow(psisq, <span class="hljs-number">3.5</span>);
+        cc2   = coef1 * satrec.no * (iv.ao * (<span class="hljs-number">1.0</span> + <span class="hljs-number">1.5</span> * etasq + eeta *
+         (<span class="hljs-number">4.0</span> + etasq)) + <span class="hljs-number">0.375</span> * gc.j2 * tsi / psisq * satrec.con41 *
+        (<span class="hljs-number">8.0</span> + <span class="hljs-number">3.0</span> * etasq * (<span class="hljs-number">8.0</span> + etasq)));
+        satrec.cc1   = satrec.bstar * cc2;
+        cc3   = <span class="hljs-number">0.0</span>;
+        <span class="hljs-keyword">if</span> (satrec.ecco &gt; <span class="hljs-number">1.0e-4</span>) {
+            cc3 = -<span class="hljs-number">2.0</span> * coef * tsi * gc.j3oj2 * satrec.no * iv.sinio / satrec.ecco;
+        }
+        satrec.x1mth2 = <span class="hljs-number">1.0</span> - iv.cosio2;
+        satrec.cc4    = <span class="hljs-number">2.0</span> * satrec.no * coef1 * iv.ao * iv.omeosq *
+        (satrec.eta * (<span class="hljs-number">2.0</span> + <span class="hljs-number">0.5</span> * etasq) + satrec.ecco *
+           (<span class="hljs-number">0.5</span> + <span class="hljs-number">2.0</span> * etasq) - gc.j2 * tsi / (iv.ao * psisq) *
+           (-<span class="hljs-number">3.0</span> * satrec.con41 * (<span class="hljs-number">1.0</span> - <span class="hljs-number">2.0</span> * eeta + etasq *
+               (<span class="hljs-number">1.5</span> - <span class="hljs-number">0.5</span> * eeta)) + <span class="hljs-number">0.75</span> * satrec.x1mth2 *
+           (<span class="hljs-number">2.0</span> * etasq - eeta * (<span class="hljs-number">1.0</span> + etasq)) * <span class="hljs-built_in">Math</span>.cos(<span class="hljs-number">2.0</span> * satrec.argpo)));
+        satrec.cc5 = <span class="hljs-number">2.0</span> * coef1 * iv.ao * iv.omeosq * (<span class="hljs-number">1.0</span> + <span class="hljs-number">2.75</span> *
+          (etasq + eeta) + eeta * etasq);
+        cosio4         = iv.cosio2 * iv.cosio2;
+        temp1          = <span class="hljs-number">1.5</span> * gc.j2 * pinvsq * satrec.no;
+        temp2          = <span class="hljs-number">0.5</span> * temp1 * gc.j2 * pinvsq;
+        temp3          = -<span class="hljs-number">0.46875</span> * gc.j4 * pinvsq * pinvsq * satrec.no;
+        satrec.mdot    = satrec.no + <span class="hljs-number">0.5</span> * temp1 * iv.rteosq * satrec.con41 +
+        <span class="hljs-number">0.0625</span> * temp2 * iv.rteosq * (<span class="hljs-number">13.0</span> - <span class="hljs-number">78.0</span> * iv.cosio2 + <span class="hljs-number">137.0</span> * cosio4);
+        satrec.argpdot = -<span class="hljs-number">0.5</span> * temp1 * iv.con42 + <span class="hljs-number">0.0625</span> * temp2 *
+        (<span class="hljs-number">7.0</span> - <span class="hljs-number">114.0</span> * iv.cosio2 + <span class="hljs-number">395.0</span> * cosio4) +
+        temp3 * (<span class="hljs-number">3.0</span> - <span class="hljs-number">36.0</span> * iv.cosio2 + <span class="hljs-number">49.0</span> * cosio4);
+        xhdot1         = -temp1 * iv.cosio;
+        satrec.nodedot = xhdot1 + (<span class="hljs-number">0.5</span> * temp2 * (<span class="hljs-number">4.0</span> - <span class="hljs-number">19.0</span> * iv.cosio2) +
+         <span class="hljs-number">2.0</span> * temp3 * (<span class="hljs-number">3.0</span> - <span class="hljs-number">7.0</span> * iv.cosio2)) * iv.cosio;
+        xpidot         =  satrec.argpdot + satrec.nodedot;
+        satrec.omgcof  = satrec.bstar * cc3 * <span class="hljs-built_in">Math</span>.cos(satrec.argpo);
+        satrec.xmcof   = <span class="hljs-number">0.0</span>;
+        <span class="hljs-keyword">if</span> (satrec.ecco &gt; <span class="hljs-number">1.0e-4</span>) {
+            satrec.xmcof = -x2o3 * coef * satrec.bstar / eeta;
+        }
+        satrec.nodecf  = <span class="hljs-number">3.5</span> * iv.omeosq * xhdot1 * satrec.cc1;
+        satrec.t2cof   = <span class="hljs-number">1.5</span> * satrec.cc1;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p><code>sgp4fix</code> <em>for divide by zero with xinco = 180 deg</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.abs(iv.cosio + <span class="hljs-number">1.0</span>) &gt; <span class="hljs-number">1.5e-12</span>) {
+            satrec.xlcof = -<span class="hljs-number">0.25</span> * gc.j3oj2 * iv.sinio *
+            (<span class="hljs-number">3.0</span> + <span class="hljs-number">5.0</span> * iv.cosio) / (<span class="hljs-number">1.0</span> + iv.cosio);
+        }
+        <span class="hljs-keyword">else</span> {
+            satrec.xlcof   = -<span class="hljs-number">0.25</span> * gc.j3oj2 * iv.sinio *
+            (<span class="hljs-number">3.0</span> + <span class="hljs-number">5.0</span> * iv.cosio) / temp4;
+        }
+        satrec.aycof   = -<span class="hljs-number">0.5</span> * gc.j3oj2 * iv.sinio;
+        satrec.delmo   = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">1.0</span> + satrec.eta * <span class="hljs-built_in">Math</span>.cos(satrec.mo), <span class="hljs-number">3</span>);
+        satrec.sinmao  = <span class="hljs-built_in">Math</span>.sin(satrec.mo);
+        satrec.x7thm1  = <span class="hljs-number">7.0</span> * iv.cosio2 - <span class="hljs-number">1.0</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p><strong>Deep space initialization</strong></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> ((<span class="hljs-number">2</span> * <span class="hljs-built_in">Math</span>.PI / satrec.no) &gt;= <span class="hljs-number">225.0</span>) {
+            satrec.method = <span class="hljs-string">"d"</span>;
+            satrec.isimp  = <span class="hljs-number">1</span>;
+            tc    =  <span class="hljs-number">0.0</span>;
+            inclm = satrec.inclo;
+
+            dscv = dscom(epoch, satrec.ecco, satrec.argpo, tc, satrec.inclo,
+              satrec.nodeo, satrec.no);
+            sinim           = dscv.shift();
+            cosim           = dscv.shift();
+            sinomm          = dscv.shift();
+            cosomm          = dscv.shift();
+            snodm           = dscv.shift();
+            cnodm           = dscv.shift();
+            day             = dscv.shift();
+            satrec.e3       = dscv.shift();
+            satrec.ee2      = dscv.shift();
+            em              = dscv.shift();
+            emsq            = dscv.shift();
+            gam             = dscv.shift();
+            satrec.peo      = dscv.shift();
+            satrec.pgho     = dscv.shift();
+            satrec.pho      = dscv.shift();
+            satrec.pinco    = dscv.shift();
+            satrec.plo      = dscv.shift();
+            rtemsq          = dscv.shift();
+            satrec.se2      = dscv.shift();
+            satrec.se3      = dscv.shift();
+            satrec.sgh2     = dscv.shift();
+            satrec.sgh3     = dscv.shift();
+            satrec.sgh4     = dscv.shift();
+            satrec.sh2      = dscv.shift();
+            satrec.sh3      = dscv.shift();
+            satrec.si2      = dscv.shift();
+            satrec.si3      = dscv.shift();
+            satrec.sl2      = dscv.shift();
+            satrec.sl3      = dscv.shift();
+            satrec.sl4      = dscv.shift();
+            s1              = dscv.shift();
+            s2              = dscv.shift();
+            s3              = dscv.shift();
+            s4              = dscv.shift();
+            s5              = dscv.shift();
+            s6              = dscv.shift();
+            s7              = dscv.shift();
+            ss1             = dscv.shift();
+            ss2             = dscv.shift();
+            ss3             = dscv.shift();
+            ss4             = dscv.shift();
+            ss5             = dscv.shift();
+            ss6             = dscv.shift();
+            ss7             = dscv.shift();
+            sz1             = dscv.shift();
+            sz2             = dscv.shift();
+            sz3             = dscv.shift();
+            sz11            = dscv.shift();
+            sz12            = dscv.shift();
+            sz13            = dscv.shift();
+            sz21            = dscv.shift();
+            sz22            = dscv.shift();
+            sz23            = dscv.shift();
+            sz31            = dscv.shift();
+            sz32            = dscv.shift();
+            sz33            = dscv.shift();
+            satrec.xgh2     = dscv.shift();
+            satrec.xgh3     = dscv.shift();
+            satrec.xgh4     = dscv.shift();
+            satrec.xh2      = dscv.shift();
+            satrec.xh3      = dscv.shift();
+            satrec.xi2      = dscv.shift();
+            satrec.xi3      = dscv.shift();
+            satrec.xl2      = dscv.shift();
+            satrec.xl3      = dscv.shift();
+            satrec.xl4      = dscv.shift();
+            nm              = dscv.shift();
+            z1              = dscv.shift();
+            z2              = dscv.shift();
+            z3              = dscv.shift();
+            z11             = dscv.shift();
+            z12             = dscv.shift();
+            z13             = dscv.shift();
+            z21             = dscv.shift();
+            z22             = dscv.shift();
+            z23             = dscv.shift();
+            z31             = dscv.shift();
+            z32             = dscv.shift();
+            z33             = dscv.shift();
+            satrec.zmol     = dscv.shift();
+            satrec.zmos     = dscv.shift();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p><code>dpper</code> <strong>invocation</strong></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            dpv = dpper(satrec.e3, satrec.ee2, satrec.peo, satrec.pgho,
+               satrec.pho, satrec.pinco, satrec.plo, satrec.se2, satrec.se3,
+               satrec.sgh2, satrec.sgh3, satrec.sgh4, satrec.sh2, satrec.sh3,
+               satrec.si2, satrec.si3, satrec.sl2, satrec.sl3, satrec.sl4,
+               satrec.t, satrec.xgh2, satrec.xgh3, satrec.xgh4, satrec.xh2,
+               satrec.xh3, satrec.xi2, satrec.xi3, satrec.xl2, satrec.xl3,
+               satrec.xl4, satrec.zmol, satrec.zmos, inclm, satrec.init,
+               satrec.ecco, satrec.inclo, satrec.nodeo, satrec.argpo, satrec.mo);
+
+            satrec.ecco  = dpv.ep;
+            satrec.inclo = dpv.inclp;
+            satrec.nodeo = dpv.nodep;
+            satrec.argpo = dpv.argpp;
+            satrec.mo    = dpv.mp;
+
+            argpm  = <span class="hljs-number">0.0</span>;
+            nodem  = <span class="hljs-number">0.0</span>;
+            mm     = <span class="hljs-number">0.0</span>;
+
+            dsiv = dsinit(cosim, emsq, satrec.argpo, s1, s2, s3, s4, s5, sinim, ss1, ss2, ss3,
+              ss4, ss5, sz1, sz3, sz11, sz13, sz21, sz23, sz31, sz33, satrec.t, tc,
+              satrec.gsto, satrec.mo, satrec.mdot, satrec.no, satrec.nodeo,
+              satrec.nodedot, xpidot, z1, z3, z11, z13, z21, z23, z31, z33, em,
+              argpm, inclm, mm, nm, nodem, satrec.ecco, iv.eccsq);
+            satrec.irez         = dsiv.irez;
+            satrec.atime	= dsiv.atime;
+            satrec.d2201	= dsiv.d2201;
+            satrec.d2211	= dsiv.d2211;
+            satrec.d3210	= dsiv.d3210;
+            satrec.d3222	= dsiv.d3222;
+            satrec.d4410	= dsiv.d4410;
+            satrec.d4422	= dsiv.d4422;
+            satrec.d5220	= dsiv.d5220;
+            satrec.d5232	= dsiv.d5232;
+            satrec.d5421	= dsiv.d5421;
+            satrec.d5433	= dsiv.d5433;
+            satrec.dedt         = dsiv.dedt;
+            satrec.didt         = dsiv.didt;
+            satrec.dmdt         = dsiv.dmdt;
+            dndt		= dsiv.dndt;
+            satrec.dnodt	= dsiv.dnodt;
+            satrec.domdt	= dsiv.domdt;
+            satrec.del1         = dsiv.del1;
+            satrec.del2         = dsiv.del2;
+            satrec.del3         = dsiv.del3;
+            satrec.xfact	= dsiv.xfact;
+            satrec.xlamo	= dsiv.xlamo;
+            satrec.xli          = dsiv.xli;
+            satrec.xni          = dsiv.xni;
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p><em>Set variables if not deep space.</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (satrec.isimp !== <span class="hljs-number">1</span>) {
+            cc1sq          = satrec.cc1 * satrec.cc1;
+            satrec.d2    = <span class="hljs-number">4.0</span> * iv.ao * tsi * cc1sq;
+            temp           = satrec.d2 * tsi * satrec.cc1 / <span class="hljs-number">3.0</span>;
+            satrec.d3    = (<span class="hljs-number">17.0</span> * iv.ao + sfour) * temp;
+            satrec.d4    = <span class="hljs-number">0.5</span> * temp * iv.ao * tsi *
+            (<span class="hljs-number">221.0</span> * iv.ao + <span class="hljs-number">31.0</span> * sfour) * satrec.cc1;
+            satrec.t3cof = satrec.d2 + <span class="hljs-number">2.0</span> * cc1sq;
+            satrec.t4cof = <span class="hljs-number">0.25</span> * (<span class="hljs-number">3.0</span> * satrec.d3 + satrec.cc1 *
+             (<span class="hljs-number">12.0</span> * satrec.d2 + <span class="hljs-number">10.0</span> * cc1sq));
+            satrec.t5cof = <span class="hljs-number">0.2</span> * (<span class="hljs-number">3.0</span> * satrec.d4 +
+              <span class="hljs-number">12.0</span> * satrec.cc1 * satrec.d3 +
+              <span class="hljs-number">6.0</span> * satrec.d2 * satrec.d2 +
+              <span class="hljs-number">15.0</span> * cc1sq * (<span class="hljs-number">2.0</span> * satrec.d2 + cc1sq));
+        }
+    } <span class="hljs-comment">// if omeosq = 0</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p><em>Finally propogate to zero epoch to initialise all others.</em></p>
+<p>TODO: What if satrec.error != 0? Then we just return the satrec without
+TODO: sgp4 model applied? Smells a little to me…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (satrec.error === <span class="hljs-number">0</span>) {
+
+        pv = sgp4(satrec, <span class="hljs-number">0.0</span>, constDef);
+        satrec  = pv.satrec;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>TODO: We don’t use these after this, can we just delete them?
+r       = rets.shift();
+v       = rets.shift();</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }
+    satrec.init = <span class="hljs-string">"n"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <h2 id="outputs">outputs</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <pre><code>satrec      - common values <span class="hljs-keyword">for</span> subsequent calls
+<span class="hljs-keyword">return</span> code - non-zero on error.
+               <span class="hljs-number">1</span> - mean elements, ecc &gt;= <span class="hljs-number">1.0</span> or ecc &lt; -<span class="hljs-number">0.001</span> or a &lt; <span class="hljs-number">0.95</span> er
+               <span class="hljs-number">2</span> - mean motion less than <span class="hljs-number">0.0</span>
+               <span class="hljs-number">3</span> - pert elements, ecc &lt; <span class="hljs-number">0.0</span>  or  ecc &gt; <span class="hljs-number">1.0</span>
+               <span class="hljs-number">4</span> - semi-latus rectum &lt; <span class="hljs-number">0.0</span>
+               <span class="hljs-number">5</span> - epoch elements are sub-orbital
+               <span class="hljs-number">6</span> - satellite has decayed
+</code></pre><p>TODO: This return code I think was for cli. Could be we need to return an
+TODO: error. But would that be satrec.error rather than a list?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> satrec; <span class="hljs-comment">// MATLAB returns an unnecessary list "[satrec]", don"t do it here</span>
+};
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
