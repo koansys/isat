@@ -20,3 +20,7 @@ isat/
 /.DS_Store
 node_modules/
 /sauce_connect.log*
+<<<<<<< HEAD
+=======
+sgp4/docs/pasta.html
+>>>>>>> 35689a185cce1f0763a430b7b631454f65d4dcdc
