@@ -1,3 +1,6 @@
+.. image:: https://badge.waffle.io/koansys/isat.png?label=ready&title=Ready 
+ :target: https://waffle.io/koansys/isat
+ :alt: 'Stories in Ready'
 ==============================
  SOT: Satellite Orbit Tracker
 ==============================
